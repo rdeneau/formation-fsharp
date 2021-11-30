@@ -1,0 +1,1127 @@
+<!DOCTYPE html><html lang="en-US"><head><title>Formation F♯ 5.0 • Pattern matching</title><meta property="og:title" content="Formation F♯ 5.0 • Pattern matching"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:transparent;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTBMMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMzIgOTBsNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJhIiB4PSIxMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgcng9IjUuNjciLz48cGF0aCBjbGFzcz0iYSIgZD0iTTQwIDcwSDIwVjUwbTIwIDBMMjAgNzBtNDAtNDBoMjB2MjBtLTIwIDBsMjAtMjAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJhIiB4PSIxMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgcng9IjUuNjciLz48cGF0aCBjbGFzcz0iYSIgZD0iTTIwIDUwaDIwdjIwbS0yMCAwbDIwLTIwbTQwIDBINjBWMzBtMjAgMEw2MCA1MCIvPjwvc3ZnPg==")}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS13aWR0aDo1cHh9PC9zdHlsZT48L2RlZnM+PHBhdGggY2xhc3M9ImEiIGQ9Ik0yMCA2MGgtNWE1IDUgMCAwMS01LTVWMjBhNSA1IDAgMDE1LTVoNjBhNSA1IDAgMDE1IDV2NU0zMCA4NWg2MCIvPjxyZWN0IHg9IjMwIiB5PSIzNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIi8+PHJlY3QgY2xhc3M9ImEiIHg9IjMwIiB5PSIzNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQwIiByeD0iNSIvPjxwYXRoIGNsYXNzPSJhIiBkPSJNNDAgNTBoNDBNNDAgNjBoMzAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide.bespoke-marp-active{opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{-webkit-animation-name:__bespoke_marp__!important;animation-name:__bespoke_marp__!important}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}[data-bespoke-marp-fragment=inactive]{visibility:hidden}body[data-bespoke-view=""] .bespoke-marp-parent,body[data-bespoke-view=next] .bespoke-marp-parent{bottom:0;left:0;position:absolute;right:0;top:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc{background:rgba(0,0,0,.65);border-radius:7px;bottom:50px;color:#fff;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap;z-index:1;will-change:transform}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>*,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>*{margin-left:6px}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:first-child,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:first-child{margin-left:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}body[data-bespoke-view=""] svg.bespoke-marp-slide,body[data-bespoke-view=next] svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+.bespoke-marp-parent{top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{flex:0 0 0;background:#0288d1;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:transparent}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{height:100%;left:0;position:absolute;top:0;width:100%;display:grid;grid-template-columns:2fr 1fr;grid-template-rows:minmax(140px,1fr) 2fr 3em;grid-template-areas:"current next" "current note" "info    note"}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent{grid-area:current;position:relative;overflow:hidden}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide{height:calc(100% - 40px);left:20px;position:absolute;pointer-events:none;top:20px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{-webkit-filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:transparent;border:0;display:block;-webkit-filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;position:absolute;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;top:20px;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#ddd;grid-area:note}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{margin:20px;width:calc(100% - 40px);height:calc(100% - 40px);box-sizing:border-box;overflow:auto;padding-right:3px;white-space:pre-wrap;word-wrap:break-word;scrollbar-width:thin;scrollbar-color:hsla(0,0%,86.7%,.5) transparent}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:transparent}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:hsla(0,0%,86.7%,.5);border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#ddd;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{display:block;box-sizing:border-box;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page .bespoke-marp-presenter-info-page-text{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}}@media print{.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>@charset "UTF-8";@import url("https://fonts.googleapis.com/css?family=Lato:400,900|Roboto+Mono:400,700&display=swap");@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap");@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");div#p>svg>foreignObject>section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center}div#p>svg>foreignObject>section:after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#p>svg>foreignObject>section:not([data-marpit-pagination]):after{display:none}/* Normalization */div#p>svg>foreignObject>section h1{font-size:2em;margin:0.67em 0}div#p>svg>foreignObject>section video::-webkit-media-controls{will-change:transform}@page{size:1280px 720px;margin:0}@media print{body,html{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#p>svg>foreignObject>section{page-break-before:always;break-before:page}div#p>svg>foreignObject>section,div#p>svg>foreignObject>section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;transition:none!important}div#p>svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}
+/*!
+ * Marp / Marpit Gaia theme.
+ *
+ * @theme gaia
+ * @author Yuki Hattori
+ *
+ * @auto-scaling true
+ * @size 4:3 960px 720px
+ */div#p>svg>foreignObject>section .hljs{display:block;overflow-x:auto;padding:.5em;background:#000;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-comment,div#p>svg>foreignObject>section .hljs-quote{color:#aeaeae;font-style:italic}div#p>svg>foreignObject>section .hljs-keyword,div#p>svg>foreignObject>section .hljs-selector-tag,div#p>svg>foreignObject>section .hljs-type{color:#e28964}div#p>svg>foreignObject>section .hljs-string{color:#65b042}div#p>svg>foreignObject>section .hljs-subst{color:#daefa3}div#p>svg>foreignObject>section .hljs-link,div#p>svg>foreignObject>section .hljs-regexp{color:#e9c062}div#p>svg>foreignObject>section .hljs-name,div#p>svg>foreignObject>section .hljs-section,div#p>svg>foreignObject>section .hljs-tag,div#p>svg>foreignObject>section .hljs-title{color:#89bdff}div#p>svg>foreignObject>section .hljs-class .hljs-title,div#p>svg>foreignObject>section .hljs-doctag{text-decoration:underline}div#p>svg>foreignObject>section .hljs-bullet,div#p>svg>foreignObject>section .hljs-number,div#p>svg>foreignObject>section .hljs-symbol{color:#3387cc}div#p>svg>foreignObject>section .hljs-params,div#p>svg>foreignObject>section .hljs-template-variable,div#p>svg>foreignObject>section .hljs-variable{color:#3e87e3}div#p>svg>foreignObject>section .hljs-attribute{color:#cda869}div#p>svg>foreignObject>section .hljs-meta{color:#8996a8}div#p>svg>foreignObject>section .hljs-formula{background-color:#0e2231;color:#f8f8f8;font-style:italic}div#p>svg>foreignObject>section .hljs-addition{background-color:#253b22;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-deletion{background-color:#420e09;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-selector-class{color:#9b703f}div#p>svg>foreignObject>section .hljs-selector-id{color:#8b98ab}div#p>svg>foreignObject>section .hljs-emphasis{font-style:italic}div#p>svg>foreignObject>section .hljs-strong{font-weight:700}div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{max-height:580px}div#p>svg>foreignObject>section h1,div#p>svg>foreignObject>section h2,div#p>svg>foreignObject>section h3,div#p>svg>foreignObject>section h4,div#p>svg>foreignObject>section h5,div#p>svg>foreignObject>section h6{margin:.5em 0 0}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{font-weight:inherit}div#p>svg>foreignObject>section h1{font-size:1.8em}div#p>svg>foreignObject>section h2{font-size:1.5em}div#p>svg>foreignObject>section h3{font-size:1.3em}div#p>svg>foreignObject>section h4{font-size:1.1em}div#p>svg>foreignObject>section h5{font-size:1em}div#p>svg>foreignObject>section h6{font-size:.9em}div#p>svg>foreignObject>section blockquote,div#p>svg>foreignObject>section p{margin:1em 0 0}div#p>svg>foreignObject>section ol>li,div#p>svg>foreignObject>section ul>li{margin:.3em 0 0}div#p>svg>foreignObject>section ol>li>p,div#p>svg>foreignObject>section ul>li>p{margin:.6em 0 0}div#p>svg>foreignObject>section code{display:inline-block;font-family:Roboto Mono,monospace;font-size:.8em;letter-spacing:0;margin:-.1em .15em;padding:.1em .2em;vertical-align:baseline}div#p>svg>foreignObject>section pre{display:block;margin:1em 0 0;min-height:1em;overflow:visible}div#p>svg>foreignObject>section pre code{box-sizing:border-box;margin:0;min-width:100%;padding:.5em;font-size:.7em}div#p>svg>foreignObject>section pre code svg[data-marp-fitting=svg]{max-height:calc(580px - 1em)}div#p>svg>foreignObject>section blockquote{margin:1em 0 0;padding:0 1em;position:relative}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before{content:"“";display:block;font-family:Times New Roman,serif;font-weight:700;position:absolute}div#p>svg>foreignObject>section blockquote:before{top:0;left:0}div#p>svg>foreignObject>section blockquote:after{right:0;bottom:0;transform:rotate(180deg)}div#p>svg>foreignObject>section blockquote>:first-child{margin-top:0}div#p>svg>foreignObject>section mark{background:transparent}div#p>svg>foreignObject>section table{border-spacing:0;border-collapse:collapse;margin:1em 0 0}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{padding:.2em .4em;border-width:1px;border-style:solid}div#p>svg>foreignObject>section{background-image:linear-gradient(135deg,hsla(0,0%,53.3%,0),hsla(0,0%,53.3%,.02) 50%,hsla(0,0%,100%,0) 0,hsla(0,0%,100%,.05));font-size:35px;font-family:Lato,Avenir Next,Avenir,Trebuchet MS,Segoe UI,sans-serif;height:720px;line-height:1.35;letter-spacing:1.25px;padding:70px;width:1280px;word-wrap:break-word;color:#455a64;background-color:#fff8e1}div#p>svg>foreignObject>section{--marpit-root-font-size:35px}div#p>svg>foreignObject>section>:first-child,div#p>svg>foreignObject>section>header:first-child+*{margin-top:0}div#p>svg>foreignObject>section a,div#p>svg>foreignObject>section mark{color:#0288d1}div#p>svg>foreignObject>section code{background:#6a7a7d;color:#fff8e1}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{color:#0288d1}div#p>svg>foreignObject>section pre>code{background:#455a64}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header,div#p>svg>foreignObject>section section:after{color:#6a7a7d}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{border-color:#455a64}div#p>svg>foreignObject>section table thead th{background:#455a64;color:#fff8e1}div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) th{background:rgba(69,90,100,.1)}div#p>svg>foreignObject>section.invert{color:#fff8e1;background-color:#455a64}div#p>svg>foreignObject>section.invert a,div#p>svg>foreignObject>section.invert mark{color:#81d4fa}div#p>svg>foreignObject>section.invert code{background:#dad8c8;color:#455a64}div#p>svg>foreignObject>section.invert h1 strong,div#p>svg>foreignObject>section.invert h2 strong,div#p>svg>foreignObject>section.invert h3 strong,div#p>svg>foreignObject>section.invert h4 strong,div#p>svg>foreignObject>section.invert h5 strong,div#p>svg>foreignObject>section.invert h6 strong{color:#81d4fa}div#p>svg>foreignObject>section.invert pre>code{background:#fff8e1}div#p>svg>foreignObject>section.invert blockquote:after,div#p>svg>foreignObject>section.invert blockquote:before,div#p>svg>foreignObject>section.invert footer,div#p>svg>foreignObject>section.invert header,div#p>svg>foreignObject>section.invert section:after{color:#dad8c8}div#p>svg>foreignObject>section.invert table td,div#p>svg>foreignObject>section.invert table th{border-color:#fff8e1}div#p>svg>foreignObject>section.invert table thead th{background:#fff8e1;color:#455a64}div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) th{background:rgba(255,248,225,.1)}div#p>svg>foreignObject>section.gaia{color:#fff8e1;background-color:#0288d1}div#p>svg>foreignObject>section.gaia a,div#p>svg>foreignObject>section.gaia mark{color:#81d4fa}div#p>svg>foreignObject>section.gaia code{background:#cce2de;color:#0288d1}div#p>svg>foreignObject>section.gaia h1 strong,div#p>svg>foreignObject>section.gaia h2 strong,div#p>svg>foreignObject>section.gaia h3 strong,div#p>svg>foreignObject>section.gaia h4 strong,div#p>svg>foreignObject>section.gaia h5 strong,div#p>svg>foreignObject>section.gaia h6 strong{color:#81d4fa}div#p>svg>foreignObject>section.gaia pre>code{background:#fff8e1}div#p>svg>foreignObject>section.gaia blockquote:after,div#p>svg>foreignObject>section.gaia blockquote:before,div#p>svg>foreignObject>section.gaia footer,div#p>svg>foreignObject>section.gaia header,div#p>svg>foreignObject>section.gaia section:after{color:#cce2de}div#p>svg>foreignObject>section.gaia table td,div#p>svg>foreignObject>section.gaia table th{border-color:#fff8e1}div#p>svg>foreignObject>section.gaia table thead th{background:#fff8e1;color:#0288d1}div#p>svg>foreignObject>section.gaia table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.gaia table tbody>tr:nth-child(odd) th{background:rgba(255,248,225,.1)}div#p>svg>foreignObject>section.lead{display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:center}div#p>svg>foreignObject>section.lead h1,div#p>svg>foreignObject>section.lead h2,div#p>svg>foreignObject>section.lead h3,div#p>svg>foreignObject>section.lead h4,div#p>svg>foreignObject>section.lead h5,div#p>svg>foreignObject>section.lead h6{text-align:center}div#p>svg>foreignObject>section.lead h1 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h2 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h3 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h4 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h5 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h6 svg[data-marp-fitting=svg]{--preserve-aspect-ratio:xMidYMid meet}div#p>svg>foreignObject>section.lead p{text-align:center}div#p>svg>foreignObject>section.lead blockquote>h1,div#p>svg>foreignObject>section.lead blockquote>h2,div#p>svg>foreignObject>section.lead blockquote>h3,div#p>svg>foreignObject>section.lead blockquote>h4,div#p>svg>foreignObject>section.lead blockquote>h5,div#p>svg>foreignObject>section.lead blockquote>h6,div#p>svg>foreignObject>section.lead blockquote>p{text-align:left}div#p>svg>foreignObject>section.lead blockquote svg[data-marp-fitting=svg]:not([data-marp-fitting-math]){--preserve-aspect-ratio:xMinYMin meet}div#p>svg>foreignObject>section.lead ol>li>p,div#p>svg>foreignObject>section.lead ul>li>p{text-align:left}div#p>svg>foreignObject>section.lead table{margin-left:auto;margin-right:auto}div#p>svg>foreignObject>section:after,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header{box-sizing:border-box;font-size:66%;height:70px;line-height:50px;overflow:hidden;padding:10px 25px;position:absolute}div#p>svg>foreignObject>section:after{--marpit-root-font-size:66%}div#p>svg>foreignObject>section header{top:0}div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header{left:0;right:0}div#p>svg>foreignObject>section footer{bottom:0}div#p>svg>foreignObject>section:after{right:0;bottom:0;font-size:80%}div#p>svg>foreignObject>section:after{--marpit-root-font-size:80%}div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{display:block;height:auto;width:100%}@supports (-ms-ime-align:auto){div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{position:static}}div#p>svg>foreignObject>section svg[data-marp-fitting=svg].__reflow__{content:""}@supports (-ms-ime-align:auto){div#p>svg>foreignObject>section svg[data-marp-fitting=svg].__reflow__{position:relative}}div#p>svg>foreignObject>section [data-marp-fitting-svg-content]{display:table;white-space:nowrap}div#p>svg>foreignObject>section [data-marp-fitting-svg-content-wrap]{white-space:pre}div#p>svg>foreignObject>section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}
+/*!
+ * Marp / Marpit SOAT theme.
+ *
+ * @theme soat
+ * @author Michaël Fery
+ *
+ * @auto-scaling true
+ * @size 4:3 960px 720px
+ */div#p>svg>foreignObject>section .hljs-comment{font-style:normal}div#p>svg>foreignObject>section{font-size:28px;font-family:'Raleway','Avenir Next','Avenir','Trebuchet MS','Segoe UI',sans-serif;color:#1d1d1b;background-color:#fff;background:url(./themes/soat/backgrounds/bg0.png) no-repeat center center
+  /* Main pages title */}div#p>svg>foreignObject>section{--marpit-root-font-size:28px}div#p>svg>foreignObject>section a,div#p>svg>foreignObject>section mark{color:#4ab69a}div#p>svg>foreignObject>section code{background:#4a4a49;color:#fff}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{color:#4ab69a}div#p>svg>foreignObject>section pre>code{background:#1d1d1b}div#p>svg>foreignObject>section pre>code.language-cs svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-fs svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-json svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-js svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-ts svg foreignObject:before{background-color:rgba(255,255,255,0.5);color:black;border-radius:3px;padding:1px 6px;float:right}div#p>svg>foreignObject>section pre>code.language-cs svg foreignObject:before{content:'C#'}div#p>svg>foreignObject>section pre>code.language-fs svg foreignObject:before{content:'F#'}div#p>svg>foreignObject>section pre>code.language-js svg foreignObject:before{content:'JS'}div#p>svg>foreignObject>section pre>code.language-json svg foreignObject:before{content:'JSON'}div#p>svg>foreignObject>section pre>code.language-ts svg foreignObject:before{content:'TS'}div#p>svg>foreignObject>section code{font-family:"Fira Code",monospace;font-variant-ligatures:normal}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header,div#p>svg>foreignObject>section section:after{color:#4a4a49}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{border-color:#1d1d1b}div#p>svg>foreignObject>section table thead th{background:#1d1d1b;color:#fff}div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) th{background:rgba(29,29,27,0.1)}div#p>svg>foreignObject>section ul{list-style:none}div#p>svg>foreignObject>section ul li:before{content:'➔';display:inline-block;margin-right:25px}div#p>svg>foreignObject>section.invert{color:#fff;background-color:#1d1d1b}div#p>svg>foreignObject>section.invert a,div#p>svg>foreignObject>section.invert mark{color:#f6a000}div#p>svg>foreignObject>section.invert code{background:#d2d2d1;color:#1d1d1b}div#p>svg>foreignObject>section.invert h1 strong,div#p>svg>foreignObject>section.invert h2 strong,div#p>svg>foreignObject>section.invert h3 strong,div#p>svg>foreignObject>section.invert h4 strong,div#p>svg>foreignObject>section.invert h5 strong,div#p>svg>foreignObject>section.invert h6 strong{color:#f6a000}div#p>svg>foreignObject>section.invert pre>code{background:#fff}div#p>svg>foreignObject>section.invert blockquote:after,div#p>svg>foreignObject>section.invert blockquote:before,div#p>svg>foreignObject>section.invert footer,div#p>svg>foreignObject>section.invert header,div#p>svg>foreignObject>section.invert section:after{color:#d2d2d1}div#p>svg>foreignObject>section.invert table td,div#p>svg>foreignObject>section.invert table th{border-color:#fff}div#p>svg>foreignObject>section.invert table thead th{background:#fff;color:#1d1d1b}div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) th{background:rgba(255,255,255,0.1)}div#p>svg>foreignObject>section.soat{color:#fff;background-color:#4ab69a}div#p>svg>foreignObject>section.soat a,div#p>svg>foreignObject>section.soat mark{color:#f6a000}div#p>svg>foreignObject>section.soat code{background:#dbf0eb;color:#4ab69a}div#p>svg>foreignObject>section.soat h1 strong,div#p>svg>foreignObject>section.soat h2 strong,div#p>svg>foreignObject>section.soat h3 strong,div#p>svg>foreignObject>section.soat h4 strong,div#p>svg>foreignObject>section.soat h5 strong,div#p>svg>foreignObject>section.soat h6 strong{color:#f6a000}div#p>svg>foreignObject>section.soat pre>code{background:#fff}div#p>svg>foreignObject>section.soat blockquote:after,div#p>svg>foreignObject>section.soat blockquote:before,div#p>svg>foreignObject>section.soat footer,div#p>svg>foreignObject>section.soat header,div#p>svg>foreignObject>section.soat section:after{color:#dbf0eb}div#p>svg>foreignObject>section.soat table td,div#p>svg>foreignObject>section.soat table th{border-color:#fff}div#p>svg>foreignObject>section.soat table thead th{background:#fff;color:#4ab69a}div#p>svg>foreignObject>section.soat table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.soat table tbody>tr:nth-child(odd) th{background:rgba(255,255,255,0.1)}div#p>svg>foreignObject>section.title{background:url(./themes/soat/backgrounds/bg1.png) no-repeat center center;background-size:cover;background-position:right center;padding-left:78px;padding-bottom:60px;display:table-cell;vertical-align:bottom}div#p>svg>foreignObject>section.title h1,div#p>svg>foreignObject>section.title h2,div#p>svg>foreignObject>section.title h3{width:70%}div#p>svg>foreignObject>section.title h2{margin-bottom:40px}div#p>svg>foreignObject>section.title h3{font-size:1.2em;margin-left:70px}div#p>svg>foreignObject>section.red{background:url(./themes/soat/backgrounds/bg-red.png) right top no-repeat,#ed6965;background-size:cover}div#p>svg>foreignObject>section.green{background:url(./themes/soat/backgrounds/bg-green.png) right top no-repeat,#4ab69a;background-size:cover}div#p>svg>foreignObject>section.blue{background:url(./themes/soat/backgrounds/bg-blue.png) right top no-repeat,#5bc5f2;background-size:cover}div#p>svg>foreignObject>section.orange{background:url(./themes/soat/backgrounds/bg-orange.png) right top no-repeat,#f6a000;background-size:cover}div#p>svg>foreignObject>section.purple{background:url(./themes/soat/backgrounds/bg-purple.png) right top no-repeat,#867fbb;background-size:cover}div#p>svg>foreignObject>section.speaker{background-image:url(./themes/soat/pictos/SOAT_pictos_reunion.png),url(./themes/soat/backgrounds/bg-orange.png);background-repeat:no-repeat,no-repeat;background-size:20%,cover;background-position:left,top right}div#p>svg>foreignObject>section.speaker h2{padding-left:400px}div#p>svg>foreignObject>section.speaker p,div#p>svg>foreignObject>section.speaker ul{padding-left:400px}div#p>svg>foreignObject>section.speaker ul{margin-top:30px;margin-bottom:50px}div#p>svg>foreignObject>section.speaker img[alt~=social-network]{height:40px;margin-top:0px;margin-bottom:-15px;margin-left:-10px;margin-right:10px}div#p>svg>foreignObject>section.speaker a{text-decoration:none;color:#fff;padding-left:0}div#p>svg>foreignObject>section.agenda ul{margin-left:80px}div#p>svg>foreignObject>section.agenda ul li:before{color:#ffe60b}div#p>svg>foreignObject>section.chapter{padding-left:160px;overflow:visible;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;grid-template-areas:"count title" "none subtitle";align-items:flex-end;justify-content:center}div#p>svg>foreignObject>section.chapter h1{grid-area:count;margin-right:20px;line-height:168px;font-size:7em}div#p>svg>foreignObject>section.chapter h2{grid-area:title;margin-top:100px;font-size:1.6em;max-width:65%;align-self:left}div#p>svg>foreignObject>section.chapter h3{grid-area:subtitle;font-weight:normal;font-size:1em}div#p>svg>foreignObject>section img[alt~=bg-right]{position:absolute;right:80px;bottom:120px;top:auto}div#p>svg>foreignObject>section img[alt~=center]{display:block;margin:0 auto}div#p>svg>foreignObject>section.break h1,div#p>svg>foreignObject>section.workshop h1{font-size:250%}div#p>svg>foreignObject>section.end{background:url(./themes/soat/backgrounds/bg13.png) right top no-repeat,#4ab69a;background-size:cover}div#p>svg>foreignObject>section:not(.title):not(.speaker):not(.chapter):not(.agenda):not(.workshop):not(.break):not(.end) h1{background:#867fbb;color:#fff;padding:10px 20px;line-height:60px;margin:0 -20px}
+
+/* PAGINATION */div#p>svg>foreignObject>section:after{color:#1d1d1b;font-weight:bold;font-size:1.2em}div#p>svg>foreignObject>section:after{--marpit-root-font-size:1.2em}div#p>svg>foreignObject>section.end:after,div#p>svg>foreignObject>section.title:after{visibility:hidden}
+
+/* 2-Columns Layout */div#p>svg>foreignObject>section .column{float:left}div#p>svg>foreignObject>section .row:after{
+  /* Clear floats after the columns */content:"";display:table;clear:both}
+
+/* @theme 6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp */div#p>svg>foreignObject>section[data-marpit-advanced-background=background]{display:block!important;padding:0!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]:after,div#p>svg>foreignObject>section[data-marpit-advanced-background=background]:before,div#p>svg>foreignObject>section[data-marpit-advanced-background=content]:after,div#p>svg>foreignObject>section[data-marpit-advanced-background=content]:before{display:none!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container]{all:initial;display:flex;flex-direction:row;height:100%;overflow:hidden;width:100%}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container][data-marpit-advanced-background-direction=vertical]{flex-direction:column}div#p>svg>foreignObject>section[data-marpit-advanced-background=background][data-marpit-advanced-background-split]>div[data-marpit-advanced-background-container]{width:var(--marpit-advanced-background-split,50%)}div#p>svg>foreignObject>section[data-marpit-advanced-background=background][data-marpit-advanced-background-split=right]>div[data-marpit-advanced-background-container]{margin-left:calc(100% - var(--marpit-advanced-background-split, 50%))}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container]>figure{all:initial;background-position:center;background-repeat:no-repeat;background-size:cover;flex:auto;margin:0}div#p>svg>foreignObject>section[data-marpit-advanced-background=content],div#p>svg>foreignObject>section[data-marpit-advanced-background=pseudo]{background:transparent!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=pseudo],div#p>svg[data-marpit-svg]>foreignObject[data-marpit-advanced-background=pseudo]{pointer-events:none!important}div#p>svg>foreignObject>section[data-marpit-advanced-background-split]{width:100%;height:100%}</style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id="p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="title invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="title invert" data-marpit-pagination="1" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:title invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Formation F♯ 5.0</h1>
+<h2><em>Pattern matching</em></h2>
+<h3>Décembre 2021</h3>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="speaker invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="speaker invert" data-marpit-pagination="2" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:speaker invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>About me</h1>
+<h2>Romain DENEAU</h2>
+<ul>
+<li>SOAT depuis 2009</li>
+<li>Senior Developer C♯ F♯ TypeScript</li>
+<li>Passionné de Craft</li>
+<li>Auteur sur le blog de SOAT</li>
+</ul>
+<p><a href="https://twitter.com/DeneauRomain"><img src="./themes/soat/pictos/social_twitter.png" alt="social-network" /> DeneauRomain</a></p>
+<p><a href="https://github.com/rdeneau"><img src="./themes/soat/pictos/social_github.png" alt="social-network" /> rdeneau</a></p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="purple agenda invert lead" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="purple agenda invert lead" data-marpit-pagination="3" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:purple agenda invert lead;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;--marpit-advanced-background-split:30%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./themes/soat/pictos/SOAT_pictos_formation.png&quot;);background-size:auto 300px;"></figure></div></section></foreignObject><foreignObject width="70%" height="720"><section id="3" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="purple agenda invert lead" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="purple agenda invert lead" data-marpit-pagination="3" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:purple agenda invert lead;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;--marpit-advanced-background-split:30%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
+<h2>Sommaire</h2>
+<ul>
+<li>Patterns</li>
+<li>Match expression</li>
+<li>Active patterns</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section class="purple agenda invert lead" style="" data-marpit-advanced-background="pseudo" data-marpit-pagination="3" data-marpit-pagination-total="69"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="green chapter invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="green chapter invert" data-marpit-pagination="4" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:green chapter invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_architecture.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>1.</h1>
+<h2>Généralités : <em>Patterns</em></h2>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="5" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Patterns</h1>
+<p><em>Patterns</em> = règles pour détecter la structure de données en entrée</p>
+<p>Utilisés abondamment en F♯<br />
+→ Dans <em>match expression</em>, <em>let binding</em> de valeurs et de paramètres de fonctions<br />
+→ Très pratiques pour manipuler les types algébriques F♯ (tuple, record, union)<br />
+→ Composables : supporte plusieurs niveaux d'imbrication<br />
+→ Assemblables par ET/OU logiques<br />
+→ Supporte les littéraux : <code>1.0</code>, <code>&quot;test&quot;</code>...</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="6" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Wildcard Pattern</h1>
+<p>Représenté par <code>_</code>, seul ou combiné avec un autre <em>pattern</em></p>
+<p>Toujours vrai<br />
+→ A placer en dernier dans une <em>match expression</em></p>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Toujours chercher en 1er à traiter exhaustivement/explicitement tous les cas<br />
+     Quand impossible, utiliser alors le <code>_</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">match</span> option <span class="hljs-keyword">with</span>
+| Some <span class="hljs-number">1</span> -&gt; ...
+| _ -&gt; ...              <span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Non exhaustif</span>
+
+<span class="hljs-keyword">match</span> option <span class="hljs-keyword">with</span>
+| Some <span class="hljs-number">1</span> -&gt; ...
+| Some _ | None -&gt; ...  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> \+ exhaustif</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="7" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Constant Pattern</h1>
+<p>Détecte constantes, <code>null</code> et littéraux de nombre, <code>char</code>, <code>string</code>, <code>enum</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-meta">[&lt;Literal&gt;]</span>
+<span class="hljs-keyword">let</span> Three = <span class="hljs-number">3</span>   <span class="hljs-comment">// Constante</span>
+
+<span class="hljs-keyword">let</span> is123 num = <span class="hljs-comment">// int -&gt; bool</span>
+    <span class="hljs-keyword">match</span> num <span class="hljs-keyword">with</span>
+    | <span class="hljs-number">1</span> | <span class="hljs-number">2</span> | Three -&gt; <span class="hljs-keyword">true</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Notes :</strong></p>
+<ul>
+<li>Le pattern de <code>Three</code> est aussi classé en tant que <em>Identifier Pattern</em> <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></li>
+<li>Pour le matching de <code>null</code>, on parle aussi de <em>Null Pattern</em></li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="8" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Identifier Pattern</h1>
+<p>Détecte les <em>cases</em> d'un type union ainsi que leur éventuel contenu</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PersonName</span> </span>=
+    | FirstOnly <span class="hljs-keyword">of</span> string
+    | LastOnly  <span class="hljs-keyword">of</span> string
+    | FirstLast <span class="hljs-keyword">of</span> string * string
+
+<span class="hljs-keyword">let</span> classify personName =
+    <span class="hljs-keyword">match</span> personName <span class="hljs-keyword">with</span>
+    | FirstOnly _ -&gt; <span class="hljs-string">&quot;First name only&quot;</span>
+    | LastOnly  _ -&gt; <span class="hljs-string">&quot;Last name only&quot;</span>
+    | FirstLast _ -&gt; <span class="hljs-string">&quot;First and last names&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="9" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Variable Pattern</h1>
+<p>Assigne la valeur détectée à une &quot;variable&quot; pour l'utiliser ensuite</p>
+<p>Exemple : variables <code>firstName</code> et <code>lastName</code> ci-dessous</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PersonName</span> </span>=
+    | FirstOnly <span class="hljs-keyword">of</span> string
+    | LastOnly  <span class="hljs-keyword">of</span> string
+    | FirstLast <span class="hljs-keyword">of</span> string * string
+
+<span class="hljs-keyword">let</span> confirm personName =
+    <span class="hljs-keyword">match</span> personName <span class="hljs-keyword">with</span>
+    | FirstOnly (firstName) -&gt; printf <span class="hljs-string">&quot;May I call you %s?&quot;</span> firstName
+    | LastOnly  (lastName) -&gt; printf <span class="hljs-string">&quot;Are you Mr. or Ms. %s?&quot;</span> lastName
+    | FirstLast (firstName, lastName) -&gt; printf <span class="hljs-string">&quot;Are you %s %s?&quot;</span> firstName lastName
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="10" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Variable Pattern (2)</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> On ne peut pas lier à plusieurs reprises vers la même variable</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> elementsAreEqualKo tuple =
+    <span class="hljs-keyword">match</span> tuple <span class="hljs-keyword">with</span>
+    | (x,x) -&gt; <span class="hljs-keyword">true</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0038: &#x27;x&#x27; est lié à deux reprises dans ce modèle</span>
+    | (_,_) -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<p>Solutions : utiliser 2 variables puis vérifier l'égalité</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// 1. Guard clause<img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></span>
+<span class="hljs-keyword">let</span> elementsAreEqualOk = <span class="hljs-keyword">function</span>
+    | (x,y) <span class="hljs-keyword">when</span> x = y -&gt; <span class="hljs-keyword">true</span>
+    | (_,_) -&gt; <span class="hljs-keyword">false</span>
+
+<span class="hljs-comment">// 2. Déconstruction</span>
+<span class="hljs-keyword">let</span> elementsAreEqualOk&#x27; (x, y) = x = y
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="11" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h2>Champs nommés de <em>case</em> d'union</h2>
+<p>Plusieurs possibilités :<br />
+① Pattern &quot;anonyme&quot; du tuple complet<br />
+② Pattern d'un seul champ par son nom → <code>Field = value</code><br />
+③ Pattern de plusieurs champs par leur nom → <code>F1 = v1; F2 = v2</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Shape</span> </span>=
+    | Rectangle <span class="hljs-keyword">of</span> Height: int * Width: int
+    | Circle <span class="hljs-keyword">of</span> Radius: int
+
+<span class="hljs-keyword">let</span> describe shape =
+    <span class="hljs-keyword">match</span> shape <span class="hljs-keyword">with</span>
+    | Rectangle (<span class="hljs-number">0</span>, _)                                              <span class="hljs-comment">// ①</span>
+    | Rectangle (Height = <span class="hljs-number">0</span>)            -&gt; <span class="hljs-string">&quot;Flat rectangle&quot;</span>         <span class="hljs-comment">// ②</span>
+    | Rectangle (Width = w; Height = h) -&gt; $<span class="hljs-string">&quot;Rectangle {w} × {h}&quot;</span>   <span class="hljs-comment">// ③</span>
+    | Circle radius                     -&gt; $<span class="hljs-string">&quot;Circle ∅ {2*radius}&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="12" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Alias Pattern</h1>
+<p><code>as</code> permet de nommer un élément dont le contenu est déconstruit</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> (x, y) <span class="hljs-keyword">as</span> coordinate = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
+printfn <span class="hljs-string">&quot;%i %i %A&quot;</span> x y coordinate  <span class="hljs-comment">// 1 2 (1, 2)</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Marche aussi dans les fonctions :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person</span> </span>= { Name: string; Age: int }
+
+<span class="hljs-keyword">let</span> acceptMajorOnly ({ Age = age } <span class="hljs-keyword">as</span> person) =
+    <span class="hljs-keyword">if</span> age &lt; <span class="hljs-number">18</span> <span class="hljs-keyword">then</span> None <span class="hljs-keyword">else</span> Some person
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="13" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>OR et AND Patterns</h1>
+<p>Permettent de combiner deux patterns <em>(nommés <code>P1</code> et <code>P2</code> ci-après)</em><br />
+• <code>P1 | P2</code> → P1 ou P2. Ex : <code>Rectangle (0, _) | Rectangle (_, 0)</code><br />
+• <code>P1 &amp; P2</code> → P1 et P2. Utilisé surtout avec <em>active patterns</em> <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></p>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Utiliser la même variable :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Upload</span> </span>= { Filename: string; Title: string option }
+
+<span class="hljs-keyword">let</span> titleOrFile ({ Title = Some name } | { Filename = name }) = name
+
+titleOrFile { Filename = <span class="hljs-string">&quot;Report.docx&quot;</span>; Title = None }            <span class="hljs-comment">// Report.docx</span>
+titleOrFile { Filename = <span class="hljs-string">&quot;Report.docx&quot;</span>; Title = Some <span class="hljs-string">&quot;Report+&quot;</span> }  <span class="hljs-comment">// &quot;Report+&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="14" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Parenthesized Pattern</h1>
+<p>Usage des parenthèses <code>()</code> pour grouper des patterns, pour gérer la précédence</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Shape</span> </span>= Circle <span class="hljs-keyword">of</span> Radius: int | Square <span class="hljs-keyword">of</span> Side: int
+
+<span class="hljs-keyword">let</span> countFlatShapes shapes =
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> loop rest count =
+        <span class="hljs-keyword">match</span> rest <span class="hljs-keyword">with</span>
+        | (Square (Side = <span class="hljs-number">0</span>) | (Circle (Radius = <span class="hljs-number">0</span>))) :: tail -&gt; loop tail (count + <span class="hljs-number">1</span>) <span class="hljs-comment">// ①</span>
+        | _ :: tail -&gt; loop tail count
+        | [] -&gt; count
+    loop shapes <span class="hljs-number">0</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Note :</strong> la ligne ① ne compilerait sans faire <code>() :: tail</code></p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="15" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Parenthesized Pattern (2)</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Les parenthèses compliquent la lecture<br />
+<img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Essayer de s'en passer quand c'est possible</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> countFlatShapes shapes =
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> loop rest count =
+        <span class="hljs-keyword">match</span> rest <span class="hljs-keyword">with</span>
+        | Circle (Radius = <span class="hljs-number">0</span>) :: tail
+        | Square (Side = <span class="hljs-number">0</span>) :: tail
+          -&gt; loop tail (count + <span class="hljs-number">1</span>)
+        <span class="hljs-comment">// [...]</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="16" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Construction Patterns</h1>
+<p>Reprennent syntaxe de construction d'un type pour le déconstruire</p>
+<ul>
+<li>Cons et List Patterns</li>
+<li>Array Pattern</li>
+<li>Tuple Pattern</li>
+<li>Record Pattern</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="17" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Cons et List Patterns</h1>
+<p>≃ Inverses de 2 types de construction d'une liste, avec même syntaxe</p>
+<p><em>Cons Pattern</em> : <code>head :: tail</code> → décompose une liste <em>(avec &gt;= 1 élément)</em> en :<br />
+• <em>Head</em> : 1er élément<br />
+• <em>Tail</em> : autre liste avec le reste des éléments - peut être vide</p>
+<p><em>List Pattern</em> : <code>[items]</code> → décompose une liste en 0..N éléments<br />
+• <code>[]</code> : liste vide<br />
+• <code>[x]</code> : liste avec 1 élément mis dans la variable <code>x</code><br />
+• <code>[x; y]</code> : liste avec 2 éléments mis dans les variables <code>x</code> et <code>y</code><br />
+• <code>[_; _]</code> : liste avec 2 éléments ignorés</p>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> <code>x :: []</code> ≡ <code>[x]</code>, <code>x :: y :: []</code> ≡ <code>[x; y]</code>...</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="18" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Cons et List Patterns (2)</h1>
+<p>La <em>match expression</em> par défaut combine les 2 patterns :<br />
+→ Une liste est soit vide <code>[]</code>, soit composée d'un item et du reste : <code>head :: tail</code></p>
+<p>Les fonctions récursives parcourant une liste utilise le pattern <code>[]</code> pour stopper la récursion :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> printList l =
+    <span class="hljs-keyword">match</span> l <span class="hljs-keyword">with</span>
+    | head :: tail -&gt;
+        printf <span class="hljs-string">&quot;%d &quot;</span> head
+        printList tail     <span class="hljs-comment">// Récursion sur le reste</span>
+    | [] -&gt; printfn <span class="hljs-string">&quot;&quot;</span>     <span class="hljs-comment">// Fin de récursion : liste parcourue entièrement</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="19" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Array Pattern</h1>
+<p>Syntaxe: <code>[| items |]</code> pour 0..N items entre <code>;</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> length vector =
+    <span class="hljs-keyword">match</span> vector <span class="hljs-keyword">with</span>
+    | [| x |] -&gt; x
+    | [| x; y |] -&gt; sqrt (x*x + y*y)
+    | [| x; y; z |] -&gt; sqrt (x*x + y*y + z*z)
+    | _ -&gt; invalidArg (nameof vector) $<span class="hljs-string">&quot;Vector with more than 4 dimensions not supported&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Il n'existe pas de pattern pour les séquences, vu qu'elles sont <em>&quot;lazy&quot;</em>.</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="20" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Tuple Pattern</h1>
+<p>Syntaxe : <code>items</code> ou <code>(items)</code> pour 2..N items entre <code>,</code></p>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Pratique pour pattern matcher plusieurs valeurs en même temps</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color</span> </span>= Red | Blue
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Style</span> </span>= Background | Text
+
+<span class="hljs-keyword">let</span> css color style =
+    <span class="hljs-keyword">match</span> color, style <span class="hljs-keyword">with</span>
+    | Red, Background -&gt; <span class="hljs-string">&quot;background-color: red&quot;</span>
+    | Red, Text -&gt; <span class="hljs-string">&quot;color: red&quot;</span>
+    | Blue, Background -&gt; <span class="hljs-string">&quot;background-color: blue&quot;</span>
+    | Blue, Text -&gt; <span class="hljs-string">&quot;color: blue&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="21" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Record Pattern</h1>
+<p>Syntaxe : <code>{ Fields }</code> pour 1..N <code>Field = variable</code> entre <code>;</code><br />
+→ Pas obligé de spécifier tous les champs du Record<br />
+→ En cas d'ambiguïté, qualifier le champ : <code>Record.Field</code></p>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Marche aussi pour les paramètres d'une fonction :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person</span> </span>= { Name: string; Age: int }
+
+<span class="hljs-keyword">let</span> displayMajority { Age = age; Name = name } =
+    <span class="hljs-keyword">if</span> age &gt;= <span class="hljs-number">18</span>
+    <span class="hljs-keyword">then</span> printfn <span class="hljs-string">&quot;%s is major&quot;</span> name
+    <span class="hljs-keyword">else</span> printfn <span class="hljs-string">&quot;%s is minor&quot;</span> name
+
+<span class="hljs-keyword">let</span> john = { Name = <span class="hljs-string">&quot;John&quot;</span>; Age = <span class="hljs-number">25</span> }
+displayMajority john <span class="hljs-comment">// John is major</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="22" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Record Pattern (2)</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> <strong>Rappel :</strong> il n'y a pas de pattern pour les <em>Records</em> anonymes !</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person</span> </span>= { Name: string; Age: int }
+
+<span class="hljs-keyword">let</span> john = { Name = <span class="hljs-string">&quot;John&quot;</span>; Age = <span class="hljs-number">25</span> }
+<span class="hljs-keyword">let</span> { Name = name } = john  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> val name : string = &quot;John&quot;</span>
+
+<span class="hljs-keyword">let</span> john&#x27; = {| john <span class="hljs-keyword">with</span> Civility = <span class="hljs-string">&quot;Mister&quot;</span> |}
+<span class="hljs-keyword">let</span> {| Name = name&#x27; |} = john&#x27;  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/></span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="23" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Type Test Pattern</h1>
+<p>Syntaxe : <code>?: Subtype</code></p>
+<p>Usage : avec une hiérarchie de types</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">open</span> System.Windows.Forms
+
+<span class="hljs-keyword">let</span> RegisterControl (control: Control) =
+    <span class="hljs-keyword">match</span> control <span class="hljs-keyword">with</span>
+    | :? Button <span class="hljs-keyword">as</span> button -&gt; button.Text &lt;- <span class="hljs-string">&quot;Registered.&quot;</span>
+    | :? CheckBox <span class="hljs-keyword">as</span> checkbox -&gt; checkbox.Text &lt;- <span class="hljs-string">&quot;Registered.&quot;</span>
+    | :? Windows -&gt; invalidArg (nameof control) <span class="hljs-string">&quot;Window cannot be registered&quot;</span>
+    | _ -&gt; ()
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="24" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Type Test Pattern - Bloc <code>try</code>/<code>with</code></h1>
+<p>On rencontre fréquemment ce pattern dans les blocs <code>try</code>/<code>with</code> :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">try</span>
+    printfn <span class="hljs-string">&quot;Difference: %i&quot;</span> (<span class="hljs-number">42</span> / <span class="hljs-number">0</span>)
+<span class="hljs-keyword">with</span>
+| :? DivideByZeroException <span class="hljs-keyword">as</span> x -&gt; 
+    printfn <span class="hljs-string">&quot;Fail! %s&quot;</span> x.Message
+| :? TimeoutException -&gt; 
+    printfn <span class="hljs-string">&quot;Fail! Took too long&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="25" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Type Test Pattern - Boxing</h1>
+<p>Le <em>Type Test Pattern</em> ne marche qu'avec des types références.<br />
+→ Pour un type valeur ou inconnu, il faut le convertir en objet <em>(a.k.a boxing)</em></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> isIntKo = <span class="hljs-keyword">function</span> :? int -&gt; <span class="hljs-keyword">true</span> | _ -&gt; <span class="hljs-keyword">false</span>
+<span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0008: test de type au moment de l&#x27;exécution du type &#x27;a en int...</span>
+
+<span class="hljs-keyword">let</span> isInt x =
+    <span class="hljs-keyword">match</span> box x <span class="hljs-keyword">with</span>
+    | :? int -&gt; <span class="hljs-keyword">true</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="green chapter invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="green chapter invert" data-marpit-pagination="26" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:green chapter invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_etudeCas.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>2.</h1>
+<h2><em>Match Expression</em></h2>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="27" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match expression</h1>
+<p>Similaire à une expression <code>switch</code> en C♯ 8.0 en + puissant grâce aux patterns</p>
+<p>Syntaxe :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">match</span> test-expression <span class="hljs-keyword">with</span>
+| pattern1 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression1
+| pattern2 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression2
+| ...
+</span></span></foreignObject></svg></code></pre>
+<p>Renvoie le résultat de la 1ère branche dont le pattern &quot;match&quot; <code>test-expression</code></p>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Note :</strong> toutes les branches doivent renvoyer le même type !</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="28" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match expression - Exhaustivité</h1>
+<p>Un <code>switch</code> doit toujours définir un cas par défaut <em>(cf. pattern <em>wildcard</em> <code>_</code>)</em><br />
+Sinon : warning à la compilation, risque de <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> <code>MatchFailureException</code> au runtime</p>
+<p>Pas nécessaire dans une <em>match expression</em> si les branches couvrent tous les cas<br />
+car le compilateur vérifie leur exhaustivité et les branches &quot;mortes&quot;</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> fn x =
+    <span class="hljs-keyword">match</span> x <span class="hljs-keyword">with</span>
+    | Some <span class="hljs-keyword">true</span>  -&gt; <span class="hljs-string">&quot;ok&quot;</span>
+    | Some <span class="hljs-keyword">false</span> -&gt; <span class="hljs-string">&quot;ko&quot;</span>
+    | None       -&gt; <span class="hljs-string">&quot;&quot;</span>
+    | _          -&gt; <span class="hljs-string">&quot;?&quot;</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Warning FS0026: Cette règle n&#x27;aura aucune correspondance</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="29" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match expression - Exhaustivité (2)</h1>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Conseil :</strong> + les branches sont exhaustives, + le code est explicite et sûr</p>
+<p>Exemple : matcher tous les cases d'un type union permet de gérer<br />
+l'ajout d'un case par un warning à la compilation :<br />
+<code>Warning FS0025: Critères spéciaux incomplets dans cette expression</code></p>
+<ul>
+<li>Détection d'un ajout accidentel</li>
+<li>Identification du code à changer pour gérer le nouveau case</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="30" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match expression - Guard</h1>
+<p>Syntaxe : <code>pattern1 when condition</code><br />
+Usage : raffiner un pattern, via contraintes sur des variables</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> classifyBetween low top value =
+    <span class="hljs-keyword">match</span> value <span class="hljs-keyword">with</span>
+    | x <span class="hljs-keyword">when</span> x &lt; low -&gt; <span class="hljs-string">&quot;Inf&quot;</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Alternative : `_ when value &lt; low`</span>
+    | x <span class="hljs-keyword">when</span> x = low -&gt; <span class="hljs-string">&quot;Low&quot;</span>
+    | x <span class="hljs-keyword">when</span> x = top -&gt; <span class="hljs-string">&quot;Top&quot;</span>
+    | x <span class="hljs-keyword">when</span> x &gt; top -&gt; <span class="hljs-string">&quot;Sup&quot;</span>
+    | _ -&gt; <span class="hljs-string">&quot;Between&quot;</span>
+
+<span class="hljs-keyword">let</span> test1 = <span class="hljs-number">1</span> |&gt; classifyBetween <span class="hljs-number">1</span> <span class="hljs-number">5</span>  <span class="hljs-comment">// &quot;Low&quot;</span>
+<span class="hljs-keyword">let</span> test2 = <span class="hljs-number">6</span> |&gt; classifyBetween <span class="hljs-number">1</span> <span class="hljs-number">5</span>  <span class="hljs-comment">// &quot;Sup&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> La <em>guard</em> n'est évaluée que si le pattern est satisfait.</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="31" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match expression - Guard et Pattern OR</h1>
+<p>Le pattern OR a une <em>precedence/priorité</em> plus élevée que la <em>guard</em> :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Parity</span> </span>= Even <span class="hljs-keyword">of</span> int | Odd <span class="hljs-keyword">of</span> int
+
+<span class="hljs-keyword">let</span> parityOf value =
+    <span class="hljs-keyword">if</span> value % <span class="hljs-number">2</span> = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> Even value <span class="hljs-keyword">else</span> Odd value
+
+<span class="hljs-keyword">let</span> hasSquare square value =
+    <span class="hljs-keyword">match</span> parityOf square, parityOf value <span class="hljs-keyword">with</span>
+    | Even x2, Even x
+    | Odd  x2, Odd  x
+        <span class="hljs-keyword">when</span> x2 = x*x -&gt; <span class="hljs-keyword">true</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> Porte sur les 2 patterns précédents</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+
+<span class="hljs-keyword">let</span> test1 = <span class="hljs-number">2</span> |&gt; hasSquare <span class="hljs-number">4</span>  <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">let</span> test2 = <span class="hljs-number">3</span> |&gt; hasSquare <span class="hljs-number">9</span>  <span class="hljs-comment">// true</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="32" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match function</h1>
+<p>Syntaxe :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">function</span>
+| pattern1 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression1
+| pattern2 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression2
+| ...
+</span></span></foreignObject></svg></code></pre>
+<p>Equivalent à une lambda prenant un paramètre implicite qui est &quot;matché&quot; :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">fun</span> value -&gt;
+    <span class="hljs-keyword">match</span> value <span class="hljs-keyword">with</span>
+    | pattern1 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression1
+    | pattern2 [ <span class="hljs-keyword">when</span> condition ] -&gt; result-expression2
+    | ...
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="33" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match function - Intérêts</h1>
+<ol>
+<li>Dans pipeline</li>
+</ol>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>value
+|&gt; is123
+|&gt; <span class="hljs-keyword">function</span>
+    | <span class="hljs-keyword">true</span>  -&gt; <span class="hljs-string">&quot;ok&quot;</span>
+    | <span class="hljs-keyword">false</span> -&gt; <span class="hljs-string">&quot;ko&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<ol start="2">
+<li>Écriture + succincte d'une fonction</li>
+</ol>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Paramètre implicite =&gt; peut rendre le code \+ difficile à comprendre !</span>
+<span class="hljs-keyword">let</span> is123 = <span class="hljs-keyword">function</span>
+    | <span class="hljs-number">1</span> | <span class="hljs-number">2</span> | <span class="hljs-number">3</span> -&gt; <span class="hljs-keyword">true</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="34" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Match function - Limites</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Paramètre implicite =&gt; peut rendre le code + difficile à comprendre !</p>
+<p>Exemple : fonction déclarée avec d'autres paramètres eux explicites<br />
+→ On peut se tromper sur le nombre de paramètres et leur ordre :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> classifyBetween low high = <span class="hljs-keyword">function</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> 3 paramètres : low, high + 1 implicite</span>
+    | x <span class="hljs-keyword">when</span> x &lt; low  -&gt; <span class="hljs-string">&quot;Inf&quot;</span>
+    | x <span class="hljs-keyword">when</span> x = low  -&gt; <span class="hljs-string">&quot;Low&quot;</span>
+    | x <span class="hljs-keyword">when</span> x = high -&gt; <span class="hljs-string">&quot;High&quot;</span>
+    | x <span class="hljs-keyword">when</span> x &gt; high -&gt; <span class="hljs-string">&quot;Sup&quot;</span>
+    | _ -&gt; <span class="hljs-string">&quot;Between&quot;</span>
+
+<span class="hljs-keyword">let</span> test1 = <span class="hljs-number">1</span> |&gt; classifyBetween <span class="hljs-number">1</span> <span class="hljs-number">5</span>  <span class="hljs-comment">// &quot;Low&quot;</span>
+<span class="hljs-keyword">let</span> test2 = <span class="hljs-number">6</span> |&gt; classifyBetween <span class="hljs-number">1</span> <span class="hljs-number">5</span>  <span class="hljs-comment">// &quot;Sup&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="35" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fonction <code>fold</code></h1>
+<p>Fonction associée à un type union et masquant la logique de <em>matching</em><br />
+Prend N+1 paramètres pour un type union avec N <em>cases</em> <code>CaseI of 'DataI</code><br />
+→ N fonctions <code>'DataI -&gt; 'T</code> (1 / <em>case</em>), avec <code>'T</code> le type de retour de <code>fold</code><br />
+→ En dernier, l'instance du type union à matcher</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Measure&gt;] <span class="hljs-title">C</span></span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Measure&gt;] <span class="hljs-title">F</span></span>
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Temperature</span> </span>=
+    | Celsius     <span class="hljs-keyword">of</span> float&lt;C&gt;
+    | Fahrenheint <span class="hljs-keyword">of</span> float&lt;F&gt;
+
+<span class="hljs-keyword">module</span> Temperature =
+    <span class="hljs-keyword">let</span> fold mapCelsius mapFahrenheint temperature : <span class="hljs-symbol">&#x27;T</span> =
+        <span class="hljs-keyword">match</span> temperature <span class="hljs-keyword">with</span>
+        | Celsius x     -&gt; mapCelsius x      <span class="hljs-comment">// mapCelsius    : float&lt;C&gt; -&gt; &#x27;T</span>
+        | Fahrenheint x -&gt; mapFahrenheint x  <span class="hljs-comment">// mapFahrenheint: float&lt;F&gt; -&gt; &#x27;T</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="36" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fonction <code>fold</code> : utilisation</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">module</span> Temperature =
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-meta">[&lt;Literal&gt;]</span> FactorC2F = <span class="hljs-number">1.8</span>&lt;F/C&gt;
+    <span class="hljs-keyword">let</span> <span class="hljs-meta">[&lt;Literal&gt;]</span> DeltaC2F = <span class="hljs-number">32.0</span>&lt;F&gt;
+
+    <span class="hljs-keyword">let</span> celsiusToFahrenheint x = (x * FactorC2F) + DeltaC2F  <span class="hljs-comment">// float&lt;C&gt; -&gt; float&lt;F&gt;</span>
+    <span class="hljs-keyword">let</span> fahrenheintToCelsius x = (x - DeltaC2F) / FactorC2F  <span class="hljs-comment">// float&lt;F&gt; -&gt; float&lt;C&gt;</span>
+
+    <span class="hljs-keyword">let</span> toggleUnit temperature =
+        temperature |&gt; fold
+            (celsiusToFahrenheint &gt;&gt; Fahrenheint)
+            (fahrenheintToCelsius &gt;&gt; Celsius)
+
+<span class="hljs-keyword">let</span> t1 = Celsius <span class="hljs-number">100.0</span>&lt;C&gt;
+<span class="hljs-keyword">let</span> t2 = t1 |&gt; Temperature.toggleUnit  <span class="hljs-comment">// Fahrenheint 212.0</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="37" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fonction <code>fold</code> : intérêt</h1>
+<p><code>fold</code> masque les détails d'implémentation du type</p>
+<p>Par exemple, on peut ajouter un <em>case</em> <code>Kelvin</code> et n'impacter que <code>fold</code>,<br />
+pas les fonctions qui l'appellent comme <code>toggleUnit</code> :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Measure&gt;] <span class="hljs-title">C</span></span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Measure&gt;] <span class="hljs-title">F</span></span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Measure&gt;] <span class="hljs-title">K</span>  // <img class="emoji" draggable="false" alt="🌟" src="https://twemoji.maxcdn.com/2/svg/1f31f.svg" data-marp-twemoji=""/></span>
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Temperature</span> </span>=
+    | Celsius     <span class="hljs-keyword">of</span> float&lt;C&gt;
+    | Fahrenheint <span class="hljs-keyword">of</span> float&lt;F&gt;
+    | Kelvin      <span class="hljs-keyword">of</span> float&lt;K&gt;  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="🌟" src="https://twemoji.maxcdn.com/2/svg/1f31f.svg" data-marp-twemoji=""/></span>
+
+<span class="hljs-comment">// ...</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="38" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fonction <code>fold</code> : intérêt (2)</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">module</span> Temperature =
+    <span class="hljs-keyword">let</span> fold mapCelsius mapFahrenheint temperature : <span class="hljs-symbol">&#x27;T</span> =
+        <span class="hljs-keyword">match</span> temperature <span class="hljs-keyword">with</span>
+        | Celsius x     -&gt; mapCelsius x      <span class="hljs-comment">// mapCelsius: float&lt;C&gt; -&gt; &#x27;T</span>
+        | Fahrenheint x -&gt; mapFahrenheint x  <span class="hljs-comment">// mapFahrenheint: float&lt;F&gt; -&gt; &#x27;T</span>
+        | Kelvin x      -&gt; mapCelsius (x * <span class="hljs-number">1.0</span>&lt;C/K&gt; + <span class="hljs-number">273.15</span>&lt;C&gt;)  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="🌟" src="https://twemoji.maxcdn.com/2/svg/1f31f.svg" data-marp-twemoji=""/></span>
+
+Kelvin <span class="hljs-number">273.15</span>&lt;K&gt;
+|&gt; Temperature.toggleUnit
+|&gt; Temperature.toggleUnit
+<span class="hljs-comment">// Celsius 0.0&lt;C&gt;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="green chapter invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="green chapter invert" data-marpit-pagination="39" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:green chapter invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_alEchelle.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>3.</h1>
+<h2><em>Active Patterns</em></h2>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="40" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Limitations du <em>Pattern Matching</em></h1>
+<p>Nombre limité de patterns</p>
+<p>Impossibilité de factoriser l'action de patterns avec leur propre guard<br />
+→ <code>Pattern1 when Guard1 | Pattern2 when Guard2 -&gt; do</code> <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/><br />
+→ <code>Pattern1 when Guard1 -&gt; do | Pattern2 when Guard2 -&gt; do</code> <img class="emoji" draggable="false" alt="😕" src="https://twemoji.maxcdn.com/2/svg/1f615.svg" data-marp-twemoji=""/></p>
+<p>Patterns ne sont pas des citoyens de 1ère classe<br />
+<em>Ex : une fonction ne peut pas renvoyer un pattern</em><br />
+→ Juste une sorte de sucre syntaxique</p>
+<p>Patterns interagissent mal avec un style OOP</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="41" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Origine des <em>Active Patterns</em></h1>
+<blockquote>
+<p><img class="emoji" draggable="false" alt="🔗" src="https://twemoji.maxcdn.com/2/svg/1f517.svg" data-marp-twemoji=""/> <a href="https://www.microsoft.com/en-us/research/publication/extensible-pattern-matching-via-a-lightweight-language-extension/"><em>Extensible pattern matching via a lightweight language extension</em></a><br />
+<img class="emoji" draggable="false" alt="ℹ️" src="https://twemoji.maxcdn.com/2/svg/2139.svg" data-marp-twemoji=""/> Publication de 2007 de Don Syme, Gregory Neverov, James Margetson</p>
+</blockquote>
+<p>Intégré à F♯ 2.0 (2010)</p>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> <strong>Idées</strong></p>
+<ul>
+<li>Permettre le <em>pattern matching</em> sur d'autres structures de données</li>
+<li>Faire de ces nouveaux patterns des citoyens de 1ère classe</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="42" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1><em>Active Patterns</em> - Syntaxe</h1>
+<p>Syntaxe générale : <code>let (|Cases|) [arguments] valueToMatch = expression</code></p>
+<ol>
+<li><strong>Fonction</strong> avec un nom spécial défini dans une &quot;banane&quot; <code>(|...|)</code></li>
+<li>Ensemble de 1..N <strong>cases</strong> où ranger <code>valueToMatch</code></li>
+</ol>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Sorte de fonction <em>factory</em> d'un <strong>type union</strong> &quot;anonyme&quot;, défini <em>inline</em></p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="43" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1><em>Active Patterns</em> - Types</h1>
+<p>Il existe 4 types d'active patterns :</p>
+<ol>
+<li>Pattern total simple</li>
+<li>Pattern total multiple</li>
+<li>Pattern partiel</li>
+<li>Pattern paramétré</li>
+</ol>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> <em>Partiel</em> et <em>total</em> indique la faisabilité du « rangement dans le(s) case(s) »<br />
+     de la valeur en entrée<br />
+     → <strong>Partiel</strong> : il n'existe pas toujours une case correspondante<br />
+     → <strong>Total</strong> : il existe forcément une case correspondante → pattern exhaustif</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="44" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern total simple</h1>
+<p><em>A.k.a Single-case Total Pattern</em></p>
+<p>Syntaxe : <code>let (|Case|) [...parameters] value = Case [data]</code><br />
+Usage : déconstruction en ligne</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Avec paramètre =&gt; pas très lisible <img class="emoji" draggable="false" alt="😕" src="https://twemoji.maxcdn.com/2/svg/1f615.svg" data-marp-twemoji=""/></span>
+<span class="hljs-keyword">let</span> (|Default|) = Option.defaultValue  <span class="hljs-comment">// &#x27;T -&gt; &#x27;T option -&gt; &#x27;T</span>
+
+<span class="hljs-keyword">let</span> (Default <span class="hljs-string">&quot;unknown&quot;</span> name1) = Some <span class="hljs-string">&quot;John&quot;</span>  <span class="hljs-comment">// name1 = &quot;John&quot;</span>
+<span class="hljs-keyword">let</span> (Default <span class="hljs-string">&quot;unknown&quot;</span> name2) = None         <span class="hljs-comment">// name2 = &quot;unknown&quot;</span>
+
+<span class="hljs-comment">// Sans paramètre =&gt; mieux <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/></span>
+<span class="hljs-keyword">let</span> (|ValueOrUnknown|) = Option.defaultValue <span class="hljs-string">&quot;unknown&quot;</span>  <span class="hljs-comment">// &#x27;T option -&gt; &#x27;T</span>
+
+<span class="hljs-keyword">let</span> (ValueOrUnknown name1) = Some <span class="hljs-string">&quot;John&quot;</span>  <span class="hljs-comment">// name1 = &quot;John&quot;</span>
+<span class="hljs-keyword">let</span> (ValueOrUnknown name2) = None         <span class="hljs-comment">// name2 = &quot;unknown&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="45" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern total simple (2)</h1>
+<p>Autre exemple : extraction de la forme polaire d'un nombre complexe</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">open</span> System.Numerics
+
+<span class="hljs-keyword">let</span> (|Polar|) (x : Complex) =
+    Polar (x.Magnitude, x.Phase)
+
+<span class="hljs-keyword">let</span> multiply (Polar (m1, p1)) (Polar (m2, p2)) =  <span class="hljs-comment">// Complex -&gt; Complex -&gt; Complex</span>
+    Complex(m1 + m2, p1 + p2)
+</span></span></foreignObject></svg></code></pre>
+<p>Sans l'active pattern, c'est un autre style mais de lisibilité équivalente :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> multiply x y =
+    Complex (x.Magnitude + y.Magnitude, x.Phase + y.Phase)
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="46" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern total multiple</h1>
+<p><em>A.k.a Multiple-case Total Pattern</em></p>
+<p>Syntaxe : <code>let (|Case1|...|CaseN|) value = CaseI [dataI]</code><br />
+<img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Pas de paramètre possible<img class="emoji" draggable="false" alt="❗" src="https://twemoji.maxcdn.com/2/svg/2757.svg" data-marp-twemoji=""/></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Ré-écriture d&#x27;un exemple précédent</span>
+
+<span class="hljs-comment">// <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> type Parity = Even of int | Odd of int</span>
+<span class="hljs-comment">// <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> let parityOf value = if value % 2 = 0 then Even value else Odd value</span>
+
+<span class="hljs-keyword">let</span> (|Even|Odd|) x =  <span class="hljs-comment">// int -&gt; Choice&lt;int, int&gt;</span>
+    <span class="hljs-keyword">if</span> x % <span class="hljs-number">2</span> = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> Even x <span class="hljs-keyword">else</span> Odd x
+
+<span class="hljs-keyword">let</span> hasSquare square value =
+    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> match parityOf square, parityOf value with</span>
+    <span class="hljs-keyword">match</span> square, value <span class="hljs-keyword">with</span>
+    | Even x2, Even x | Odd x2, Odd x <span class="hljs-keyword">when</span> x2 = x*x -&gt; <span class="hljs-keyword">true</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="47" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern partiel</h1>
+<p>Syntaxe : <code>let (|Case|_|) value = Some Case | Some data | None</code><br />
+→ Renvoie type <code>'T option</code> si <em>Case</em> comprend des données, sinon <code>unit option</code><br />
+→ Pattern matching est non exhaustif → il faut un cas par défaut</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> (|Integer|_|) (x: string) = <span class="hljs-comment">// (x: string) -&gt; int option</span>
+    <span class="hljs-keyword">match</span> System.Int32.TryParse x <span class="hljs-keyword">with</span>
+    | <span class="hljs-keyword">true</span>, i -&gt; Some i
+    | <span class="hljs-keyword">false</span>, _ -&gt; None
+
+<span class="hljs-keyword">let</span> (|Float|_|) (x: string) = <span class="hljs-comment">// (x: string) -&gt; float option</span>
+    <span class="hljs-keyword">match</span> System.Double.TryParse x <span class="hljs-keyword">with</span>
+    | <span class="hljs-keyword">true</span>, f -&gt; Some f
+    | <span class="hljs-keyword">false</span>, _ -&gt; None
+
+<span class="hljs-keyword">let</span> detectNumber = <span class="hljs-keyword">function</span>
+    | Integer i -&gt; $<span class="hljs-string">&quot;Integer {i}&quot;</span>   <span class="hljs-comment">// detectNumber &quot;10&quot;</span>
+    | Float f -&gt; $<span class="hljs-string">&quot;Float {f}&quot;</span>       <span class="hljs-comment">// detectNumber &quot;1,1&quot; = &quot;Float 1,1&quot; (en France)</span>
+    | s -&gt; $<span class="hljs-string">&quot;NaN {s}&quot;</span>               <span class="hljs-comment">// detectNumber &quot;abc&quot; = &quot;NaN abc&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="48" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern partiel paramétré</h1>
+<p>Syntaxe : <code>let (|Case|_|) ...arguments value = Some Case | Some data | None</code></p>
+<p>Exemple 1 : année bissextile = multiple de 4 mais pas 100 sauf 400</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> (|DivisibleBy|_|) factor x =  <span class="hljs-comment">// (factor: int) -&gt; (x: int) -&gt; unit option</span>
+    <span class="hljs-keyword">match</span> x % factor <span class="hljs-keyword">with</span>
+    | <span class="hljs-number">0</span> -&gt; Some DivisibleBy
+    | _ -&gt; None
+
+<span class="hljs-keyword">let</span> isLeapYear year =  <span class="hljs-comment">// (year: int) -&gt; bool</span>
+    <span class="hljs-keyword">match</span> year <span class="hljs-keyword">with</span>
+    | DivisibleBy <span class="hljs-number">400</span> -&gt; <span class="hljs-keyword">true</span>
+    | DivisibleBy <span class="hljs-number">100</span> -&gt; <span class="hljs-keyword">false</span>
+    | DivisibleBy   <span class="hljs-number">4</span> -&gt; <span class="hljs-keyword">true</span>
+    | _               -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="49" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern partiel paramétré (2)</h1>
+<p>Exemple 2 : Expression régulière</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> (|Regexp|_|) pattern value =  <span class="hljs-comment">// string -&gt; string -&gt; string list option</span>
+    <span class="hljs-keyword">let</span> m = System.Text.RegularExpressions.Regex.Match(value, pattern)
+    <span class="hljs-keyword">if</span> not m.Success || m.Groups.Count &lt; <span class="hljs-number">1</span> <span class="hljs-keyword">then</span>
+        None
+    <span class="hljs-keyword">else</span>
+        [ <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> m.Groups -&gt; g.Value ]
+        |&gt; List.tail <span class="hljs-comment">// drop &quot;root&quot; match</span>
+        |&gt; Some
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="50" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern partiel paramétré (3)</h1>
+<p>Exemple : Couleur hexadécimale</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> hexToInt hex =  <span class="hljs-comment">// string -&gt; int // E.g. &quot;FF&quot; -&gt; 255</span>
+    System.Int32.Parse(hex, System.Globalization.NumberStyles.HexNumber)
+
+<span class="hljs-keyword">let</span> (|HexaColor|_|) = <span class="hljs-keyword">function</span>  <span class="hljs-comment">// string -&gt; (int * int * int) option</span>
+    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Utilise l&#x27;active pattern précédent</span>
+    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> La Regex recherche 3 groupes de 2 chars étant un chiffre ou une lettre A..F</span>
+    | Regexp <span class="hljs-string">&quot;#([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})&quot;</span> [ r; g; b ] -&gt;
+        Some &lt;| HexaColor ((hexToInt r), (hexToInt g), (hexToInt b))
+    | _ -&gt; None
+
+<span class="hljs-keyword">match</span> <span class="hljs-string">&quot;#0099FF&quot;</span> <span class="hljs-keyword">with</span>
+| HexaColor (r, g, b) -&gt; $<span class="hljs-string">&quot;RGB: {r}, {g}, {b}&quot;</span>
+| otherwise -&gt; $<span class="hljs-string">&quot;&#x27;{otherwise}&#x27; is not a hex-color&quot;</span>
+<span class="hljs-comment">// &quot;RGB: 0, 153, 255&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="51" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Récap’ des types d’active patterns</h1>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Syntaxe</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total multiple</td>
+<td><code>let (｜Case1｜…｜CaseN｜) x</code></td>
+<td><code>'T -&gt; Choice&lt;'U1, …, 'Un&gt;</code></td>
+</tr>
+<tr>
+<td>Total simple</td>
+<td><code>let (｜Case｜) x</code></td>
+<td><code>'T -&gt; 'U</code></td>
+</tr>
+<tr>
+<td>Partiel simple</td>
+<td><code>let (｜Case｜_｜) x</code></td>
+<td><code>'T -&gt; 'U option</code></td>
+</tr>
+<tr>
+<td>... paramétré</td>
+<td><code>let (｜Case｜_｜) p1 … pN x</code></td>
+<td><code>'P1 -&gt; … -&gt; 'Pn -&gt; 'T -&gt; 'U option</code></td>
+</tr>
+</tbody>
+</table>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="52" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Comprendre un active pattern</h1>
+<blockquote>
+<p>Comprendre comment utiliser un active pattern...<br />
+peut s'avérer un vrai <strong>jonglage intellectuel</strong> !</p>
+</blockquote>
+<p><img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/svg/1f449.svg" data-marp-twemoji=""/> Explications en utilisant les exemples précédents</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="53" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Comprendre un active pattern total</h1>
+<ul>
+<li>Active pattern total ≃ Fonction <em>factory</em> d'un type union &quot;anonyme&quot;</li>
+<li>Usage : idem pattern matching d'un type union normal</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Single-case</span>
+<span class="hljs-keyword">let</span> (|Cartesian|) (x: Complex) = Cartesian (x.Real, x.Imaginary)
+
+<span class="hljs-keyword">let</span> Cartesian (r, i) = Complex (<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>)  <span class="hljs-comment">// r = 1.0, i = 2.0</span>
+
+<span class="hljs-comment">// Double-case</span>
+<span class="hljs-keyword">let</span> (|Even|Odd|) x = <span class="hljs-keyword">if</span> x % <span class="hljs-number">2</span> = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> Even <span class="hljs-keyword">else</span> Odd
+
+<span class="hljs-keyword">let</span> parityOf = <span class="hljs-keyword">function</span>  <span class="hljs-comment">// int -&gt; string</span>
+    | Even -&gt; <span class="hljs-string">&quot;Pair&quot;</span>
+    | Odd  -&gt; <span class="hljs-string">&quot;Impair&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="54" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Comprendre un active pattern partiel</h1>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Bien distinguer les éventuels paramètres des éventuelles données</p>
+<p>Examiner la signature de l'active pattern : <code>[...params -&gt;] value -&gt; 'U option</code><br />
+• Les 1..N-1 paramètres = paramètres de l'active pattern<br />
+• Son retour : <code>'U option</code> → données de type <code>'U</code> ; si <code>'U</code> = <code>unit</code> → pas de donnée</p>
+<p>À l'usage : <code>match value with Case [params] [data]</code><br />
+• <code>Case params</code> ≃ <strong>application partielle</strong>, donnant active pattern sans paramètre<br />
+• <code>CaseWithParams data</code> ≃ déconstruction d'un case de type union</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="55" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Comprendre un active pattern partiel (2)</h1>
+<ol>
+<li>
+<p><code>let (|Integer|_|) (s: string) : int option</code><br />
+→ Usage <code>match s with Integer i</code>, avec <code>i: int</code> donnée en sortie</p>
+</li>
+<li>
+<p><code>let (|DivisibleBy|_|) (factor: int) (x: int) : unit option</code><br />
+→ Usage <code>match year with DivisibleBy 400</code>, avec <code>400</code> le paramètre <code>factor</code></p>
+</li>
+<li>
+<p><code>let (|Regexp|_|) (pattern: string) (value: string) : string list option</code><br />
+→ Usage <code>match s with Regexp &quot;#([0-9...)&quot; [ r; g; b ]</code><br />
+→ Avec <code>&quot;#([0-9...)&quot;</code> le paramètre <code>pattern</code><br />
+→ Et <code>[ r; g; b ]</code> la liste en sortie décomposée en 3 chaînes</p>
+</li>
+</ol>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="56" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Exercice : fizz buzz avec active pattern</h1>
+<p>Ré-écrire ce fizz buzz en utilisant un active pattern <code>DivisibleBy</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> isDivisibleBy factor number =
+    number % factor = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">let</span> fizzBuzz = <span class="hljs-keyword">function</span>
+    | i <span class="hljs-keyword">when</span> i |&gt; isDivisibleBy <span class="hljs-number">15</span> -&gt; <span class="hljs-string">&quot;FizzBuzz&quot;</span>
+    | i <span class="hljs-keyword">when</span> i |&gt; isDivisibleBy  <span class="hljs-number">3</span> -&gt; <span class="hljs-string">&quot;Fizz&quot;</span>
+    | i <span class="hljs-keyword">when</span> i |&gt; isDivisibleBy  <span class="hljs-number">5</span> -&gt; <span class="hljs-string">&quot;Buzz&quot;</span>
+    | other -&gt; string other
+
+[<span class="hljs-number">1.</span><span class="hljs-number">.15</span>] |&gt; List.map fizzBuzz
+<span class="hljs-comment">// [&quot;1&quot;; &quot;2&quot;; &quot;Fizz&quot;; &quot;4&quot;; &quot;Buzz&quot;; &quot;Fizz&quot;;</span>
+<span class="hljs-comment">//  &quot;7&quot;; &quot;8&quot;; &quot;Fizz&quot;; &quot;Buzz&quot;; &quot;11&quot;;</span>
+<span class="hljs-comment">//  &quot;Fizz&quot;; &quot;13&quot;; &quot;14&quot;; &quot;FizzBuzz&quot;]</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="57" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fizz buzz avec active pattern : solution</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> isDivisibleBy factor number =
+    number % factor = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">let</span> (|DivisibleBy|_|) factor number =
+    <span class="hljs-keyword">if</span> number |&gt; isDivisibleBy factor
+    <span class="hljs-keyword">then</span> Some DivisibleBy <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Ou `Some ()`</span>
+    <span class="hljs-keyword">else</span> None
+
+<span class="hljs-keyword">let</span> fizzBuzz = <span class="hljs-keyword">function</span>
+    | DivisibleBy <span class="hljs-number">3</span> &amp;
+      DivisibleBy <span class="hljs-number">5</span> -&gt; <span class="hljs-string">&quot;FizzBuzz&quot;</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Ou `DivisibleBy 15`</span>
+    | DivisibleBy <span class="hljs-number">3</span> -&gt; <span class="hljs-string">&quot;Fizz&quot;</span>
+    | DivisibleBy <span class="hljs-number">5</span> -&gt; <span class="hljs-string">&quot;Buzz&quot;</span>
+    | other -&gt; string other
+
+[<span class="hljs-number">1.</span><span class="hljs-number">.15</span>] |&gt; List.map fizzBuzz
+<span class="hljs-comment">// [&quot;1&quot;; &quot;2&quot;; &quot;Fizz&quot;; &quot;4&quot;; &quot;Buzz&quot;; &quot;Fizz&quot;;</span>
+<span class="hljs-comment">//  &quot;7&quot;; &quot;8&quot;; &quot;Fizz&quot;; &quot;Buzz&quot;; &quot;11&quot;;</span>
+<span class="hljs-comment">//  &quot;Fizz&quot;; &quot;13&quot;; &quot;14&quot;; &quot;FizzBuzz&quot;]</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="58" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Fizz buzz avec active pattern : alternative</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> isDivisibleBy factor number =
+    number % factor = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">let</span> boolToOption b =
+    <span class="hljs-keyword">if</span> b <span class="hljs-keyword">then</span> Some () <span class="hljs-keyword">else</span> None
+
+<span class="hljs-keyword">let</span> (|Fizz|_|) number = number |&gt; isDivisibleBy <span class="hljs-number">3</span> |&gt; boolToOption
+<span class="hljs-keyword">let</span> (|Buzz|_|) number = number |&gt; isDivisibleBy <span class="hljs-number">5</span> |&gt; boolToOption
+
+<span class="hljs-keyword">let</span> fizzBuzz = <span class="hljs-keyword">function</span>
+    | Fizz &amp; Buzz -&gt; <span class="hljs-string">&quot;FizzBuzz&quot;</span>
+    | Fizz -&gt; <span class="hljs-string">&quot;Fizz&quot;</span>
+    | Buzz -&gt; <span class="hljs-string">&quot;Buzz&quot;</span>
+    | other -&gt; string other
+</span></span></foreignObject></svg></code></pre>
+<p>→ Les 2 solutions se valent. C'est une question de style / de goût personnel.m</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="59" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Cas d'utilisation des actives patterns</h1>
+<ol>
+<li>Factoriser une guard <em>(cf. exercice précédent du fizz buzz)</em></li>
+<li>Wrapper une méthode de la BCL <em>(cf. <code>(|Regexp|_|)</code> et ci-dessous)</em></li>
+<li>Améliorer l'expressivité, aider à comprendre la logique <em>(cf. après)</em></li>
+</ol>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> (|ParsedInt|UnparsableInt|) (input: string) =
+    <span class="hljs-keyword">match</span> input <span class="hljs-keyword">with</span>
+    | _ <span class="hljs-keyword">when</span> fst (System.Int32.TryParse input) -&gt; ParsedInt(int input)
+    | _ -&gt; UnparsableInt
+
+<span class="hljs-keyword">let</span> addOneOrZero = <span class="hljs-keyword">function</span>
+    | ParsedInt i -&gt; i + <span class="hljs-number">1</span>
+    | UnparsableInt -&gt; <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">let</span> v1 = addOneOrZero <span class="hljs-string">&quot;1&quot;</span>  <span class="hljs-comment">// 2</span>
+<span class="hljs-keyword">let</span> v2 = addOneOrZero <span class="hljs-string">&quot;a&quot;</span>  <span class="hljs-comment">// 0</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="60" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Expressivité grâce aux actives patterns</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Movie</span> </span>= { Title: string; Director: string; Year: int; Studio: string }
+
+<span class="hljs-keyword">module</span> Movie =
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">private</span> boolToOption b =
+        <span class="hljs-keyword">if</span> b <span class="hljs-keyword">then</span> Some () <span class="hljs-keyword">else</span> None
+
+    <span class="hljs-keyword">let</span> (|Director|_|) director movie =
+        movie.Director = director |&gt; boolToOption
+
+    <span class="hljs-keyword">let</span> (|Studio|_|) studio movie =
+        movie.Studio = studio |&gt; boolToOption
+
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">private</span> matchYear comparator year movie =
+        (comparator movie.Year year) |&gt; boolToOption
+
+    <span class="hljs-keyword">let</span> (|After|_|) = matchYear (&gt;)
+    <span class="hljs-keyword">let</span> (|Before|_|) = matchYear (&lt;)
+    <span class="hljs-keyword">let</span> (|In|_|) = matchYear (=)
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="61" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Expressivité grâce aux actives patterns (2)</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">open</span> Movie
+
+<span class="hljs-keyword">let</span> ``Is anime rated <span class="hljs-number">10</span>/<span class="hljs-number">10</span>`` = <span class="hljs-keyword">function</span>
+    | ((After <span class="hljs-number">2001</span> &amp; Before <span class="hljs-number">2007</span>) | In <span class="hljs-number">2014</span>) &amp; Studio <span class="hljs-string">&quot;Bones&quot;</span>
+    | Director <span class="hljs-string">&quot;Hayao Miyazaki&quot;</span> -&gt; <span class="hljs-keyword">true</span>
+    | _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="62" data-marpit-pagination-total="69" style="--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Active pattern : citoyen de 1ère classe</h1>
+<p>Un active pattern ≃ fonction avec des métadonnées<br />
+→ Citoyen de 1ère classe :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// 1. Renvoyer un active pattern depuis une fonction</span>
+<span class="hljs-keyword">let</span> (|Hayao_Miyazaki|_|) movie =
+    (|Director|_|) <span class="hljs-string">&quot;Hayao Miyazaki&quot;</span> movie
+
+<span class="hljs-comment">// 2. Prendre un active pattern en paramètre -- Un peu tricky </span>
+<span class="hljs-keyword">let</span> firstItems (|Ok|_|) list =
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> loop values = <span class="hljs-keyword">function</span>
+        | Ok (item, rest) -&gt; loop (item :: values) rest
+        | _ -&gt; List.rev values
+    loop [] list
+
+<span class="hljs-keyword">let</span> (|Even|_|) = <span class="hljs-keyword">function</span>
+    | item :: rest <span class="hljs-keyword">when</span> (item % <span class="hljs-number">2</span>) = <span class="hljs-number">0</span> -&gt; Some (item, rest) | _ -&gt; None
+
+<span class="hljs-keyword">let</span> test = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>; <span class="hljs-number">4</span>; <span class="hljs-number">5</span>; <span class="hljs-number">6</span>] |&gt; firstItems (|Even|_|)  <span class="hljs-comment">// [0; 2; 4]</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="63" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="green chapter invert" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="green chapter invert" data-marpit-pagination="63" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:green chapter invert;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_diplome.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>4.</h1>
+<h2>Le    Récap’</h2>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="64" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="64" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Récap’ - Pattern matching</h1>
+<ul>
+<li>Brique fondamentale de F♯</li>
+<li>Combine &quot;comparaison de structure de données&quot; et &quot;déconstruction&quot;</li>
+<li>S'utilisent presque partout :
+<ul>
+<li><code>match expression</code> et bloc <code>function</code></li>
+<li>bloc <code>try/with</code></li>
+<li><code>let binding</code>, y.c. paramètre de fonction</li>
+</ul>
+</li>
+<li>Peut s'abstraire en fonction <code>fold</code> associée à un type union</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="65" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="65" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Récap’ - Patterns</h1>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constant • Identifier • Wilcard</td>
+<td><code>1</code>, <code>Color.Red</code> • <code>Some 1</code> • <code>_</code></td>
+</tr>
+<tr>
+<td><em>Collection</em> : Cons • List • Array</td>
+<td><code>head :: tail</code> • <code>[1; 2]</code></td>
+</tr>
+<tr>
+<td><em>Product type</em> : Record • Tuple</td>
+<td><code>{ A = a }</code> • <code>a, b</code></td>
+</tr>
+<tr>
+<td>Type Test</td>
+<td><code>:? Subtype</code></td>
+</tr>
+<tr>
+<td><em>Logique</em> : OR, AND</td>
+<td><code>1 \| 2</code>, <code>P1 &amp; P2</code></td>
+</tr>
+<tr>
+<td>Variables • Alias</td>
+<td><code>head :: _</code> • <code>(0, 0) as origin</code></td>
+</tr>
+</tbody>
+</table>
+<p>+ Les guards <code>when</code> dans les match expressions</p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="66" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="66" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Récap’ - Active Patterns</h1>
+<ul>
+<li>Extension du pattern matching</li>
+<li>Basés sur fonction + metadata → Citoyens de 1ère classe</li>
+<li>4 types : total simple/multiple, partiel (simple), paramétré</li>
+<li>Un peu tricky à comprendre mais on s'habitue vite</li>
+<li>S'utilisent pour :
+<ul>
+<li>Ajouter de la sémantique sans recourir aux types union</li>
+<li>Simplifier / factoriser des guards</li>
+<li>Wrapper des méthodes de la BCL</li>
+<li>Extraire un ensemble de données d'un objet</li>
+<li>...</li>
+</ul>
+</li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="67" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="67" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Compléments</h1>
+<p><img class="emoji" draggable="false" alt="📜" src="https://twemoji.maxcdn.com/2/svg/1f4dc.svg" data-marp-twemoji=""/> Match expressions<br />
+<a href="https://fsharpforfunandprofit.com/posts/match-expression/">https://fsharpforfunandprofit.com/posts/match-expression/</a></p>
+<p><img class="emoji" draggable="false" alt="📜" src="https://twemoji.maxcdn.com/2/svg/1f4dc.svg" data-marp-twemoji=""/> Domain modelling et pattern matching<br />
+<a href="https://fsharpforfunandprofit.com/posts/roman-numerals/">https://fsharpforfunandprofit.com/posts/roman-numerals/</a></p>
+<p><img class="emoji" draggable="false" alt="📜" src="https://twemoji.maxcdn.com/2/svg/1f4dc.svg" data-marp-twemoji=""/> Recursive types and folds <em>(6 articles)</em><br />
+<a href="https://fsharpforfunandprofit.com/series/recursive-types-and-folds/">https://fsharpforfunandprofit.com/series/recursive-types-and-folds/</a></p>
+<p><img class="emoji" draggable="false" alt="📹" src="https://twemoji.maxcdn.com/2/svg/1f4f9.svg" data-marp-twemoji=""/> A Deep Dive into Active Patterns<br />
+<a href="https://www.youtube.com/watch?v=Q5KO-UDx5eA">https://www.youtube.com/watch?v=Q5KO-UDx5eA</a><br />
+<a href="https://github.com/pblasucci/DeepDiveAP">https://github.com/pblasucci/DeepDiveAP</a></p>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="68" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" data-marpit-pagination="68" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Exercices</h1>
+<p>Les exercices suivants sur <a href="https://exercism.org/tracks/fsharp">https://exercism.org/tracks/fsharp</a><br />
+peuvent se résoudre avec des active patterns :</p>
+<ul>
+<li>Collatz Conjecture <em>(easy)</em></li>
+<li>Darts <em>(easy)</em></li>
+<li>Queen Attack <em>(medium)</em></li>
+<li>Robot Name <em>(medium)</em></li>
+</ul>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="69" data-footer="Formation F♯ 5.0 • Pattern matching" data-paginate="true" data-class="end invert lead" data-theme="6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp" class="end invert lead" data-marpit-pagination="69" data-marpit-pagination-total="69" style="--footer:Formation F♯ 5.0 • Pattern matching;--paginate:true;--class:end invert lead;--theme:6ka3z4buz1g3ocndgoxx66krtjyyubhl8yx2qb4gjp;">
+<h1>Merci <img class="emoji" draggable="false" alt="🙏" src="https://twemoji.maxcdn.com/2/svg/1f64f.svg" data-marp-twemoji=""/></h1>
+<footer>Formation F♯ 5.0 • Pattern matching</footer>
+</section>
+<script>!function(){"use strict";function t(t){Array.from(document.querySelectorAll("svg[data-marpit-svg]"),e=>{const{children:r,clientHeight:i,clientWidth:o,viewBox:n}=e;e.style.transform||(e.style.transform="translateZ(0)");const a=t||e.currentScale||1,s=n.baseVal.width/a,l=n.baseVal.height/a,c=Math.min(i/l,o/s);for(let t=0;t<r.length;t+=1){const{style:e}=r[t].firstChild;e.position||(e.position="fixed"),e.transformOrigin||(e.transformOrigin="0 0"),e.transform=`scale(${c}) translateZ(0)`}})}const e=(t,e,r)=>{if(t.getAttribute(e)!==r)return t.setAttribute(e,r),!0};function r(i=!0){for(const e of"Apple Computer, Inc."===navigator.vendor?[t]:[])e();Array.from(document.querySelectorAll('svg[data-marp-fitting="svg"]'),t=>{const r=t.firstChild,i=r.firstChild,{scrollWidth:o,scrollHeight:n}=i;let a,s=1;if(t.hasAttribute("data-marp-fitting-code")&&(a=t.parentElement.parentElement),t.hasAttribute("data-marp-fitting-math")&&(a=t.parentElement),a){const t=getComputedStyle(a),e=Math.ceil(a.clientWidth-parseFloat(t.paddingLeft)-parseFloat(t.paddingRight));e&&(s=e)}const l=Math.max(o,s),c=Math.max(n,1),d=`0 0 ${l} ${c}`;e(r,"width",""+l),e(r,"height",""+c),e(t,"preserveAspectRatio",getComputedStyle(t).getPropertyValue("--preserve-aspect-ratio")||"xMinYMin meet"),e(t,"viewBox",d)&&t.classList.toggle("__reflow__")}),i&&window.requestAnimationFrame(()=>r(i))}!function(){if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");window.marpCoreBrowserScript?console.warn("Marp Core's browser script has already executed."):(Object.defineProperty(window,"marpCoreBrowserScript",{value:!0}),r())}()}();
+</script></foreignObject></svg></div><script>!function(){"use strict";var e=function(e,t){var n,r=1===(e.parent||e).nodeType?e.parent||e:document.querySelector(e.parent||e),s=[].filter.call("string"==typeof e.slides?r.querySelectorAll(e.slides):e.slides||r.children,(function(e){return"SCRIPT"!==e.nodeName})),a={},o=function(e,t){return(t=t||{}).index=s.indexOf(e),t.slide=e,t},i=function(e,t){a[e]=(a[e]||[]).filter((function(e){return e!==t}))},l=function(e,t){return(a[e]||[]).reduce((function(e,n){return e&&!1!==n(t)}),!0)},c=function(e,t){s[e]&&(n&&l("deactivate",o(n,t)),n=s[e],l("activate",o(n,t)))},d=function(e,t){var r=s.indexOf(n)+e;l(e>0?"next":"prev",o(n,t))&&c(r,t)},u={off:i,on:function(e,t){return(a[e]||(a[e]=[])).push(t),i.bind(null,e,t)},fire:l,slide:function(e,t){if(!arguments.length)return s.indexOf(n);l("slide",o(s[e],t))&&c(e,t)},next:d.bind(null,1),prev:d.bind(null,-1),parent:r,slides:s,destroy:function(e){l("destroy",o(n,e)),a={}}};return(t||[]).forEach((function(e){e(u)})),n||c(0),u};function t(e){e.parent.classList.add("bespoke-marp-parent"),e.slides.map(e=>e.classList.add("bespoke-marp-slide")),e.on("activate",t=>{const n=!t.slide.classList.contains("bespoke-marp-active");e.slides.map(e=>{e.classList.remove("bespoke-marp-active")}),t.slide.classList.add("bespoke-marp-active"),n&&(t.slide.classList.add("bespoke-marp-active-ready"),document.body.clientHeight,t.slide.classList.remove("bespoke-marp-active-ready"))})}function n(e=2e3){return t=>{let n;function r(){n&&clearTimeout(n),n=setTimeout(()=>{t.parent.classList.add("bespoke-marp-inactive")},e),t.parent.classList.remove("bespoke-marp-inactive")}document.addEventListener("mousedown",r),document.addEventListener("mousemove",r),document.addEventListener("touchend",r),setTimeout(r,0)}}const r=["AUDIO","BUTTON","INPUT","SELECT","TEXTAREA","VIDEO"];function s(e){e.parent.addEventListener("keydown",e=>{if(!e.target)return;const t=e.target;(r.includes(t.nodeName)||"true"===t.contentEditable)&&e.stopPropagation()})}function a(e){window.addEventListener("load",()=>{for(const t of e.slides){const e=t.querySelector("[data-marp-fitting]")?"":"hideable";t.setAttribute("data-bespoke-marp-load",e)}})}function o(e){let t=0,n=0;Object.defineProperty(e,"fragments",{enumerable:!0,value:e.slides.map(e=>[null,...e.querySelectorAll("[data-marpit-fragment]")])});const r=r=>void 0!==e.fragments[t][n+r],s=(r,s)=>{t=r,n=s,e.fragments.forEach((e,t)=>{e.forEach((e,n)=>{if(null==e)return;const a=t<r||t===r&&n<=s;e.setAttribute("data-bespoke-marp-fragment",a?"active":"inactive"),t===r&&n===s?e.setAttribute("data-bespoke-marp-current-fragment","current"):e.removeAttribute("data-bespoke-marp-current-fragment")})}),e.fragmentIndex=s;const a={slide:e.slides[r],index:r,fragments:e.fragments[r],fragmentIndex:s};e.fire("fragment",a)};e.on("next",()=>{if(r(1))return s(t,n+1),!1;const a=t+1;e.fragments[a]&&s(a,0)}),e.on("prev",()=>{if(r(-1))return s(t,n-1),!1;const a=t-1;e.fragments[a]&&s(a,e.fragments[a].length-1)}),e.on("slide",({index:t,fragment:n})=>{let r=0;if(void 0!==n){const s=e.fragments[t];if(s){const{length:e}=s;r=-1===n?e-1:Math.min(Math.max(n,0),e-1)}}s(t,r)}),s(0,0)}var i,l=function(e,t,n){return e(n={path:t,exports:{},require:function(e,t){return function(){throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs")}(null==t&&n.path)}},n.exports),n.exports}((function(e){
+/*!
+  * screenfull
+  * v5.0.2 - 2020-02-13
+  * (c) Sindre Sorhus; MIT License
+  */
+!function(){var t="undefined"!=typeof window&&void 0!==window.document?window.document:{},n=e.exports,r=function(){for(var e,n=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],r=0,s=n.length,a={};r<s;r++)if((e=n[r])&&e[1]in t){for(r=0;r<e.length;r++)a[n[0][r]]=e[r];return a}return!1}(),s={change:r.fullscreenchange,error:r.fullscreenerror},a={request:function(e){return new Promise(function(n,s){var a=function(){this.off("change",a),n()}.bind(this);this.on("change",a);var o=(e=e||t.documentElement)[r.requestFullscreen]();o instanceof Promise&&o.then(a).catch(s)}.bind(this))},exit:function(){return new Promise(function(e,n){if(this.isFullscreen){var s=function(){this.off("change",s),e()}.bind(this);this.on("change",s);var a=t[r.exitFullscreen]();a instanceof Promise&&a.then(s).catch(n)}else e()}.bind(this))},toggle:function(e){return this.isFullscreen?this.exit():this.request(e)},onchange:function(e){this.on("change",e)},onerror:function(e){this.on("error",e)},on:function(e,n){var r=s[e];r&&t.addEventListener(r,n,!1)},off:function(e,n){var r=s[e];r&&t.removeEventListener(r,n,!1)},raw:r};r?(Object.defineProperties(a,{isFullscreen:{get:function(){return Boolean(t[r.fullscreenElement])}},element:{enumerable:!0,get:function(){return t[r.fullscreenElement]}},isEnabled:{enumerable:!0,get:function(){return Boolean(t[r.fullscreenEnabled])}}}),n?e.exports=a:window.screenfull=a):n?e.exports={isEnabled:!1}:window.screenfull={isEnabled:!1}}()}));function c(e){e.fullscreen=()=>{l.isEnabled&&l.toggle(document.body)},document.addEventListener("keydown",t=>{70!==t.which&&122!==t.which||t.altKey||t.ctrlKey||t.metaKey||!l.isEnabled||(e.fullscreen(),t.preventDefault())})}function d(e={}){const t=Object.assign({interval:200},e);return e=>{document.addEventListener("keydown",t=>{(32===t.which&&t.shiftKey||33===t.which||37===t.which||38===t.which)&&e.prev(),(32===t.which&&!t.shiftKey||34===t.which||39===t.which||40===t.which)&&e.next(),35===t.which&&e.slide(e.slides.length-1,{fragment:-1}),36===t.which&&e.slide(0)});let n,r,s=0;e.parent.addEventListener("wheel",a=>{let o=!1;const l=(e,t)=>{e&&(o=o||function(e,t){return function(e,t){const n=t===i.X?"Width":"Height";return e["client"+n]<e["scroll"+n]}(e,t)&&function(e,t){const{overflow:n}=e,r=e["overflow"+t];return"auto"===n||"scroll"===n||"auto"===r||"scroll"===r}(getComputedStyle(e),t)}(e,t)),(null==e?void 0:e.parentElement)&&l(e.parentElement,t)};if(0!==a.deltaX&&l(a.target,i.X),0!==a.deltaY&&l(a.target,i.Y),o)return;a.preventDefault(),r&&clearTimeout(r),r=setTimeout(()=>{n=0},t.interval);const c=Date.now()-s<t.interval,d=Math.sqrt(Math.pow(a.deltaX,2)+Math.pow(a.deltaY,2)),u=d<=n;if(n=d,c||u)return;let f;(a.deltaX>0||a.deltaY>0)&&(f="next"),(a.deltaX<0||a.deltaY<0)&&(f="prev"),f&&(e[f](),s=Date.now())})}}!function(e){e.X="X",e.Y="Y"}(i||(i={}));const u=(...e)=>history.replaceState(...e);var f;!function(e){e.Normal="",e.Presenter="presenter",e.Next="next"}(f||(f={}));const p=(e,{protocol:t,host:n,pathname:r,hash:s}=location)=>{const a=e.toString();return`${t}//${n}${r}${a?"?":""}${a}${s}`},m=()=>{switch(document.body.getAttribute("data-bespoke-view")){case f.Normal:return f.Normal;case f.Presenter:return f.Presenter;case f.Next:return f.Next;default:throw new Error("View mode is not assigned.")}},h=e=>new URLSearchParams(location.search).get(e),g=(e,t={})=>{const n=Object.assign({location:location,setter:u},t),r=new URLSearchParams(n.location.search);for(const t of Object.keys(e)){const n=e[t];"string"==typeof n?r.set(t,n):r.delete(t)}try{n.setter(null,document.title,p(r,n.location))}catch(e){console.error(e)}},b={available:(()=>{try{return localStorage.setItem("bespoke-marp","bespoke-marp"),localStorage.removeItem("bespoke-marp"),!0}catch(e){return console.warn("Warning: Using localStorage is restricted in the current host so some features may not work."),!1}})(),get:e=>{try{return localStorage.getItem(e)}catch(e){return null}},set:(e,t)=>{try{return localStorage.setItem(e,t),!0}catch(e){return!1}},remove:e=>{try{return localStorage.removeItem(e),!0}catch(e){return!1}}};function v(e=".bespoke-marp-osc"){const t=document.querySelector(e);if(!t)return()=>{};const n=(e,n)=>{t.querySelectorAll(`[data-bespoke-marp-osc=${JSON.stringify(e)}]`).forEach(n)};return l.isEnabled||n("fullscreen",e=>e.style.display="none"),b.available||n("presenter",e=>{e.disabled=!0,e.title="Presenter view is disabled due to restricted localStorage."}),e=>{t.addEventListener("click",t=>{if(t.target instanceof HTMLElement){const{bespokeMarpOsc:n}=t.target.dataset;switch(n&&t.target.blur(),n){case"next":e.next();break;case"prev":e.prev();break;case"fullscreen":"function"==typeof e.fullscreen&&l.isEnabled&&e.fullscreen();break;case"presenter":e.openPresenterView()}}}),e.parent.appendChild(t),e.on("activate",({index:t})=>{n("page",n=>n.textContent=`Page ${t+1} of ${e.slides.length}`)}),e.on("fragment",({index:t,fragments:r,fragmentIndex:s})=>{n("prev",e=>e.disabled=0===t&&0===s),n("next",n=>n.disabled=t===e.slides.length-1&&s===r.length-1)}),l.isEnabled&&l.onchange(()=>n("fullscreen",e=>e.classList.toggle("exit",l.isEnabled&&l.isFullscreen)))}}function w(){const e=Math.max(Math.floor(.85*window.innerWidth),640),t=Math.max(Math.floor(.85*window.innerHeight),360);return window.open(this.presenterUrl,"bespoke-marp-presenter-"+this.syncKey,`width=${e},height=${t},menubar=no,toolbar=no`)}function y(){const e=new URLSearchParams(location.search);return e.set("view","presenter"),e.set("sync",this.syncKey),p(e)}var x=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"];let E=e=>String(e).replace(/[&<>"']/g,e=>`&${k[e]};`),k={"&":"amp","<":"lt",">":"gt",'"':"quot","'":"apos"},L="dangerouslySetInnerHTML",S={className:"class",htmlFor:"for"},I={};function P(e,t){let n=[],r="";t=t||{};for(let e=arguments.length;e-- >2;)n.push(arguments[e]);if("function"==typeof e)return t.children=n.reverse(),e(t);if(e){if(r+="<"+e,t)for(let e in t)!1!==t[e]&&null!=t[e]&&e!==L&&(r+=` ${S[e]?S[e]:E(e)}="${E(t[e])}"`);r+=">"}if(-1===x.indexOf(e)){if(t[L])r+=t[L].__html;else for(;n.length;){let e=n.pop();if(e)if(e.pop)for(let t=e.length;t--;)n.push(e[t]);else r+=!0===I[e]?e:E(e)}r+=e?`</${e}>`:""}return I[r]=!0,r}const M=({children:e})=>P(null,null,...e),N="bespoke-marp-presenter-container",F="bespoke-marp-presenter-next",O="bespoke-marp-presenter-next-container",q="bespoke-marp-presenter-note-container",T="bespoke-marp-presenter-info-container",C="bespoke-marp-presenter-info-page",$="bespoke-marp-presenter-info-page-text",j="bespoke-marp-presenter-info-page-prev",A="bespoke-marp-presenter-info-page-next",K="bespoke-marp-presenter-info-time",R="bespoke-marp-presenter-info-timer";function U(e){const{title:t}=document;document.title="[Presenter view]"+(t?" - "+t:"");const n={},r=e=>(n[e]=n[e]||document.querySelector("."+e),n[e]);document.body.appendChild((e=>{const t=document.createElement("div");return t.className=N,t.appendChild(e),t.insertAdjacentHTML("beforeend",P(M,null,P("div",{class:O},P("iframe",{class:F,src:"?view=next"})),P("div",{class:q}),P("div",{class:T},P("div",{class:C},P("button",{class:j,tabindex:"-1",title:"Previous"},"Previous"),P("span",{class:$}),P("button",{class:A,tabindex:"-1",title:"Next"},"Next")),P("time",{class:K,title:"Current time"}),P("div",{class:R})))),t})(e.parent)),(e=>{r(O).addEventListener("click",()=>e.next());const t=r(F),n=(s=t,(e,t)=>s.contentWindow.postMessage(`navigate:${e},${t}`,"null"===window.origin?"*":window.origin));var s;t.addEventListener("load",()=>{r(O).classList.add("active"),n(e.slide(),e.fragmentIndex),e.on("fragment",({index:e,fragmentIndex:t})=>n(e,t))});const a=document.querySelectorAll(".bespoke-marp-note");a.forEach(e=>{e.addEventListener("keydown",e=>e.stopPropagation()),r(q).appendChild(e)}),e.on("activate",()=>a.forEach(t=>t.classList.toggle("active",t.dataset.index==e.slide()))),e.on("activate",({index:t})=>{r($).textContent=`${t+1} / ${e.slides.length}`});const o=r(j),i=r(A);o.addEventListener("click",()=>{o.blur(),e.prev()}),i.addEventListener("click",()=>{i.blur(),e.next()}),e.on("fragment",({index:t,fragments:n,fragmentIndex:r})=>{o.disabled=0===t&&0===r,i.disabled=t===e.slides.length-1&&r===n.length-1});const l=()=>r(K).textContent=(new Date).toLocaleTimeString();l(),setInterval(l,250)})(e)}function D(e){const t=m();return t===f.Next&&e.appendChild(document.createElement("span")),e=>{t===f.Normal&&function(e){if(!(e=>e.syncKey&&"string"==typeof e.syncKey)(e))throw new Error("The current instance of Bespoke.js is invalid for Marp bespoke presenter plugin.");Object.defineProperties(e,{openPresenterView:{enumerable:!0,value:w},presenterUrl:{enumerable:!0,get:y}}),b.available&&document.addEventListener("keydown",t=>{80!==t.which||t.altKey||t.ctrlKey||t.metaKey||(t.preventDefault(),e.openPresenterView())})}(e),t===f.Presenter&&U(e),t===f.Next&&function(e){const t=t=>{if(t.origin!==window.origin)return;const[n,r]=t.data.split(":");if("navigate"===n){const[t,n]=r.split(",");let s=Number.parseInt(t,10),a=Number.parseInt(n,10)+1;a>=e.fragments[s].length&&(s+=1,a=0),e.slide(s,{fragment:a})}};window.addEventListener("message",t),e.on("destroy",()=>window.removeEventListener("message",t))}(e)}}function V(e){e.on("activate",t=>{document.querySelectorAll(".bespoke-progress-bar").forEach(n=>{n.style.flexBasis=100*t.index/(e.slides.length-1)+"%"})})}const X=e=>{const t=Number.parseInt(e,10);return Number.isNaN(t)?null:t};function Y(e={}){const t=Object.assign({history:!0},e);return e=>{let n=!0;const r=e=>{const t=n;try{return n=!0,e()}finally{n=t}},s=(t={fragment:!0})=>{((t,n)=>{const{fragments:r,slides:s}=e,a=Math.max(0,Math.min(t,s.length-1)),o=Math.max(0,Math.min(n||0,r[a].length-1));a===e.slide()&&o===e.fragmentIndex||e.slide(a,{fragment:o})})((X(location.hash.slice(1))||1)-1,t.fragment?X(h("f")||""):null)};e.on("fragment",({index:e,fragmentIndex:r})=>{n||g({f:0===r||r.toString()},{location:Object.assign(Object.assign({},location),{hash:"#"+(e+1)}),setter:(...e)=>t.history?history.pushState(...e):history.replaceState(...e)})}),setTimeout(()=>{s(),window.addEventListener("hashchange",()=>r(()=>{s({fragment:!1}),g({f:void 0})})),window.addEventListener("popstate",()=>{n||r(()=>s())}),n=!1},0)}}function B(e={}){const t=e.key||((e=21)=>{let t="",n=crypto.getRandomValues(new Uint8Array(e));for(;e--;){let r=63&n[e];t+=r<36?r.toString(36):r<62?(r-26).toString(36).toUpperCase():r<63?"_":"-"}return t})(),n="bespoke-marp-sync-"+t,r=()=>{const e=b.get(n);return e?JSON.parse(e):Object.create(null)},s=e=>{const t=r(),s=Object.assign(Object.assign({},t),e(t));return b.set(n,JSON.stringify(s)),s};return s(e=>({reference:(e.reference||0)+1})),e=>{Object.defineProperty(e,"syncKey",{value:t,enumerable:!0});let a=!0;setTimeout(()=>{e.on("fragment",e=>{a&&s(()=>({index:e.index,fragmentIndex:e.fragmentIndex}))})},0),window.addEventListener("storage",t=>{if(t.key===n&&t.oldValue&&t.newValue){const n=JSON.parse(t.oldValue),r=JSON.parse(t.newValue);if(n.index!==r.index||n.fragmentIndex!==r.fragmentIndex)try{a=!1,e.slide(r.index,{fragment:r.fragmentIndex})}finally{a=!0}}}),e.on("destroy",()=>{const{reference:e}=r();void 0===e||e<=1?b.remove(n):s(()=>({reference:e-1}))})}}function z(e={}){const t=Object.assign({slope:Math.tan(-35*Math.PI/180),swipeThreshold:30},e);return e=>{let n;const r=e.parent,s=e=>{const t=r.getBoundingClientRect();return{x:e.pageX-(t.left+t.right)/2,y:e.pageY-(t.top+t.bottom)/2}};r.addEventListener("touchstart",e=>{n=1===e.touches.length?s(e.touches[0]):void 0},{passive:!0}),r.addEventListener("touchmove",e=>{if(n)if(1===e.touches.length){e.preventDefault();const t=s(e.touches[0]),r=t.x-n.x,a=t.y-n.y;n.delta=Math.sqrt(Math.pow(Math.abs(r),2)+Math.pow(Math.abs(a),2)),n.radian=Math.atan2(r,a)}else n=void 0}),r.addEventListener("touchend",r=>{if(n){if(n.delta&&n.delta>=t.swipeThreshold){let s=n.radian-t.slope;s=(s+Math.PI)%(2*Math.PI)-Math.PI,e[s<0?"next":"prev"](),r.stopPropagation()}n=void 0}},{passive:!0})}}const H=[f.Normal,f.Presenter,f.Next];!function(r=document.getElementById("p")){document.body.setAttribute("data-bespoke-view",(()=>{switch(h("view")){case"next":return f.Next;case"presenter":return f.Presenter;default:return f.Normal}})());const i=(e=>{const t=h(e);return g({[e]:void 0}),t})("sync")||void 0,l=!1,u=!0,p=e(r,((...e)=>{const t=H.findIndex(e=>m()===e);if(t<0)throw new Error("Invalid view");return e.map(([e,n])=>e[t]&&n).filter(e=>e)})([[u,u,l],B({key:i})],[[u,u,u],D(r)],[[u,u,l],s],[[u,u,u],t],[[u,l,l],n()],[[u,u,u],a],[[u,u,u],Y({history:!1})],[[u,u,l],d()],[[u,u,l],c],[[u,l,l],V],[[u,u,l],z()],[[u,l,l],v()],[[u,u,u],o]));window.addEventListener("beforeunload",()=>g({sync:p.syncKey})),window.addEventListener("unload",()=>p.destroy())}()}();
+</script></body></html>

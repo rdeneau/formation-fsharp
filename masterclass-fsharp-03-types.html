@@ -1,0 +1,1342 @@
+<!DOCTYPE html><html lang="en-US"><head><title>Formation F♯ 5.0 • Les types</title><meta property="og:title" content="Formation F♯ 5.0 • Les types"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:transparent;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTBMMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMzIgOTBsNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJhIiB4PSIxMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgcng9IjUuNjciLz48cGF0aCBjbGFzcz0iYSIgZD0iTTQwIDcwSDIwVjUwbTIwIDBMMjAgNzBtNDAtNDBoMjB2MjBtLTIwIDBsMjAtMjAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IGNsYXNzPSJhIiB4PSIxMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgcng9IjUuNjciLz48cGF0aCBjbGFzcz0iYSIgZD0iTTIwIDUwaDIwdjIwbS0yMCAwbDIwLTIwbTQwIDBINjBWMzBtMjAgMEw2MCA1MCIvPjwvc3ZnPg==")}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS13aWR0aDo1cHh9PC9zdHlsZT48L2RlZnM+PHBhdGggY2xhc3M9ImEiIGQ9Ik0yMCA2MGgtNWE1IDUgMCAwMS01LTVWMjBhNSA1IDAgMDE1LTVoNjBhNSA1IDAgMDE1IDV2NU0zMCA4NWg2MCIvPjxyZWN0IHg9IjMwIiB5PSIzNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIi8+PHJlY3QgY2xhc3M9ImEiIHg9IjMwIiB5PSIzNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQwIiByeD0iNSIvPjxwYXRoIGNsYXNzPSJhIiBkPSJNNDAgNTBoNDBNNDAgNjBoMzAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide.bespoke-marp-active{opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{-webkit-animation-name:__bespoke_marp__!important;animation-name:__bespoke_marp__!important}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}[data-bespoke-marp-fragment=inactive]{visibility:hidden}body[data-bespoke-view=""] .bespoke-marp-parent,body[data-bespoke-view=next] .bespoke-marp-parent{bottom:0;left:0;position:absolute;right:0;top:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc{background:rgba(0,0,0,.65);border-radius:7px;bottom:50px;color:#fff;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap;z-index:1;will-change:transform}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>*,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>*{margin-left:6px}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:first-child,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:first-child{margin-left:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}body[data-bespoke-view=""] svg.bespoke-marp-slide,body[data-bespoke-view=next] svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+.bespoke-marp-parent{top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{flex:0 0 0;background:#0288d1;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:transparent}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{height:100%;left:0;position:absolute;top:0;width:100%;display:grid;grid-template-columns:2fr 1fr;grid-template-rows:minmax(140px,1fr) 2fr 3em;grid-template-areas:"current next" "current note" "info    note"}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent{grid-area:current;position:relative;overflow:hidden}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide{height:calc(100% - 40px);left:20px;position:absolute;pointer-events:none;top:20px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{-webkit-filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:transparent;border:0;display:block;-webkit-filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;position:absolute;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;top:20px;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#ddd;grid-area:note}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{margin:20px;width:calc(100% - 40px);height:calc(100% - 40px);box-sizing:border-box;overflow:auto;padding-right:3px;white-space:pre-wrap;word-wrap:break-word;scrollbar-width:thin;scrollbar-color:hsla(0,0%,86.7%,.5) transparent}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:transparent}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:hsla(0,0%,86.7%,.5);border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#ddd;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{display:block;box-sizing:border-box;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page .bespoke-marp-presenter-info-page-text{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}}@media print{.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>@charset "UTF-8";@import url("https://fonts.googleapis.com/css?family=Lato:400,900|Roboto+Mono:400,700&display=swap");@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap");@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");div#p>svg>foreignObject>section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center}div#p>svg>foreignObject>section:after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#p>svg>foreignObject>section:not([data-marpit-pagination]):after{display:none}/* Normalization */div#p>svg>foreignObject>section h1{font-size:2em;margin:0.67em 0}div#p>svg>foreignObject>section video::-webkit-media-controls{will-change:transform}@page{size:1280px 720px;margin:0}@media print{body,html{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#p>svg>foreignObject>section{page-break-before:always;break-before:page}div#p>svg>foreignObject>section,div#p>svg>foreignObject>section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;transition:none!important}div#p>svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}
+/*!
+ * Marp / Marpit Gaia theme.
+ *
+ * @theme gaia
+ * @author Yuki Hattori
+ *
+ * @auto-scaling true
+ * @size 4:3 960px 720px
+ */div#p>svg>foreignObject>section .hljs{display:block;overflow-x:auto;padding:.5em;background:#000;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-comment,div#p>svg>foreignObject>section .hljs-quote{color:#aeaeae;font-style:italic}div#p>svg>foreignObject>section .hljs-keyword,div#p>svg>foreignObject>section .hljs-selector-tag,div#p>svg>foreignObject>section .hljs-type{color:#e28964}div#p>svg>foreignObject>section .hljs-string{color:#65b042}div#p>svg>foreignObject>section .hljs-subst{color:#daefa3}div#p>svg>foreignObject>section .hljs-link,div#p>svg>foreignObject>section .hljs-regexp{color:#e9c062}div#p>svg>foreignObject>section .hljs-name,div#p>svg>foreignObject>section .hljs-section,div#p>svg>foreignObject>section .hljs-tag,div#p>svg>foreignObject>section .hljs-title{color:#89bdff}div#p>svg>foreignObject>section .hljs-class .hljs-title,div#p>svg>foreignObject>section .hljs-doctag{text-decoration:underline}div#p>svg>foreignObject>section .hljs-bullet,div#p>svg>foreignObject>section .hljs-number,div#p>svg>foreignObject>section .hljs-symbol{color:#3387cc}div#p>svg>foreignObject>section .hljs-params,div#p>svg>foreignObject>section .hljs-template-variable,div#p>svg>foreignObject>section .hljs-variable{color:#3e87e3}div#p>svg>foreignObject>section .hljs-attribute{color:#cda869}div#p>svg>foreignObject>section .hljs-meta{color:#8996a8}div#p>svg>foreignObject>section .hljs-formula{background-color:#0e2231;color:#f8f8f8;font-style:italic}div#p>svg>foreignObject>section .hljs-addition{background-color:#253b22;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-deletion{background-color:#420e09;color:#f8f8f8}div#p>svg>foreignObject>section .hljs-selector-class{color:#9b703f}div#p>svg>foreignObject>section .hljs-selector-id{color:#8b98ab}div#p>svg>foreignObject>section .hljs-emphasis{font-style:italic}div#p>svg>foreignObject>section .hljs-strong{font-weight:700}div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{max-height:580px}div#p>svg>foreignObject>section h1,div#p>svg>foreignObject>section h2,div#p>svg>foreignObject>section h3,div#p>svg>foreignObject>section h4,div#p>svg>foreignObject>section h5,div#p>svg>foreignObject>section h6{margin:.5em 0 0}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{font-weight:inherit}div#p>svg>foreignObject>section h1{font-size:1.8em}div#p>svg>foreignObject>section h2{font-size:1.5em}div#p>svg>foreignObject>section h3{font-size:1.3em}div#p>svg>foreignObject>section h4{font-size:1.1em}div#p>svg>foreignObject>section h5{font-size:1em}div#p>svg>foreignObject>section h6{font-size:.9em}div#p>svg>foreignObject>section blockquote,div#p>svg>foreignObject>section p{margin:1em 0 0}div#p>svg>foreignObject>section ol>li,div#p>svg>foreignObject>section ul>li{margin:.3em 0 0}div#p>svg>foreignObject>section ol>li>p,div#p>svg>foreignObject>section ul>li>p{margin:.6em 0 0}div#p>svg>foreignObject>section code{display:inline-block;font-family:Roboto Mono,monospace;font-size:.8em;letter-spacing:0;margin:-.1em .15em;padding:.1em .2em;vertical-align:baseline}div#p>svg>foreignObject>section pre{display:block;margin:1em 0 0;min-height:1em;overflow:visible}div#p>svg>foreignObject>section pre code{box-sizing:border-box;margin:0;min-width:100%;padding:.5em;font-size:.7em}div#p>svg>foreignObject>section pre code svg[data-marp-fitting=svg]{max-height:calc(580px - 1em)}div#p>svg>foreignObject>section blockquote{margin:1em 0 0;padding:0 1em;position:relative}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before{content:"“";display:block;font-family:Times New Roman,serif;font-weight:700;position:absolute}div#p>svg>foreignObject>section blockquote:before{top:0;left:0}div#p>svg>foreignObject>section blockquote:after{right:0;bottom:0;transform:rotate(180deg)}div#p>svg>foreignObject>section blockquote>:first-child{margin-top:0}div#p>svg>foreignObject>section mark{background:transparent}div#p>svg>foreignObject>section table{border-spacing:0;border-collapse:collapse;margin:1em 0 0}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{padding:.2em .4em;border-width:1px;border-style:solid}div#p>svg>foreignObject>section{background-image:linear-gradient(135deg,hsla(0,0%,53.3%,0),hsla(0,0%,53.3%,.02) 50%,hsla(0,0%,100%,0) 0,hsla(0,0%,100%,.05));font-size:35px;font-family:Lato,Avenir Next,Avenir,Trebuchet MS,Segoe UI,sans-serif;height:720px;line-height:1.35;letter-spacing:1.25px;padding:70px;width:1280px;word-wrap:break-word;color:#455a64;background-color:#fff8e1}div#p>svg>foreignObject>section{--marpit-root-font-size:35px}div#p>svg>foreignObject>section>:first-child,div#p>svg>foreignObject>section>header:first-child+*{margin-top:0}div#p>svg>foreignObject>section a,div#p>svg>foreignObject>section mark{color:#0288d1}div#p>svg>foreignObject>section code{background:#6a7a7d;color:#fff8e1}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{color:#0288d1}div#p>svg>foreignObject>section pre>code{background:#455a64}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header,div#p>svg>foreignObject>section section:after{color:#6a7a7d}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{border-color:#455a64}div#p>svg>foreignObject>section table thead th{background:#455a64;color:#fff8e1}div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) th{background:rgba(69,90,100,.1)}div#p>svg>foreignObject>section.invert{color:#fff8e1;background-color:#455a64}div#p>svg>foreignObject>section.invert a,div#p>svg>foreignObject>section.invert mark{color:#81d4fa}div#p>svg>foreignObject>section.invert code{background:#dad8c8;color:#455a64}div#p>svg>foreignObject>section.invert h1 strong,div#p>svg>foreignObject>section.invert h2 strong,div#p>svg>foreignObject>section.invert h3 strong,div#p>svg>foreignObject>section.invert h4 strong,div#p>svg>foreignObject>section.invert h5 strong,div#p>svg>foreignObject>section.invert h6 strong{color:#81d4fa}div#p>svg>foreignObject>section.invert pre>code{background:#fff8e1}div#p>svg>foreignObject>section.invert blockquote:after,div#p>svg>foreignObject>section.invert blockquote:before,div#p>svg>foreignObject>section.invert footer,div#p>svg>foreignObject>section.invert header,div#p>svg>foreignObject>section.invert section:after{color:#dad8c8}div#p>svg>foreignObject>section.invert table td,div#p>svg>foreignObject>section.invert table th{border-color:#fff8e1}div#p>svg>foreignObject>section.invert table thead th{background:#fff8e1;color:#455a64}div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) th{background:rgba(255,248,225,.1)}div#p>svg>foreignObject>section.gaia{color:#fff8e1;background-color:#0288d1}div#p>svg>foreignObject>section.gaia a,div#p>svg>foreignObject>section.gaia mark{color:#81d4fa}div#p>svg>foreignObject>section.gaia code{background:#cce2de;color:#0288d1}div#p>svg>foreignObject>section.gaia h1 strong,div#p>svg>foreignObject>section.gaia h2 strong,div#p>svg>foreignObject>section.gaia h3 strong,div#p>svg>foreignObject>section.gaia h4 strong,div#p>svg>foreignObject>section.gaia h5 strong,div#p>svg>foreignObject>section.gaia h6 strong{color:#81d4fa}div#p>svg>foreignObject>section.gaia pre>code{background:#fff8e1}div#p>svg>foreignObject>section.gaia blockquote:after,div#p>svg>foreignObject>section.gaia blockquote:before,div#p>svg>foreignObject>section.gaia footer,div#p>svg>foreignObject>section.gaia header,div#p>svg>foreignObject>section.gaia section:after{color:#cce2de}div#p>svg>foreignObject>section.gaia table td,div#p>svg>foreignObject>section.gaia table th{border-color:#fff8e1}div#p>svg>foreignObject>section.gaia table thead th{background:#fff8e1;color:#0288d1}div#p>svg>foreignObject>section.gaia table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.gaia table tbody>tr:nth-child(odd) th{background:rgba(255,248,225,.1)}div#p>svg>foreignObject>section.lead{display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:center}div#p>svg>foreignObject>section.lead h1,div#p>svg>foreignObject>section.lead h2,div#p>svg>foreignObject>section.lead h3,div#p>svg>foreignObject>section.lead h4,div#p>svg>foreignObject>section.lead h5,div#p>svg>foreignObject>section.lead h6{text-align:center}div#p>svg>foreignObject>section.lead h1 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h2 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h3 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h4 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h5 svg[data-marp-fitting=svg],div#p>svg>foreignObject>section.lead h6 svg[data-marp-fitting=svg]{--preserve-aspect-ratio:xMidYMid meet}div#p>svg>foreignObject>section.lead p{text-align:center}div#p>svg>foreignObject>section.lead blockquote>h1,div#p>svg>foreignObject>section.lead blockquote>h2,div#p>svg>foreignObject>section.lead blockquote>h3,div#p>svg>foreignObject>section.lead blockquote>h4,div#p>svg>foreignObject>section.lead blockquote>h5,div#p>svg>foreignObject>section.lead blockquote>h6,div#p>svg>foreignObject>section.lead blockquote>p{text-align:left}div#p>svg>foreignObject>section.lead blockquote svg[data-marp-fitting=svg]:not([data-marp-fitting-math]){--preserve-aspect-ratio:xMinYMin meet}div#p>svg>foreignObject>section.lead ol>li>p,div#p>svg>foreignObject>section.lead ul>li>p{text-align:left}div#p>svg>foreignObject>section.lead table{margin-left:auto;margin-right:auto}div#p>svg>foreignObject>section:after,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header{box-sizing:border-box;font-size:66%;height:70px;line-height:50px;overflow:hidden;padding:10px 25px;position:absolute}div#p>svg>foreignObject>section:after{--marpit-root-font-size:66%}div#p>svg>foreignObject>section header{top:0}div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header{left:0;right:0}div#p>svg>foreignObject>section footer{bottom:0}div#p>svg>foreignObject>section:after{right:0;bottom:0;font-size:80%}div#p>svg>foreignObject>section:after{--marpit-root-font-size:80%}div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{display:block;height:auto;width:100%}@supports (-ms-ime-align:auto){div#p>svg>foreignObject>section svg[data-marp-fitting=svg]{position:static}}div#p>svg>foreignObject>section svg[data-marp-fitting=svg].__reflow__{content:""}@supports (-ms-ime-align:auto){div#p>svg>foreignObject>section svg[data-marp-fitting=svg].__reflow__{position:relative}}div#p>svg>foreignObject>section [data-marp-fitting-svg-content]{display:table;white-space:nowrap}div#p>svg>foreignObject>section [data-marp-fitting-svg-content-wrap]{white-space:pre}div#p>svg>foreignObject>section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}
+/*!
+ * Marp / Marpit SOAT theme.
+ *
+ * @theme soat
+ * @author Michaël Fery
+ *
+ * @auto-scaling true
+ * @size 4:3 960px 720px
+ */div#p>svg>foreignObject>section .hljs-comment{font-style:normal}div#p>svg>foreignObject>section{font-size:28px;font-family:'Raleway','Avenir Next','Avenir','Trebuchet MS','Segoe UI',sans-serif;color:#1d1d1b;background-color:#fff;background:url(./themes/soat/backgrounds/bg0.png) no-repeat center center
+  /* Main pages title */}div#p>svg>foreignObject>section{--marpit-root-font-size:28px}div#p>svg>foreignObject>section a,div#p>svg>foreignObject>section mark{color:#4ab69a}div#p>svg>foreignObject>section code{background:#4a4a49;color:#fff}div#p>svg>foreignObject>section h1 strong,div#p>svg>foreignObject>section h2 strong,div#p>svg>foreignObject>section h3 strong,div#p>svg>foreignObject>section h4 strong,div#p>svg>foreignObject>section h5 strong,div#p>svg>foreignObject>section h6 strong{color:#4ab69a}div#p>svg>foreignObject>section pre>code{background:#1d1d1b}div#p>svg>foreignObject>section pre>code.language-cs svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-fs svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-json svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-js svg foreignObject:before,div#p>svg>foreignObject>section pre>code.language-ts svg foreignObject:before{background-color:rgba(255,255,255,0.5);color:black;border-radius:3px;padding:1px 6px;float:right}div#p>svg>foreignObject>section pre>code.language-cs svg foreignObject:before{content:'C#'}div#p>svg>foreignObject>section pre>code.language-fs svg foreignObject:before{content:'F#'}div#p>svg>foreignObject>section pre>code.language-js svg foreignObject:before{content:'JS'}div#p>svg>foreignObject>section pre>code.language-json svg foreignObject:before{content:'JSON'}div#p>svg>foreignObject>section pre>code.language-ts svg foreignObject:before{content:'TS'}div#p>svg>foreignObject>section code{font-family:"Fira Code",monospace;font-variant-ligatures:normal}div#p>svg>foreignObject>section blockquote:after,div#p>svg>foreignObject>section blockquote:before,div#p>svg>foreignObject>section footer,div#p>svg>foreignObject>section header,div#p>svg>foreignObject>section section:after{color:#4a4a49}div#p>svg>foreignObject>section table td,div#p>svg>foreignObject>section table th{border-color:#1d1d1b}div#p>svg>foreignObject>section table thead th{background:#1d1d1b;color:#fff}div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section table tbody>tr:nth-child(odd) th{background:rgba(29,29,27,0.1)}div#p>svg>foreignObject>section ul{list-style:none}div#p>svg>foreignObject>section ul li:before{content:'➔';display:inline-block;margin-right:25px}div#p>svg>foreignObject>section.invert{color:#fff;background-color:#1d1d1b}div#p>svg>foreignObject>section.invert a,div#p>svg>foreignObject>section.invert mark{color:#f6a000}div#p>svg>foreignObject>section.invert code{background:#d2d2d1;color:#1d1d1b}div#p>svg>foreignObject>section.invert h1 strong,div#p>svg>foreignObject>section.invert h2 strong,div#p>svg>foreignObject>section.invert h3 strong,div#p>svg>foreignObject>section.invert h4 strong,div#p>svg>foreignObject>section.invert h5 strong,div#p>svg>foreignObject>section.invert h6 strong{color:#f6a000}div#p>svg>foreignObject>section.invert pre>code{background:#fff}div#p>svg>foreignObject>section.invert blockquote:after,div#p>svg>foreignObject>section.invert blockquote:before,div#p>svg>foreignObject>section.invert footer,div#p>svg>foreignObject>section.invert header,div#p>svg>foreignObject>section.invert section:after{color:#d2d2d1}div#p>svg>foreignObject>section.invert table td,div#p>svg>foreignObject>section.invert table th{border-color:#fff}div#p>svg>foreignObject>section.invert table thead th{background:#fff;color:#1d1d1b}div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.invert table tbody>tr:nth-child(odd) th{background:rgba(255,255,255,0.1)}div#p>svg>foreignObject>section.soat{color:#fff;background-color:#4ab69a}div#p>svg>foreignObject>section.soat a,div#p>svg>foreignObject>section.soat mark{color:#f6a000}div#p>svg>foreignObject>section.soat code{background:#dbf0eb;color:#4ab69a}div#p>svg>foreignObject>section.soat h1 strong,div#p>svg>foreignObject>section.soat h2 strong,div#p>svg>foreignObject>section.soat h3 strong,div#p>svg>foreignObject>section.soat h4 strong,div#p>svg>foreignObject>section.soat h5 strong,div#p>svg>foreignObject>section.soat h6 strong{color:#f6a000}div#p>svg>foreignObject>section.soat pre>code{background:#fff}div#p>svg>foreignObject>section.soat blockquote:after,div#p>svg>foreignObject>section.soat blockquote:before,div#p>svg>foreignObject>section.soat footer,div#p>svg>foreignObject>section.soat header,div#p>svg>foreignObject>section.soat section:after{color:#dbf0eb}div#p>svg>foreignObject>section.soat table td,div#p>svg>foreignObject>section.soat table th{border-color:#fff}div#p>svg>foreignObject>section.soat table thead th{background:#fff;color:#4ab69a}div#p>svg>foreignObject>section.soat table tbody>tr:nth-child(odd) td,div#p>svg>foreignObject>section.soat table tbody>tr:nth-child(odd) th{background:rgba(255,255,255,0.1)}div#p>svg>foreignObject>section.title{background:url(./themes/soat/backgrounds/bg1.png) no-repeat center center;background-size:cover;background-position:right center;padding-left:78px;padding-bottom:60px;display:table-cell;vertical-align:bottom}div#p>svg>foreignObject>section.title h1,div#p>svg>foreignObject>section.title h2,div#p>svg>foreignObject>section.title h3{width:70%}div#p>svg>foreignObject>section.title h2{margin-bottom:40px}div#p>svg>foreignObject>section.title h3{font-size:1.2em;margin-left:70px}div#p>svg>foreignObject>section.red{background:url(./themes/soat/backgrounds/bg-red.png) right top no-repeat,#ed6965;background-size:cover}div#p>svg>foreignObject>section.green{background:url(./themes/soat/backgrounds/bg-green.png) right top no-repeat,#4ab69a;background-size:cover}div#p>svg>foreignObject>section.blue{background:url(./themes/soat/backgrounds/bg-blue.png) right top no-repeat,#5bc5f2;background-size:cover}div#p>svg>foreignObject>section.orange{background:url(./themes/soat/backgrounds/bg-orange.png) right top no-repeat,#f6a000;background-size:cover}div#p>svg>foreignObject>section.purple{background:url(./themes/soat/backgrounds/bg-purple.png) right top no-repeat,#867fbb;background-size:cover}div#p>svg>foreignObject>section.speaker{background-image:url(./themes/soat/pictos/SOAT_pictos_reunion.png),url(./themes/soat/backgrounds/bg-orange.png);background-repeat:no-repeat,no-repeat;background-size:20%,cover;background-position:left,top right}div#p>svg>foreignObject>section.speaker h2{padding-left:400px}div#p>svg>foreignObject>section.speaker p,div#p>svg>foreignObject>section.speaker ul{padding-left:400px}div#p>svg>foreignObject>section.speaker ul{margin-top:30px;margin-bottom:50px}div#p>svg>foreignObject>section.speaker img[alt~=social-network]{height:40px;margin-top:0px;margin-bottom:-15px;margin-left:-10px;margin-right:10px}div#p>svg>foreignObject>section.speaker a{text-decoration:none;color:#fff;padding-left:0}div#p>svg>foreignObject>section.agenda ul{margin-left:80px}div#p>svg>foreignObject>section.agenda ul li:before{color:#ffe60b}div#p>svg>foreignObject>section.chapter{padding-left:160px;overflow:visible;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;grid-template-areas:"count title" "none subtitle";align-items:flex-end;justify-content:center}div#p>svg>foreignObject>section.chapter h1{grid-area:count;margin-right:20px;line-height:168px;font-size:7em}div#p>svg>foreignObject>section.chapter h2{grid-area:title;margin-top:100px;font-size:1.6em;max-width:65%;align-self:left}div#p>svg>foreignObject>section.chapter h3{grid-area:subtitle;font-weight:normal;font-size:1em}div#p>svg>foreignObject>section img[alt~=bg-right]{position:absolute;right:80px;bottom:120px;top:auto}div#p>svg>foreignObject>section img[alt~=center]{display:block;margin:0 auto}div#p>svg>foreignObject>section.break h1,div#p>svg>foreignObject>section.workshop h1{font-size:250%}div#p>svg>foreignObject>section.end{background:url(./themes/soat/backgrounds/bg13.png) right top no-repeat,#4ab69a;background-size:cover}div#p>svg>foreignObject>section:not(.title):not(.speaker):not(.chapter):not(.agenda):not(.workshop):not(.break):not(.end) h1{background:#867fbb;color:#fff;padding:10px 20px;line-height:60px;margin:0 -20px}
+
+/* PAGINATION */div#p>svg>foreignObject>section:after{color:#1d1d1b;font-weight:bold;font-size:1.2em}div#p>svg>foreignObject>section:after{--marpit-root-font-size:1.2em}div#p>svg>foreignObject>section.end:after,div#p>svg>foreignObject>section.title:after{visibility:hidden}
+
+/* 2-Columns Layout */div#p>svg>foreignObject>section .column{float:left}div#p>svg>foreignObject>section .row:after{
+  /* Clear floats after the columns */content:"";display:table;clear:both}
+
+/* @theme ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h */div#p>svg>foreignObject>section[data-marpit-advanced-background=background]{display:block!important;padding:0!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]:after,div#p>svg>foreignObject>section[data-marpit-advanced-background=background]:before,div#p>svg>foreignObject>section[data-marpit-advanced-background=content]:after,div#p>svg>foreignObject>section[data-marpit-advanced-background=content]:before{display:none!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container]{all:initial;display:flex;flex-direction:row;height:100%;overflow:hidden;width:100%}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container][data-marpit-advanced-background-direction=vertical]{flex-direction:column}div#p>svg>foreignObject>section[data-marpit-advanced-background=background][data-marpit-advanced-background-split]>div[data-marpit-advanced-background-container]{width:var(--marpit-advanced-background-split,50%)}div#p>svg>foreignObject>section[data-marpit-advanced-background=background][data-marpit-advanced-background-split=right]>div[data-marpit-advanced-background-container]{margin-left:calc(100% - var(--marpit-advanced-background-split, 50%))}div#p>svg>foreignObject>section[data-marpit-advanced-background=background]>div[data-marpit-advanced-background-container]>figure{all:initial;background-position:center;background-repeat:no-repeat;background-size:cover;flex:auto;margin:0}div#p>svg>foreignObject>section[data-marpit-advanced-background=content],div#p>svg>foreignObject>section[data-marpit-advanced-background=pseudo]{background:transparent!important}div#p>svg>foreignObject>section[data-marpit-advanced-background=pseudo],div#p>svg[data-marpit-svg]>foreignObject[data-marpit-advanced-background=pseudo]{pointer-events:none!important}div#p>svg>foreignObject>section[data-marpit-advanced-background-split]{width:100%;height:100%}</style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id="p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="title invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="title invert" data-marpit-pagination="1" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:title invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Formation F♯ 5.0</h1>
+<h2><em>Types composites</em></h2>
+<h3>Décembre 2021</h3>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="speaker invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="speaker invert" data-marpit-pagination="2" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:speaker invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>About me</h1>
+<h2>Romain DENEAU</h2>
+<ul>
+<li>SOAT depuis 2009</li>
+<li>Senior Developer C♯ F♯ TypeScript</li>
+<li>Passionné de Craft</li>
+<li>Auteur sur le blog de SOAT</li>
+</ul>
+<p><a href="https://twitter.com/DeneauRomain"><img src="./themes/soat/pictos/social_twitter.png" alt="social-network" /> DeneauRomain</a></p>
+<p><a href="https://github.com/rdeneau"><img src="./themes/soat/pictos/social_github.png" alt="social-network" /> rdeneau</a></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="purple agenda invert lead" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="purple agenda invert lead" data-marpit-pagination="3" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:purple agenda invert lead;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;--marpit-advanced-background-split:30%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;./themes/soat/pictos/SOAT_pictos_formation.png&quot;);background-size:auto 300px;"></figure></div></section></foreignObject><foreignObject width="70%" height="720"><section id="3" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="purple agenda invert lead" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="purple agenda invert lead" data-marpit-pagination="3" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:purple agenda invert lead;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;--marpit-advanced-background-split:30%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
+<h2>Sommaire</h2>
+<ol>
+<li>Généralités</li>
+<li>Tuples</li>
+<li>Records</li>
+<li>Unions</li>
+<li>Enums</li>
+<li>Records anonymes</li>
+<li>Types valeur</li>
+</ol>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section class="purple agenda invert lead" style="" data-marpit-advanced-background="pseudo" data-marpit-pagination="3" data-marpit-pagination-total="75"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="4" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_idee.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>1.</h1>
+<h2>Généralités sur les types</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="5" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Vue d'ensemble</h1>
+<p>Classifications des types .NET :</p>
+<ol>
+<li>Types valeur <em>vs</em> types référence -- abrégés <em>TVal</em> et <em>TRef</em></li>
+<li>Types primitifs <em>vs</em> types composites</li>
+<li>Types génériques</li>
+<li>Types créés à partir de valeurs littérales</li>
+<li>Types algébriques : somme <em>vs</em> produit</li>
+</ol>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="6" data-marpit-pagination-total="75" style="--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Types composites</h1>
+<p>Créés par combinaison d'autres types</p>
+<table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th><em>Version</em></th>
+<th>Nom</th>
+<th><em>TVal</em></th>
+<th><em>TRef</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Types .NET</td>
+<td></td>
+<td><code>class</code></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>struct</code>, <code>enum</code></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>interface</code></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td>Spécifiques C♯</td>
+<td>C♯ 3.0</td>
+<td>Type anonyme</td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td></td>
+<td>C♯ 7.0</td>
+<td><em>Value tuple</em></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td></td>
+<td>C♯ 9.0</td>
+<td><code>record</code></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td>Spécifiques F♯</td>
+<td></td>
+<td><em>Tuple, Record, Union</em></td>
+<td><em>Opt-in</em></td>
+<td><em>Opt-out</em></td>
+</tr>
+<tr>
+<td></td>
+<td>F♯ 4.6</td>
+<td><em>Record</em> anonyme</td>
+<td><em>Opt-in</em></td>
+<td><em>Opt-out</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="7" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Types composites (2)</h1>
+<p>Peuvent être génériques (sauf <code>enum</code>)</p>
+<p>Localisation :</p>
+<ul>
+<li><em>Top-level</em> : <code>namespace</code>, <em>top-level</em> module F♯</li>
+<li><em>Nested</em> : <code>class</code> (C♯), <code>module</code> (F♯)</li>
+<li>Non définissables dans méthode (C♯) ou valeur simple / fonction (F♯) !</li>
+</ul>
+<p>En F♯ toutes les définitions de type se font avec mot clé <code>type</code><br />
+→ y compris les classes, les enums et les interfaces !<br />
+→ mais les tuples n'ont pas besoin d'une définition de type</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="8" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Particularité des types F♯ / types .NET</h1>
+<p><em>Tuple, Record, Union</em> sont :</p>
+<ul>
+<li>Immuables</li>
+<li>Non nullables</li>
+<li>Égalité et comparison structurelles <em>(sauf avec champ fonction)</em></li>
+<li><code>sealed</code> : ne peuvent pas être hérités</li>
+<li>Déconstruction, avec même syntaxe que construction <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></li>
+</ul>
+<p>Reflète approches différentes selon paradigme :</p>
+<ul>
+<li>FP : focus sur les données organisées en types</li>
+<li>OOP : focus sur les comportements, possiblement polymorphiques</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="9" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Types à valeurs littérales</h1>
+<p>Valeurs littérales = instances dont le type est inféré</p>
+<ul>
+<li>Types primitifs :          <code>true</code> (<code>bool</code>) • <code>&quot;abc&quot;</code> (<code>string</code>) • <code>1.0m</code> (<code>decimal</code>)</li>
+<li>Tuples C♯ / F♯ :           <code>(1, true)</code></li>
+<li>Types anonymes C♯ : <code>new { Name = &quot;Joe&quot;, Age = 18 }</code></li>
+<li>Records F♯ :                <code>{ Name = &quot;Joe&quot;; Age = 18 }</code></li>
+</ul>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Note :</strong></p>
+<ul>
+<li>Les types doivent avoir été définis au préalable <img class="emoji" draggable="false" alt="❗" src="https://twemoji.maxcdn.com/2/svg/2757.svg" data-marp-twemoji=""/></li>
+<li>Sauf tuples et types anonymes C♯</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="10" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Types algébriques</h1>
+<blockquote>
+<p>Types composites, combinant d'autres types par produit ou par somme.</p>
+</blockquote>
+<p>Soit les types <code>A</code> et <code>B</code>, alors on peut créer :</p>
+<ul>
+<li>Le type produit <code>A × B</code> :
+<ul>
+<li>Contient 1 composante de type <code>A</code> ET 1 de type <code>B</code></li>
+<li>Composantes anonymes ou nommées</li>
+</ul>
+</li>
+<li>Le type somme <code>A + B</code> :
+<ul>
+<li>Contient 1 composante de type <code>A</code> OU 1 de type <code>B</code></li>
+</ul>
+</li>
+</ul>
+<p>Idem par extension les types produit / somme de N types</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="11" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2>Pourquoi les termes &quot;Somme&quot; et &quot;Produit&quot; ?</h2>
+<p>Soit <code>N(T)</code> le nombre de valeurs dans le type <code>T</code>, par exemples :</p>
+<ul>
+<li><code>bool</code> → 2 valeurs : <code>true</code> et <code>false</code></li>
+<li><code>unit</code> → 1 valeur <code>()</code></li>
+</ul>
+<p>Alors :</p>
+<ul>
+<li>Le nombre de valeurs dans le type somme <code>A + B</code> est <code>N(A) + N(B)</code>.</li>
+<li>Le nombre de valeurs dans le type produit <code>A × B</code> est <code>N(A) * N(B)</code>.</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="12" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Types algébriques <em>vs</em> Types composites</h1>
+<table>
+<thead>
+<tr>
+<th>Type <em>custom</em></th>
+<th>Somme</th>
+<th>Produit</th>
+<th>Composantes nommées</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enum</code></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="➖" src="https://twemoji.maxcdn.com/2/svg/2796.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td><em>Union</em> F♯</td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="➖" src="https://twemoji.maxcdn.com/2/svg/2796.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td><code>class</code> <img class="emoji" draggable="false" alt="⭐" src="https://twemoji.maxcdn.com/2/svg/2b50.svg" data-marp-twemoji=""/>, <code>interface</code>, <code>struct</code></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td><em>Record</em> F♯</td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+</tr>
+<tr>
+<td><em>Tuple</em> F♯</td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/></td>
+</tr>
+</tbody>
+</table>
+<p><img class="emoji" draggable="false" alt="⭐" src="https://twemoji.maxcdn.com/2/svg/2b50.svg" data-marp-twemoji=""/> Classes + variations C♯ : type anonyme, <em>Value tuple</em> et <code>record</code></p>
+<p><img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/svg/1f449.svg" data-marp-twemoji=""/> En C♯, pas de type somme sauf enum, très limité / type union <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="13" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Abréviation de type</h1>
+<p><strong>Alias</strong> d'un autre type : <code>type [name] = [existingType]</code></p>
+<p>Différents usages :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Documenter le code voire éviter répétitions</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ComplexNumber</span> </span>= float * float
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Addition</span>&lt;<span class="hljs-title">&#x27;num</span>&gt; </span>= &#x27;num -&gt; &#x27;num -&gt; &#x27;num  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> Marche aussi avec les génériques</span>
+
+<span class="hljs-comment">// Découpler (en partie) usages / implémentation pour faciliter son changement</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ProductCode</span> </span>= string
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">CustomerId</span> </span>= int
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Effacée à la compilation → <s><em>type safety</em></s><br />
+→ Compilateur autorise de passer <code>int</code> à la place de <code>CustomerId</code> !</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="14" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_produit.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>2.</h1>
+<h2>Les Tuples</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="15" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples : points clés</h1>
+<ul>
+<li>Types à valeurs littérales</li>
+<li>Types &quot;anonymes&quot; mais on peut leur définir des alias</li>
+<li>Types produit par excellence
+<ul>
+<li>Signe <code>*</code> dans signature <code>A * B</code></li>
+<li><strong>Produit cartésien</strong> des ensembles de valeurs de A et de B</li>
+</ul>
+</li>
+<li>Nombre d'éléments:
+<ul>
+<li><img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> 2 ou 3 (<code>A * B * C</code>)</li>
+<li><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> &gt; 3 : possible mais préférer <em>Record</em></li>
+</ul>
+</li>
+<li>Ordre des éléments est important
+<ul>
+<li>Si <code>A</code> ≠ <code>B</code>, alors <code>A * B</code> ≠ <code>B * A</code></li>
+</ul>
+</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="16" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples : construction</h1>
+<ul>
+<li>Syntaxe des littéraux : <code>a,b</code> ou <code>a, b</code> ou <code>(a, b)</code>
+<ul>
+<li>Virgule <code>,</code> caractéristique des tuples</li>
+<li>Espaces optionnels</li>
+<li>Parenthèses <code>()</code> peuvent être nécessaires</li>
+</ul>
+</li>
+<li><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Piège : séparateur différent entre un littéral et sa signature
+<ul>
+<li><code>,</code> pour littéral</li>
+<li><code>*</code> pour signature</li>
+<li>Ex : <code>true, 1.2</code> → <code>bool * float</code></li>
+</ul>
+</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="17" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples : déconstruction</h1>
+<ul>
+<li>Même syntaxe que construction
+<ul>
+<li>mais « de l'autre côté du <code>=</code> »</li>
+</ul>
+</li>
+<li>Tous les éléments doivent apparaître dans la déconstruction
+<ul>
+<li>Utiliser la discard <code>_</code> pour ignorer l'un des éléments</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> point = <span class="hljs-number">1.0</span>,<span class="hljs-number">2.5</span>
+<span class="hljs-keyword">let</span> x, y = point
+
+<span class="hljs-keyword">let</span> x, y = <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Erreur FS0001: Incompatibilité de type...</span>
+                   <span class="hljs-comment">// ... Les tuples ont des longueurs différentes de 2 et 3</span>
+
+<span class="hljs-keyword">let</span> result = System.Int32.TryParse(<span class="hljs-string">&quot;123&quot;</span>) <span class="hljs-comment">// (bool * int)</span>
+<span class="hljs-keyword">let</span> _, value = result <span class="hljs-comment">// Ignore le &quot;bool&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="18" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples en pratique</h1>
+<p>Utiliser un tuple pour une structure de données :</p>
+<ul>
+<li>Petite : 2 à 3 éléments</li>
+<li>Légère : pas besoin de nom pour les éléments</li>
+<li>Locale : échange local de données qui n'intéresse pas toute la <em>codebase</em>
+<ul>
+<li>Renvoyer plusieurs valeurs - cf. <code>Int32.TryParse</code></li>
+</ul>
+</li>
+</ul>
+<p>Tuple immuable : les modifications se font en créant un nouveau tuple</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> addOneToTuple (x,y,z) = (x+<span class="hljs-number">1</span>,y+<span class="hljs-number">1</span>,z+<span class="hljs-number">1</span>)
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="19" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples en pratique (2)</h1>
+<p><strong>Égalité structurelle</strong>, mais uniquement entre 2 tuples de même signature !</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)       <span class="hljs-comment">// true</span>
+(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)       <span class="hljs-comment">// false</span>
+(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Erreur FS0001: Incompatibilité de type...</span>
+                    <span class="hljs-comment">// ... Les tuples ont des longueurs différentes de 2 et 3</span>
+(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = (<span class="hljs-number">1</span>,(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>))   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Erreur FS0001: Cette expression était censée avoir le type `int`</span>
+                    <span class="hljs-comment">// ... mais elle a ici le type `&#x27;a * &#x27;b`</span>
+</span></span></foreignObject></svg></code></pre>
+<p><strong>Imbrication</strong> de tuples grâce aux <code>()</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> doublet = (<span class="hljs-keyword">true</span>,<span class="hljs-number">1</span>), (<span class="hljs-keyword">false</span>,<span class="hljs-string">&quot;a&quot;</span>)     <span class="hljs-comment">// (bool * int) * (bool * string) → pair de pairs</span>
+<span class="hljs-keyword">let</span> quadruplet = <span class="hljs-keyword">true</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">false</span>, <span class="hljs-string">&quot;a&quot;</span>    <span class="hljs-comment">// bool * int * bool * string     → quadruplet</span>
+doublet = quadruplet                    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Erreur FS0001: Incompatibilité de type...</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="20" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuples : pattern matching</h1>
+<p>Patterns reconnus avec les tuples :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> print move =
+    <span class="hljs-keyword">match</span> move <span class="hljs-keyword">with</span>
+    | (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>) -&gt; <span class="hljs-string">&quot;No move&quot;</span>                     <span class="hljs-comment">// Constante 0</span>
+    | (<span class="hljs-number">0</span>, y) -&gt; $<span class="hljs-string">&quot;Vertical {y}&quot;</span>               <span class="hljs-comment">// Variable y (!= 0)</span>
+    | (x, <span class="hljs-number">0</span>) -&gt; $<span class="hljs-string">&quot;Horizontal {x}&quot;</span>
+    | (x, y) <span class="hljs-keyword">when</span> x = y -&gt; $<span class="hljs-string">&quot;Diagonal {x}&quot;</span>    <span class="hljs-comment">// Condition x et y égaux</span>
+    | (x, y) -&gt; $<span class="hljs-string">&quot;Other ({x}, {y})&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Notes :</strong></p>
+<ul>
+<li>Les patterns sont à ordonner du + spécifique au + générique</li>
+<li>Le dernier pattern <code>(x, y)</code> correspond au pattern par défaut (obligatoire)</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="21" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Paires</h1>
+<ul>
+<li>Tuples à 2 éléments</li>
+<li>Tellement courant que 2 helpers leur sont associés :
+<ul>
+<li><code>fst</code> comme <em>first</em> pour extraire le 1° élément de la paire</li>
+<li><code>snd</code> comme <em>second</em> pour extraire le 2° élément de la paire</li>
+<li><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Ne marche que pour les paires</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> pair = (<span class="hljs-symbol">&#x27;a</span>&#x27;, <span class="hljs-string">&quot;b&quot;</span>)
+fst pair  <span class="hljs-comment">// &#x27;a&#x27; (char)</span>
+snd pair  <span class="hljs-comment">// &quot;b&quot; (string)</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="22" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_question.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>Pair Quiz <img class="emoji" draggable="false" alt="🕹️" src="https://twemoji.maxcdn.com/2/svg/1f579.svg" data-marp-twemoji=""/></h1>
+<h4><strong>1.</strong> Comment implémenter soi-même <code>fst</code> et <code>snd</code> ?</h4>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> fst ... ?
+<span class="hljs-keyword">let</span> snd ... ?
+</span></span></foreignObject></svg></code></pre>
+<h4><strong>2.</strong> Quelle est la signature de cette fonction ?</h4>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> toList (x, y) = [x; y]
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="23" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_solution.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>Pair Quiz <img class="emoji" draggable="false" alt="🎲" src="https://twemoji.maxcdn.com/2/svg/1f3b2.svg" data-marp-twemoji=""/></h1>
+<h4><strong>1.</strong> Implémenter soi-même <code>fst</code> et <code>snd</code> ?</h4>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> <span class="hljs-keyword">inline</span> fst (x, _) = x  <span class="hljs-comment">// Signature : &#x27;a * &#x27;b -&gt; &#x27;a</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">inline</span> snd (_, y) = y  <span class="hljs-comment">// Signature : &#x27;a * &#x27;b -&gt; &#x27;b</span>
+</span></span></foreignObject></svg></code></pre>
+<ul>
+<li>Déconstruction avec <em>discard</em>, le tout entre <code>()</code></li>
+<li>Fonctions peuvent être <code>inline</code></li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="24" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_solution.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>Pair Quiz <img class="emoji" draggable="false" alt="🎲" src="https://twemoji.maxcdn.com/2/svg/1f3b2.svg" data-marp-twemoji=""/><img class="emoji" draggable="false" alt="🎲" src="https://twemoji.maxcdn.com/2/svg/1f3b2.svg" data-marp-twemoji=""/></h1>
+<h4><strong>2.</strong> Signature de <code>toList</code> ?</h4>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> <span class="hljs-keyword">inline</span> toList (x, y) = [x; y]
+</span></span></foreignObject></svg></code></pre>
+<ul>
+<li>Renvoie une liste avec les 2 éléments de la paire</li>
+<li>Les éléments sont donc du même type</li>
+<li>Ce type est quelconque → générique <code>'a</code></li>
+</ul>
+<p><strong>Réponse :</strong> <code>(x: 'a) * (y: 'a) -&gt; 'a list</code></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="25" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Tuple <code>struct</code></h1>
+<ul>
+<li>Littéral : <code>struct(1, 'b', &quot;trois&quot;)</code></li>
+<li>Signature : <code>struct (int * char * string)</code></li>
+<li>Usage : optimiser performance</li>
+</ul>
+<p><img class="emoji" draggable="false" alt="🔗" src="https://twemoji.maxcdn.com/2/svg/1f517.svg" data-marp-twemoji=""/> <a href="https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions#performance">https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions<br />
+#performance</a></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="26" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_note.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>3.</h1>
+<h2>Les   <em>Records</em></h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="27" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : points clés</h1>
+<p>Type produit, alternative au Tuple quand type imprécis sous forme de tuple</p>
+<ul>
+<li>Exemple : <code>float * float</code>
+<ul>
+<li>Point dans un plan ?</li>
+<li>Coordonnées géographiques ?</li>
+<li>Parties réelle et imaginaire d'un nombre complexe ?</li>
+</ul>
+</li>
+<li><em>Record</em> permet de lever le doute en nommant le type et ses éléments</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Point</span> </span>= { X: float; Y: float }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Coordinate</span> </span>= { Latitude: float; Longitude: float }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ComplexNumber</span> </span>= { Real: float; Imaginary: float }
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="28" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : déclaration</h1>
+<ul>
+<li>Membres nommés en PascalCase, pas en <s>camelCase</s></li>
+<li>Membres séparés <code>;</code> ou retours à la ligne</li>
+<li>Saut de ligne après <code>{</code> qu'en cas de membre additionnels</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PostalAddress</span> </span>=        ┆     <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PostalAddress</span> </span>=
+    { Address: string       ┆         {
+      City: string          ┆             Address: string
+      Zip: string }         ┆             City: string
+                            ┆             Zip: string
+                            ┆         }
+                            ┆         <span class="hljs-keyword">member</span> x.ZipAndCity = $<span class="hljs-string">&quot;{x.Zip} {x.City}&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="🔗" src="https://twemoji.maxcdn.com/2/svg/1f517.svg" data-marp-twemoji=""/> <a href="https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting">https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting</a><br />
+     - <a href="https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting#use-pascalcase-for-type-declarations-members-and-labels">#use-pascalcase-for-type-declarations-members-and-labels</a><br />
+     - <a href="https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting#formatting-record-declarations">#formatting-record-declarations</a></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="29" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : instanciation</h1>
+<ul>
+<li>Même syntaxe qu'un objet anonyme C♯ sans <code>new</code>
+<ul>
+<li>Mais le record doit avoir été déclaré au-dessus !</li>
+</ul>
+</li>
+<li>Membres peuvent être renseignés dans n'importe quel ordre
+<ul>
+<li>Mais doivent tous être renseignés → pas de membres optionnels !</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Point</span> </span>= { X: float; Y: float }
+<span class="hljs-keyword">let</span> point1 = { X = <span class="hljs-number">1.0</span>; Y = <span class="hljs-number">2.0</span> }
+<span class="hljs-keyword">let</span> point2 = { Y = <span class="hljs-number">2.0</span>; X = <span class="hljs-number">1.0</span> }   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> Possible mais confusant ici</span>
+<span class="hljs-keyword">let</span> pointKo = { Y = <span class="hljs-number">2.0</span> }           <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0764: Aucune assignation spécifiée pour le champ &#x27;X&#x27; de type &#x27;Point&#x27;</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> <strong>Piège :</strong> Syntaxe similaire mais pas identique à celle de la déclaration<br />
+     → <code>:</code> pour définir le type du membre<br />
+     → <code>=</code> pour définir la valeur du membre</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="30" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : instanciation (2)</h1>
+<ul>
+<li>Les instances &quot;longues&quot; devraient être écrites sur plusieurs lignes
+<ul>
+<li>On peut aligner les <code>=</code> pour aider la lecture</li>
+</ul>
+</li>
+<li>Les <code>{}</code> peuvent apparaître sur leur propre ligne
+<ul>
+<li>+ facile à ré-indenter</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> rainbow =
+    { Boss = <span class="hljs-string">&quot;Jeffrey&quot;</span>
+      Lackeys = [<span class="hljs-string">&quot;Zippy&quot;</span>; <span class="hljs-string">&quot;George&quot;</span>; <span class="hljs-string">&quot;Bungle&quot;</span>] }
+
+<span class="hljs-keyword">let</span> rainbow =
+    {
+        Boss    = <span class="hljs-string">&quot;Jeffrey&quot;</span>
+        Lackeys = [<span class="hljs-string">&quot;Zippy&quot;</span>; <span class="hljs-string">&quot;George&quot;</span>; <span class="hljs-string">&quot;Bungle&quot;</span>]
+    }
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="31" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : déconstruction</h1>
+<ul>
+<li>Même syntaxe pour déconstruire un tuple que pour l'instancier</li>
+<li>On peut ignorer des membres</li>
+<li>On ne peut pas déconstruire les membres additionnels</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> { X = x1 } = point1;
+<span class="hljs-keyword">let</span> { X = x2; Y = y2 } = point1;
+
+<span class="hljs-comment">// On peut aussi accéder aux membres via le point &#x27;.&#x27;</span>
+<span class="hljs-keyword">let</span> x3 = point1.X;
+<span class="hljs-keyword">let</span> y3 = point1.Y;
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="32" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : déconstruction (2)</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> On ne peut pas déconstruire les membres additionnels !</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PostalAddress</span> </span>=
+    {
+        Address: string
+        City: string
+        Zip: string
+    }
+    <span class="hljs-keyword">member</span> x.CityLine = $<span class="hljs-string">&quot;{x.Zip} {x.City}&quot;</span>
+
+<span class="hljs-keyword">let</span> address = { Address = <span class="hljs-string">&quot;&quot;</span>; City = <span class="hljs-string">&quot;Paris&quot;</span>; Zip = <span class="hljs-string">&quot;75001&quot;</span> }
+
+<span class="hljs-keyword">let</span> { CityLine = cityLine } = address   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0039: L&#x27;étiquette d&#x27;enregistrement &#x27;CityLine&#x27; n&#x27;est pas définie</span>
+<span class="hljs-keyword">let</span> cityLine = address.CityLine         <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> OK</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="33" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : inférence</h1>
+<ul>
+<li>L'inférence de type ne marche pas quand on <em>&quot;dot&quot;</em> une <code>string</code></li>
+<li>... mais elle marche avec un <em>Record</em> ?!</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PostalAddress</span> </span>=
+    { Address: string
+      City   : string
+      Zip    : string }
+
+<span class="hljs-keyword">let</span> department address =
+    address.Zip.Substring(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) |&gt; int
+    <span class="hljs-comment">//     ^^^^ <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Permet d&#x27;inférer que address est de type `PostalAddress`</span>
+
+<span class="hljs-keyword">let</span> departmentKo zip =
+    zip.Substring(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) |&gt; int
+<span class="hljs-comment">//  ~~~~~~~~~~~~~ Error FS0072</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="34" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : pattern matching</h1>
+<p>Fonction <code>inhabitantOf</code> donnant le nom des habitants à une adresse :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Address</span> </span>= { Street: string; City: string; Zip: string }
+
+<span class="hljs-keyword">let</span> department { Zip = zip } = zip.Substring(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) |&gt; int
+
+<span class="hljs-keyword">let</span> inIleDeFrance departmentNumber =
+    [ <span class="hljs-number">75</span>; <span class="hljs-number">77</span>; <span class="hljs-number">78</span> ] @ [ <span class="hljs-number">91.</span><span class="hljs-number">.95</span> ] |&gt; List.contains departmentNumber
+
+<span class="hljs-keyword">let</span> inhabitantOf address =
+    <span class="hljs-keyword">match</span> address <span class="hljs-keyword">with</span>
+    | { Street = <span class="hljs-string">&quot;Pôle&quot;</span>; City = <span class="hljs-string">&quot;Nord&quot;</span> } -&gt; <span class="hljs-string">&quot;Père Noël&quot;</span>
+    | { City = <span class="hljs-string">&quot;Paris&quot;</span> } -&gt; <span class="hljs-string">&quot;Parisien&quot;</span>
+    | _ <span class="hljs-keyword">when</span> department address = <span class="hljs-number">78</span> -&gt; <span class="hljs-string">&quot;Yvelinois&quot;</span>
+    | _ <span class="hljs-keyword">when</span> department address |&gt; inIleDeFrance -&gt; <span class="hljs-string">&quot;Francilien&quot;</span>
+    | _ -&gt; <span class="hljs-string">&quot;Français&quot;</span>   <span class="hljs-comment">// Le discard &#x27;_&#x27; sert de pattern par défaut (obligatoire)</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="35" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : conflit de noms</h1>
+<ul>
+<li>En F♯, typage est nominal, pas structurel comme en TypeScript</li>
+<li>On peut écrire plusieurs fois le même Record avec noms ≠</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person1</span> </span>= { First: string; Last: string }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person2</span> </span>= { First: string; Last: string }
+<span class="hljs-keyword">let</span> alice = { First = <span class="hljs-string">&quot;Alice&quot;</span>; Last = <span class="hljs-string">&quot;Jones&quot;</span>}  <span class="hljs-comment">// Person2 (car type le + proche qui correspond aux étiquettes)</span>
+
+<span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Déconstruction</span>
+<span class="hljs-keyword">let</span> { First = firstName } = alice   <span class="hljs-comment">// Warning FS0667: Les étiquettes et le type attendu du champ de ce Record</span>
+                                    <span class="hljs-comment">// ne déterminent pas de manière unique un type Record correspondant</span>
+
+<span class="hljs-keyword">let</span> { Person2.Last = lastName } = alice     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> OK avec type en préfixe</span>
+<span class="hljs-keyword">let</span> { Person1.Last = lastName } = alice     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0001: type &#x27;Person1&#x27; attendu, &#x27;Person2&#x27; reçu</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Mieux vaut écrire des types distincts ou les séparer dans ≠ modules</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="36" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record : modification</h1>
+<p>Record immuable mais facile de créer nouvelle instance ou copie modifiée<br />
+→ Expression de <em>copy and update</em> d'un <em>Record</em><br />
+→ Syntaxe spéciale pour ne modifier que certains champs<br />
+→ Multi-lignes si expression longue</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> address2 = { address <span class="hljs-keyword">with</span> Street = <span class="hljs-string">&quot;Rue Vivienne&quot;</span> }
+
+<span class="hljs-keyword">let</span> { City = city; Zip = zip } = address
+<span class="hljs-keyword">let</span> address2&#x27; = { Street = <span class="hljs-string">&quot;Rue Vivienne&quot;</span>; City = city; Zip = zip }
+<span class="hljs-comment">// address2 = address2&#x27;</span>
+
+<span class="hljs-keyword">let</span> address3 =                  ┆      <span class="hljs-keyword">let</span> address3&#x27; =
+    { address <span class="hljs-keyword">with</span>              ┆          { Street = address.Street
+        City = <span class="hljs-string">&quot;Lyon&quot;</span>           ┆            City   = <span class="hljs-string">&quot;Lyon&quot;</span>
+        Zip  = <span class="hljs-string">&quot;69001&quot;</span> }        ┆            Zip    = <span class="hljs-string">&quot;69001&quot;</span> }
+<span class="hljs-comment">// address3 = address3&#x27;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="37" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record <em>copy-update</em> : C♯ / F♯ / JS</h1>
+<pre><code class="language-cs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Record C♯ 9.0</span>
+address with { Street = <span class="hljs-string">&quot;Rue Vivienne&quot;</span> }
+</span></span></foreignObject></svg></code></pre>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// F♯ copy and update</span>
+{ address <span class="hljs-keyword">with</span> Street = <span class="hljs-string">&quot;Rue Vivienne&quot;</span> }
+</span></span></foreignObject></svg></code></pre>
+<pre><code class="language-js"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Object destructuring with spread operator</span>
+{ ...address, <span class="hljs-attr">street</span>: <span class="hljs-string">&quot;Rue Vivienne&quot;</span> }
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="38" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record <em>copy-update</em> : limites <img class="emoji" draggable="false" alt="🛑" src="https://twemoji.maxcdn.com/2/svg/1f6d1.svg" data-marp-twemoji=""/></h1>
+<p>Lisibilité réduite quand plusieurs niveaux imbriqués</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Street</span> </span>= { Num: string; Label: string }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Address</span> </span>= { Street: Street }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person</span> </span>= { Address: Address }
+
+<span class="hljs-keyword">let</span> person = { Address = { Street = { Num = <span class="hljs-string">&quot;15&quot;</span>; Label = <span class="hljs-string">&quot;rue Neuf&quot;</span> } } }
+
+<span class="hljs-keyword">let</span> person&#x27; =
+    { person <span class="hljs-keyword">with</span>
+        Address =
+          { person.Address <span class="hljs-keyword">with</span>
+              Street =
+                { person.Address.Street <span class="hljs-keyword">with</span>
+                    Num = person.Address.Street.Num + <span class="hljs-string">&quot; bis&quot;</span> } } }
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="39" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record <code>struct</code></h1>
+<p>Attribut <code>[&lt;Struct&gt;]</code> permet de passer d'un type référence à un type valeur :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-meta">[&lt;Struct&gt;]</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Point</span> </span>= { X: float; Y: float; Z: float }
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="⚖️" src="https://twemoji.maxcdn.com/2/svg/2696.svg" data-marp-twemoji=""/> <strong>Pros/Cons d'une <code>struct</code> :</strong></p>
+<ul>
+<li><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Performant car ne nécessite pas de <em>garbage collection</em></li>
+<li><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Passée par valeur → pression sur la mémoire</li>
+</ul>
+<p><img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/svg/1f449.svg" data-marp-twemoji=""/> Adapté à un type &quot;petit&quot; en mémoire (~2-3 champs)</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="40" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_baseDonnees.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>4.</h1>
+<h2>Les   Unions</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="41" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : points clés</h1>
+<ul>
+<li>Terme exacte : « Union discriminée », <em>Discriminated Union (DU)</em></li>
+<li>Types Somme : représente un <strong>OU</strong>, un <strong>choix</strong> entre plusieurs <em>Cases</em>
+<ul>
+<li>Même principe que pour une <code>enum</code> mais généralisé</li>
+</ul>
+</li>
+<li>Chaque <em>case</em> doit avoir un <em>Tag</em> <em>(a.k.a Label)</em> -- en PascalCase <img class="emoji" draggable="false" alt="❗" src="https://twemoji.maxcdn.com/2/svg/2757.svg" data-marp-twemoji=""/>
+<ul>
+<li>C'est le <strong>discriminant</strong> de l'union pour identifier le <em>case</em></li>
+</ul>
+</li>
+<li>Chaque <em>case</em> <strong>peut</strong> contenir des données
+<ul>
+<li>Si Tuple, ses éléments peuvent être nommés -- en camelCase</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Billet</span> </span>=
+    | Adulte                 <span class="hljs-comment">// aucune donnée -&gt; ≃ singleton stateless</span>
+    | Senior <span class="hljs-keyword">of</span> int          <span class="hljs-comment">// contient un &#x27;int&#x27; (mais on ne sait pas ce que c&#x27;est)</span>
+    | Enfant <span class="hljs-keyword">of</span> age: int     <span class="hljs-comment">// contient un &#x27;int&#x27; de nom &#x27;age&#x27;</span>
+    | Famille <span class="hljs-keyword">of</span> Billet list <span class="hljs-comment">// contient une liste de billet</span>
+                             <span class="hljs-comment">// type récursif -- pas besoin de &#x27;rec&#x27;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="42" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : déclaration</h1>
+<p>Sur plusieurs lignes : 1 ligne / <em>case</em><br />
+→ <img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Ligne indentée et commençant par <code>|</code></p>
+<p>Sur une seule ligne -- si déclaration reste <strong>courte</strong> <img class="emoji" draggable="false" alt="❗" src="https://twemoji.maxcdn.com/2/svg/2757.svg" data-marp-twemoji=""/><br />
+→ <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Pas besoin du 1er <code>|</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">open</span> System
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">IntOrBool</span> </span>=
+    | Int32 <span class="hljs-keyword">of</span> Int32                        <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Tag de même nom que ses données</span>
+    | Boolean <span class="hljs-keyword">of</span> Boolean
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">OrderId</span> </span>= OrderId <span class="hljs-keyword">of</span> int               <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> Single-case union</span>
+                                            <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Tag de même nom que l&#x27;union parent</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Found</span>&lt;<span class="hljs-title">&#x27;T</span>&gt; </span>= Found <span class="hljs-keyword">of</span> <span class="hljs-symbol">&#x27;T</span> | NotFound     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Type générique</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="43" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : instanciation</h1>
+<p><em>Tag</em> ≃ <strong>constructeur</strong><br />
+→ Fonction appelée avec les éventuelles données du <em>case</em></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Shape</span> </span>=
+    | Circle <span class="hljs-keyword">of</span> radius: int
+    | Rectangle <span class="hljs-keyword">of</span> width: int * height: int
+
+<span class="hljs-keyword">let</span> circle = Circle <span class="hljs-number">12</span>          <span class="hljs-comment">// Type: &#x27;Shape&#x27;, Valeur: &#x27;Circle 12&#x27;</span>
+<span class="hljs-keyword">let</span> rect = Rectangle (<span class="hljs-number">4</span>, <span class="hljs-number">3</span>)     <span class="hljs-comment">// Type: &#x27;Shape&#x27;, Valeur: &#x27;Rectangle (4, 3)&#x27;</span>
+
+<span class="hljs-keyword">let</span> circles = [<span class="hljs-number">1.</span><span class="hljs-number">.4</span>] |&gt; List.map Circle     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/> Tag employé comme fonction</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="44" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : conflit de noms</h1>
+<p>Quand 2 unions ont des tags de même nom<br />
+→ Qualifier le tag avec le nom de l'union</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Shape</span> </span>=
+    | Circle <span class="hljs-keyword">of</span> radius: int
+    | Rectangle <span class="hljs-keyword">of</span> width: int * height: int
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Draw</span> </span>= Line | Circle       <span class="hljs-comment">// &#x27;Circle&#x27; sera en conflit avec le tag de &#x27;Shape&#x27;</span>
+
+<span class="hljs-keyword">let</span> draw = Circle              <span class="hljs-comment">// Type=&#x27;Draw&#x27; (type le + proche) -- <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> à éviter car ambigu</span>
+
+<span class="hljs-comment">// Tags qualifiés par leur type union</span>
+<span class="hljs-keyword">let</span> shape = Shape.Circle <span class="hljs-number">12</span>
+<span class="hljs-keyword">let</span> draw&#x27; = Draw.Circle
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="45" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : accès aux données</h1>
+<p>Uniquement via <em>pattern matching</em><br />
+Matching d'un type Union est <strong>exhaustif</strong></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Shape</span> </span>=
+    | Circle <span class="hljs-keyword">of</span> radius: float
+    | Rectangle <span class="hljs-keyword">of</span> width: float * height: float
+
+<span class="hljs-keyword">let</span> area shape =
+    <span class="hljs-keyword">match</span> shape <span class="hljs-keyword">with</span>
+    | Circle r -&gt; Math.PI * r * r   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Même syntaxe que instanciation</span>
+    | Rectangle (w, h) -&gt; w * h
+
+<span class="hljs-keyword">let</span> isFlat = <span class="hljs-keyword">function</span> 
+    | Circle <span class="hljs-number">0.</span>                     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Constant pattern</span>
+    | Rectangle (<span class="hljs-number">0.</span>, _)
+    | Rectangle (_, <span class="hljs-number">0.</span>) -&gt; <span class="hljs-keyword">true</span>     <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> OR pattern</span>
+    | Circle _
+    | Rectangle _ -&gt; <span class="hljs-keyword">false</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="46" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : <em>single-case</em></h1>
+<p>Union avec un seul cas encapsulant un type (généralement primitif)</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">CustomerId</span> </span>= CustomerId <span class="hljs-keyword">of</span> int
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">OrderId</span> </span>= OrderId <span class="hljs-keyword">of</span> int
+
+<span class="hljs-keyword">let</span> fetchOrder (OrderId orderId) =    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Déconstruction directe sans &#x27;match&#x27;</span>
+    ...
+</span></span></foreignObject></svg></code></pre>
+<p>Assure <em>type safety</em> contrairement au simple type alias<br />
+→ Impossible de passer un <code>CustomerId</code> à une fonction attendant un <code>OrderId</code> <img class="emoji" draggable="false" alt="👍" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg" data-marp-twemoji=""/></p>
+<p>Permet d'éviter <em>Primitive Obsession</em> à coût minime</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="47" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Unions : style &quot;enum&quot;</h1>
+<p>Tous les <em>cases</em> sont vides = dépourvus de données<br />
+→ ≠ <code>enum</code> .NET <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/></p>
+<p>L'instanciation et le pattern matching se font juste avec le <em>tag</em><br />
+→ Le <em>tag</em> n'est plus une <s>fonction</s> mais une valeur <em>(<a href="https://fsharpforfunandprofit.com/posts/fsharp-decompiled/#enum-style-unions">singleton</a>)</em></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Answer</span> </span>= Yes | No | Maybe
+<span class="hljs-keyword">let</span> answer = Yes
+
+<span class="hljs-keyword">let</span> print answer =
+    <span class="hljs-keyword">match</span> answer <span class="hljs-keyword">with</span>
+    | Yes   -&gt; printfn <span class="hljs-string">&quot;Oui&quot;</span>
+    | No    -&gt; printfn <span class="hljs-string">&quot;Non&quot;</span>
+    | Maybe -&gt; printfn <span class="hljs-string">&quot;Peut-être&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="48" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_innovation.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>5.</h1>
+<h2>Les    Enums</h2>
+<p>Vraies <code>enum</code> .NET</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="49" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Enum : déclaration</h1>
+<ul>
+<li>Ensemble de constantes de type entier (<code>byte</code>, <code>int</code>...)</li>
+<li>Syntaxe ≠ union</li>
+</ul>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color</span>  </span>= Red | Green | Blue        <span class="hljs-comment">// Union</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ColorN</span> </span>= Red=<span class="hljs-number">1</span> | Green=<span class="hljs-number">2</span> | Blue=<span class="hljs-number">3</span>  <span class="hljs-comment">// Enum</span>
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">AnswerChar</span> </span>= Yes=<span class="hljs-symbol">&#x27;Y</span>&#x27; | No=<span class="hljs-symbol">&#x27;N</span>&#x27;  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> enum basée sur &#x27;char&#x27;</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">AnswerChar</span> </span>= Yes=<span class="hljs-string">&quot;Y&quot;</span> | No=<span class="hljs-string">&quot;N&quot;</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0951: littéraux énumérés doivent être de type int...</span>
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">File</span> </span>= a=<span class="hljs-symbol">&#x27;a</span>&#x27; | b=<span class="hljs-symbol">&#x27;b</span>&#x27; | c=<span class="hljs-symbol">&#x27;c</span>&#x27;  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Membres ne commencent pas forcément en CamelCase</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="50" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Enum : usage</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Contrairement aux unions, l'emploi d'un littéral d'enum est forcément qualifié</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> answerKo = Yes            <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0039: La valeur ou le constructeur &#x27;Yes&#x27; n&#x27;est pas défini.</span>
+<span class="hljs-keyword">let</span> answer = AnswerChar.Yes   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> OK</span>
+</span></span></foreignObject></svg></code></pre>
+<p>Cast via helpers <code>int</code> et <code>enum</code> (mais pas <code>char</code>) :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> redValue = int ColorN.Red         <span class="hljs-comment">// enum -&gt; int</span>
+<span class="hljs-keyword">let</span> redAgain = enum&lt;ColorN&gt; redValue  <span class="hljs-comment">// int -&gt; enum via type générique</span>
+<span class="hljs-keyword">let</span> red: ColorN = enum redValue       <span class="hljs-comment">// int -&gt; enum via annotation</span>
+
+<span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Ne marche pas avec char enum</span>
+<span class="hljs-keyword">let</span> ko = char AnswerChar.No   <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0001</span>
+<span class="hljs-keyword">let</span> no: AnswerChar = enum <span class="hljs-symbol">&#x27;N</span>&#x27; <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0001</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="51" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Enum : matching</h1>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Contrairement aux unions, le <em>pattern matching</em> n'est pas exhaustif</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ColorN</span> </span>= Red=<span class="hljs-number">1</span> | Green=<span class="hljs-number">2</span> | Blue=<span class="hljs-number">3</span>  <span class="hljs-comment">// Enum</span>
+
+<span class="hljs-keyword">let</span> toHex color =
+    <span class="hljs-keyword">match</span> color <span class="hljs-keyword">with</span>
+    | ColorN.Red   -&gt; <span class="hljs-string">&quot;FF0000&quot;</span>
+    | ColorN.Green -&gt; <span class="hljs-string">&quot;00FF00&quot;</span>
+    | ColorN.Blue  -&gt; <span class="hljs-string">&quot;0000FF&quot;</span>
+    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="⚠" src="https://twemoji.maxcdn.com/2/svg/26a0.svg" data-marp-twemoji=""/> Warning FS0104: Les enums peuvent accepter des valeurs en dehors des cas connus.</span>
+    <span class="hljs-comment">// Par exemple, la valeur &#x27;enum&lt;ColorN&gt; (0)&#x27; peut indiquer un cas non traité par le ou les modèles.</span>
+
+    <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Pour enlever le warning, il faut ajouter un pattern générique</span>
+    | _ -&gt; invalidArg (nameof color) $<span class="hljs-string">&quot;Color {color} not supported&quot;</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="52" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Enum : flags</h1>
+<p>Même principe qu'en C♯ :</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">open</span> System
+
+<span class="hljs-meta">[&lt;FlagsAttribute&gt;]</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">PermissionFlags</span> </span>=
+    | Read    = <span class="hljs-number">1</span>
+    | Write   = <span class="hljs-number">2</span>
+    | Execute = <span class="hljs-number">4</span>
+
+<span class="hljs-keyword">let</span> permission = PermissionFlags.Read ||| PermissionFlags.Write
+
+<span class="hljs-keyword">let</span> canRead = permission.HasFlag PermissionFlags.Read
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="53" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Enum <em>vs</em> Union</h1>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Données</th>
+<th>Qualification</th>
+<th>Exhaustivité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td>Entières</td>
+<td>Obligatoire</td>
+<td><img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> Non</td>
+</tr>
+<tr>
+<td>Union</td>
+<td>Quelconques</td>
+<td>Qu'en cas de conflit</td>
+<td><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Oui</td>
+</tr>
+</tbody>
+</table>
+<p><img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> <strong>Recommandation :</strong></p>
+<ul>
+<li>Préférer une Union dans la majorité des cas</li>
+<li>Choisir une Enum pour :
+<ul>
+<li>Interop .NET</li>
+<li>Besoin de lier données entières</li>
+</ul>
+</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="54" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_rechercheProfil.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>6.</h1>
+<h2>Record anonyme</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="55" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record anonyme</h1>
+<ul>
+<li>Depuis F♯ 4.6 <em>(mars 2019)</em></li>
+<li>Syntaxe : idem <em>Record</em> avec accolades &quot;larges&quot; <code>{| fields |}</code>
+<ul>
+<li><code>{| Age: int |}</code> → signature</li>
+<li><code>{| Age = 15 |}</code> → instance</li>
+</ul>
+</li>
+<li>Typage <em>inline</em> : pas besoin de pré-définir un <code>type</code> nommé
+<ul>
+<li>Alternative aux <em>Tuples</em></li>
+</ul>
+</li>
+<li>Autorisé en entrée/sortie de fonction
+<ul>
+<li>≠ Type anonyme C♯</li>
+</ul>
+</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="56" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record anonyme : bénéfices <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></h1>
+<p>• Réduire <em>boilerplate</em><br />
+• Améliorer interop avec systèmes externes (JavaScript, SQL...)</p>
+<p>Exemples :</p>
+<ul>
+<li>Projection LINQ</li>
+<li>Personnalisation d'un record existant</li>
+<li>Sérialisation JSON</li>
+<li>Signature <em>inline</em></li>
+<li>Alias par module</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="57" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Projection LINQ</h2>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Sélectionner un sous-ensemble de propriétés</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> names =
+    query {
+        <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> persons <span class="hljs-keyword">do</span>
+        select {| Name = p.FirstName |}
+    }
+</span></span></foreignObject></svg></code></pre>
+<p>En C♯, on utiliserait un type anonyme :</p>
+<pre><code class="language-cs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">var</span> names =
+    <span class="hljs-keyword">from</span> p <span class="hljs-keyword">in</span> persons
+    <span class="hljs-keyword">select</span> <span class="hljs-keyword">new</span> { Name = p.FirstName };
+</span></span></foreignObject></svg></code></pre>
+<p><em><img class="emoji" draggable="false" alt="🔗" src="https://twemoji.maxcdn.com/2/svg/1f517.svg" data-marp-twemoji=""/> <a href="https://queil.net/2019/10/fsharp-vs-csharp-anonymous-records/">https://queil.net/2019/10/fsharp-vs-csharp-anonymous-records/</a></em></p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="58" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Personnalisation d'un record existant</h2>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Un record anonyme peut être instancié à partir d'une instance de record</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Person</span> </span>= { Age: int; Name: string }
+<span class="hljs-keyword">let</span> william = { Age = <span class="hljs-number">12</span>; Name = <span class="hljs-string">&quot;William&quot;</span> }
+
+<span class="hljs-comment">// Ajout d&#x27;un champ (Gender)</span>
+<span class="hljs-keyword">let</span> william&#x27; = {| william <span class="hljs-keyword">with</span> Gender = <span class="hljs-string">&quot;Male&quot;</span> |}
+            <span class="hljs-comment">// {| Age = 12; Name = &quot;William&quot;; Gender = &quot;Male&quot; |}</span>
+
+<span class="hljs-comment">// Modification de champs (Name, Age: int =&gt; float)</span>
+<span class="hljs-keyword">let</span> jack = {| william&#x27; <span class="hljs-keyword">with</span> Name = <span class="hljs-string">&quot;Jack&quot;</span>; Age = <span class="hljs-number">16.5</span> |}
+        <span class="hljs-comment">// {| Age = 16.5; Name = &quot;Jack&quot;; Gender = &quot;Male&quot; |}</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="59" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Sérialisation JSON</h2>
+<p><img class="emoji" draggable="false" alt="😕" src="https://twemoji.maxcdn.com/2/svg/1f615.svg" data-marp-twemoji=""/> Unions sérialisées dans un format pas pratique</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>#r <span class="hljs-string">&quot;nuget: Newtonsoft.Json&quot;</span>
+<span class="hljs-keyword">let</span> serialize obj = Newtonsoft.Json.JsonConvert.SerializeObject obj
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">CustomerId</span> </span>= CustomerId <span class="hljs-keyword">of</span> int
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Customer</span> </span>= { Id: CustomerId; Age: int; Name: string; Title: string option }
+
+serialize { Id = CustomerId <span class="hljs-number">1</span>; Age = <span class="hljs-number">23</span>; Name = <span class="hljs-string">&quot;Abc&quot;</span>; Title = Some <span class="hljs-string">&quot;Mr&quot;</span> }
+</span></span></foreignObject></svg></code></pre>
+<pre><code class="language-json"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>{
+  <span class="hljs-attr">&quot;Id&quot;</span>: { <span class="hljs-attr">&quot;Case&quot;</span>: <span class="hljs-string">&quot;CustomerId&quot;</span>, <span class="hljs-attr">&quot;Fields&quot;</span>: [ <span class="hljs-number">1</span> ] }, <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👀" src="https://twemoji.maxcdn.com/2/svg/1f440.svg" data-marp-twemoji=""/></span>
+  <span class="hljs-attr">&quot;Age&quot;</span>: <span class="hljs-number">23</span>,
+  <span class="hljs-attr">&quot;Name&quot;</span>: <span class="hljs-string">&quot;Abc&quot;</span>,
+  <span class="hljs-attr">&quot;Title&quot;</span>: { <span class="hljs-attr">&quot;Case&quot;</span>: <span class="hljs-string">&quot;Some&quot;</span>, <span class="hljs-attr">&quot;Fields&quot;</span>: [ <span class="hljs-string">&quot;Mr&quot;</span> ] }  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👀" src="https://twemoji.maxcdn.com/2/svg/1f440.svg" data-marp-twemoji=""/></span>
+}
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="60" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Sérialisation JSON (2)</h2>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Définir un record anonyme pour sérialiser un <em>customer</em></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> serialisable customer =
+    <span class="hljs-keyword">let</span> (CustomerId customerId) = customer.Id
+    {| customer <span class="hljs-keyword">with</span>
+         Id = customerId
+         Title = customer.Title |&gt; Option.toObj |}
+
+serialize (serialisable { Id = CustomerId <span class="hljs-number">1</span>; Age = <span class="hljs-number">23</span>; Name = <span class="hljs-string">&quot;Abc&quot;</span>; Title = Some <span class="hljs-string">&quot;Mr&quot;</span> })
+</span></span></foreignObject></svg></code></pre>
+<pre><code class="language-json"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>{
+  <span class="hljs-attr">&quot;Id&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></span>
+  <span class="hljs-attr">&quot;Age&quot;</span>: <span class="hljs-number">23</span>,
+  <span class="hljs-attr">&quot;Name&quot;</span>: <span class="hljs-string">&quot;Abc&quot;</span>,
+  <span class="hljs-attr">&quot;Title&quot;</span>: <span class="hljs-string">&quot;Mr&quot;</span>  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></span>
+}
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="61" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Signature <em>inline</em></h2>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Utiliser un record anonyme <em>inline</em> pour réduire charge cognitive</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Title</span> </span>= Mr | Mrs
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Customer</span> </span>=
+    { Age  : int
+      Name : {| First: string; Middle: string option; Last: string |} <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👈" src="https://twemoji.maxcdn.com/2/svg/1f448.svg" data-marp-twemoji=""/></span>
+      Title: Title option }
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="62" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h2><img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Alias par module</h2>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">module</span> Api =
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Customer</span> </span>= <span class="hljs-comment">// <img class="emoji" draggable="false" alt="☝" src="https://twemoji.maxcdn.com/2/svg/261d.svg" data-marp-twemoji=""/> Customer est un alias</span>
+        {| Id   : System.Guid
+           Name : string
+           Age  : int |}
+
+<span class="hljs-keyword">module</span> Dto =
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Customer</span> </span>=
+        {| Id   : System.Guid
+           Name : string
+           Age  : int |}
+
+<span class="hljs-keyword">let</span> (customerApi: Api.Customer) = {| Id = Guid.Empty; Name = <span class="hljs-string">&quot;Name&quot;</span>; Age = <span class="hljs-number">34</span> |}
+<span class="hljs-keyword">let</span> (customerDto: Dto.Customer) = customerApi <span class="hljs-comment">// <img class="emoji" draggable="false" alt="🎉" src="https://twemoji.maxcdn.com/2/svg/1f389.svg" data-marp-twemoji=""/> Pas besoin de convertir</span>
+</span></span></foreignObject></svg></code></pre>
+<p><img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Instant t : même type dans 2 modules<br />
+<img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Plus tard : facilite personnalisation des types par module</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="63" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="63" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record anonyme : limites <img class="emoji" draggable="false" alt="🛑" src="https://twemoji.maxcdn.com/2/svg/1f6d1.svg" data-marp-twemoji=""/></h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Inférence limitée</span>
+<span class="hljs-keyword">let</span> nameKo x = x.Name  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0072: Lookup on object of indeterminate type...</span>
+<span class="hljs-keyword">let</span> nameOk (x: {| Name:string |}) = x.Name
+
+<span class="hljs-comment">// Pas de déconstruction</span>
+<span class="hljs-keyword">let</span> x = {| Age = <span class="hljs-number">42</span> |}
+<span class="hljs-keyword">let</span> {  Age = age  } = x  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0039: The record label &#x27;Age&#x27; is not defined</span>
+<span class="hljs-keyword">let</span> {| Age = age |} = x  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0010: Unexpected symbol &#x27;{|&#x27; in let binding</span>
+
+<span class="hljs-comment">// Pas de fusion</span>
+<span class="hljs-keyword">let</span> banana = {| Fruit = <span class="hljs-string">&quot;Banana&quot;</span> |}
+<span class="hljs-keyword">let</span> yellow = {| Color = <span class="hljs-string">&quot;Yellow&quot;</span> |}
+<span class="hljs-keyword">let</span> banYelKo = {| banana <span class="hljs-keyword">with</span> yellow |} <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Error FS0609...</span>
+<span class="hljs-keyword">let</span> banYelOk = {| banana <span class="hljs-keyword">with</span> Color = <span class="hljs-string">&quot;Yellow&quot;</span> |}
+
+<span class="hljs-comment">// Pas d&#x27;omission</span>
+<span class="hljs-keyword">let</span> ko = {| banYelOk without Color |}  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Mot clé &#x27;without&#x27; n&#x27;existe pas</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="64" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="64" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Record anonyme : limites <img class="emoji" draggable="false" alt="🛑" src="https://twemoji.maxcdn.com/2/svg/1f6d1.svg" data-marp-twemoji=""/></h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Pas du typage structurel =&gt; tous les champs sont requis</span>
+<span class="hljs-keyword">let</span> capitaliseFruit (x: {| Fruit: string |}) = x.Fruit.ToUpper()
+capitaliseFruit {| Fruit = <span class="hljs-string">&quot;Banana&quot;</span> |}                      <span class="hljs-comment">// <img class="emoji" draggable="false" alt="👌" src="https://twemoji.maxcdn.com/2/svg/1f44c.svg" data-marp-twemoji=""/> &quot;BANANA&quot;</span>
+capitaliseFruit {| Fruit = <span class="hljs-string">&quot;Banana&quot;</span>; Origin = <span class="hljs-string">&quot;Réunion&quot;</span> |}  <span class="hljs-comment">// <img class="emoji" draggable="false" alt="💥" src="https://twemoji.maxcdn.com/2/svg/1f4a5.svg" data-marp-twemoji=""/> Too much fields... [Origin]</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="65" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="purple chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="purple chapter invert" data-marpit-pagination="65" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:purple chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_entretien.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>7.</h1>
+<h2>Types valeur</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="66" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="66" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Type composite <em>struct</em></h1>
+<p>Type composite : peut être déclaré en tant que type valeur<br />
+→ Instances stockées dans la <strong>pile</strong> <em>(stack)</em> plutôt que dans le tas <em>(heap)</em><br />
+→ Permet parfois de gagner en performance<br />
+→ Plutôt adapté aux types compacts : peu de champs, peu de comportements</p>
+<ul>
+<li>Attribut <code>[&lt;Struct&gt;]</code></li>
+<li>Mot clé <code>struct</code></li>
+<li>Structure</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="67" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="67" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Attribut <code>[&lt;Struct&gt;]</code></h1>
+<p>Pour <em>Record</em> et <em>Union</em></p>
+<p>À placer avant ou après le mot cle <code>type</code></p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> [&lt;Struct&gt;] <span class="hljs-title">Point</span> </span>= { X: float; Y: float }
+
+<span class="hljs-meta">[&lt;Struct&gt;]</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">SingleCase</span> </span>= Case <span class="hljs-keyword">of</span> string
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="68" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="68" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Mot clé <code>struct</code></h1>
+<p>Pour littéral de Tuple et <em>Record</em> anonyme</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">let</span> t = <span class="hljs-keyword">struct</span> (<span class="hljs-number">1</span>, <span class="hljs-string">&quot;a&quot;</span>)
+<span class="hljs-comment">// struct (int * string)</span>
+
+<span class="hljs-keyword">let</span> a = <span class="hljs-keyword">struct</span> {| Id = <span class="hljs-number">1</span>; Value = <span class="hljs-string">&quot;a&quot;</span> |}
+<span class="hljs-comment">// struct {| Id: int; Value: string |}</span>
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="69" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="69" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Structures</h1>
+<p>Alternatives aux classes <img class="emoji" draggable="false" alt="📍" src="https://twemoji.maxcdn.com/2/svg/1f4cd.svg" data-marp-twemoji=""/> mais + limités / héritage et récursivité</p>
+<p><img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/svg/1f449.svg" data-marp-twemoji=""/> Cf. session sur l'orienté-objet et les classes...</p>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="70" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="green chapter invert" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="green chapter invert" data-marpit-pagination="70" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:green chapter invert;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_diplome.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>8.</h1>
+<h2>Le    Récap’</h2>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="71" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="71" data-marpit-pagination-total="75" style="--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_question.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1><img class="emoji" draggable="false" alt="🕹️" src="https://twemoji.maxcdn.com/2/svg/1f579.svg" data-marp-twemoji=""/> Récap' Quiz</h1>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-comment">// Relier types et concepts</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color1</span> </span>= int * int * int
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color2</span> </span>= Red | Green | Blue
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color3</span> </span>= Red=<span class="hljs-number">1</span> | Green=<span class="hljs-number">2</span> | Blue=<span class="hljs-number">3</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color4</span> </span>= { Red: int; Green: int; Blue: int }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color5</span> </span>= {| Red: int; Green: int; Blue: int |}
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color6</span> </span>= Color <span class="hljs-keyword">of</span> Red: int * Green: int * Blue: int
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Color7</span> </span>=
+    | RGB <span class="hljs-keyword">of</span> { Red: int; Green: int; Blue: int }
+    | HSL <span class="hljs-keyword">of</span> { Hue: int; Saturation: int; Lightness: int }
+
+<span class="hljs-comment">// A. Alias</span>
+<span class="hljs-comment">// B. Enum</span>
+<span class="hljs-comment">// C. Record</span>
+<span class="hljs-comment">// D. Record anonyme</span>
+<span class="hljs-comment">// E. Single-case union</span>
+<span class="hljs-comment">// F. Union</span>
+<span class="hljs-comment">// G. Union enum-like</span>
+<span class="hljs-comment">// H. Tuple</span>
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="72" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="72" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1><img class="emoji" draggable="false" alt="🎲" src="https://twemoji.maxcdn.com/2/svg/1f3b2.svg" data-marp-twemoji=""/> Récap' Quiz</h1>
+<table>
+<thead>
+<tr>
+<th>Types</th>
+<th>Concepts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type Color1 = int * int * int</code></td>
+<td><strong>H.</strong> Tuple + <strong>A.</strong> Alias</td>
+</tr>
+<tr>
+<td><code>type Color2 = Red ∣ Green ∣ Blue</code></td>
+<td><strong>G.</strong> Union enum-like</td>
+</tr>
+<tr>
+<td><code>type Color3 = Red=1 ∣ Green=2 ∣ Blue=3</code></td>
+<td><strong>B.</strong> Enum</td>
+</tr>
+<tr>
+<td><code>type Color4 = { Red: int; Green: int… }</code></td>
+<td><strong>C.</strong> Record</td>
+</tr>
+<tr>
+<td><code>type Color5 = {∣ Red: int; Green: int… ∣}</code></td>
+<td><strong>D.</strong> Record anonyme + <strong>A.</strong> Alias</td>
+</tr>
+<tr>
+<td><code>type Color6 = Color of Red: int * …</code></td>
+<td><strong>E.</strong> Single-case union + <strong>H.</strong> Tuple</td>
+</tr>
+<tr>
+<td><code>type Color7 = RGB of { Red: int… } ∣ HSL…</code></td>
+<td><strong>F.</strong> Union + <strong>C.</strong> Record</td>
+</tr>
+</tbody>
+</table>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="73" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="73" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Composition de types</h1>
+<p>Création de nouveaux types ?<br />
+→ <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> Les types algébriques ne supportent pas l'héritage.<br />
+→ <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Par composition, dans <em>sum/product type</em><br />
+→ <img class="emoji" draggable="false" alt="💡" src="https://twemoji.maxcdn.com/2/svg/1f4a1.svg" data-marp-twemoji=""/> Extension d'un <em>Record</em> en un <em>Record</em> anonyme avec champs en +</p>
+<p>Combiner 2 unions ?<br />
+→ <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> Pas &quot;aplatissable&quot; comme en TypeScript ①<br />
+→ <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/> Nouveau type union ②</p>
+<pre><code class="language-fs"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Noir</span> </span>= Pique | Trefle
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Rouge</span> </span>= Coeur | Carreau
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">CouleurKo</span> </span>= Noir | Rouge  <span class="hljs-comment">// ① <img class="emoji" draggable="false" alt="❌" src="https://twemoji.maxcdn.com/2/svg/274c.svg" data-marp-twemoji=""/> ≠ Pique | Trefle | Coeur | Carreau </span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Couleur</span> </span>= Noir <span class="hljs-keyword">of</span> Noir | Rouge <span class="hljs-keyword">of</span> Rouge <span class="hljs-comment">// ② <img class="emoji" draggable="false" alt="✅" src="https://twemoji.maxcdn.com/2/svg/2705.svg" data-marp-twemoji=""/></span>
+<span class="hljs-keyword">let</span> c1 = Noir Pique
+</span></span></foreignObject></svg></code></pre>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="74" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" data-marpit-pagination="74" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<p><img src="./themes/soat/pictos/SOAT_pictos_cocktail.png" alt="bg-right h:300" style="height:300px;" /></p>
+<h1>Conclusion</h1>
+<p>Beaucoup de façons de modéliser !</p>
+<p>De quoi s'adapter :</p>
+<ul>
+<li>À tous les goûts ?</li>
+<li>En fait surtout au domaine métier !</li>
+</ul>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="75" data-footer="Formation F♯ 5.0 • Les types" data-paginate="true" data-class="end invert lead" data-theme="ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h" class="end invert lead" data-marpit-pagination="75" data-marpit-pagination-total="75" style="--footer:Formation F♯ 5.0 • Les types;--paginate:true;--class:end invert lead;--theme:ric0jzlwmy6zl46lzatfyqjzqnyo5lxd5ddjho89h;">
+<h1>Merci <img class="emoji" draggable="false" alt="🙏" src="https://twemoji.maxcdn.com/2/svg/1f64f.svg" data-marp-twemoji=""/></h1>
+<footer>Formation F♯ 5.0 • Les types</footer>
+</section>
+<script>!function(){"use strict";function t(t){Array.from(document.querySelectorAll("svg[data-marpit-svg]"),e=>{const{children:r,clientHeight:i,clientWidth:o,viewBox:n}=e;e.style.transform||(e.style.transform="translateZ(0)");const a=t||e.currentScale||1,s=n.baseVal.width/a,l=n.baseVal.height/a,c=Math.min(i/l,o/s);for(let t=0;t<r.length;t+=1){const{style:e}=r[t].firstChild;e.position||(e.position="fixed"),e.transformOrigin||(e.transformOrigin="0 0"),e.transform=`scale(${c}) translateZ(0)`}})}const e=(t,e,r)=>{if(t.getAttribute(e)!==r)return t.setAttribute(e,r),!0};function r(i=!0){for(const e of"Apple Computer, Inc."===navigator.vendor?[t]:[])e();Array.from(document.querySelectorAll('svg[data-marp-fitting="svg"]'),t=>{const r=t.firstChild,i=r.firstChild,{scrollWidth:o,scrollHeight:n}=i;let a,s=1;if(t.hasAttribute("data-marp-fitting-code")&&(a=t.parentElement.parentElement),t.hasAttribute("data-marp-fitting-math")&&(a=t.parentElement),a){const t=getComputedStyle(a),e=Math.ceil(a.clientWidth-parseFloat(t.paddingLeft)-parseFloat(t.paddingRight));e&&(s=e)}const l=Math.max(o,s),c=Math.max(n,1),d=`0 0 ${l} ${c}`;e(r,"width",""+l),e(r,"height",""+c),e(t,"preserveAspectRatio",getComputedStyle(t).getPropertyValue("--preserve-aspect-ratio")||"xMinYMin meet"),e(t,"viewBox",d)&&t.classList.toggle("__reflow__")}),i&&window.requestAnimationFrame(()=>r(i))}!function(){if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");window.marpCoreBrowserScript?console.warn("Marp Core's browser script has already executed."):(Object.defineProperty(window,"marpCoreBrowserScript",{value:!0}),r())}()}();
+</script></foreignObject></svg></div><div class="bespoke-marp-note" data-index="0" tabindex="0"><p>Notes :
+F# ne se limite pas aux fonctions ; le puissant système de types est un autre ingrédient clé. Et comme pour les fonctions, il est essentiel de comprendre le système de types pour être à l'aise dans le langage.
+
+En plus des types courants de .NET, F# possède d'autres types qui sont très courants dans les langages fonctionnels mais qui ne sont pas disponibles dans les langages impératifs comme C# ou Java.</p></div><script>!function(){"use strict";var e=function(e,t){var n,r=1===(e.parent||e).nodeType?e.parent||e:document.querySelector(e.parent||e),s=[].filter.call("string"==typeof e.slides?r.querySelectorAll(e.slides):e.slides||r.children,(function(e){return"SCRIPT"!==e.nodeName})),a={},o=function(e,t){return(t=t||{}).index=s.indexOf(e),t.slide=e,t},i=function(e,t){a[e]=(a[e]||[]).filter((function(e){return e!==t}))},l=function(e,t){return(a[e]||[]).reduce((function(e,n){return e&&!1!==n(t)}),!0)},c=function(e,t){s[e]&&(n&&l("deactivate",o(n,t)),n=s[e],l("activate",o(n,t)))},d=function(e,t){var r=s.indexOf(n)+e;l(e>0?"next":"prev",o(n,t))&&c(r,t)},u={off:i,on:function(e,t){return(a[e]||(a[e]=[])).push(t),i.bind(null,e,t)},fire:l,slide:function(e,t){if(!arguments.length)return s.indexOf(n);l("slide",o(s[e],t))&&c(e,t)},next:d.bind(null,1),prev:d.bind(null,-1),parent:r,slides:s,destroy:function(e){l("destroy",o(n,e)),a={}}};return(t||[]).forEach((function(e){e(u)})),n||c(0),u};function t(e){e.parent.classList.add("bespoke-marp-parent"),e.slides.map(e=>e.classList.add("bespoke-marp-slide")),e.on("activate",t=>{const n=!t.slide.classList.contains("bespoke-marp-active");e.slides.map(e=>{e.classList.remove("bespoke-marp-active")}),t.slide.classList.add("bespoke-marp-active"),n&&(t.slide.classList.add("bespoke-marp-active-ready"),document.body.clientHeight,t.slide.classList.remove("bespoke-marp-active-ready"))})}function n(e=2e3){return t=>{let n;function r(){n&&clearTimeout(n),n=setTimeout(()=>{t.parent.classList.add("bespoke-marp-inactive")},e),t.parent.classList.remove("bespoke-marp-inactive")}document.addEventListener("mousedown",r),document.addEventListener("mousemove",r),document.addEventListener("touchend",r),setTimeout(r,0)}}const r=["AUDIO","BUTTON","INPUT","SELECT","TEXTAREA","VIDEO"];function s(e){e.parent.addEventListener("keydown",e=>{if(!e.target)return;const t=e.target;(r.includes(t.nodeName)||"true"===t.contentEditable)&&e.stopPropagation()})}function a(e){window.addEventListener("load",()=>{for(const t of e.slides){const e=t.querySelector("[data-marp-fitting]")?"":"hideable";t.setAttribute("data-bespoke-marp-load",e)}})}function o(e){let t=0,n=0;Object.defineProperty(e,"fragments",{enumerable:!0,value:e.slides.map(e=>[null,...e.querySelectorAll("[data-marpit-fragment]")])});const r=r=>void 0!==e.fragments[t][n+r],s=(r,s)=>{t=r,n=s,e.fragments.forEach((e,t)=>{e.forEach((e,n)=>{if(null==e)return;const a=t<r||t===r&&n<=s;e.setAttribute("data-bespoke-marp-fragment",a?"active":"inactive"),t===r&&n===s?e.setAttribute("data-bespoke-marp-current-fragment","current"):e.removeAttribute("data-bespoke-marp-current-fragment")})}),e.fragmentIndex=s;const a={slide:e.slides[r],index:r,fragments:e.fragments[r],fragmentIndex:s};e.fire("fragment",a)};e.on("next",()=>{if(r(1))return s(t,n+1),!1;const a=t+1;e.fragments[a]&&s(a,0)}),e.on("prev",()=>{if(r(-1))return s(t,n-1),!1;const a=t-1;e.fragments[a]&&s(a,e.fragments[a].length-1)}),e.on("slide",({index:t,fragment:n})=>{let r=0;if(void 0!==n){const s=e.fragments[t];if(s){const{length:e}=s;r=-1===n?e-1:Math.min(Math.max(n,0),e-1)}}s(t,r)}),s(0,0)}var i,l=function(e,t,n){return e(n={path:t,exports:{},require:function(e,t){return function(){throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs")}(null==t&&n.path)}},n.exports),n.exports}((function(e){
+/*!
+  * screenfull
+  * v5.0.2 - 2020-02-13
+  * (c) Sindre Sorhus; MIT License
+  */
+!function(){var t="undefined"!=typeof window&&void 0!==window.document?window.document:{},n=e.exports,r=function(){for(var e,n=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],r=0,s=n.length,a={};r<s;r++)if((e=n[r])&&e[1]in t){for(r=0;r<e.length;r++)a[n[0][r]]=e[r];return a}return!1}(),s={change:r.fullscreenchange,error:r.fullscreenerror},a={request:function(e){return new Promise(function(n,s){var a=function(){this.off("change",a),n()}.bind(this);this.on("change",a);var o=(e=e||t.documentElement)[r.requestFullscreen]();o instanceof Promise&&o.then(a).catch(s)}.bind(this))},exit:function(){return new Promise(function(e,n){if(this.isFullscreen){var s=function(){this.off("change",s),e()}.bind(this);this.on("change",s);var a=t[r.exitFullscreen]();a instanceof Promise&&a.then(s).catch(n)}else e()}.bind(this))},toggle:function(e){return this.isFullscreen?this.exit():this.request(e)},onchange:function(e){this.on("change",e)},onerror:function(e){this.on("error",e)},on:function(e,n){var r=s[e];r&&t.addEventListener(r,n,!1)},off:function(e,n){var r=s[e];r&&t.removeEventListener(r,n,!1)},raw:r};r?(Object.defineProperties(a,{isFullscreen:{get:function(){return Boolean(t[r.fullscreenElement])}},element:{enumerable:!0,get:function(){return t[r.fullscreenElement]}},isEnabled:{enumerable:!0,get:function(){return Boolean(t[r.fullscreenEnabled])}}}),n?e.exports=a:window.screenfull=a):n?e.exports={isEnabled:!1}:window.screenfull={isEnabled:!1}}()}));function c(e){e.fullscreen=()=>{l.isEnabled&&l.toggle(document.body)},document.addEventListener("keydown",t=>{70!==t.which&&122!==t.which||t.altKey||t.ctrlKey||t.metaKey||!l.isEnabled||(e.fullscreen(),t.preventDefault())})}function d(e={}){const t=Object.assign({interval:200},e);return e=>{document.addEventListener("keydown",t=>{(32===t.which&&t.shiftKey||33===t.which||37===t.which||38===t.which)&&e.prev(),(32===t.which&&!t.shiftKey||34===t.which||39===t.which||40===t.which)&&e.next(),35===t.which&&e.slide(e.slides.length-1,{fragment:-1}),36===t.which&&e.slide(0)});let n,r,s=0;e.parent.addEventListener("wheel",a=>{let o=!1;const l=(e,t)=>{e&&(o=o||function(e,t){return function(e,t){const n=t===i.X?"Width":"Height";return e["client"+n]<e["scroll"+n]}(e,t)&&function(e,t){const{overflow:n}=e,r=e["overflow"+t];return"auto"===n||"scroll"===n||"auto"===r||"scroll"===r}(getComputedStyle(e),t)}(e,t)),(null==e?void 0:e.parentElement)&&l(e.parentElement,t)};if(0!==a.deltaX&&l(a.target,i.X),0!==a.deltaY&&l(a.target,i.Y),o)return;a.preventDefault(),r&&clearTimeout(r),r=setTimeout(()=>{n=0},t.interval);const c=Date.now()-s<t.interval,d=Math.sqrt(Math.pow(a.deltaX,2)+Math.pow(a.deltaY,2)),u=d<=n;if(n=d,c||u)return;let f;(a.deltaX>0||a.deltaY>0)&&(f="next"),(a.deltaX<0||a.deltaY<0)&&(f="prev"),f&&(e[f](),s=Date.now())})}}!function(e){e.X="X",e.Y="Y"}(i||(i={}));const u=(...e)=>history.replaceState(...e);var f;!function(e){e.Normal="",e.Presenter="presenter",e.Next="next"}(f||(f={}));const p=(e,{protocol:t,host:n,pathname:r,hash:s}=location)=>{const a=e.toString();return`${t}//${n}${r}${a?"?":""}${a}${s}`},m=()=>{switch(document.body.getAttribute("data-bespoke-view")){case f.Normal:return f.Normal;case f.Presenter:return f.Presenter;case f.Next:return f.Next;default:throw new Error("View mode is not assigned.")}},h=e=>new URLSearchParams(location.search).get(e),g=(e,t={})=>{const n=Object.assign({location:location,setter:u},t),r=new URLSearchParams(n.location.search);for(const t of Object.keys(e)){const n=e[t];"string"==typeof n?r.set(t,n):r.delete(t)}try{n.setter(null,document.title,p(r,n.location))}catch(e){console.error(e)}},b={available:(()=>{try{return localStorage.setItem("bespoke-marp","bespoke-marp"),localStorage.removeItem("bespoke-marp"),!0}catch(e){return console.warn("Warning: Using localStorage is restricted in the current host so some features may not work."),!1}})(),get:e=>{try{return localStorage.getItem(e)}catch(e){return null}},set:(e,t)=>{try{return localStorage.setItem(e,t),!0}catch(e){return!1}},remove:e=>{try{return localStorage.removeItem(e),!0}catch(e){return!1}}};function v(e=".bespoke-marp-osc"){const t=document.querySelector(e);if(!t)return()=>{};const n=(e,n)=>{t.querySelectorAll(`[data-bespoke-marp-osc=${JSON.stringify(e)}]`).forEach(n)};return l.isEnabled||n("fullscreen",e=>e.style.display="none"),b.available||n("presenter",e=>{e.disabled=!0,e.title="Presenter view is disabled due to restricted localStorage."}),e=>{t.addEventListener("click",t=>{if(t.target instanceof HTMLElement){const{bespokeMarpOsc:n}=t.target.dataset;switch(n&&t.target.blur(),n){case"next":e.next();break;case"prev":e.prev();break;case"fullscreen":"function"==typeof e.fullscreen&&l.isEnabled&&e.fullscreen();break;case"presenter":e.openPresenterView()}}}),e.parent.appendChild(t),e.on("activate",({index:t})=>{n("page",n=>n.textContent=`Page ${t+1} of ${e.slides.length}`)}),e.on("fragment",({index:t,fragments:r,fragmentIndex:s})=>{n("prev",e=>e.disabled=0===t&&0===s),n("next",n=>n.disabled=t===e.slides.length-1&&s===r.length-1)}),l.isEnabled&&l.onchange(()=>n("fullscreen",e=>e.classList.toggle("exit",l.isEnabled&&l.isFullscreen)))}}function w(){const e=Math.max(Math.floor(.85*window.innerWidth),640),t=Math.max(Math.floor(.85*window.innerHeight),360);return window.open(this.presenterUrl,"bespoke-marp-presenter-"+this.syncKey,`width=${e},height=${t},menubar=no,toolbar=no`)}function y(){const e=new URLSearchParams(location.search);return e.set("view","presenter"),e.set("sync",this.syncKey),p(e)}var x=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"];let E=e=>String(e).replace(/[&<>"']/g,e=>`&${k[e]};`),k={"&":"amp","<":"lt",">":"gt",'"':"quot","'":"apos"},L="dangerouslySetInnerHTML",S={className:"class",htmlFor:"for"},I={};function P(e,t){let n=[],r="";t=t||{};for(let e=arguments.length;e-- >2;)n.push(arguments[e]);if("function"==typeof e)return t.children=n.reverse(),e(t);if(e){if(r+="<"+e,t)for(let e in t)!1!==t[e]&&null!=t[e]&&e!==L&&(r+=` ${S[e]?S[e]:E(e)}="${E(t[e])}"`);r+=">"}if(-1===x.indexOf(e)){if(t[L])r+=t[L].__html;else for(;n.length;){let e=n.pop();if(e)if(e.pop)for(let t=e.length;t--;)n.push(e[t]);else r+=!0===I[e]?e:E(e)}r+=e?`</${e}>`:""}return I[r]=!0,r}const M=({children:e})=>P(null,null,...e),N="bespoke-marp-presenter-container",F="bespoke-marp-presenter-next",O="bespoke-marp-presenter-next-container",q="bespoke-marp-presenter-note-container",T="bespoke-marp-presenter-info-container",C="bespoke-marp-presenter-info-page",$="bespoke-marp-presenter-info-page-text",j="bespoke-marp-presenter-info-page-prev",A="bespoke-marp-presenter-info-page-next",K="bespoke-marp-presenter-info-time",R="bespoke-marp-presenter-info-timer";function U(e){const{title:t}=document;document.title="[Presenter view]"+(t?" - "+t:"");const n={},r=e=>(n[e]=n[e]||document.querySelector("."+e),n[e]);document.body.appendChild((e=>{const t=document.createElement("div");return t.className=N,t.appendChild(e),t.insertAdjacentHTML("beforeend",P(M,null,P("div",{class:O},P("iframe",{class:F,src:"?view=next"})),P("div",{class:q}),P("div",{class:T},P("div",{class:C},P("button",{class:j,tabindex:"-1",title:"Previous"},"Previous"),P("span",{class:$}),P("button",{class:A,tabindex:"-1",title:"Next"},"Next")),P("time",{class:K,title:"Current time"}),P("div",{class:R})))),t})(e.parent)),(e=>{r(O).addEventListener("click",()=>e.next());const t=r(F),n=(s=t,(e,t)=>s.contentWindow.postMessage(`navigate:${e},${t}`,"null"===window.origin?"*":window.origin));var s;t.addEventListener("load",()=>{r(O).classList.add("active"),n(e.slide(),e.fragmentIndex),e.on("fragment",({index:e,fragmentIndex:t})=>n(e,t))});const a=document.querySelectorAll(".bespoke-marp-note");a.forEach(e=>{e.addEventListener("keydown",e=>e.stopPropagation()),r(q).appendChild(e)}),e.on("activate",()=>a.forEach(t=>t.classList.toggle("active",t.dataset.index==e.slide()))),e.on("activate",({index:t})=>{r($).textContent=`${t+1} / ${e.slides.length}`});const o=r(j),i=r(A);o.addEventListener("click",()=>{o.blur(),e.prev()}),i.addEventListener("click",()=>{i.blur(),e.next()}),e.on("fragment",({index:t,fragments:n,fragmentIndex:r})=>{o.disabled=0===t&&0===r,i.disabled=t===e.slides.length-1&&r===n.length-1});const l=()=>r(K).textContent=(new Date).toLocaleTimeString();l(),setInterval(l,250)})(e)}function D(e){const t=m();return t===f.Next&&e.appendChild(document.createElement("span")),e=>{t===f.Normal&&function(e){if(!(e=>e.syncKey&&"string"==typeof e.syncKey)(e))throw new Error("The current instance of Bespoke.js is invalid for Marp bespoke presenter plugin.");Object.defineProperties(e,{openPresenterView:{enumerable:!0,value:w},presenterUrl:{enumerable:!0,get:y}}),b.available&&document.addEventListener("keydown",t=>{80!==t.which||t.altKey||t.ctrlKey||t.metaKey||(t.preventDefault(),e.openPresenterView())})}(e),t===f.Presenter&&U(e),t===f.Next&&function(e){const t=t=>{if(t.origin!==window.origin)return;const[n,r]=t.data.split(":");if("navigate"===n){const[t,n]=r.split(",");let s=Number.parseInt(t,10),a=Number.parseInt(n,10)+1;a>=e.fragments[s].length&&(s+=1,a=0),e.slide(s,{fragment:a})}};window.addEventListener("message",t),e.on("destroy",()=>window.removeEventListener("message",t))}(e)}}function V(e){e.on("activate",t=>{document.querySelectorAll(".bespoke-progress-bar").forEach(n=>{n.style.flexBasis=100*t.index/(e.slides.length-1)+"%"})})}const X=e=>{const t=Number.parseInt(e,10);return Number.isNaN(t)?null:t};function Y(e={}){const t=Object.assign({history:!0},e);return e=>{let n=!0;const r=e=>{const t=n;try{return n=!0,e()}finally{n=t}},s=(t={fragment:!0})=>{((t,n)=>{const{fragments:r,slides:s}=e,a=Math.max(0,Math.min(t,s.length-1)),o=Math.max(0,Math.min(n||0,r[a].length-1));a===e.slide()&&o===e.fragmentIndex||e.slide(a,{fragment:o})})((X(location.hash.slice(1))||1)-1,t.fragment?X(h("f")||""):null)};e.on("fragment",({index:e,fragmentIndex:r})=>{n||g({f:0===r||r.toString()},{location:Object.assign(Object.assign({},location),{hash:"#"+(e+1)}),setter:(...e)=>t.history?history.pushState(...e):history.replaceState(...e)})}),setTimeout(()=>{s(),window.addEventListener("hashchange",()=>r(()=>{s({fragment:!1}),g({f:void 0})})),window.addEventListener("popstate",()=>{n||r(()=>s())}),n=!1},0)}}function B(e={}){const t=e.key||((e=21)=>{let t="",n=crypto.getRandomValues(new Uint8Array(e));for(;e--;){let r=63&n[e];t+=r<36?r.toString(36):r<62?(r-26).toString(36).toUpperCase():r<63?"_":"-"}return t})(),n="bespoke-marp-sync-"+t,r=()=>{const e=b.get(n);return e?JSON.parse(e):Object.create(null)},s=e=>{const t=r(),s=Object.assign(Object.assign({},t),e(t));return b.set(n,JSON.stringify(s)),s};return s(e=>({reference:(e.reference||0)+1})),e=>{Object.defineProperty(e,"syncKey",{value:t,enumerable:!0});let a=!0;setTimeout(()=>{e.on("fragment",e=>{a&&s(()=>({index:e.index,fragmentIndex:e.fragmentIndex}))})},0),window.addEventListener("storage",t=>{if(t.key===n&&t.oldValue&&t.newValue){const n=JSON.parse(t.oldValue),r=JSON.parse(t.newValue);if(n.index!==r.index||n.fragmentIndex!==r.fragmentIndex)try{a=!1,e.slide(r.index,{fragment:r.fragmentIndex})}finally{a=!0}}}),e.on("destroy",()=>{const{reference:e}=r();void 0===e||e<=1?b.remove(n):s(()=>({reference:e-1}))})}}function z(e={}){const t=Object.assign({slope:Math.tan(-35*Math.PI/180),swipeThreshold:30},e);return e=>{let n;const r=e.parent,s=e=>{const t=r.getBoundingClientRect();return{x:e.pageX-(t.left+t.right)/2,y:e.pageY-(t.top+t.bottom)/2}};r.addEventListener("touchstart",e=>{n=1===e.touches.length?s(e.touches[0]):void 0},{passive:!0}),r.addEventListener("touchmove",e=>{if(n)if(1===e.touches.length){e.preventDefault();const t=s(e.touches[0]),r=t.x-n.x,a=t.y-n.y;n.delta=Math.sqrt(Math.pow(Math.abs(r),2)+Math.pow(Math.abs(a),2)),n.radian=Math.atan2(r,a)}else n=void 0}),r.addEventListener("touchend",r=>{if(n){if(n.delta&&n.delta>=t.swipeThreshold){let s=n.radian-t.slope;s=(s+Math.PI)%(2*Math.PI)-Math.PI,e[s<0?"next":"prev"](),r.stopPropagation()}n=void 0}},{passive:!0})}}const H=[f.Normal,f.Presenter,f.Next];!function(r=document.getElementById("p")){document.body.setAttribute("data-bespoke-view",(()=>{switch(h("view")){case"next":return f.Next;case"presenter":return f.Presenter;default:return f.Normal}})());const i=(e=>{const t=h(e);return g({[e]:void 0}),t})("sync")||void 0,l=!1,u=!0,p=e(r,((...e)=>{const t=H.findIndex(e=>m()===e);if(t<0)throw new Error("Invalid view");return e.map(([e,n])=>e[t]&&n).filter(e=>e)})([[u,u,l],B({key:i})],[[u,u,u],D(r)],[[u,u,l],s],[[u,u,u],t],[[u,l,l],n()],[[u,u,u],a],[[u,u,u],Y({history:!1})],[[u,u,l],d()],[[u,u,l],c],[[u,l,l],V],[[u,u,l],z()],[[u,l,l],v()],[[u,u,u],o]));window.addEventListener("beforeunload",()=>g({sync:p.syncKey})),window.addEventListener("unload",()=>p.destroy())}()}();
+</script></body></html>
