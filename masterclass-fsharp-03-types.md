@@ -84,14 +84,14 @@ Classifications des types .NET :
 
 Créés par combinaison d'autres types
 
-| Catégorie      | *Version* | Nom                    | *TVal*   | *TRef*    |
+| Catégorie      | *Version* | Nom                    | *TRef*   | *TVal*    |
 |----------------|-----------|------------------------|----------|-----------|
 | Types .NET     |           | `class`                | ✅        | ❌         |
 |                |           | `struct`, `enum`       | ❌        | ✅         |
-|                |           | `interface`            | ✅        | ✅         |
-| Spécifiques C♯ | C♯ 3.0    | Type anonyme           | ❌        | ✅         |
-|                | C♯ 7.0    | *Value tuple*          | ✅        | ❌         |
-|                | C♯ 9.0    | `record`               | ❌        | ✅         |
+| Spécifiques C♯ | C♯ 3.0    | Type anonyme           | ✅        | ❌         |
+|                | C♯ 7.0    | *Value tuple*          | ❌        | ✅         |
+|                | C♯ 9.0    | `record (class)`       | ✅        | ❌         |
+|                | C♯ 10.0   | `record struct`        | ❌        | ✅         |
 | Spécifiques F♯ |           | *Tuple, Record, Union* | *Opt-in* | *Opt-out* |
 |                | F♯ 4.6    | *Record* anonyme       | *Opt-in* | *Opt-out* |
 
@@ -318,11 +318,12 @@ Patterns reconnus avec les tuples :
 ```fs
 let print move =
     match move with
-    | (0, 0) -> "No move"                     // Constante 0
-    | (0, y) -> $"Vertical {y}"               // Variable y (!= 0)
-    | (x, 0) -> $"Horizontal {x}"
-    | (x, y) when x = y -> $"Diagonal {x}"    // Condition x et y égaux
-    | (x, y) -> $"Other ({x}, {y})"
+    | 0, 0 -> "No move"                     // Constante 0
+    | 0, y -> $"Vertical {y}"               // Variable y (!= 0)
+    | x, 0 -> $"Horizontal {x}"
+    | x, y when x = y -> $"Diagonal {x}"    // Condition x et y égaux
+  // `x, x` n'est pas un pattern reconnu ❗
+    | x, y -> $"Other ({x}, {y})"
 ```
 
 ☝ **Notes :**
@@ -397,7 +398,8 @@ let inline toList (x, y) = [x; y]
 - Les éléments sont donc du même type
 - Ce type est quelconque → générique `'a`
 
-**Réponse :** `(x: 'a) * (y: 'a) -> 'a list`
+**Réponse :** `x: 'a * y: 'a -> 'a list` 
+→ Soit le type `'a * 'a -> 'a list`
 
 ---
 
@@ -462,6 +464,8 @@ type PostalAddress =        ┆     type PostalAddress =
 
 ---
 
+<!-- _footer: '' -->
+
 # Record : instanciation
 
 - Même syntaxe qu'un objet anonyme C♯ sans `new`
@@ -473,7 +477,8 @@ type PostalAddress =        ┆     type PostalAddress =
 type Point = { X: float; Y: float }
 let point1 = { X = 1.0; Y = 2.0 }
 let point2 = { Y = 2.0; X = 1.0 }   // 👈 Possible mais confusant ici
-let pointKo = { Y = 2.0 }           // 💥 Error FS0764: Aucune assignation spécifiée pour le champ 'X' de type 'Point'
+let pointKo = { Y = 2.0 }           // 💥 Error FS0764
+//            ~~~~~~~~~~~ Aucune assignation spécifiée pour le champ 'X' de type 'Point'
 ```
 
 ⚠️ **Piège :** Syntaxe similaire mais pas identique à celle de la déclaration
@@ -487,7 +492,7 @@ let pointKo = { Y = 2.0 }           // 💥 Error FS0764: Aucune assignation sp�
 - Les instances "longues" devraient être écrites sur plusieurs lignes
   - On peut aligner les `=` pour aider la lecture
 - Les `{}` peuvent apparaître sur leur propre ligne
-  - \+ facile à ré-indenter
+  - \+ facile à ré-indenter et à ré-ordonner (`Lackeys` avant `Boss`)
 
 ```fs
 let rainbow =
@@ -505,24 +510,25 @@ let rainbow =
 
 # Record : déconstruction
 
-- Même syntaxe pour déconstruire un tuple que pour l'instancier
-- On peut ignorer des membres
-- On ne peut pas déconstruire les membres additionnels
+Même syntaxe pour déconstruire un *Record* que pour l'instancier
+
+💡 On peut ignorer certains champs
+→ Rend explicite les champs utilisés 👍
 
 ```fs
-let { X = x1 } = point1;
-let { X = x2; Y = y2 } = point1;
+let { X = x1 } = point1
+let { X = x2; Y = y2 } = point1
 
-// On peut aussi accéder aux membres via le point '.'
-let x3 = point1.X;
-let y3 = point1.Y;
+// On peut aussi accéder aux champs via le point '.'
+let x3 = point1.X
+let y3 = point1.Y
 ```
 
 ---
 
 # Record : déconstruction (2)
 
-⚠️ On ne peut pas déconstruire les membres additionnels !
+⚠️ On ne peut pas déconstruire les membres additionnels *(propriétés)* !
 
 ```fs
 type PostalAddress =
@@ -535,7 +541,8 @@ type PostalAddress =
 
 let address = { Address = ""; City = "Paris"; Zip = "75001" }
 
-let { CityLine = cityLine } = address   // 💥 Error FS0039: L'étiquette d'enregistrement 'CityLine' n'est pas définie
+let { CityLine = cityLine } = address   // 💥 Error FS0039
+//    ~~~~~~~~ L'étiquette d'enregistrement 'CityLine' n'est pas définie
 let cityLine = address.CityLine         // 👌 OK
 ```
 
@@ -586,32 +593,36 @@ let inhabitantOf address =
 
 ---
 
+<!-- _footer: '' -->
+
 # Record : conflit de noms
 
-- En F♯, typage est nominal, pas structurel comme en TypeScript
-- On peut écrire plusieurs fois le même Record avec noms ≠
+En F♯, typage est nominal, pas structurel comme en TypeScript
+→ Les mêmes étiquettes `First` et `Last` ci-dessous donnent 2 Records ≠
+→ Mieux vaut écrire des types distincts ou les séparer dans ≠ modules
 
 ```fs
 type Person1 = { First: string; Last: string }
 type Person2 = { First: string; Last: string }
-let alice = { First = "Alice"; Last = "Jones"}  // Person2 (car type le + proche qui correspond aux étiquettes)
+let alice = { First = "Alice"; Last = "Jones"}  // val alice: Person2...
+// (car Person2 est le type le + proche qui correspond aux étiquettes First et Last)
 
 // ⚠️ Déconstruction
-let { First = firstName } = alice   // Warning FS0667: Les étiquettes et le type attendu du champ de ce Record
-                                    // ne déterminent pas de manière unique un type Record correspondant
+let { First = firstName } = alice   // Warning FS0667
+//  ~~~~~~~~~~~~~~~~~~~~~  Les étiquettes et le type attendu du champ de ce Record
+//                         ne déterminent pas de manière unique un type Record correspondant
 
 let { Person2.Last = lastName } = alice     // 👌 OK avec type en préfixe
-let { Person1.Last = lastName } = alice     // 💥 Error FS0001: type 'Person1' attendu, 'Person2' reçu
+let { Person1.Last = lastName } = alice     // 💥 Error FS0001
+//                                ~~~~~ Type 'Person1' attendu, 'Person2' reçu
 ```
-
-☝ Mieux vaut écrire des types distincts ou les séparer dans ≠ modules
 
 ---
 
 # Record : modification
 
 Record immuable mais facile de créer nouvelle instance ou copie modifiée
-→ Expression de *copy and update* d'un *Record*
+→ Expression de _**copy and update**_ d'un *Record*
 → Syntaxe spéciale pour ne modifier que certains champs
 → Multi-lignes si expression longue
 
@@ -869,9 +880,10 @@ type Color  = Red | Green | Blue        // Union
 type ColorN = Red=1 | Green=2 | Blue=3  // Enum
 
 type AnswerChar = Yes='Y' | No='N'  // 💡 enum basée sur 'char'
-type AnswerChar = Yes="Y" | No="N"  // 💥 Error FS0951: littéraux énumérés doivent être de type int...
+type AnswerChar = Yes="Y" | No="N"  // 💥 Error FS0951
+//   ~~~~~~~~~~ Littéraux énumérés doivent être de type 'int'...
 
-type File = a='a' | b='b' | c='c'  // 💡 Membres ne commencent pas forcément en CamelCase
+type File = a='a' | b='b' | c='c'  // 💡 Membres d'enum peuvent être en camelCase
 ```
 
 ---
@@ -881,7 +893,8 @@ type File = a='a' | b='b' | c='c'  // 💡 Membres ne commencent pas forcément 
 ⚠️ Contrairement aux unions, l'emploi d'un littéral d'enum est forcément qualifié
 
 ```fs
-let answerKo = Yes            // 💥 Error FS0039: La valeur ou le constructeur 'Yes' n'est pas défini.
+let answerKo = Yes            // 💥 Error FS0039
+//             ~~~ La valeur ou le constructeur 'Yes' n'est pas défini.
 let answer = AnswerChar.Yes   // 👌 OK
 ```
 
@@ -912,7 +925,7 @@ let toHex color =
     | ColorN.Green -> "00FF00"
     | ColorN.Blue  -> "0000FF"
     // ⚠️ Warning FS0104: Les enums peuvent accepter des valeurs en dehors des cas connus.
-    // Par exemple, la valeur 'enum<ColorN> (0)' peut indiquer un cas non traité par le ou les modèles.
+    // Par exemple, la valeur 'enum<ColorN> (0)' peut indiquer un cas non traité.
 
     // 💡 Pour enlever le warning, il faut ajouter un pattern générique
     | _ -> invalidArg (nameof color) $"Color {color} not supported"
@@ -937,6 +950,8 @@ let permission = PermissionFlags.Read ||| PermissionFlags.Write
 
 let canRead = permission.HasFlag PermissionFlags.Read
 ```
+
+💡 Noter l'opérateur `|||` : OU binaire *(`|` en C♯)*
 
 ---
 
@@ -984,7 +999,7 @@ let canRead = permission.HasFlag PermissionFlags.Read
 • Réduire *boilerplate*
 • Améliorer interop avec systèmes externes (JavaScript, SQL...)
 
-Exemples :
+Exemples *(détaillés ensuite)* :
 
 - Projection LINQ
 - Personnalisation d'un record existant
@@ -1287,8 +1302,8 @@ Combiner 2 unions ?
 ```fs
 type Noir = Pique | Trefle
 type Rouge = Coeur | Carreau
-type CouleurKo = Noir | Rouge  // ① ❌ ≠ Pique | Trefle | Coeur | Carreau 
-type Couleur = Noir of Noir | Rouge of Rouge // ② ✅
+type CouleurKo = Noir | Rouge  // (1) ❌ ≠ Pique | Trefle | Coeur | Carreau 
+type Couleur = Noir of Noir | Rouge of Rouge // (2) ✅
 let c1 = Noir Pique
 ```
 

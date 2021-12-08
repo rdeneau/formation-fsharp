@@ -23,7 +23,6 @@ marp masterclass-fsharp-03-types.md --theme themes/soat.css
 marp masterclass-fsharp-04-types-comp.md --theme themes/soat.css
 marp masterclass-fsharp-05-pattern-matching.md --theme themes/soat.css
 marp masterclass-fsharp-06-collections.md --theme themes/soat.css
-marp masterclass-fsharp-07-async.fsx --theme themes/soat.css
 marp masterclass-fsharp-07-async.md --theme themes/soat.css
 marp masterclass-fsharp-08-monad.md --theme themes/soat.css
 marp masterclass-fsharp-09-module.md --theme themes/soat.css
@@ -41,7 +40,6 @@ marp masterclass-fsharp-03-types.md --pdf --allow-local-files --theme themes/soa
 marp masterclass-fsharp-04-types-comp.md --pdf --allow-local-files --theme themes/soat.css
 marp masterclass-fsharp-05-pattern-matching.md --pdf --allow-local-files --theme themes/soat.css
 marp masterclass-fsharp-06-collections.md --pdf --allow-local-files --theme themes/soat.css
-marp masterclass-fsharp-07-async.fsx --pdf --allow-local-files --theme themes/soat.css
 marp masterclass-fsharp-07-async.md --pdf --allow-local-files --theme themes/soat.css
 marp masterclass-fsharp-08-monad.md --pdf --allow-local-files --theme themes/soat.css
 marp masterclass-fsharp-09-module.md --pdf --allow-local-files --theme themes/soat.css

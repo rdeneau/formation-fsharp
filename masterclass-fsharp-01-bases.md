@@ -18,6 +18,7 @@ VSCode:
 - [Ctrl]+[KeyPad+/-] Zoom
 - [F1] + "Screencast mode" → show key stroke
 - [Ctrl]+[ù] → show terminal
+- [Ctrl]+[L] → clear terminal
 - Terminal tab > Right click : "Move panel right"
 
 -->
@@ -655,14 +656,16 @@ let tryDivide x y =
 
 ## Throwing Exception
 
-→ Fonctions `failwith` et `invalidArg`
+→ Helpers `failwith`, `invalidArg`, `nullArg`
 
 ```fs
-let fn arg = invalidArg (nameof arg) "Message..."
+let fn arg =
+    if arg = null then nullArg (nameof arg)
+    failwith "Not implemented"
 
 let divide x y =
     if y = 0
-    then failwith "Divisor cannot be zero"
+    then invalidArg (nameof y) "Divisor cannot be zero"
     else x / y
 ```
 
@@ -929,6 +932,7 @@ Objectif : Typer explicitement le moins possible
 - Variable, y.c. objet anonyme : `var o = new { Name = "John" }` ✔️
   - Sauf lambda : `Func<int, int> fn = (x: int) => x + 1;` → KO avec `var`
     - 💡 LanguageExt : `var fn = fun( (x: int) => x + 1 );` ✔️
+    - 💡 Autorisé en C♯ 10 : `var fn = f(x: int) => x + 1;` ✔️
 - Initialisation d'un tableau : `new[] { 1, 2 }` ✔️
 - Appel à une méthode générique avec argument, sauf constructeur :
   - `Tuple.Create(1, "a")` ✔️

@@ -982,12 +982,23 @@ let isNotEmpty' list = not (List.isEmpty list)  // 👌 Style explicite
 
 ---
 
-# Fonction `inline`
+# Fonction `inline` : principe
+
+🔗 https://fr.wikipedia.org/wiki/Extension_inline
+
+> **Extension inline** ou **inlining :** optimisation d'un compilateur
+> qui remplace un appel de fonction par le code *(le corps)* de cette fonction.
+
+- Gain de performance 👍
+- Compilation \+ longue ⚠
 
 💡 Même principe que les refactos *Inline Method*, *Inline Variable*
 
-Indique au compilateur de *"inliner"* la fonction
-→ Tous les appels à cette fonction seront remplacés par le corps de la fonction
+---
+
+# Fonction `inline` (2)
+
+Mot clé `inline` indique au compilateur de *"inliner"* la fonction
 → Usage typique : petite fonction/opérateur de "sucre syntaxique"
 
 ```fs
@@ -1175,19 +1186,20 @@ BCL = Base Class Library .NET
 
 # Appel à une méthode de la BCL
 
-- Syntaxe similaire au tuple - Ex : `System.String.Compare("a","b")`
-  - Méthode **pas** curryfiée → Tous les arguments doivent être spécifiés
-- Mais ne marche pas avec un vrai tuple F♯
+Méthode est "pseudo-tuplifiée"
+- Tous les arguments doivent être spécifiés (1)
+- Application partielle des paramètres non supportée (2)
+- Mais ne marche pas avec un vrai tuple F♯ (3)
 
 ```fs
-System.String.Compare("a", "b") // ✅
+System.String.Compare("a", "b") // ✅ (1)
 System.String.Compare ("a","b") // ✅
 
-System.String.Compare "a" "b"   // ❌
+System.String.Compare "a" "b"   // ❌ (2)
 System.String.Compare "a","b"   // ❌
 
 let tuple = ("a","b")
-System.String.Compare tuple     // ❌
+System.String.Compare tuple     // ❌ (3)
 ```
 
 ---
@@ -1222,18 +1234,22 @@ Possibilité de consommer la sortie sous forme de tuple 👍
 
 # Instancier une classe avec `new` ?
 
-| Classe                   | Utiliser `new`             |
-|--------------------------|----------------------------|
-| Quelconque               | Optionnel - Non recommandé |
-| Implémente `IDisposable` | Obligatoire                |
-
 ```fs
-let myvar = MyClass(12)       // 👍
-let myvar2 = new MyClass(234) // ⚠️ Marche mais pas idiomatique
+// (1) `new` autorisé mais non recommandé
+type MyClass(i) = class end
 
-// IDisposable
-let f = FileStream("hello.txt", FileMode.Open)     // ⚠️ Compiler warning
-use f = new FileStream("hello.txt", FileMode.Open) // ☝ `use` plutôt que `let`
+let c1 = MyClass(12)      // 👍
+let c2 = new MyClass(234) // 👌 mais pas idiomatique
+
+// (2) IDisposable => `new` obligatoire et `use` plutôt que `let`
+open System.IO
+let fn () =
+    let _ = FileStream("hello.txt", FileMode.Open)
+    // ⚠️ Warning : Il est recommandé que les objets prenant en charge
+    // l'interface IDisposable soient créés avec la syntaxe 'new Type(args)'
+
+    use f = new FileStream("hello.txt", FileMode.Open)
+    f.Close()
 ```
 
 ---
@@ -1245,10 +1261,12 @@ use f = new FileStream("hello.txt", FileMode.Open) // ☝ `use` plutôt que `let
 
 ```fs
 let createReader fileName =
-    new System.IO.StreamReader(path=fileName) // 👈 Param `path` → `filename` inféré en `string`
+    new System.IO.StreamReader(path=fileName)
+    // ☝️ Param `path` → `filename` inféré en `string`
 
 let createReaderByStream stream =
-    new System.IO.StreamReader(stream=stream) // 👈 Param `stream` de type `System.IO.Stream`
+    new System.IO.StreamReader(stream=stream)
+    // ☝️ Param `stream` de type `System.IO.Stream`
 ```
 
 ---

@@ -399,7 +399,8 @@ let {| Name = name' |} = john'  // 💥
 
 # Type Test Pattern
 
-Syntaxe : `?: Subtype`
+Syntaxe : `my-object :? sub-type` et renvoie un `bool`
+→ ≃ `my-object is sub-type` en C♯
 
 Usage : avec une hiérarchie de types
 
@@ -1081,7 +1082,7 @@ let fizzBuzz = function
     | other -> string other
 ```
 
-→ Les 2 solutions se valent. C'est une question de style / de goût personnel.m
+→ Les 2 solutions se valent. C'est une question de style / de goût personnel.
 
 ---
 

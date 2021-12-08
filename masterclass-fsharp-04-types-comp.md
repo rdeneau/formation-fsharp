@@ -848,7 +848,7 @@ En C♯ : *upcast* peut généralement être implicite
 object o = "abc";
 ```
 
-En F♯ : *upcast* peut parfois être implicite *(avec règles élargies en F♯ 6)*
+En F♯ : *upcast* peut parfois être implicite
 mais en général doit être **explicite**, avec opérateur `:>`
 
 ```fs
@@ -860,6 +860,18 @@ let o3 = "abc" |> toObject      // Implicite 👌
 
 let l1: obj list = [1; 2; 3]    // Implicite 👌
 let l2: int seq = [1; 2; 3]     // Implicite 💥 Error FS0001...
+```
+
+---
+
+# Upcasting d'objets (2)
+
+Règles élargies/assouplies en F♯ 6
+
+→ Exemple : upcast implicite de `int list` vers `int seq`
+
+```fsharp
+let l2: int seq = [1; 2; 3]  // 👌 OK en F♯ 6
 ```
 
 ---
