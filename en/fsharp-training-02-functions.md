@@ -188,7 +188,10 @@ Arrow notation:
 - 2-parameter function: `T1 -> T2 -> TResult`
 - 3-parameter function: `T1 -> T2 -> T3 -> TResult`
 
-❓ **Quiz**: Why several `->` rather than `,` between parameters? What is the underlying concept?
+❓ **Quiz** ❓
+
+- Why several `->` rather than `,` between parameters?
+- What is the underlying concept?
 
 ---
 
@@ -360,7 +363,7 @@ let add1 i = i + 1
 [1..10] |> List.map add1
 ```
 
-⚠️ Useless lambda: `List.map (fun x -> f x)` ≡ `List.map f``
+⚠️ Useless lambda: `List.map (fun x -> f x)` ≡ `List.map f`
 
 ---
 
@@ -460,7 +463,7 @@ let f (x, y, z) = ...
 
 # Tuple Parameter (2)
 
-- f (x, y, z)` looks a lot like a C♯ method!
+- `f (x, y, z)` looks a lot like a C♯ method!
 - The signature signals the change: `(int * int * int) -> TResult`
   - The function now has only 1! parameter instead of 3
   - Possibility of partial application of each tuple element lost
@@ -650,7 +653,7 @@ type Product =
 | Argument inference (usage)        | ✅ yes            | ❌ no, object type annotation needed                   |
 | High-order function argument      | ✅ yes            | ➖ yes with shorthand member, no with lambda otherwise |
 | `inline` supported                | ✅ yes            | ✅ yes                                                 |
-| Recursive                         | ✅ yes with `rec` | ✅ yes                                                 |
+| Recursive                         | ✅ yes with `rec` | ✅ yes                                                 |
 
 ---
 
@@ -923,10 +926,11 @@ Concise style - Abstract parameters, operate at function level
 ### ❌ Cons
 
 Loses the name of the parameter now implicit in the signature
-→ Unimportant if function remains understandable :
-    - Parameter name not significant (e.g. `x`)
-    - Param type and function name are sufficient
-→ Not recommended for a public API
+👌 fine if the function remains understandable
+    _(due to parameter types + the function name)_
+👌 fine in a narrow scope
+    _otherwise can obfuscate the code - imagine in a code review!_
+❌ not recommended for a public API
 
 ---
 
@@ -1171,15 +1175,28 @@ Output can be consumed as a tuple 👍
 
 # Instantiate a class with `new`?
 
+- Class constructors are regular functions in F♯ 🤩
+- `new` keyword is supported but not recommended
+
 ```fsharp
-// (1) new allowed but not recommended
 type MyClass(i) = class end
 
 let c1 = MyClass(12)      // 👍
-let c2 = new MyClass(234) // 👌 mais pas idiomatique
+let c2 = new MyClass(234) // 👌 OK but not idiomatic
 
-// (2) IDisposable => `new` required, `use` replaces `let` (otherwise it's a compiler warning)
+let cs = [1..3] |> List.map MyClass // High-order functions
+```
+
+---
+
+# `new` keyword for `IDisposable`
+
+- `new` keyword is required to instantiate `IDisposable`
+- Compiler warning otherwise
+
+```fsharp
 open System.IO
+
 let fn () =
     use f = new FileStream("hello.txt", FileMode.Open)
     f.Close()
@@ -1441,9 +1458,11 @@ let g x y = $"%i{x} + %i{y}"
 let h = f >> g
 ```
 
-☝️ **Note:** this question was hard enough to illustrate
-the **misuse** of `>>` when the composed functions
-have different arities (`f` has 1 parameter, `g` has 2).
+This question was difficult...
+... to illustrate the **misuse** of `>>`
+
+→ **Tips**: Avoid compose functions having different arities!
+*(`f` has 1 parameter, `g` has 2).*
 
 ---
 
@@ -1497,7 +1516,7 @@ f 2 // ?
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_note.png)
 
-A lot, just for functions. But it's a corner stone.
+# We've seen
 
 - Signature with arrow notation
 - Universal signature `T -> U` thanks to `unit` type and currying
@@ -1508,6 +1527,15 @@ A lot, just for functions. But it's a corner stone.
 - Overloading or creating operators
 - Point-free notation
 - Interoperability with BCL
+
+---
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_note.png)
+
+# A lot
+
+- It's a lot, just for functions!
+- But they are a corner stone in F♯.
 
 ---
 
