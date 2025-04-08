@@ -67,7 +67,7 @@ VSCode:
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_probleme.png)
 
@@ -191,7 +191,7 @@ Création dans un IDE ou avec la CLI `dotnet` :
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_backEnd.png)
 
@@ -747,7 +747,7 @@ let myLongValueName = someExpression
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_idee.png)
 
@@ -1076,7 +1076,7 @@ let listOk' = List.sortBy String.length ["three"; "two"; "one"]
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
@@ -1282,7 +1282,7 @@ L'opérateur de composition est `>>` 📍
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1320,4 +1320,4 @@ Mauvais nommage ? Non, pas dans les cas suivants :
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

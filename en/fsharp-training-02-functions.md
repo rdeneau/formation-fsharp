@@ -30,7 +30,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_probleme.png)
 
@@ -247,7 +247,7 @@ The `unit` type and currying make it possible to design functions simply as :
 - **Takes a single parameter** of any type
   - including `unit` for a "parameterless" function
   - including another *(callback)* function
-- Returns a single value** of any type
+- Returns a single value of any type
   - including `unit` for a "return nothing" function
   - including another function
 
@@ -297,7 +297,7 @@ Ex: "dependencies" that would be injected into an object in C♯
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_alEchelle.png)
 
@@ -724,7 +724,7 @@ How to do just the operation and no mapping?
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_software.png)
 
@@ -1098,7 +1098,7 @@ Examples:
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_architecture.png)
 
@@ -1221,7 +1221,7 @@ let createReaderByStream stream =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
@@ -1504,7 +1504,7 @@ f 2 // ?
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 

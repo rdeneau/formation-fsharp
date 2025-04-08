@@ -39,7 +39,7 @@ En plus des types courants de .NET, F# possède d'autres types qui sont très co
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_idee.png)
 
@@ -196,7 +196,7 @@ type CustomerId = int
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_produit.png)
 
@@ -397,7 +397,7 @@ let inline toList (x, y) = [x; y]
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_note.png)
 
@@ -684,7 +684,7 @@ type Point = { X: float; Y: float; Z: float }
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_baseDonnees.png)
 
@@ -841,7 +841,7 @@ let print answer =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_innovation.png)
 
@@ -954,7 +954,7 @@ let canRead = permission.HasFlag PermissionFlags.Read
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_rechercheProfil.png)
 
@@ -1218,7 +1218,7 @@ Alternatives aux classes 📍 mais \+ limités / héritage et récursivité
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1307,4 +1307,4 @@ De quoi s'adapter :
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

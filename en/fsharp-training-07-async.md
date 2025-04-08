@@ -28,7 +28,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_software.png)
 
@@ -535,7 +535,7 @@ En F♯, le *warning FS0020* est accompagné du message :
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -568,4 +568,4 @@ Via bloc `task {}`
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

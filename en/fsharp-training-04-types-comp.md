@@ -32,7 +32,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_objectifs.png)
 
@@ -102,7 +102,7 @@ Usage : `expression |> ignore`
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_cooptation.png)
 
@@ -267,7 +267,7 @@ let y = add 1.0 2.0   // ✅ val y: float = 3.0
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_software.png)
 
@@ -426,7 +426,7 @@ let y = add (1.0, 2.0)
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_agilite.png)
 
@@ -554,7 +554,7 @@ Autres usages :
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_atelier.png)
 
@@ -759,7 +759,7 @@ let order = { Id = % Guid.NewGuid(); ClientId = % "RDE" }
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_webinar.png)
 
@@ -933,7 +933,7 @@ let isFloat = (box 1) :? float  // val isFloat : bool = false
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1019,4 +1019,4 @@ Limitée aux types numériques
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

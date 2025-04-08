@@ -68,7 +68,7 @@ En fait, il existe plusieurs polymorphismes. Les principaux :
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_roles_grey.png)
 
@@ -497,7 +497,7 @@ let v5 = v1 + v4            // Vector (X: -0.5, Y: -1.0)
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_alEchelle.png)
 
@@ -820,7 +820,7 @@ Ne participent pas au polymorphisme :
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_travail.png)
 
@@ -1095,7 +1095,7 @@ let x = Point(1.0, 2.0)
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_frontEnd_orange.png)
 
@@ -1244,7 +1244,7 @@ let child = Child(1)
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_smiley4.png)
 
@@ -1298,7 +1298,7 @@ let i = (d :?> System.IComparable).CompareTo("cde")  // ❗ Dangereux
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1577,4 +1577,4 @@ let test42 (f: Func2<'U>) =
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

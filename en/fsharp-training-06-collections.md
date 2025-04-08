@@ -29,7 +29,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_tendance.png)
 
@@ -147,7 +147,7 @@ let oneToSix =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_baseDonnees.png)
 
@@ -531,7 +531,7 @@ Ne marchent que si éléments (d'un `Set`) / clés (d'une `Map`) sont **comparab
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_travail.png)
 
@@ -1011,7 +1011,7 @@ let h = "abcd" |> String.map (fun c -> (int c) + 1 |> char)  // "bcde"
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
@@ -1121,7 +1121,7 @@ pour appliquer `format` aux éléments ?**
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1208,4 +1208,4 @@ https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting#formatting
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

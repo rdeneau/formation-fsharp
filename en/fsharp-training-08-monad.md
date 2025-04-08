@@ -30,7 +30,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_baseDonnees.png)
 
@@ -278,7 +278,7 @@ let readLine (reader: System.IO.TextReader) =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_delivery.png)
 
@@ -445,7 +445,7 @@ let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_atelier.png)
 
@@ -528,7 +528,7 @@ let tweet1 = Tweet.Of "Hello world" // Ok { Tweet = "Hello world" }
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_backEnd.png)
 
@@ -1144,7 +1144,7 @@ Computation Expressions Workshop
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1202,4 +1202,4 @@ F# for Fun and Profit *(Scott Wlaschin)*
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

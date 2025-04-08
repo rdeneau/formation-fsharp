@@ -29,7 +29,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_architecture.png)
 
@@ -433,7 +433,7 @@ let isInt x =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_etudeCas.png)
 
@@ -695,7 +695,7 @@ Kelvin 273.15<K>
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_alEchelle.png)
 
@@ -1156,7 +1156,7 @@ let test = [0; 2; 4; 5; 6] |> firstItems (|Even|_|)  // [0; 2; 4]
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -1239,4 +1239,4 @@ peuvent se résoudre avec des active patterns :
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏

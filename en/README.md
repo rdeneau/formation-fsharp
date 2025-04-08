@@ -11,7 +11,8 @@ Use `marp` ([link](https://marp.app)) to convert markdown slides to HTML or PDF.
 *watch* mode:
 
 ```bash
-marp fsharp-training-01-bases.md --watch --theme themes/d-edge.css
+marp fsharp-training-02-functions.md --output ./html/fsharp-training-02-functions.html --watch --theme themes/d-edge.css
+marp fsharp-training-03-types.md --output ./html/fsharp-training-03-types.html --watch --theme themes/d-edge.css
 ```
 
 All files:

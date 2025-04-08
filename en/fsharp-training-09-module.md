@@ -29,7 +29,7 @@ paginate: true
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_idee.png)
 
@@ -106,7 +106,7 @@ let result = add 1 2 // 💥 Error FS0001: Le type 'float' ne correspond pas au 
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_baseDonnees.png)
 
@@ -172,7 +172,7 @@ module BananaHelper =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_baseDonnees.png)
 
@@ -418,7 +418,7 @@ Cf. [docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](http
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
@@ -557,7 +557,7 @@ module IntHelper =
 
 ---
 
-<!-- _class: green chapter invert -->
+<!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
@@ -584,4 +584,4 @@ module IntHelper =
 
 <!-- _class: end invert lead-->
 
-# Merci 🙏
+# Thanks 🙏
