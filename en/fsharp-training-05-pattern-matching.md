@@ -35,52 +35,50 @@ paginate: true
 
 # 1.
 
-## Généralités : *Patterns*
+## Patterns overview
 
 ---
 
 # Patterns
 
-*Patterns* = règles pour détecter la structure de données en entrée
-
-Utilisés abondamment en F♯
-→ Dans *match expression*, *let binding* de valeurs et de paramètres de fonctions
-→ Très pratiques pour manipuler les types algébriques F♯ (tuple, record, union)
-→ Composables : supporte plusieurs niveaux d'imbrication
-→ Assemblables par ET/OU logiques
-→ Supporte les littéraux : `1.0`, `"test"`...
+Used extensively in F♯
+→ *match expression*, *let binding*, parameters deconstruction...
+→ Very practical for manipulating F♯ algebraic types (tuple, record, union)
+→ Composable: supports multiple nesting levels
+→ Composed by logical AND/OR
+→ Supports literals: `1.0`, `"test"`...
 
 ---
 
 # Wildcard Pattern
 
-Représenté par `_`, seul ou combiné avec un autre *pattern*
+Represented by `_`, alone or combined with another *pattern*.
 
-Toujours vrai
-→ A placer en dernier dans une *match expression*
+Always true
+→ To be placed last in a *match expression*.
 
-⚠️ Toujours chercher en 1er à traiter exhaustivement/explicitement tous les cas
-     Quand impossible, utiliser alors le `_`
+⚠️ Always seek 1st to handle all cases exhaustively/explicitly
+     When impossible, then use the `_`
 
 ```fs
 match option with
 | Some 1 -> ...
-| _ -> ...              // ⚠️ Non exhaustif
+| _ -> ...              // ⚠️ Non exhaustive
 
 match option with
 | Some 1 -> ...
-| Some _ | None -> ...  // 👌 \+ exhaustif
+| Some _ | None -> ...  // 👌 More exhaustive
 ```
 
 ---
 
 # Constant Pattern
 
-Détecte constantes, `null` et littéraux de nombre, `char`, `string`, `enum`
+Detects constants, `null` and number literals, `char`, `string`, `enum`.
 
 ```fs
 [<Literal>]
-let Three = 3   // Constante
+let Three = 3   // Constant
 
 let is123 num = // int -> bool
     match num with
@@ -90,14 +88,14 @@ let is123 num = // int -> bool
 
 ☝ **Notes :**
 
-- Le pattern de `Three` est aussi classé en tant que *Identifier Pattern* 📍
-- Pour le matching de `null`, on parle aussi de *Null Pattern*
+- The `Three` pattern is also classified as an *Identifier Pattern* 📍
+- For `null` matching, we also talk about *Null Pattern*.
 
 ---
 
 # Identifier Pattern
 
-Détecte les *cases* d'un type union ainsi que leur éventuel contenu
+Detects *cases* of a union type and their possible contents
 
 ```fs
 type PersonName =
@@ -116,9 +114,9 @@ let classify personName =
 
 # Variable Pattern
 
-Assigne la valeur détectée à une "variable" pour l'utiliser ensuite
+Assigns the detected value to a "variable" for subsequent use
 
-Exemple : variables `firstName` et `lastName` ci-dessous
+Example: `firstName` and `lastName` variables below
 
 ```fs
 type PersonName =
@@ -128,25 +126,25 @@ type PersonName =
 
 let confirm personName =
     match personName with
-    | FirstOnly (firstName) -> printf "May I call you %s?" firstName
-    | LastOnly  (lastName) -> printf "Are you Mr. or Ms. %s?" lastName
-    | FirstLast (firstName, lastName) -> printf "Are you %s %s?" firstName lastName
+    | FirstOnly(firstName) -> printf "May I call you %s?" firstName
+    | LastOnly (lastName) -> printf "Are you Mr. or Ms. %s?" lastName
+    | FirstLast(firstName, lastName) -> printf "Are you %s %s?" firstName lastName
 ```
 
 ---
 
 # Variable Pattern (2)
 
-⚠️ On ne peut pas lier à plusieurs reprises vers la même variable
+⚠️ You cannot link to the same variable more than once.
 
 ```fs
 let elementsAreEqualKo tuple =
     match tuple with
-    | (x,x) -> true  // 💥 Error FS0038: 'x' est lié à deux reprises dans ce modèle
+    | (x,x) -> true  // 💥 Error FS0038: x' is linked twice in this model
     | (_,_) -> false
 ```
 
-Solutions : utiliser 2 variables puis vérifier l'égalité
+Solutions: use 2 variables then check their equality
 
 ```fs
 // 1. Guard clause📍
@@ -154,18 +152,18 @@ let elementsAreEqualOk = function
     | (x,y) when x = y -> true
     | (_,_) -> false
 
-// 2. Déconstruction
+// 2. Deconstruction
 let elementsAreEqualOk' (x, y) = x = y
 ```
 
 ---
 
-## Champs nommés de *case* d'union
+## Fields named with *case* unions
 
-Plusieurs possibilités :
-① Pattern "anonyme" du tuple complet
-② Pattern d'un seul champ par son nom → `Field = value`
-③ Pattern de plusieurs champs par leur nom → `F1 = v1; F2 = v2`
+Several possibilities:
+① "Anonymous" pattern of the complete tuple
+② Pattern of a single field by its name → `Field = value`
+③ Pattern of several fields by name → `F1 = v1; F2 = v2`
 
 ```fs
 type Shape =
@@ -184,31 +182,31 @@ let describe shape =
 
 # Alias Pattern
 
-`as` permet de nommer un élément dont le contenu est déconstruit
+`as` is used to name an element whose content is deconstructed
 
 ```fs
 let (x, y) as coordinate = (1, 2)
 printfn "%i %i %A" x y coordinate  // 1 2 (1, 2)
 ```
 
-💡 Marche aussi dans les fonctions :
+💡 Also works within functions to get back the parameter name:
 
 ```fs
 type Person = { Name: string; Age: int }
 
-let acceptMajorOnly ({ Age = age } as person) =
+let acceptMajorOnly ({ Age = age } as person) = // person: Person -> Person option
     if age < 18 then None else Some person
 ```
 
 ---
 
-# OR et AND Patterns
+# OR / AND Patterns
 
-Permettent de combiner deux patterns *(nommés `P1` et `P2` ci-après)*
-• `P1 | P2` → P1 ou P2. Ex : `Rectangle (0, _) | Rectangle (_, 0)`
-• `P1 & P2` → P1 et P2. Utilisé surtout avec *active patterns* 📍
+Combine two patterns *(named `P1` and `P2` below)*.
+• `P1 | P2` → P1 or P2. Ex: `Rectangle (0, _) | Rectangle (_, 0)`
+• `P1 & P2` → P1 and P2. Used especially with *active patterns* 📍
 
-💡 Utiliser la même variable :
+💡 Use the same variable (`name` in the example below):
 
 ```fs
 type Upload = { Filename: string; Title: string option }
@@ -223,7 +221,7 @@ titleOrFile { Filename = "Report.docx"; Title = Some "Report+" }  // "Report+"
 
 # Parenthesized Pattern
 
-Usage des parenthèses `()` pour grouper des patterns, pour gérer la précédence
+Use of parentheses `()` to group patterns, to tackle precedence
 
 ```fs
 type Shape = Circle of Radius: int | Square of Side: int
@@ -237,21 +235,21 @@ let countFlatShapes shapes =
     loop shapes 0
 ```
 
-☝ **Note :** la ligne ① ne compilerait sans faire `() :: tail` 
+☝ **Note :** line ① would compile without doing `() :: tail`
 
 ---
 
 # Parenthesized Pattern (2)
 
-⚠️ Les parenthèses compliquent la lecture
-💡 Essayer de s'en passer quand c'est possible
+⚠️ Parentheses complicate reading
+💡 Try to do without when possible
 
 ```fs
 let countFlatShapes shapes =
     let rec loop rest count =
         match rest with
-        | Circle (Radius = 0) :: tail
-        | Square (Side = 0) :: tail
+        | Circle(Radius = 0) :: tail
+        | Square(Side = 0) :: tail
           -> loop tail (count + 1)
         // [...]
 ```
@@ -260,28 +258,28 @@ let countFlatShapes shapes =
 
 # Construction Patterns
 
-Reprennent syntaxe de construction d'un type pour le déconstruire
+Use type construction syntax to deconstruct a type
 
-- Cons et List Patterns
+- Cons and List Patterns
 - Array Pattern
 - Tuple Pattern
 - Record Pattern
 
 ---
 
-# Cons et List Patterns
+# Cons and List Patterns
 
-≃ Inverses de 2 types de construction d'une liste, avec même syntaxe
+≃ Inverses of the 2 ways to construct a list
 
-*Cons Pattern* : `head :: tail` → décompose une liste *(avec >= 1 élément)* en :
-• *Head* : 1er élément
-• *Tail* : autre liste avec le reste des éléments - peut être vide
+*Cons Pattern* : `head :: tail` → decomposes a list *(with >= 1 element)* into:
+• *Head*: 1st element
+• *Tail*: another list with the remaining elements - can be empty
 
-*List Pattern* : `[items]` → décompose une liste en 0..N éléments
-• `[]` : liste vide
-• `[x]` : liste avec 1 élément mis dans la variable `x`
-• `[x; y]` : liste avec 2 éléments mis dans les variables `x` et `y`
-• `[_; _]` : liste avec 2 éléments ignorés
+*List Pattern* : `[items]` → decompose a list into 0..N items
+• `[]` : empty list
+• `[x]` : list with 1 element set in the `x` variable
+• `[x; y]` : list with 2 elements set in variables `x` and `y`
+• `[_; _]`: list with 2 elements ignored
 
 💡 `x :: []` ≡ `[x]`, `x :: y :: []` ≡ `[x; y]`...
 
@@ -289,25 +287,26 @@ Reprennent syntaxe de construction d'un type pour le déconstruire
 
 # Cons et List Patterns (2)
 
-La *match expression* par défaut combine les 2 patterns :
-→ Une liste est soit vide `[]`, soit composée d'un item et du reste : `head :: tail`
+The default *match expression* combines the 2 patterns:
+→ A list is either empty `[]`, or composed of an item and the rest: `head :: tail`
 
-Les fonctions récursives parcourant une liste utilise le pattern `[]` pour stopper la récursion :
+Recursive functions traversing a list use the `[]` pattern to stop recursion:
 
 ```fs
+[<TailCall>]
 let rec printList l =
     match l with
     | head :: tail ->
         printf "%d " head
-        printList tail     // Récursion sur le reste
-    | [] -> printfn ""     // Fin de récursion : liste parcourue entièrement
+        printList tail
+    | [] -> printfn ""
 ```
 
 ---
 
 # Array Pattern
 
-Syntaxe: `[| items |]` pour 0..N items entre `;`
+Syntax: `[| items |]` for 0..N items between `;`
 
 ```fs
 let length vector =
@@ -318,15 +317,15 @@ let length vector =
     | _ -> invalidArg (nameof vector) $"Vector with more than 4 dimensions not supported"
 ```
 
-☝ Il n'existe pas de pattern pour les séquences, vu qu'elles sont *"lazy"*.
+☝ There is no pattern for sequences, as they are *"lazy "*.
 
 ---
 
 # Tuple Pattern
 
-Syntaxe : `items` ou `(items)` pour 2..N items entre `,`
+Syntax: `items` or `(items)` for 2..N items between `,`.
 
-💡 Pratique pour pattern matcher plusieurs valeurs en même temps
+💡 Useful to match several values at the same time
 
 ```fs
 type Color = Red | Blue
@@ -344,11 +343,11 @@ let css color style =
 
 # Record Pattern
 
-Syntaxe : `{ Fields }` pour 1..N `Field = variable` entre `;`
-→ Pas obligé de spécifier tous les champs du Record
-→ En cas d'ambiguïté, qualifier le champ : `Record.Field`
+Syntax: `{ Field1 = var1; ... }`
+→ Not required to specify all Record fields
+→ In case of ambiguity, qualify the field: `Record.Field`
 
-💡 Marche aussi pour les paramètres d'une fonction :
+💡 Also works for function parameters:
 
 ```fs
 type Person = { Name: string; Age: int }
@@ -366,7 +365,7 @@ displayMajority john // John is major
 
 # Record Pattern (2)
 
-⚠️ **Rappel :** il n'y a pas de pattern pour les *Records* anonymes !
+⚠️ **Reminder:** there is no pattern for anonymous *Records*!
 
 ```fs
 type Person = { Name: string; Age: int }
@@ -382,10 +381,10 @@ let {| Name = name' |} = john'  // 💥
 
 # Type Test Pattern
 
-Syntaxe : `my-object :? sub-type` et renvoie un `bool`
-→ ≃ `my-object is sub-type` en C♯
+Syntax: `my-object :? sub-type` and returns a `bool`
+→ ≃ `my-object is sub-type` in C♯
 
-Usage : avec une hiérarchie de types
+Usage: with a type hierarchy
 
 ```fs
 open System.Windows.Forms
@@ -394,23 +393,23 @@ let RegisterControl (control: Control) =
     match control with
     | :? Button as button -> button.Text <- "Registered."
     | :? CheckBox as checkbox -> checkbox.Text <- "Registered."
-    | :? Windows -> invalidArg (nameof control) "Window cannot be registered"
+    | :? Windows -> invalidArg (nameof control) "Windows cannot be registered!"
     | _ -> ()
 ```
 
 ---
 
-# Type Test Pattern - Bloc `try`/`with`
+# Type Test Pattern - `try`/`with` block
 
-On rencontre fréquemment ce pattern dans les blocs `try`/`with` :
+This pattern is common in `try`/`with` blocks:
 
 ```fs
 try
     printfn "Difference: %i" (42 / 0)
 with
-| :? DivideByZeroException as x -> 
+| :? DivideByZeroException as x ->
     printfn "Fail! %s" x.Message
-| :? TimeoutException -> 
+| :? TimeoutException ->
     printfn "Fail! Took too long"
 ```
 
@@ -418,12 +417,14 @@ with
 
 # Type Test Pattern - Boxing
 
-Le *Type Test Pattern* ne marche qu'avec des types références.
-→ Pour un type valeur ou inconnu, il faut le convertir en objet *(a.k.a boxing)*
+The *Type Test Pattern* only works with reference types.
+→ For a value type or unknown type, it must be boxed.
 
 ```fs
 let isIntKo = function :? int -> true | _ -> false
-// 💥 Error FS0008: test de type au moment de l'exécution du type 'a en int...
+//                     ~~~~~~
+// 💥 Error FS0008: This runtime coercion or type test from type 'a to int
+//    involves an indeterminate type based on information prior to this program point.
 
 let isInt x =
     match box x with
@@ -445,9 +446,9 @@ let isInt x =
 
 # Match expression
 
-Similaire à une expression `switch` en C♯ 8.0 en \+ puissant grâce aux patterns
+Similar to a `switch` expression in C♯ 8.0 but more powerful thanks to patterns
 
-Syntaxe :
+Syntax:
 
 ```fs
 match test-expression with
@@ -456,19 +457,19 @@ match test-expression with
 | ...
 ```
 
-Renvoie le résultat de la 1ère branche dont le pattern "match" `test-expression`
+Returns the result of the 1st branch whose pattern "matches" `test-expression`
 
-☝ **Note :** toutes les branches doivent renvoyer le même type !
+☝ **Note:** all branches must return the same type!
 
 ---
 
-# Match expression - Exhaustivité
+# Match expression - Exhaustivity
 
-Un `switch` doit toujours définir un cas par défaut *(cf. pattern *wildcard* `_`)*
-Sinon : warning à la compilation, risque de 💥 `MatchFailureException` au runtime
+A C# `switch` must always define a default case.
+Otherwise: compile warning, 💥 `MatchFailureException` at runtime
 
-Pas nécessaire dans une *match expression* si les branches couvrent tous les cas
-car le compilateur vérifie leur exhaustivité et les branches "mortes"
+Not necessary in a F# *match expression* if branches cover all cases
+because the compiler checks for completeness and "dead" branches
 
 ```fs
 let fn x =
@@ -476,33 +477,34 @@ let fn x =
     | Some true  -> "ok"
     | Some false -> "ko"
     | None       -> ""
-    | _          -> "?"  // ⚠️ Warning FS0026: Cette règle n'aura aucune correspondance
+    | _          -> "?"
+//    ~  ⚠️ Warning FS0026: his rule will never be matched
 ```
 
 ---
 
-# Match expression - Exhaustivité (2)
+# Match expression - Exhaustivity (2)
 
-☝ **Conseil :** \+ les branches sont exhaustives, \+ le code est explicite et sûr
+☝ **Tip:** the more branches are exhaustive, the more code is explicit and safe
 
-Exemple : matcher tous les cases d'un type union permet de gérer
-l'ajout d'un case par un warning à la compilation :
-`Warning FS0025: Critères spéciaux incomplets dans cette expression`
+Example: checking all the cases of a union type allows you to manage
+the addition of a case by a warning at compile time:
+`Warning FS0025: Special criteria incomplete in this expression`
 
-- Détection d'un ajout accidentel
-- Identification du code à changer pour gérer le nouveau case
+- Detection of accidental addition
+- Identification of the code to change to handle the new case
 
 ---
 
 # Match expression - Guard
 
-Syntaxe : `pattern1 when condition`
-Usage : raffiner un pattern, via contraintes sur des variables
+Syntax: `pattern1 when condition`
+Usage: to refine a pattern, using constraints on variables
 
 ```fs
 let classifyBetween low top value =
     match value with
-    | x when x < low -> "Inf"  // 💡 Alternative : `_ when value < low`
+    | x when x < low -> "Inf"
     | x when x = low -> "Low"
     | x when x = top -> "Top"
     | x when x > top -> "Sup"
@@ -512,13 +514,13 @@ let test1 = 1 |> classifyBetween 1 5  // "Low"
 let test2 = 6 |> classifyBetween 1 5  // "Sup"
 ```
 
-💡 La *guard* n'est évaluée que si le pattern est satisfait.
+💡 The *guard* is only evaluated if the pattern is satisfied.
 
 ---
 
-# Match expression - Guard et Pattern OR
+# Match expression - Guard *vs* OR Pattern
 
-Le pattern OR a une *precedence/priorité* plus élevée que la *guard* :
+The OR pattern has a higher *precedence/priority* than the *Guard* :
 
 ```fs
 type Parity = Even of int | Odd of int
@@ -530,7 +532,7 @@ let hasSquare square value =
     match parityOf square, parityOf value with
     | Even x2, Even x
     | Odd  x2, Odd  x
-        when x2 = x*x -> true  // 👈 Porte sur les 2 patterns précédents
+        when x2 = x*x -> true  // 👈 The guard is covering the 2 previous patterns
     | _ -> false
 
 let test1 = 2 |> hasSquare 4  // true
@@ -541,7 +543,7 @@ let test2 = 3 |> hasSquare 9  // true
 
 # Match function
 
-Syntaxe :
+Syntax :
 
 ```fs
 function
@@ -550,7 +552,7 @@ function
 | ...
 ```
 
-Equivalent à une lambda prenant un paramètre implicite qui est "matché" :
+Equivalent to a lambda taking an implicit parameter which is "matched" :
 
 ```fs
 fun value ->
@@ -562,9 +564,9 @@ fun value ->
 
 ---
 
-# Match function - Intérêts
+# Match function - Interest
 
-1. Dans pipeline
+1. In pipeline
 
 ```fs
 value
@@ -574,10 +576,9 @@ value
     | false -> "ko"
 ```
 
-2. Écriture \+ succincte d'une fonction
+2. Terser function
 
 ```fs
-// ⚠️ Paramètre implicite => peut rendre le code \+ difficile à comprendre !
 let is123 = function
     | 1 | 2 | 3 -> true
     | _ -> false
@@ -587,13 +588,13 @@ let is123 = function
 
 # Match function - Limites
 
-⚠️ Paramètre implicite => peut rendre le code \+ difficile à comprendre !
+⚠️ Implicit parameter => can make the code more difficult to understand!
 
-Exemple : fonction déclarée avec d'autres paramètres eux explicites
-→ On peut se tromper sur le nombre de paramètres et leur ordre :
+Example: function declared with other explicit parameters
+→ The number of parameters and their order can be wrong:
 
 ```fs
-let classifyBetween low high = function  // 👈 3 paramètres : low, high + 1 implicite
+let classifyBetween low high = function  // 👈 3 parameters : `low`, `high`, and another one implicit
     | x when x < low  -> "Inf"
     | x when x = low  -> "Low"
     | x when x = high -> "High"
@@ -606,14 +607,10 @@ let test2 = 6 |> classifyBetween 1 5  // "Sup"
 
 ---
 
-<!-- _footer: '' -->
+# `fold` function 🚀
 
-# Fonction `fold`
-
-Fonction associée à un type union et masquant la logique de *matching*
-Prend N+1 paramètres pour un type union avec N *cases* `CaseI of 'DataI`
-→ N fonctions `'DataI -> 'T` (1 / *case*), avec `'T` le type de retour de `fold`
-→ En dernier, l'instance du type union à matcher
+Function associated with a union type and hiding the *matching* logic
+Takes N+1 parameters for a union type with N *cases*
 
 ```fs
 type [<Measure>] C
@@ -632,7 +629,7 @@ module Temperature =
 
 ---
 
-# Fonction `fold` : utilisation
+# `fold` function: usage
 
 ```fs
 module Temperature =
@@ -654,12 +651,12 @@ let t2 = t1 |> Temperature.toggleUnit  // Fahrenheint 212.0
 
 ---
 
-# Fonction `fold` : intérêt
+# `fold` function: interest
 
-`fold` masque les détails d'implémentation du type
+`fold` hides the implementation details of the type
 
-Par exemple, on peut ajouter un *case* `Kelvin` et n'impacter que `fold`,
-pas les fonctions qui l'appellent comme `toggleUnit` :
+For example, we could add a `Kelvin` *case* and only impact `fold`,
+not the functions that call it, such as `toggleUnit` in the previous example
 
 ```fs
 type [<Measure>] C
@@ -671,12 +668,12 @@ type Temperature =
     | Fahrenheint of float<F>
     | Kelvin      of float<K>  // 🌟
 
-// ...
+// Code continued on next slide...
 ```
 
 ---
 
-# Fonction `fold` : intérêt (2)
+# `fold` function: interest (2)
 
 ```fs
 // ...
@@ -688,7 +685,6 @@ module Temperature =
         | Kelvin x      -> mapCelsius (x * 1.0<C/K> + 273.15<C>)  // 🌟
 
 Kelvin 273.15<K>
-|> Temperature.toggleUnit
 |> Temperature.toggleUnit
 // Celsius 0.0<C>
 ```
@@ -705,143 +701,149 @@ Kelvin 273.15<K>
 
 ---
 
-# Limitations du *Pattern Matching*
+# Pattern Matching Limits
 
-Nombre limité de patterns
+Limited number of patterns
 
-Impossibilité de factoriser l'action de patterns avec leur propre guard
+Impossibility of factoring the action of patterns with their own guard
 → `Pattern1 when Guard1 | Pattern2 when Guard2 -> do` 💥
 → `Pattern1 when Guard1 -> do | Pattern2 when Guard2 -> do` 😕
 
-Patterns ne sont pas des citoyens de 1ère classe
-*Ex : une fonction ne peut pas renvoyer un pattern*
-→ Juste une sorte de sucre syntaxique
+Patterns are not 1st class citizens
+*Ex: a function can't return a pattern*
+→ Just a kind of syntactic sugar
 
-Patterns interagissent mal avec un style OOP
+Patterns interact badly with an OOP style
 
 ---
 
-# Origine des *Active Patterns*
+# Origin of *Active Patterns*
 
 > 🔗 [*Extensible pattern matching via a lightweight language extension*](https://www.microsoft.com/en-us/research/publication/extensible-pattern-matching-via-a-lightweight-language-extension/)
-> ℹ️ Publication de 2007 de Don Syme, Gregory Neverov, James Margetson
+> ℹ️ 2007 publication by Don Syme, Gregory Neverov, James Margetson
 
-Intégré à F♯ 2.0 (2010)
+Integrated into F♯ 2.0 (2010)
 
-💡 **Idées**
+💡 **Ideas**
 
-- Permettre le *pattern matching* sur d'autres structures de données
-- Faire de ces nouveaux patterns des citoyens de 1ère classe
+- Enable *pattern matching* on other data structures
+- Make these new patterns 1st class citizens
 
 ---
 
-# *Active Patterns* - Syntaxe
+# *Active Patterns* - Syntax
 
-Syntaxe générale : `let (|Cases|) [arguments] valueToMatch = expression`
+General syntax : `let (|Cases|) [arguments] valueToMatch = expression`
 
-1. **Fonction** avec un nom spécial défini dans une "banane" `(|...|)`
-2. Ensemble de 1..N **cases** où ranger `valueToMatch`
+1. **Function** with a special name defined in a "banana" `(|...|)`
+2. Set of 1..N **cases** in which to store `valueToMatch` parameter
 
-💡 Sorte de fonction *factory* d'un **type union** "anonyme", défini *inline*
+💡 Kind of *factory* function of an "anonymous" **union** type, defined *inline*
 
 ---
 
 # *Active Patterns* - Types
 
-Il existe 4 types d'active patterns :
+There are 4 types of active patterns:
 
-1. Pattern total simple
-2. Pattern total multiple
-3. Pattern partiel
-4. Pattern paramétré
-
-💡 *Partiel* et *total* indique la faisabilité du « rangement dans le(s) case(s) »
-     de la valeur en entrée
-     → **Partiel** : il n'existe pas toujours une case correspondante
-     → **Total** : il existe forcément une case correspondante → pattern exhaustif
+| Name                       | Cases | Exhaustive | Parameters |
+|----------------------------|-------|------------|------------|
+| `1.  Simple    Total`      | 1     | ✅ Yes     | ❔ 0+      |
+| `2.  Multiple  Total`      | 2+    | ✅ Yes     | ❌ 0       |
+| `3.            Partial`    | 1     | ❌ No      | ❌ 0       |
+| `4.            Parametric` | 1     | ❌ No      | ✅ 1+      |
 
 ---
 
-# Active pattern total simple
+# Simple total active pattern
 
 *A.k.a Single-case Total Pattern*
 
-Syntaxe : `let (|Case|) [...parameters] value = Case [data]`
-Usage : déconstruction en ligne
+Syntax: `let (|Case|) [...parameters] value = Case [data]`
+Usage: on-site value adjustment
 
 ```fs
-// Avec paramètre => pas très lisible 😕
-let (|Default|) = Option.defaultValue  // 'T -> 'T option -> 'T
+/// Ensure the given string is never null
+let (|NotNullOrEmpty|) (s: string) = // string -> string
+    if s |> isNull then System.String.Empty else s
 
-let (Default "unknown" name1) = Some "John"  // name1 = "John"
-let (Default "unknown" name2) = None         // name2 = "unknown"
-
-// Sans paramètre => mieux 👌
-let (|ValueOrUnknown|) = Option.defaultValue "unknown"  // 'T option -> 'T
-
-let (ValueOrUnknown name1) = Some "John"  // name1 = "John"
-let (ValueOrUnknown name2) = None         // name2 = "unknown"
+// Usages:
+let (NotNullOrEmpty a) = "abc" // val a: string = "abc"
+let (NotNullOrEmpty b) = null  // val b: string = ""
 ```
 
 ---
 
-# Active pattern total simple (2)
+# Simple total active pattern (2)
 
-Autre exemple : extraction de la forme polaire d'un nombre complexe
-
-```fs
-open System.Numerics
-
-let (|Polar|) (x : Complex) =
-    Polar (x.Magnitude, x.Phase)
-
-let multiply (Polar (m1, p1)) (Polar (m2, p2)) =  // Complex -> Complex -> Complex
-    Complex(m1 + m2, p1 + p2)
-```
-
-Sans l'active pattern, c'est un autre style mais de lisibilité équivalente :
+Can accept **parameters** → ⚠️ usually more difficult to understand
 
 ```fs
-let multiply x y =
-    Complex (x.Magnitude + y.Magnitude, x.Phase + y.Phase)
+/// Get the value in the given option if there is some, otherwise the specified default value
+let (|Default|) defaultValue option = option |> Option.defaultValue defaultValue
+//              'T     -> 'T option -> 'T
+
+// Usages:
+let (Default "unknown" john) = Some "John"  // val john: string = "John"
+let (Default 0 count) = None                // val count: int = 0
+
+// Template function
+let (|ValueOrUnknown|) = (|Default|) "unknown" // string option -> string
+
+let (ValueOrUnknown person) = None  // val person: string = "unknown"
 ```
 
 ---
 
-<!-- _footer: '' -->
+# Simple total active pattern (3)
+
+Another example: extracting the polar form of a complex number
+
+```fs
+/// Extracts the polar form (Magnitude, Phase) of the given complex number
+let (|Polar|) (x: System.Numerics.Complex) =
+    x.Magnitude, x.Phase
+
+/// Multiply the 2 complex numbers by adding their phases and multiplying their magnitudes
+let multiply (Polar(m1, p1)) (Polar(m2, p2)) =  // Complex -> Complex -> Complex
+    System.Numerics.Complex.FromPolarCoordinates(magnitude = m1 * m2, phase = p1 + p2)
+
+// Without the active pattern: we need to add type annotations
+let multiply' (x: System.Numerics.Complex) (y: System.Numerics.Complex) =
+    System.Numerics.Complex.FromPolarCoordinates(x.Magnitude * y.Magnitude, x.Phase + y.Phase)
+```
+
+---
 
 # Active pattern total multiple
 
 *A.k.a Multiple-case Total Pattern*
 
-Syntaxe : `let (|Case1|...|CaseN|) value = CaseI [dataI]`
-☝ Pas de paramètre possible❗
+Syntax: `let (|Case1|...|CaseN|) value = CaseI [dataI]`
+☝ No parameters❗
 
 ```fs
-// Ré-écriture d'un exemple précédent
-
-// ❌ type Parity = Even of int | Odd of int
-// ❌ let parityOf value = if value % 2 = 0 then Even value else Odd value
-
-let (|Even|Odd|) x =  // int -> Choice<int, int>
-    if x % 2 = 0 then Even x else Odd x
-
-let hasSquare square value =
-    // ❌ match parityOf square, parityOf value with
-    match square, value with
-    | Even x2, Even x | Odd x2, Odd x when x2 = x*x -> true
-    | _ -> false
+// Using an ad-hoc union type                       ┆  // Using a total active pattern
+type Parity = Even of int | Odd of int with         ┆  let (|Even|Odd|) x =  // int -> Choice<int, int>
+    static member Of(x) =                           ┆      if x % 2 = 0 then Even x else Odd x
+        if x % 2 = 0 then Even x else Odd x         ┆
+                                                    ┆
+let hasSquare square value =                        ┆  let hasSquare' square value =
+    match Parity.Of(square), Parity.Of(value) with  ┆      match square, value with
+    | Even sq, Even v                               ┆      | Even sq, Even v
+    | Odd  sq, Odd  v when sq = v*v -> true         ┆      | Odd  sq, Odd  v when sq = v*v -> true
+    | _ -> false                                    ┆      | _ -> false
 ```
 
 ---
 
 <!-- _footer: '' -->
 
-# Active pattern partiel
+# Partial active pattern
 
-Syntaxe : `let (|Case|_|) value = Some Case | Some data | None`
-→ Renvoie type `'T option` si *Case* comprend des données, sinon `unit option`
-→ Pattern matching est non exhaustif → il faut un cas par défaut
+Syntax: `let (|Case|_|) value = Some Case | Some data | None`
+→ Returns the type `'T option` if *Case* includes data, otherwise `unit option`
+→ Pattern matching is non-exhaustive → a default case is required
 
 ```fs
 let (|Integer|_|) (x: string) = // (x: string) -> int option
@@ -862,11 +864,12 @@ let detectNumber = function
 
 ---
 
-# Active pattern partiel paramétré
+# Parametric partial active pattern
 
-Syntaxe : `let (|Case|_|) ...arguments value = Some Case | Some data | None`
+Syntax: `let (|Case|_|) ...arguments value = Some Case | Some data | None`
 
-Exemple 1 : année bissextile = multiple de 4 mais pas 100 sauf 400
+**Example 1: leap year**
+→ Year multiple of 4 but not 100 except 400
 
 ```fs
 let (|DivisibleBy|_|) factor x =  // (factor: int) -> (x: int) -> unit option
@@ -884,9 +887,9 @@ let isLeapYear year =  // (year: int) -> bool
 
 ---
 
-# Active pattern partiel paramétré (2)
+# Parametric partial active pattern (2)
 
-Exemple 2 : Expression régulière
+#### Example 2: Regular expression
 
 ```fs
 let (|Regexp|_|) pattern value =  // string -> string -> string list option
@@ -899,19 +902,21 @@ let (|Regexp|_|) pattern value =  // string -> string -> string list option
         |> Some
 ```
 
+💡 Usages seen with the next example...
+
 ---
 
-# Active pattern partiel paramétré (3)
+# Parametric partial active pattern (3)
 
-Exemple : Couleur hexadécimale
+#### Example 3: Hexadecimal color
 
 ```fs
 let hexToInt hex =  // string -> int // E.g. "FF" -> 255
     System.Int32.Parse(hex, System.Globalization.NumberStyles.HexNumber)
 
 let (|HexaColor|_|) = function  // string -> (int * int * int) option
-    // 💡 Utilise l'active pattern précédent
-    // 💡 La Regex recherche 3 groupes de 2 chars étant un chiffre ou une lettre A..F
+    // 👇 Uses the previous active pattern
+    // 💡 The Regex searches for 3 groups of 2 chars being a number or a letter A..F
     | Regexp "#([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})" [ r; g; b ] ->
         Some <| HexaColor ((hexToInt r), (hexToInt g), (hexToInt b))
     | _ -> None
@@ -924,79 +929,87 @@ match "#0099FF" with
 
 ---
 
-# Récap’ des types d’active patterns
+# Wrapping up active patterns
 
-| Type           | Syntaxe                    | Signature                            |
-|----------------|----------------------------|--------------------------------------|
-| Total multiple | `let (｜Case1｜…｜CaseN｜) x`  | `'T -> Choice<'U1, …, 'Un>`          |
-| Total simple   | `let (｜Case｜) x`           | `'T -> 'U`                           |
-| Partiel simple | `let (｜Case｜_｜) x`         | `'T -> 'U option`                    |
-| ... paramétré  | `let (｜Case｜_｜) p1 … pN x` | `'P1 -> … -> 'Pn -> 'T -> 'U option` |
-
----
-
-# Comprendre un active pattern
-
-> Comprendre comment utiliser un active pattern...
-> peut s'avérer un vrai **jonglage intellectuel** !
-
-👉 Explications en utilisant les exemples précédents
-
----
-
-# Comprendre un active pattern total
-
-- Active pattern total ≃ Fonction *factory* d'un type union "anonyme"
-- Usage : idem pattern matching d'un type union normal
-
-```fs
-// Single-case
-let (|Cartesian|) (x: Complex) = Cartesian (x.Real, x.Imaginary)
-
-let Cartesian (r, i) = Complex (1.0, 2.0)  // r = 1.0, i = 2.0
-
-// Double-case
-let (|Even|Odd|) x = if x % 2 = 0 then Even else Odd
-
-let parityOf = function  // int -> string
-    | Even -> "Pair"
-    | Odd  -> "Impair"
+```txt
+Active pattern | Syntax                          | Signature
+---------------|---------------------------------|-------------------------------------------------
+Total multiple | let (|Case1|..|CaseN|)        x |                     'T -> Choice<'U1, .., 'Un>
+... parametric | let (|Case1|..|CaseN|) p1..pp x | 'P1 -> .. -> 'Pp -> 'T -> Choice<'U1, .., 'Un>
+Total simple   | let (|Case|)                  x |                     'T -> 'U
+Partial simple | let (|Case|_|)                x |                     'T -> 'U option
+... parametric | let (|Case|_|)         p1..pp x | 'P1 -> .. -> 'Pp -> 'T -> 'U option
 ```
 
 ---
 
-# Comprendre un active pattern partiel
+# Understanding an active pattern
 
-☝ Bien distinguer les éventuels paramètres des éventuelles données
+> Understanding how to use an active pattern
+> can be a real **intellectual challenge**! 😵
 
-Examiner la signature de l'active pattern : `[...params ->] value -> 'U option`
-• Les 1..N-1 paramètres = paramètres de l'active pattern
-• Son retour : `'U option` → données de type `'U` ; si `'U` = `unit` → pas de donnée
-
-À l'usage : `match value with Case [params] [data]`
-• `Case params` ≃ **application partielle**, donnant active pattern sans paramètre
-• `CaseWithParams data` ≃ déconstruction d'un case de type union
+👉 Explanations using the previous examples...
 
 ---
 
-# Comprendre un active pattern partiel (2)
+# Understanding a total active pattern
+
+≃ *factory* function of an "anonymous" union type
+
+```fs
+// -- Single-case ----
+let (|Cartesian|) (x: System.Numerics.Complex) = Cartesian(x.Real, x.Imaginary)
+
+let (Cartesian(r, i)) = System.Numerics.Complex(1.0, 2.0)
+// val r: float = 1.0
+// val i: float = 2.0
+
+// -- Double-case ----
+let (|Even|Odd|) x = if x % 2 = 0 then Even else Odd
+
+let printParity = function
+    | Even as n -> printfn $"%i{n} is even"
+    | Odd  as n -> printfn $"%i{n} is odd"
+
+printParity 1;;  // 1 is odd
+printParity 10;; // 10 is even
+```
+
+---
+
+# Understanding a partial active pattern
+
+☝ Distinguish parameters *(input)* from data *(output)*
+
+Examine the active pattern signature: `[...params ->] value -> 'U option`
+
+- **N-1 parameters:** active pattern parameters
+- **Last parameter:** `value` to match
+- **Return type:** `'U option` → data of type `'U`
+  - when `unit option` → no data
+
+---
+
+# Understanding a partial active pattern (2)
+
+#### Examples
 
 1. `let (|Integer|_|) (s: string) : int option`
-   → Usage `match s with Integer i`, avec `i: int` donnée en sortie
+   Usage `match s with Integer i` → `i: int` is the output data
 
 2. `let (|DivisibleBy|_|) (factor: int) (x: int) : unit option`
-   → Usage `match year with DivisibleBy 400`, avec `400` le paramètre `factor`
+   Usage `match year with DivisibleBy 400` → `400` is the `factor` parameter
 
 3. `let (|Regexp|_|) (pattern: string) (value: string) : string list option`
-   → Usage `match s with Regexp "#([0-9...)" [ r; g; b ]`
-   → Avec `"#([0-9...)"` le paramètre `pattern`
-   → Et `[ r; g; b ]` la liste en sortie décomposée en 3 chaînes
+   Usage `match s with Regexp "#([0-9...)" [ r; g; b ]`
+   → `"#([0-9...)"` is the `pattern` parameter
+   → `[ r; g; b ]` is the output data • It's a nested pattern: a list of 3 strings
 
 ---
 
-# Exercice : fizz buzz avec active pattern
+# Exercise: fizz buzz with active pattern
 
-Ré-écrire ce fizz buzz en utilisant un active pattern `DivisibleBy`
+Rewrite this fizz buzz using an active pattern `DivisibleBy`.
 
 ```fs
 let isDivisibleBy factor number =
@@ -1016,24 +1029,20 @@ let fizzBuzz = function
 
 ---
 
-<!-- _footer: '' -->
-
-# Fizz buzz avec active pattern : solution
+# Fizz buzz with active pattern: solution
 
 ```fs
 let isDivisibleBy factor number =
     number % factor = 0
 
 let (|DivisibleBy|_|) factor number =
-    if number |> isDivisibleBy factor
-    then Some DivisibleBy // 💡 Ou `Some ()`
-    else None
+    if number |> isDivisibleBy factor then Some () else None
+    // 👆 In F# 9, just `number |> isDivisibleBy factor` is enough 👍
 
 let fizzBuzz = function
-    | DivisibleBy 3 &
-      DivisibleBy 5 -> "FizzBuzz"  // 💡 Ou `DivisibleBy 15`
-    | DivisibleBy 3 -> "Fizz"
-    | DivisibleBy 5 -> "Buzz"
+    | DivisibleBy 15 -> "FizzBuzz"
+    | DivisibleBy 3  -> "Fizz"
+    | DivisibleBy 5  -> "Buzz"
     | other -> string other
 
 [1..15] |> List.map fizzBuzz
@@ -1046,7 +1055,7 @@ let fizzBuzz = function
 
 <!-- _footer: '' -->
 
-# Fizz buzz avec active pattern : alternative
+# Fizz buzz with active pattern: alternative
 
 ```fs
 let isDivisibleBy factor number =
@@ -1065,25 +1074,28 @@ let fizzBuzz = function
     | other -> string other
 ```
 
-→ Les 2 solutions se valent. C'est une question de style / de goût personnel.
+→ The 2 solutions are equal. It's a matter of style / personal taste.
+→ In F# 9, no need to do `|> boolToOption`.
 
 ---
 
-# Cas d'utilisation des actives patterns
+# Active patterns use cases
 
-1. Factoriser une guard *(cf. exercice précédent du fizz buzz)*
-2. Wrapper une méthode de la BCL *(cf. `(|Regexp|_|)` et ci-dessous)*
-3. Améliorer l'expressivité, aider à comprendre la logique *(cf. après)*
+1. Factor a guard *(see previous fizz buzz exercise)*
+2. Wrapping a BCL method *(see `(|Regexp|_|)` and below)*.
+3. Improve expressiveness, help to understand logic *(see below)*
 
 ```fs
-let (|ParsedInt|UnparsableInt|) (input: string) =
-    match input with
-    | _ when fst (System.Int32.TryParse input) -> ParsedInt(int input)
-    | _ -> UnparsableInt
+[<RequireQualifiedAccess>]
+module String =
+    let (|Int|_|) (input: string) = // string -> int option
+        match System.Int32.TryParse(input) with
+        | true, i  -> Some i
+        | false, _ -> None
 
 let addOneOrZero = function
-    | ParsedInt i -> i + 1
-    | UnparsableInt -> 0
+    | String.Int i -> i + 1
+    | _ -> 0
 
 let v1 = addOneOrZero "1"  // 2
 let v2 = addOneOrZero "a"  // 0
@@ -1091,57 +1103,57 @@ let v2 = addOneOrZero "a"  // 0
 
 ---
 
-# Expressivité grâce aux actives patterns
+# Expressiveness with active patterns
 
 ```fs
 type Movie = { Title: string; Director: string; Year: int; Studio: string }
 
 module Movie =
-    let private boolToOption b =
-        if b then Some () else None
+    let inline private satisfy ([<InlineIfLambda>] predicate) (movie: Movie) =
+        match predicate movie with
+        | true -> Some ()
+        | false -> None
 
-    let (|Director|_|) director movie =
-        movie.Director = director |> boolToOption
+    let (|Director|_|) director = satisfy (fun movie -> movie.Director = director)
+    let (|Studio|_|) studio = satisfy (fun movie -> movie.Studio = studio)
+    let (|In|_|) year = satisfy (fun movie -> movie.Year = year)
+    let (|Between|_|) min max = satisfy (fun { Year = year } -> year >= min && year <= max)
 
-    let (|Studio|_|) studio movie =
-        movie.Studio = studio |> boolToOption
-
-    let private matchYear comparator year movie =
-        (comparator movie.Year year) |> boolToOption
-
-    let (|After|_|) = matchYear (>)
-    let (|Before|_|) = matchYear (<)
-    let (|In|_|) = matchYear (=)
+// ...
 ```
 
 ---
 
-# Expressivité grâce aux actives patterns (2)
+# Expressiveness with active patterns (2)
 
 ```fs
+// ...
+
 open Movie
 
 let ``Is anime rated 10/10`` = function
-    | ((After 2001 & Before 2007) | In 2014) & Studio "Bones"
+    | Studio "Bones" & (Between 2001 2007 | In 2014)
     | Director "Hayao Miyazaki" -> true
     | _ -> false
+
+let topAnimes =
+    [ { Title = "Cowboy Bebop"; Director = "Shinichirō Watanabe"; Year = 2001; Studio = "Bones" }
+      { Title = "Princess Mononoke"; Director = "Hayao Miyazaki"; Year = 1997; Studio = "Ghibli" } ]
+    |> List.filter ``Is anime rated 10/10``
 ```
 
 ---
 
-<!-- _footer: '' -->
+# Active pattern: 1st class citizen
 
-# Active pattern : citoyen de 1ère classe
-
-Un active pattern ≃ fonction avec des métadonnées
-→ Citoyen de 1ère classe :
+An active pattern ≃ function with metadata → 1st class citizen in F#
 
 ```fs
-// 1. Renvoyer un active pattern depuis une fonction
+// 1. Return an active pattern from a function
 let (|Hayao_Miyazaki|_|) movie =
     (|Director|_|) "Hayao Miyazaki" movie
 
-// 2. Prendre un active pattern en paramètre -- Un peu tricky 
+// 2. Take an active pattern as parameter -- A bit tricky
 let firstItems (|Ok|_|) list =
     let rec loop values = function
         | Ok (item, rest) -> loop (item :: values) rest
@@ -1149,7 +1161,8 @@ let firstItems (|Ok|_|) list =
     loop [] list
 
 let (|Even|_|) = function
-    | item :: rest when (item % 2) = 0 -> Some (item, rest) | _ -> None
+    | item :: rest when (item % 2) = 0 -> Some (item, rest)
+    | _ -> None
 
 let test = [0; 2; 4; 5; 6] |> firstItems (|Even|_|)  // [0; 2; 4]
 ```
@@ -1162,58 +1175,58 @@ let test = [0; 2; 4; 5; 6] |> firstItems (|Even|_|)  // [0; 2; 4]
 
 # 4.
 
-## Le    Récap’
+## Wrap up
 
 ---
 
-# Récap’ - Pattern matching
+# Wrap up Pattern matching
 
-- Brique fondamentale de F♯
-- Combine "comparaison de structure de données" et "déconstruction"
-- S'utilisent presque partout :
-  - `match expression` et bloc `function`
-  - bloc `try/with`
-  - `let binding`, y.c. paramètre de fonction
-- Peut s'abstraire en fonction `fold` associée à un type union
+- F♯ core building block
+- Combines "data structure matching" and "deconstruction"
+- Used almost everywhere:
+  - `match` and `function` expressions
+  - `try/with` block
+  - `let` binding, including function parameter
+- Can be abstracted into a `fold` function associated with a union type
 
 ---
 
-# Récap’ - Patterns
+# Wrap up Patterns
 
-| Pattern                            | Exemple                           |
+| Pattern                            | Example                           |
 |------------------------------------|-----------------------------------|
 | Constant • Identifier • Wilcard    | `1`, `Color.Red` • `Some 1` • `_` |
 | *Collection* : Cons • List • Array | `head :: tail` • `[1; 2]`         |
 | *Product type* : Record • Tuple    | `{ A = a }` • `a, b`              |
 | Type Test                          | `:? Subtype`                      |
-| *Logique* : OR, AND                | `1 \| 2`, `P1 & P2`               |
+| *Logical* : OR, AND                | `1 \| 2`, `P1 & P2`               |
 | Variables • Alias                  | `head :: _` • `(0, 0) as origin`  |
 
-\+ Les guards `when` dans les match expressions
+\+ The `when` guards in `match` expressions
 
 ---
 
-# Récap’ - Active Patterns
+# Wrap up Active Patterns
 
-- Extension du pattern matching
-- Basés sur fonction + metadata → Citoyens de 1ère classe
-- 4 types : total simple/multiple, partiel (simple), paramétré
-- Un peu tricky à comprendre mais on s'habitue vite
-- S'utilisent pour :
-  - Ajouter de la sémantique sans recourir aux types union
-  - Simplifier / factoriser des guards
-  - Wrapper des méthodes de la BCL
-  - Extraire un ensemble de données d'un objet
+- Extending pattern matching
+- Based on function + metadata → 1st-class citizens
+- 4 types: total simple/multiple, partial (simple), parametric
+- At 1st little tricky to understand, but we get used to it quickly
+- Use for:
+  - Add semantics without relying on union types
+  - Simplify / factorize guards
+  - Wrapping BCL methods
+  - Extract a data set from an object
   - ...
 
 ---
 
-# Compléments
+# Addendum
 
 📜 Match expressions
 https://fsharpforfunandprofit.com/posts/match-expression/
 
-📜 Domain modelling et pattern matching
+📜 Domain modelling and pattern matching
 https://fsharpforfunandprofit.com/posts/roman-numerals/
 
 📜 Recursive types and folds *(6 articles)*
@@ -1225,10 +1238,10 @@ https://github.com/pblasucci/DeepDiveAP
 
 ---
 
-# Exercices
+# Exercises
 
-Les exercices suivants sur https://exercism.org/tracks/fsharp 
-peuvent se résoudre avec des active patterns :
+The following exercises on https://exercism.org/tracks/fsharp
+can be solved with active patterns :
 
 - Collatz Conjecture *(easy)*
 - Darts *(easy)*
