@@ -17,13 +17,13 @@ In addition to the common .NET types, F# has other types that are very common in
 
 # F♯ Training
 
-## *Types composites*
+## *Types*
 
 ### 2025 April
 
 ---
 
-<!-- _class: toc agenda invert lead -->
+<!-- _class: agenda invert lead -->
 
 ![bg right:30% h:300](../themes/d-edge/pictos/SOAT_pictos_formation.png)
 
@@ -53,7 +53,7 @@ In addition to the common .NET types, F# has other types that are very common in
 
 .NET type classifications:
 
-1. Value types *vs* reference types -- abbreviated *TVal* and *TRef*
+1. Value types *vs* reference types
 2. Primitive types *vs* composite types
 3. Generic types
 4. Types created from literal values
@@ -66,17 +66,18 @@ In addition to the common .NET types, F# has other types that are very common in
 # Composite types
 
 Created by combining other types
+👉 F# type features stable and mature
 
-| Types          | *Version* | Name                   | *TRef*   | *TVal*    |
-|----------------|-----------|------------------------|----------|-----------|
-| Types .NET     |           | `class`                | ✅        | ❌         |
-|                |           | `struct`, `enum`       | ❌        | ✅         |
-| Specific to C♯ | C♯ 3.0    | Anonymous type         | ✅        | ❌         |
-|                | C♯ 7.0    | *Value tuple*          | ❌        | ✅         |
-|                | C♯ 9.0    | `record (class)`       | ✅        | ❌         |
-|                | C♯ 10.0   | `record struct`        | ❌        | ✅         |
-| Specific to F♯ |           | *Tuple, Record, Union* | *Opt-in* | *Opt-out* |
-|                | F♯ 4.6    | Anonymous *Record*     | *Opt-in* | *Opt-out* |
+| Types          | *Version* | Name                   | *Ref. type*  | *Value type* |
+|----------------|-----------|------------------------|--------------|--------------|
+| Types .NET     |           | `class`                | ✅           | ❌           |
+|                |           | `struct`, `enum`       | ❌           | ✅           |
+| Specific to C♯ | C♯ 3.0    | Anonymous type         | ✅           | ❌           |
+|                | C♯ 7.0    | *Value tuple*          | ❌           | ✅           |
+|                | C♯ 9.0    | `record (class)`       | ✅           | ❌           |
+|                | C♯ 10.0   | `record struct`        | ❌           | ✅           |
+| Specific to F♯ |           | *Tuple, Record, Union* | ✅ (default) | ✅ (opt-in)  |
+|                | F♯ 4.6    | Anonymous *Record*     | ✅ (default) | ✅ (opt-in)  |
 
 ---
 
@@ -86,11 +87,11 @@ Can be generic (except `enum`)
 
 Location:
 
-- *Top-level* : `namespace`, top-level `module` F♯
+- *Top-level* : `namespace`, top-level `module` (F♯)
 - *Nested* : `class` (C♯), `module` (F♯)
-- Not definable in method (C♯) or simple value / function (F♯)!
+- Not definable in `let` bindings, `member`
 
-In F♯ all type definitions are made with keyword `type`
+In F♯, all type definitions are made with the `type` keyword
 → including classes, enums and interfaces!
 → but tuples don't need a type definition
 
@@ -945,17 +946,29 @@ type File = a='a' | b='b' | c='c'  // 💡 enum members can be in camelCase
 
 ---
 
-# Enum: usage
+# Enum: usages
 
-⚠️ Unlike unions, the use of an `enum` literal is necessarily qualified.
+⚠️ Unlike unions, the use of an `enum` literal is necessarily **qualified**
 
 ```fs
-let answerKo = Yes            // 💥 Error FS0039
-//             ~~~ The value or constructor 'Yes' is not defined.
+type AnswerChar = Yes='Y' | No='N'
+let answerKo = Yes  // 💥 Error FS0039
+//             ~~~     The value or constructor 'Yes' is not defined.
 let answer = AnswerChar.Yes   // 👌 OK
 ```
 
-Conversion `int <-> enum`:
+💡 We can force the qualification for union types too:
+
+```fs
+[<RequireQualifiedAccess>] // 👈
+type Color = Red | Green | Blue
+```
+
+---
+
+# Enum: usages (2)
+
+#### Conversion `int <-> enum`
 
 ```fs
 let redValue = int ColorN.Red         // enum -> int
@@ -971,21 +984,21 @@ let no: AnswerChar = enum 'N' // 💥 Error FS0001
 
 # Enum: matching
 
-⚠️ Unlike unions, *pattern matching* on enums is not exhaustive
+⚠️ Unlike unions, *pattern matching* on enums is **not exhaustive**
+→ See `Warning FS0104: Enums may take values outside known cases...`
 
 ```fs
-type ColorN = Red=1 | Green=2 | Blue=3  // Enum
+type ColorN =
+    | Red   = 1
+    | Green = 2
+    | Blue  = 3
 
 let toHex color =
     match color with
-    | ColorN.Red   -> "FF0000"
-    | ColorN.Green -> "00FF00"
-    | ColorN.Blue  -> "0000FF"
-    // ⚠️ Warning FS0104: Enums may take values outside known cases.
-    // For example, the value 'enum<ColorN> (0)' may indicate a case not covered by the pattern(s).F# Compiler104
-
-    // 💡 To remove the warning, add a last discard pattern
-    | _ -> invalidArg (nameof color) $"Color {color} not supported"
+    | ColorN.Red   -> "#FF0000"
+    | ColorN.Green -> "#00FF00"
+    | ColorN.Blue  -> "#0000FF"
+    | _ -> invalidArg (nameof color) $"Color {color} not supported" // 👈
 ```
 
 ---
@@ -997,7 +1010,7 @@ Same principle as in C♯:
 ```fs
 open System
 
-[<FlagsAttribute>]
+[<Flags>]
 type PermissionFlags =
     | Read    = 1
     | Write   = 2
@@ -1008,7 +1021,7 @@ let permission = PermissionFlags.Read ||| PermissionFlags.Write
 let canRead = permission.HasFlag PermissionFlags.Read
 ```
 
-💡 Note the `|||` operator: binary OR *(`|` in C♯)*.
+💡 Note the `|||` operator called "binary OR" (same as `|` in C♯)
 
 ---
 
@@ -1019,12 +1032,13 @@ let canRead = permission.HasFlag PermissionFlags.Read
 | Enum  | integers    | Required      | ❌ No        |
 | Union | any         | Optional      | ✅ Yes       |
 
-☝ **Recommendation :**
+☝ **Recommendation:**
 
 - Prefer Union over Enum in most cases
-- Choose an Enum for :
+- Choose an Enum for:
   - .NET Interop
   - int data
+  - Flags feature
 
 ---
 
@@ -1302,8 +1316,8 @@ type Color4 = { Red: int; Green: int; Blue: int }
 type Color5 = {| Red: int; Green: int; Blue: int |}
 type Color6 = Color of Red: int * Green: int * Blue: int
 type Color7 =
-    | RGB of { Red: int; Green: int; Blue: int }
-    | HSL of { Hue: int; Saturation: int; Lightness: int }
+    | RGB of {| Red: int; Green: int; Blue: int |}
+    | HSL of {| Hue: int; Saturation: int; Lightness: int |}
 
 // A. Alias
 // B. Enum
@@ -1322,12 +1336,12 @@ type Color7 =
 | Types                                       | Concepts                                |
 |---------------------------------------------|-----------------------------------------|
 | `type Color1 = int * int * int`             | **H.** Tuple + **A.** Alias             |
-| `type Color2 = Red ∣ Green ∣ Blue`           | **G.** Union enum-like                  |
-| `type Color3 = Red=1 ∣ Green=2 ∣ Blue=3`     | **B.** Enum                             |
+| `type Color2 = Red ∣ Green ∣ Blue`          | **G.** Union enum-like                  |
+| `type Color3 = Red=1 ∣ Green=2 ∣ Blue=3`    | **B.** Enum                             |
 | `type Color4 = { Red: int; Green: int… }`   | **C.** Record                           |
-| `type Color5 = {∣ Red: int; Green: int… ∣}`  | **D.** Record anonyme + **A.** Alias    |
+| `type Color5 = {∣ Red: int; Green: int… ∣}` | **D.** Anonymous Record + **A.** Alias  |
 | `type Color6 = Color of Red: int * …`       | **E.** Single-case union + **H.** Tuple |
-| `type Color7 = RGB of { Red: int… } ∣ HSL…`  | **F.** Union + **C.** Record            |
+| `type Color7 = RGB of {∣…∣} ∣ HSL of {∣…∣}` | **F.** Union + **D.** Anonymous Record  |
 
 ---
 
@@ -1359,7 +1373,7 @@ let c1 = Noir Pique // Couleur
 
 Lots of ways to model!
 
-💡 Favor:
+💡 Opportunity for:
 
 - Team discussions
 - Business domain encoding in types
