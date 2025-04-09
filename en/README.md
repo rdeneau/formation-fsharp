@@ -45,3 +45,12 @@ marp fsharp-training-08-monad.md --pdf --allow-local-files --theme themes/d-edge
 marp fsharp-training-09-module.md --pdf --allow-local-files --theme themes/d-edge.css
 marp fsharp-training-10-oo.md --pdf --allow-local-files --theme themes/d-edge.css
 ```
+## Useful Characters
+
+- ① ② ③
+- Ⓐ Ⓑ Ⓒ
+- → • À É ♯
+- ≃ ≠ ≡
+- ∀ ∃ ∈
+- ∅ ∑ ∞
+- … ┆｜
