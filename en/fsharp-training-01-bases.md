@@ -33,7 +33,7 @@ VSCode:
 
 ---
 
-<!-- _class: toc agenda invert lead -->
+<!-- _class: agenda invert lead -->
 
 ![bg right:30% h:300](../themes/d-edge/pictos/SOAT_pictos_formation.png)
 

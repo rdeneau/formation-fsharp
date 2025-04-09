@@ -101,7 +101,7 @@ section footer {
   margin-left: 6px;
 }
 
-section.toc footer {
+section.agenda footer {
   margin-left: 80px;
 }
 
@@ -270,7 +270,7 @@ section.chapter {
   background-size: cover;
 }
 
-section.toc {
+section.agenda {
   background: url(../themes/d-edge/backgrounds/bg3.png) right top no-repeat, #491e81;
   background-size: cover;
 }
