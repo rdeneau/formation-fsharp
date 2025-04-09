@@ -409,7 +409,7 @@ Failure ─ Error e ───► bind(     ....      ) ─┴─► Error ~
 ```fs
 [<RequireQualifiedAccess>]
 module Result =
-    let ofOption (error) option =
+    let ofOption error option =
         match option with
         | Some x -> Ok x
         | None -> Error error

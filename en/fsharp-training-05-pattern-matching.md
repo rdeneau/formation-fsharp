@@ -285,7 +285,7 @@ Use type construction syntax to deconstruct a type
 
 ---
 
-# Cons et List Patterns (2)
+# Cons and List Patterns (2)
 
 The default *match expression* combines the 2 patterns:
 → A list is either empty `[]`, or composed of an item and the rest: `head :: tail`
@@ -586,7 +586,7 @@ let is123 = function
 
 ---
 
-# Match function - Limites
+# Match function - Limitations
 
 ⚠️ Implicit parameter => can make the code more difficult to understand!
 
