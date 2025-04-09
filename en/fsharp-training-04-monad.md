@@ -2,8 +2,8 @@
 marp: true
 html: true
 theme: 'd-edge'
-title: 'F♯ Training • Types monadiques'
-footer: 'F♯ Training • Types monadiques'
+title: 'F♯ Training • Monadic Types'
+footer: 'F♯ Training • Monadic Types'
 paginate: true
 ---
 
@@ -11,7 +11,7 @@ paginate: true
 
 # F♯ Training
 
-## *Les types « monadiques »*
+## Monadic Types
 
 ### 2025 April
 
@@ -26,7 +26,7 @@ paginate: true
 - Type `Option`
 - Type `Result`
 - *Smart constructor*
-- *Computation expression*
+- *Computation expression* 🚀
 
 ---
 
@@ -42,42 +42,49 @@ paginate: true
 
 # 💠 Type `Option`
 
-A.k.a `Maybe` *(Haskell),* `Optional` _(Java 8)_
+A.k.a `Maybe` *(Haskell),* `Optional` *(Java 8)*
 
-Modélise l'absence de valeur
-→ Défini sous la forme d'une union avec 2 *cases*
+Models the absence of value
+→ Defined as a union with 2 *cases*
 
 ```fs
 type Option<'Value> =
-    | None              // Case sans donnée → quand valeur absente
-    | Some of 'Value    // Case avec donnée → quand valeur présente
+    | None              // Box without data → when value is missing
+    | Some of 'Value    // Box with data → when value is present
 ```
 
 ---
 
-# `Option` » Cas d'utilisation
+# `Option` » Use cases
 
-## Cas 1. Modéliser un champ optionnel
+1. Modeling an optional field
+2. Partial operation
+
+---
+
+## Case 1: Modeling an optional field
 
 ```fs
 type Civility = Mr | Mrs
-type User = { Name: string; Civility: Civility option }
 
-let joey  = { Name = "Joey"; Civility = Some Mr }
-let guest = { Name = "Guest"; Civility = None }
+type User = { Name: string; Civility: Civility option } with
+    static member Create(name, ?civility) = { Name = name; Civility = civility }
+
+let joey  = User.Create("Joey", Mr)
+let guest = User.Create("Guest")
 ```
 
-→ Rend explicite le fait que `Name` est obligatoire et `Civility` facultatif
+→ Make it explicit that `Name` is mandatory and `Civility` optional
 
-☝ **Attention :** ce design n'empêche pas ici d'avoir `Name = null` *(limite BCL)*
+☝ **Warning:** this design does not prevent `Name = null` here *(BCL limit)*
 
 ---
 
-## Cas 2. Opération partielle
+## Case 2. Partial operation
 
-Opération où aucune valeur de sortie n'est possible pour certaines entrées.
+Operation where no output value is possible for certain inputs.
 
-#### Exemple 1 : inverse d'un nombre
+#### Example 1: inverse of a number
 
 ```fs
 let inverse n = 1.0 / n
@@ -88,43 +95,45 @@ let tryInverse n =
     | n   -> Some (1.0 / n)
 ```
 
-| Fonction     | Opération | Signature               | `n = 0.5`  | `n = 0.0`    |
+| Function     | Operation | Signature               | `n = 0.5`  | `n = 0.0`    |
 |--------------|-----------|-------------------------|------------|--------------|
-| `inverse`    | Partielle | `float -> float`        | `2.0`      | `infinity` ❓ |
-| `tryInverse` | Totale    | `float -> float option` | `Some 2.0` | `None` 👌    |
+| `inverse`    | Partial   | `float -> float`        | `2.0`      | `infinity` ❓ |
+| `tryInverse` | Total     | `float -> float option` | `Some 2.0` | `None` 👌    |
 
 ---
 
-#### Exemple 2 : recherche d'un élément dans une collection
+## Case 2. Partial operation (2)
 
-- Opération partielle : `find predicate` → 💥 quand élément non trouvé
-- Opération totale : `tryFind predicate` → `None` ou `Some item`
+#### Example 2: find an element in a collection
 
-#### Avantages 👍
+- Partial operation: `find predicate` → 💥 when item not found
+- Total operation: `tryFind predicate` → `None` or `Some item`
 
-- Explicite, honnête / partialité de l'opération
-  - Pas de valeur spéciale : `null`, `infinity`
-  - Pas d'exception
-- Force le code appelant à gérer la totalité des cas :
-  - Présence d'une valeur en sortie : `Some value`
-  - Absence d'une valeur en sortie : `None`
+#### Benefits 👍
+
+- Explicit, honest / partial operation
+  - No special value: `null`, `infinity`
+  - No exception
+- Forces calling code to handle all cases:
+  - `Some value` → output value given
+  - `None .....` → output value missing
 
 ---
 
-# `Option` » Flux de contrôle
+# `Option` » Control flow
 
-Pour tester la présence de la valeur *(de type `'T`)* dans l'option
+To test for the presence of the value *(of type `'T`)* in the option
 
-- ❌ Ne pas utiliser `IsSome`, `IsNone` et `Value` (🤞💥)
+- ❌ Do not use `IsSome`, `IsNone` and `Value` (🤞💥)
   - ~~if option.IsSome then option.Value...~~
-- 👌 A la main avec *pattern matching*
-- ✅ Fonctions du module `Option`
+- 👌 By hand with *pattern matching*.
+- ✅ `Option.xxx` functions 📍
 
 ---
 
-## Flux de contrôle manuel avec *pattern matching*
+## Manual control flow with *pattern matching*
 
-Exemple :
+Example:
 
 ```fs
 let print option =
@@ -138,27 +147,27 @@ print None        // None
 
 ---
 
-## Flux de contrôle intégré au module `Option`
+## Control flow with `Option.xxx` helpers
 
-Opération de *Mapping* de la valeur (de type `'T`) **si ∃** :
-→ `map  f option` avec `f` opération totale `'T -> 'U`
-→ `bind f option` avec `f` opération partielle `'T -> 'U option`
+*Mapping* of the inner value (of type `'T`) **if present**:
+→ `map f option` with `f` total operation `'T -> 'U`
+→ `bind f option` with `f` partial operation `'T -> 'U option`
 
-Conserver la valeur **si ∃** et si respecte condition :
-→ `filter predicate option` avec `predicate: 'T -> bool` appelé que si valeur ∃
+Keep value **if present** and if conditions are met:
+→ `filter predicate option` with `predicate: 'T -> bool` called only if value present
 
-👨‍🏫 **Démo**
-→ Implémentation de `map`, `bind` et `filter` avec *pattern matching*
+👨‍🏫 **Demo**
+→ Implementation of `map`, `bind` and `filter` with *pattern matching*
 
 ---
 
-## 👨‍🏫 Démo » Solution
+## 👨‍🏫 Demo » Solution
 
 ```fs
 let map f option =             // (f: 'T -> 'U) -> 'T option -> 'U option
     match option with
     | Some x -> Some (f x)
-    | None   -> None           // 🎁 1. Pourquoi on ne peut pas écrire `None -> option` ?
+    | None   -> None           // 🎁 1. Why can't we write `None -> option`?
 
 let bind f option =            // (f: 'T -> 'U option) -> 'T option -> 'U option
     match option with
@@ -168,45 +177,44 @@ let bind f option =            // (f: 'T -> 'U option) -> 'T option -> 'U option
 let filter predicate option =  // (predicate: 'T -> bool) -> 'T option -> 'T option
     match option with
     | Some x when predicate x -> option
-    | _ -> None                // 🎁 2. Implémenter `filter` avec `bind` ?
+    | _ -> None                // 🎁 2. Implement `filter` with `bind`?
 ```
 
 ---
 
-## 🎁 Questions bonus » Réponses
+## 🎁 Bonus questions » Answers
 
 ```fs
-// 🎁 1. Pourquoi on ne peut pas écrire `None -> option` :
+// 🎁 1. Why can't we write `None -> option`?
 let map (f: 'T -> 'U) (option: 'T option) : 'U option =
     match option with
     | Some x -> Some (f x)
-    | None   -> (*None*) option  // 💥 Erreur de typage : `'U option` attendu != `'T option`
+    | None   -> (*None*) option  // 💥 Type error: `'U option` given != `'T option` expected
 ```
 
 ```fs
-// 🎁 2. Implémenter `filter` avec `bind` :
+// 🎁 2. Implement `filter` with `bind`?
 let filter predicate option =  // (predicate: 'T -> bool) -> 'T option -> 'T option
-    let f x = if predicate x then option else None
-    bind f option
+    option |> bind (fun x -> if predicate x then option else None)
 ```
 
 ---
 
-## Flux de contrôle intégré » Exemple
+## Integrated control flow » Example
 
 ```fs
-// Application console de questions/réponses
+// Question/answer console application
 type Answer = A | B | C | D
 
-let tryParseAnswer text =
-    match text with
+let tryParseAnswer =
+    function
     | "A" -> Some A
     | "B" -> Some B
     | "C" -> Some C
     | "D" -> Some D
     | _   -> None
 
-// Fonction appelée quand l'utilisateur saisit la réponse au clavier à la question posée
+/// Called when the user types the answer on the keyboard
 let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
     tryParseAnswer givenAnswer
     |> Option.filter ((=) expectedAnswer)
@@ -218,59 +226,65 @@ let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
 
 ---
 
-## Flux de contrôle intégré » Bénéfices
+## Integrated control flow » Advantages
 
-Rend logique métier \+ lisible
+Makes business logic more readable
 
-- Pas de `if hasValue then / else`
-- Met en valeur le *happy path*
-- Centralise à la fin la gestion de l'absence de valeur
+- No `if hasValue then / else`
+- Highlight the *happy path*
+- Handle corner cases at the end
 
-💡 Les *computation expressions* 📍 fournissent une syntaxe alternative \+ légère
+💡 The *computation expressions* 📍 provide an alternative syntax \+ lightweight
 
 ---
 
-# `Option` *vs* `List`
+# `Option`: comparison with other types
 
-Option ≃ Liste de 0 ou 1 élément
-→ Cf. fonction `Option.toList`
+1. `Option` *vs* `List`
+2. `Option` *vs* `Nullable`
+3. `Option` *vs* `null`
 
-```fs
-let noneIsEmptyList       = Option.toList(None)   = []   // true
-let someIsListWithOneItem = Option.toList(Some 1) = [1]  // true
-```
+---
 
-☝ Une `List` peut avoir \+ de 1 élément
-→ Type `Option` modélise mieux l'absence de valeur que type `List`
+## `Option` *vs* `List`
 
-💡 Module `Option` : beaucoup de même fonctions que module `List`
+Conceptually closed
+→ Option ≃ List of 0 or 1 items
+→ See `Option.toList` function: `'t option -> 't list` (`None -> []`, `Some x -> [x]`)
+
+💡 `Option` & `List` modules: many functions with the same name
 → `contains`, `count`, `exist`, `filter`, `fold`, `forall`, `map`
 
----
-
-# `Option` *vs* `Nullable`
-
-Type `System.Nullable<'T>` ≃ `Option<'T>` en \+ limité
-
-- ❗ Ne marche pas pour les types références
-- ❗ Manque comportement monadique i.e. fonctions `map` et `bind`
-- ❗ En F♯, pas de magie comme en C♯ / mot clé `null`
-
-👉 `Option` est le type idiomatique en F♯
+☝ A `List` can have more than 1 element
+→ Type `Option` models absence of value better than type `List`
 
 ---
 
-# `Option` *vs* `null`
+## `Option` *vs* `Nullable`
 
-De part ses interactions avec la BCL, F♯ autorise parfois la valeur `null`
+`System.Nullable<'T>` ≃ `Option<'T>` but more limited
 
-👉 **Bonne pratique** : isoler ces cas de figure et wrapper dans un type `Option`
+- ❗ Does not work for reference types
+- ❗ Lacks monadic behavior i.e. `map` and `bind` functions
+- ❗ Lacks built-in pattern matching `Some x | None`
+- ❗ In F♯, no magic as in C♯ / keyword `null`
+
+👉 C♯ uses nullable types whereas F♯ uses only `Option`
+
+---
+
+## `Option` *vs* `null`
+
+Due to the interop with the BCL, F♯ has to deal with `null` in some cases.
+
+👉 **Good practice**: isolate these cases and wrap them in an `Option` type.
 
 ```fs
 let readLine (reader: System.IO.TextReader) =
-    reader.ReadLine() |> Option.ofObj
+    reader.ReadLine() // Can return `null`
+    |> Option.ofObj   // `null` becomes None
 
-    // Équivalent à faire :
+    // Same than:
     match reader.ReadLine() with
     | null -> None
     | line -> Some line
@@ -292,35 +306,36 @@ let readLine (reader: System.IO.TextReader) =
 
 A.k.a `Either` *(Haskell)*
 
-Modélise une *double-track* Succès/Échec
+Models a *double-track* Success/Failure
 
 ```fs
-type Result<'Success, 'Error> =   // 2 paramètres génériques
-    | Ok of 'Success    // Track "Succès"
-    | Error of 'Error   // Track "Échec"
+type Result<'Success, 'Error> = // 2 generic parameters
+    | Ok of 'Success  // Success Track
+    | Error of 'Error // Failure Track
 ```
 
-Gestion fonctionnelle des erreurs métier *(les erreurs prévisibles)*
-→ Permet de limiter usage des exceptions aux erreurs exceptionnelles
-→ Dès qu'une opération échoue, les opérations restantes ne sont pas lancées
-→ *Railway-oriented programming* • https://fsharpforfunandprofit.com/rop/
+Functional way of dealing with business errors *(expected errors)*
+→ Allows exceptions to be used only for exceptional errors
+→ As soon as an operation fails, the remaining operations are not launched
+
+🔗 *Railway-oriented programming (ROP)* https://fsharpforfunandprofit.com/rop/
 
 ---
 
 # Module `Result`
 
-*Ne contient que 3 fonctions*
+Contains less functions than `Option`⁉️
 
-`map f option` : sert à mapper le résultat
+`map f result` : to map the success
 • `('T -> 'U) -> Result<'T, 'Error> -> Result<'U, 'Error>`
 
-`mapError f option` : sert à mapper l'erreur
+`mapError f result` : to map the error
 • `('Err1 -> 'Err2) -> Result<'T, 'Err1> -> Result<'T, 'Err2>`
 
-`bind f option` : idem `map` avec fonction `f` qui renvoie un `Result`
+`bind f result` : same as `map` with `f` returning a `Result`
 • `('T -> Result<'U, 'Error>) -> Result<'T, 'Error> -> Result<'U, 'Error>`
-• 💡 Le résultat est aplati, comme la fonction `flatMap` sur les arrays JS
-• ⚠️ Même type d'erreur `'Error` pour `f` et le `result` en entrée
+• 💡 The result is flattened, like the `flatMap` function on JS arrays
+• ⚠️ Same type of `'Error` for `f` and the input `result`.
 
 ---
 
@@ -328,41 +343,39 @@ Gestion fonctionnelle des erreurs métier *(les erreurs prévisibles)*
 
 # Quiz *Result* 🕹️
 
-Implémenter `Result.map` et `Result.bind`
+Implement `Result.map` and `Result.bind`
 
-💡 **Tips :**
+💡 **Tips:**
 
-- *Mapping* sur la track *Succès*
-- Accès à la valeur dans la track *Succès* :
-  - Utiliser *pattern matching* (`match result with...`)
-- Retour : simple `Result`, pas un `Result<Result>` !
+- *Map* the *Success* track
+- Access the *Success* value using pattern matching
 
 ---
 
-# Quiz *Result* 🎲
+## Quiz *Result* 🎲
 
-**Solution :** implémentation de `Result.map` et `Result.bind`
+**Solution:** implementation of `Result.map` and `Result.bind`
 
 ```fs
 // ('T -> 'U) -> Result<'T, 'Error> -> Result<'U, 'Error>
 let map f result =
     match result with
     | Ok x    -> Ok (f x)  // ☝ Ok -> Ok
-    | Error e -> Error e   // ⚠️ Les 2 `Error e` n'ont pas le même type !
+    | Error e -> Error e   // ⚠️ The 2 `Error e` don't have the same type!
 
 // ('T -> Result<'U, 'Error>) -> Result<'T, 'Error>
 //                            -> Result<'U, 'Error>
 let bind f result =
     match result with
-    | Ok x    -> f x       // ☝ Ok -> Ok ou Error !
+    | Ok x    -> f x       // ☝ `f x` already returns a `Result`
     | Error e -> Error e
 ```
 
 ---
 
-# `Result` : tracks Success/Failure
+# `Result`: Success/Failure tracks
 
-`map` : pas de changement de track
+`map` : no track change
 
 ```txt
 Track      Input          Operation      Output
@@ -370,7 +383,7 @@ Success ─ Ok x    ───► map( x -> y ) ───► Ok y
 Failure ─ Error e ───► map(  ....  ) ───► Error e
 ```
 
-`bind` : routage possible vers track Failure mais jamais l'inverse
+`bind` : eventual routing to Failure track, but never vice versa
 
 ```txt
 Track     Input              Operation           Output
@@ -379,69 +392,104 @@ Success ─ Ok x    ─┬─► bind( x -> Ok y     ) ───► Ok y
 Failure ─ Error e ───► bind(     ....      ) ─┴─► Error ~
 ```
 
-☝ Opération de *mapping/binding* jamais exécutée dans track Failure
+☝ The *mapping/binding* operation is never executed in track Failure.
 
 ---
 
 # `Result` *vs* `Option`
 
-`Option` peut représenter le résultat d'une opération qui peut échouer
-☝ Mais en cas d'échec, l'option ne contient pas l'erreur, juste `None`
+`Option` can represent the result of an operation that may fail
+☝ But if it fails, the option doesn't contain the error, just `None`
 
 `Option<'T>` ≃ `Result<'T, unit>`
 → `Some x` ≃ `Ok x`
 → `None` ≃ `Error ()`
-→ Cf. fonctions `Option.toResult` et `Option.toResultWith error` de [FSharpPlus](http://fsprojects.github.io/FSharpPlus/reference/fsharpplus-option.html#toResult)
+→ See `Result.toOption` *(built-in)* and `Result.ofOption` *(below)*
 
 ```fs
-let toResultWith (error: 'Error) (option: 'T option) : Result<'T, 'Error> =
-    match option with
-    | Some x -> Ok x
-    | None   -> Error error
+[<RequireQualifiedAccess>]
+module Result =
+    let ofOption (error) option =
+        match option with
+        | Some x -> Ok x
+        | None -> Error error
 ```
 
 ---
 
-<!-- _footer: '' -->
+# `Result` *vs* `Option` (2)
 
-## `Result` *vs* `Option` » Exemple
+📅 **Dates:**
+• The `Option` type is part of F# from the get go
+• The `Result` type is more recent: introduced in F# 4.1 (2016)
+  → After numerous articles on *F# for fun and profit*
 
-Modification de la fonction `checkAnswer` précédente pour indiquer l'erreur :
+📝 **Memory:**
+• The `Option` type (alias: `option`) is a regular union: a reference type
+• The `Result` type is a *struct* union: a value type
+• The `ValueOption` type (alias: `voption`) is a *struct* union
+  → `ValueNone | ValueSome of 't`
+
+---
+
+## `Result` *vs* `Option` » Example
+
+Let's change our previous `checkAnswer` to indicate the `Error`:
 
 ```fs
-open FSharpPlus
-
 type Answer = A | B | C | D
-type Error = InvalidInput | WrongAnswer
+type Error = InvalidInput of string | WrongAnswer of Answer
 
-let tryParseAnswer text = ... // string -> Answer option
+let tryParseAnswer =
+    function
+    | "A" -> Ok A
+    | "B" -> Ok B
+    | "C" -> Ok C
+    | "D" -> Ok D
+    | s   -> Error(InvalidInput s)
 
-let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
-    let check answer = if answer = expectedAnswer then Ok answer else Error WrongAnswer
-    tryParseAnswer givenAnswer           // Answer option
-    |> Option.toResultWith InvalidInput  // Result<Answer, Error>
-    |> Result.bind check
+let checkAnswerIs expected actual =
+    if actual = expected then Ok actual else Error(WrongAnswer actual)
+
+// ...
+```
+
+---
+
+## `Result` *vs* `Option` » Example (2)
+
+```fs
+// ...
+
+let printAnswerCheck (givenAnswer: string) =
+    tryParseAnswer givenAnswer
+    |> Result.bind (checkAnswerIs B)
     |> function
-       | Ok _               -> "✅"
-       | Error InvalidInput -> "❌ Invalid Input"
-       | Error WrongAnswer  -> "❌ Wrong Answer"
+       | Ok x                  -> printfn $"%A{x}: ✅ Correct"
+       | Error(WrongAnswer x)  -> printfn $"%A{x}: ❌ Wrong Answer"
+       | Error(InvalidInput s) -> printfn $"%s{s}: ❌ Invalid Input"
 
-["X"; "A"; "B"] |> List.map (checkAnswer B)  // ["❌ Invalid Input"; "❌ Wrong Answer"; "✅"]
+printAnswerCheck "X";;  // X: ❌ Invalid Input
+printAnswerCheck "A";;  // A: ❌ Wrong Answer
+printAnswerCheck "B";;  // B: ✅ Correct
 ```
 
 ---
 
 # `Result` *vs* `Validation`
 
-`Result` est "monadique" : à la 1ère erreur, on "débranche"
+`Result` is "monadic": on the 1st error, we "unplug".
 
-`Validation` est "applicatif" : permet d'accumuler les erreurs
+`Validation` is "applicative": allows to accumulate errors
 → ≃ `Result<'ok, 'error list>`
-→ Pratique pour valider saisie utilisateur et remonter ∑ erreurs
-→ Dispo dans librairies [FSharpPlus](https://github.com/fsprojects/FSharpPlus), [FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling)
+→ Handy for validating user input and reporting all errors
 
-*Plus d'info :*
-🔗 https://kutt.it/pke2i1 *Validation with F# 5 and FsToolkit* - Dec 2020
+🔗 **Ressources**
+• FsToolkit.ErrorHandling
+https://github.com/demystifyfp/FsToolkit.ErrorHandling
+
+• Validation with F# 5 and FsToolkit
+https://www.compositional-it.com/news-blog/validation-with-f-5-and-fstoolkit/
 
 ---
 
@@ -455,20 +503,22 @@ let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
 
 ---
 
-# *« Making illegal states unrepresentable »*
+# Smart constructor: Purpose
+
+> Making illegal states unrepresentable
 
 🔗 https://kutt.it/MksmkG *F♯ for fun and profit, Jan 2013*
 
-- Avoir un design qui empêche d'avoir des états invalides
-  - Encapsuler état *(∑ primitives)* dans un objet
-- *Smart constructor* sert à garantir un état initial valide
-   - Valide les données en entrée
-   - Si Ko, renvoie "rien" (`Option`) ou l'erreur (`Result`)
-   - Si Ok, renvoie l'objet créé wrappé dans l'`Option` / le `Result`
+- Design to prevent invalid states
+  - Encapsulate state *(all primitives)* in an object
+- *Smart constructor* guarantees a valid initial state
+  - Validates input data
+  - If Ko, returns "nothing" (`Option`) or an error (`Result`)
+  - If Ok, returns the created object wrapped in an `Option` / a `Result`
 
 ---
 
-# Encapsuler état dans un type
+# Encapsulate the state in a type
 
 → *Single-case (discriminated) union* 👌 : `Type X = private X of a: 'a...`
 🔗 https://kutt.it/mmMXCo *F♯ for fun and profit, Jan 2013*
@@ -476,27 +526,27 @@ let checkAnswer (expectedAnswer: Answer) (givenAnswer: string) =
 → *Record* 👍 : `Type X = private { a: 'a... }`
 🔗 https://kutt.it/cYP4gY *Paul Blasucci, Mai 2021*
 
-☝ Mot clé `private` :
-→ Cache contenu de l'objet
-→ Champs et constructeur ne sont plus visibles de l'extérieur
-→ Smart constructeur défini dans module compagnon 👍 ou méthode statique
+☝ `private` keyword:
+→ Hide object content
+→ Fields and constructor no longer visible from outside
+→ Smart constructor defined in companion module or static method
 
 ---
 
-## *Smart constructor* » Exemple 1 
+# *Smart constructor* » Example #1
 
-Smart constructeur :
-→ Fonction `tryCreate` dans module compagnon
-→ Renvoie une `Option`
+Smart constructor :
+→ `tryCreate` function in companion module
+→ Returns an `Option`
 
 ```fs
-type Latitude = private { Latitude: float } // 👈 Un seul champ, nommé comme le type
+type Latitude = private { Latitude: float } // 👈 A single field, named like the
 
-[<RequireQualifiedAccess>]                  // 👈 Optionnel
+[<RequireQualifiedAccess>]                  // 👈 Optional
 module Latitude =
     let tryCreate (latitude: float) =
         if latitude >= -90. && latitude <= 90. then
-            Some { Latitude = latitude }    // 👈 Constructeur accessible ici
+            Some { Latitude = latitude }    // 👈 Constructor accessible here
         else
             None
 
@@ -506,11 +556,11 @@ let lat_ko = Latitude.tryCreate 115. // None
 
 ---
 
-## *Smart constructor* » Exemple 2
+# *Smart constructor* » Example #2
 
-Smart constructeur :
-→ Méthode statique `Of`
-→ Renvoie `Result` avec erreur de type `string`
+Smart constructor:
+→ Static method `Of`
+→ Returns `Result` with error of type `string`
 
 ```fs
 type Tweet =
@@ -534,44 +584,44 @@ let tweet1 = Tweet.Of "Hello world" // Ok { Tweet = "Hello world" }
 
 # 4.
 
-## Computation expression
+## Computation expression 🚀
 
 ---
 
-# Computation expression
+# Computation expression (CE)
 
-Sucre syntaxique cachant une « machinerie »
-→ Applique la _Separation of Concerns_
-→ Code \+ lisible à l'intérieur de la *computation expression* (CE)
+Syntactic sugar hiding a "machinery"
+→ Applies the _Separation of Concerns_ principle
+→ Code should be more readable inside the *computation expression*
 
-Syntaxe : `builder { expr }`
-→ `builder` instance d'un « Builder » 📍
-→ `expr` peut contenir `let`, `let!`, `do!`, `yield`, `yield!`, `return`, `return!`
+Syntax: `builder { expr }`
+→ `builder` instance of a "Builder" 📍
+→ `expr` can contain `let`, `let!`, `do!`, `yield`, `yield!`, `return`, `return!`
 
-💡 **Note :** `seq`, `async` et `task` sont des CE
+💡 **Note :** `seq`, `async` and `task` are CEs
 
 ---
 
 # Builder
 
-Une *computation expression* s'appuie sur un objet appelé *Builder*.
-→ Cet objet permet éventuellement de stocker un état en background.
+A *computation expression* relies on an object called *Builder*.
+→ This object can be used to store a background state.
 
-Pour chaque mot-clé supporté (`let!`, `return`...), le *Builder* implémente
-une ou plusieurs méthodes associées. Exemples :
+For each supported keyword (`let!`, `return`...), the *Builder* implements
+one or more related methods. Examples:
 • `builder { return expr }` → `builder.Return(expr)`
 • `builder { let! x = expr; cexpr }` → `builder.Bind(expr, (fun x -> {| cexpr |}))`
 
-Le *builder* peut également wrappé le résultat dans un type qui lui est propre :
-• `async { return x }` renvoie un type `Async<'X>`
-• `seq { yield x }` renvoie un type `Seq<'X>`
+The *builder* can also wrap the result in a type of its own:
+• `async { return x }` returns an `Async<'X>` type
+• `seq { yield x }` returns a type `Seq<'X>`
 
 ---
 
 # Builder desugaring
 
-Le compilateur opère la traduction vers les méthodes du *builder*.
-→ La CE masque la complexité de ces appels, souvent imbriqués :
+The compiler translates to the *builder* methods.
+→ The CE masks the complexity of these calls, which are often nested:
 
 ```fs
 seq {
@@ -579,7 +629,7 @@ seq {
         yield n
         yield n * 10 }
 
-// Traduit en :
+// Desugared as:
 seq.For(list, fun () ->
     seq.Combine(seq.Yield(n),
                 seq.Delay(fun () -> seq.Yield(n * 10)) ) )
@@ -587,11 +637,9 @@ seq.For(list, fun () ->
 
 ---
 
-<!-- _footer: '' -->
+# Builder - Example : `logger`
 
-# Builder - Exemple : `logger`
-
-Besoin : logguer les valeurs intermédiaires d'un calcul
+Need: log the intermediate values of a calculation
 
 ```fs
 let log value = printfn $"{value}"
@@ -606,15 +654,15 @@ let loggedCalc =
     z
 ```
 
-**Problèmes**  ⚠️
-① Verbeux : les `log x` gênent lecture
-② *Error prone* : oublier un `log`, logguer mauvaise valeur...
+**Problems** ⚠️
+① Verbose: the `log x` interfere with reading
+② *Error prone*: forget a `log`, log wrong value...
 
 ---
 
-# Builder - Exemple : `logger` (2)
+# Builder - Example : `logger` (2)
 
-💡 Rendre les logs implicites dans une CE lors du `let!` / `Bind` :
+💡 Make logs implicit in a CE when `let!` / `Bind` :
 
 ```fs
 type LoggingBuilder() =
@@ -636,9 +684,9 @@ let loggedCalc = logger {
 
 ---
 
-# Builder - Exemple : `maybe`
+# Builder - Example : `maybe`
 
-Besoin : simplifier enchaînement de "trySomething" renvoyant une `Option`
+Need : simplify the sequence of "trySomething" returning an `Option`
 
 ```fs
 let tryDivideBy bottom top = // (bottom: int) -> (top: int) -> int option
@@ -646,7 +694,7 @@ let tryDivideBy bottom top = // (bottom: int) -> (top: int) -> int option
     then None
     else Some (top / bottom)
 
-// Sans CE
+// W/o CE
 let division =
     36
     |> tryDivideBy 2                // Some 18
@@ -656,10 +704,10 @@ let division =
 
 ---
 
-# Builder - Exemple : `maybe` (2)
+# Builder - Example : `maybe` (2)
 
 ```fs
-// Avec CE
+// With CE
 type MaybeBuilder() =
     member _.Bind(x, f) = x |> Option.bind f
     member _.Return(x) = Some x
@@ -674,20 +722,21 @@ let division' = maybe {
 }
 ```
 
-**Bilan :** ✅ Symétrie, ❌ Valeurs intermédiaires
+**Result:** ✅ Symmetry, ❌ Intermediate values
 
 ---
 
-# Limite : imbrication de CE
+# Limit : nested CEs
 
-✅ On peut imbriquer des CE différentes
-❌ Mais code devient difficile à comprendre
+✅ Different CEs can be nested
+❌ But code becomes difficult to understand
 
-Exemple : combiner `logger` et `maybe` ❓
+Example: combining `logger` and `maybe` ❓
 
-Solution alternative :
+Alternative solution 🚀🚀:
 
 ```fs
+// Define an operator for `bind`
 let inline (>>=) x f = x |> Option.bind f
 
 let logM value = printfn $"{value}"; Some value  // 'a -> 'a option
@@ -702,10 +751,10 @@ let division' =
 
 <!-- _footer: '' -->
 
-# Limite : combinaison de CE
+# Limit: combining CEs
 
-Combiner `Async` + `Option`/`Result` ?
-→ Solution : CE `asyncResult` + helpers dans [FsToolkit](https://demystifyfp.gitbook.io/fstoolkit-errorhandling/#a-motivating-example)
+Combine `Async` + `Option`/`Result` ?
+→ Solution : CE `asyncResult` + helpers in [FsToolkit](https://demystifyfp.gitbook.io/fstoolkit-errorhandling/#a-motivating-example)
 
 ```fs
 type LoginError =
@@ -727,94 +776,96 @@ let login username password =
 
 ---
 
-# CE : le couteau suisse ✨
+# CE: the Swiss army knife ✨
 
-Les *computation expressions* servent à différentes choses :
+The *computation expressions* serve different purposes:
 • C♯ `yield return` → F♯ `seq {}`
 • C♯ `async/await` → F♯ `async {}`
-• C♯ expressions LINQ `from... select` → F♯ `query {}`
+• C♯ LINQ expressions `from... select` → F♯ `query {}`
 • ...
 
-Fondements théoriques sous-jacents :
-• Monoïde
-• Monade
+Underlying theoretical foundations :
+• Monoid
+• Monad
 • Applicative
 
 ---
 
-# Monoïde
+# Monoid
 
-≃ Type `T` définissant un ensemble comportant :
+≃ Type `T` defining a set with:
 
-1. Opération `(+) : T -> T -> T`
-   → Pour combiner des ensembles et garder le même "type"
-   → Associative : `a + (b + c)` ≡ `(a + b) + c`
-2. Élément neutre *(aka identity)* ≃ ensemble vide
-   → Combinable à tout ensemble sans effet
+1. Operation `(+): T -> T -> T`
+   → To combine sets and keep the same "type"
+   → Associative: `a + (b + c)` ≡ `(a + b) + c`
+2. Neutral element *(aka identity)* ≃ empty set
+   → Combinable with any set without effect
    → `a + e` ≡ `e + a` ≡ `a`
 
 ---
 
-# CE monoïdale
+# CE monoidal
 
-Le builder d'une CE monoïdale *(telle que `seq`)* dispose *a minima* de :
-- `Yield` pour construire l'ensemble élément par élément
+The builder of a monoidal CE *(such as `seq`)* has *at least* :
+- `Yield` to build the set element by element
 - `Combine` ≡ `(+)` (`Seq.append`)
-- `Zero` ≡ élément neutre (`Seq.empty`)
+- Zero` ≡ neutral element (`Seq.empty`)
 
-S'y ajoute généralement (entre autres) :
-- `For` pour supporter `for x in xs do ...`
-- `YieldFrom` pour supporter `yield!`
+Generally added (among others):
+- `For` to support `for x in xs do ...`
+- `YieldFrom` to support `yield!`
 
 ---
 
-# Monade
+# Monad
 
-≃ Type générique `M<'T>` comportant :
+≃ Generic type `M<'T>` with:
 
-1. Fonction `return` de construction
+1. `return` construction function
    - Signature : `(value: 'T) -> M<'T>`
-   - ≃ Wrap une valeur
-2. Fonction `bind` de "liaison" *(aka opérateur `>>=`)*
+   - ≃ Wrap a value
+2. Link function `bind` *(aka `>>=` operator)*
    - Signature : `(f: 'T -> M<'U>) -> M<'T> -> M<'U>`
-   - Utilise la valeur wrappée, la "map" avec la fonction `f`
-            vers une valeur d'un autre type et "re-wrap" le résultat
+   - Use wrapped value, map with `f` function
+            to a value of another type and re-wrap the result
 
 ---
 
-# Monade : lois
+# Monad: laws
 
-`return` ≡ élément neutre pour `bind`
-- À gauche : `return x |> bind f` ≡ `f x`
-- À droite : `m |> bind return` ≡ `m`
+`return` ≡ neutral element for `bind`
 
-`bind` est associatif
+- Left: `return x |> bind f` ≡ `f x`
+- Right: `m |> bind return` ≡ `m`
+
+`bind` is associative
+
 - `m |> bind f |> bind g` ≡ `m |> bind (fun x -> f x |> bind g)`
 
 ---
 
-# Monades et langages
+# Monads and languages
 
 **Haskell**
-• Monades beaucoup utilisées. Les \+ communes : `IO`, `Maybe`, `State`, `Reader`.
-• `Monad` est une *classe de type* pour créer facilement ses propres monades.
+• Monads used a lot. Common ones: `IO`, `Maybe`, `State`, `Reader`.
+• `Monad` is a *type class* for easily creating your own monads.
 
 **F♯**
-• Certaines CE permettent des opérations monadiques.
-• Plus rarement utilisées directement _(sauf par des Haskellers)_
+• Some CEs allow monadic operations.
+• More rarely used directly _(except by Haskellers, OCamlers...)_
 
 **C♯**
-• Monade implicite dans LINQ
-• Librairie [LanguageExt](https://github.com/louthy/language-ext) de programmation fonctionnelle
+• Monad implicit in LINQ
+• [LanguageExt](https://github.com/louthy/language-ext) library for functional programming
 
 ---
 
-# CE monadique
+# Monadic CE
 
-Le builder d'une CE monadique dispose des méthodes `Return` et `Bind`.
+The builder of a monadic CE has `Return` and `Bind` methods.
 
-Les types `Option` et `Result` sont monadiques.
-→ On peut leur créer leur propre CE :
+The `Option` and `Result` types are monadic.
+→ We can create their own CE :
 
 ```fs
 type OptionBuilder() =
@@ -828,10 +879,10 @@ type ResultBuilder() =
 
 ---
 
-# CE monadique et générique
+# Monadic and generic CE
 
-[FSharpPlus](http://fsprojects.github.io/FSharpPlus//computation-expressions.html) propose une CE `monad`
-→ Marche pour tous les types monadiques : `Option`, `Result`, ... et même `Lazy` !
+[FSharpPlus](http://fsprojects.github.io/FSharpPlus//computation-expressions.html) provides a `monad` CE
+→ Works for all monadic types: `Option`, `Result`, ... and even `Lazy`!
 
 ```fs
 #r "nuget: FSharpPlus"
@@ -851,9 +902,9 @@ let result = lazyValue.Value
 
 ---
 
-# CE monadique et générique (2)
+# Monadic and generic CE (2)
 
-Exemple avec le type `Option` :
+Example with type `Option`:
 
 ```fs
 #r "nuget: FSharpPlus"
@@ -871,9 +922,9 @@ let v2 = addOptions (Some 1) None     // None
 
 ---
 
-# CE monadique et générique (3)
+# Monadic and generic CE (3)
 
-⚠️ **Limite :** on ne peut pas mélanger plusieurs types monadiques !
+⚠️ **Limit:** several monadic types cannot be mixed!
 
 ```fs
 #r "nuget: FSharpPlus"
@@ -894,15 +945,13 @@ let v2 = monad {
 
 ---
 
-<!-- _footer: '' -->
+# Specific monadic CE
 
-# CE monadiques spécifiques
+[FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) library provides:
+• CE `option {}` specific to type `Option<'T>` _(example below)_
+• CE `result {}` specific to type `Result<'Ok, 'Err>`
 
-Librairie [FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) propose :
-• CE `option {}` spécifique au type `Option<'T>` _(exemple ci-dessous)_
-• CE `result {}` spécifique au type `Result<'Ok, 'Err>`
-
-☝ Recommandé car \+ explicite que CE `monad`
+☝ Recommended as it is more explicit than `monad` CE.
 
 ```fs
 #r "nuget: FSToolkit.ErrorHandling"
@@ -920,38 +969,40 @@ let v2 = addOptions (Some 1) None     // None
 
 ---
 
-<!-- _footer: '' -->
-
 # Applicative _(a.k.a Applicative Functor)_
 
-≃ Type générique `M<'T>` -- 3 styles :
+≃ Generic type `M<'T>` -- 3 styles:
 
-**Style A:** Applicatives avec `apply`/`<*>` et `pure`/`return`
-• ❌ Pas facile à comprendre
-• ☝ Déconseillé par Don Syme dans cette [note de nov. 2020](https://github.com/dsyme/fsharp-presentations/blob/master/design-notes/rethinking-applicatives.md)
+**Style A:** Applicative with `apply`/`<*>` and `pure`/`return`
+• ❌ Not easy to understand
+• ☝ Not recommended by Don Syme in the [Nov. 2020 note](https://github.com/dsyme/fsharp-presentations/blob/master/design-notes/rethinking-applicatives.md)
 
-**Style B:** Applicatives avec `mapN`
-• `map2`, `map3`... `map5` combine 2 à 5 valeurs wrappées
+**Style B:** Applications with `mapN`
+• `map2`, `map3`... `map5` combines 2 to 5 wrapped values
 
-**Style C:** Applicatives avec `let! ... and! ...` dans une CE
-• Même principe : combiner plusieurs valeurs wrappées
-• Disponible à partir de F♯ 5 _([annonce de nov. 2020](https://devblogs.microsoft.com/dotnet/announcing-f-5/#applicative-computation-expressions))_
+**Style C:** Applicatives with `let! ... and! ...` in a CE
+• Same principle: combine several wrapped values
+• Available from F♯ 5 _([announcement Nov. 2020](https://devblogs.microsoft.com/dotnet/announcing-f-5/#applicative-computation-expressions))_
 
-☝ **Conseil :** Styles B et C sont autant recommandés l'un que l'autre.
+☝ **Tip:** Styles B and C are equally recommended.
 
 ---
 
-# CE applicative
+# Applicative CE
 
-Librairie [FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) propose :
+Library [FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) offers:
 • Type `Validation<'Ok, 'Err>` ≡ `Result<'Ok, 'Err list>`
-• CE `validation {}` supportant syntaxe `let!...and!...`
+• CE `validation {}` supporting `let!...and!...` syntax.
 
-Permet d'accumuler les erreurs → Usages :
-• Parsing d'inputs externes
-• *Smart constructor* *(Exemple de code slide suivante...)*
+Allows errors to be accumulated → Uses:
+• Parsing external inputs
+• *Smart constructor* *(Example code slide next...)*
 
 ---
+
+<!-- _footer: '' -->
+
+# Applicative CE: example
 
 ```fs
 #r "nuget: FSToolkit.ErrorHandling"
@@ -981,22 +1032,21 @@ module Customer =
 let c1 = Customer.tryCreate "Bob" 180<cm>  // Ok { Name = "Bob"; Height = 180 }
 let c2 = Customer.tryCreate "Bob" 0<cm> // Error ["Height must me positive"]
 let c3 = Customer.tryCreate "" 0<cm>    // Error ["Name can't be empty"; "Height must me positive"]
-
 ```
 
 ---
 
 <!-- _footer: '' -->
 
-# Applicative _vs_ Monade
+# Applicative _vs_ Monad
 
-> Soit N opérations `tryXxx` renvoyant un `Option` ou `Result`
+> Let N operations `tryXxx` return an `Option` or `Result`.
 
-**Style monadique :**
-• Avec `bind` ou CE `let! ... let! ...`
-• **Chaîne** les opérations, exécutée 1 à 1, la N dépendant de la N-1
-• S'arrête à 1ère opération KO → juste 1ère erreur dans `Result` ①
-• *[Railway-oriented programming](https://fsharpforfunandprofit.com/rop/)* de Scott Wlaschin
+**Monadic style :**
+• With `bind` or CE `let! ... let! ...`
+• **String** operations, executed 1 by 1, N depending on N-1
+• Stops at 1st operation KO → just 1st error in `Result` ①
+• *[Railway-oriented programming](https://fsharpforfunandprofit.com/rop/)* by Scott Wlaschin
 
 ```fs
 module Result =
@@ -1011,12 +1061,12 @@ module Result =
 
 ---
 
-# Applicative _vs_ Monade (2)
+# Applicative _vs_ Monad (2)
 
-**Style applicatif :**
-• Avec `mapN` ou CE `let! ... and! ...`
-• **Combine** 2..N opérations indépendantes → parallélisables 👍
-• Permet de combiner les cas `Error` contenant une `List` ②
+**Application style:**
+• With `mapN` or CE `let! ... and! ...`
+• **Combines** 2...N independent operations → parallelizable 👍
+• Combines `Error` cases containing a `List` ②
 
 ```fs
 module Validation =
@@ -1033,15 +1083,15 @@ module Validation =
 
 ---
 
-# Autres CE
+# Other CE
 
-On a vu 2 librairies qui étendent F♯ et proposent leurs CE :
+We've seen 2 libraries that extend F♯ and offer their CEs:
 
 - FSharpPlus → `monad`
 - FsToolkit.ErrorHandling → `option`, `result`, `validation`
 
-Beaucoup de librairies ont leur propre DSL _(Domain Specific Language.)_
-Certaines s'appuient alors sur des CE :
+Many libraries have their own DSL _(Domain Specific Language.)_
+Some are based on CE :
 
 - Expecto
 - Farmer
@@ -1051,7 +1101,7 @@ Certaines s'appuient alors sur des CE :
 
 # Expecto
 
-❝ Librairie de testing : assertions + runner ❞
+❝ Testing library: assertions + runner ❞
 🔗 https://github.com/haf/expecto
 
 ```fs
@@ -1072,7 +1122,7 @@ let main args =
 
 # Farmer
 
-❝ *Infrastructure-as-code* pour Azure ❞
+❝ *Infrastructure-as-code* for Azure ❞
 🔗 https://github.com/compositionalit/farmer
 
 ```fs
@@ -1116,7 +1166,7 @@ deployment
 
 # Saturn
 
-❝ Framework Web au-dessus de ASP.NET Core, pattern MVC ❞
+❝ Web framework above ASP.NET Core, MVC pattern ❞
 🔗 https://saturnframework.org/
 
 ```fs
@@ -1132,7 +1182,7 @@ run app
 
 ---
 
-# CE : aller \+ loin
+# CE: go further
 
 Extending F# through Computation Expressions
 📹 https://youtu.be/bYor0oBgvws
@@ -1142,6 +1192,9 @@ Extending F# through Computation Expressions
 Computation Expressions Workshop
 🔗 https://github.com/panesofglass/computation-expressions-workshop
 
+Applicatives IRL by Jeremie
+🔗 https://thinkbeforecoding.com/post/2020/10/03/applicatives-irl
+
 ---
 
 <!-- _class: chapter invert -->
@@ -1150,53 +1203,51 @@ Computation Expressions Workshop
 
 # 5.
 
-## Le    Récap’
+## Wrap up
 
 ---
 
-# Types unions : `Option` et `Result`
+# Union types: `Option` and `Result`
 
-- A quoi ils servent :
-  - Modéliser absence de valeur et erreurs métier
-  - Opérations partielles rendues totales `tryXxx`
+- What they are used for:
+  - Model absence of value and business errors
+  - Partial operations made total `tryXxx`
     - *Smart constructor* `tryCreate`
-- Comment on s'en sert :
-  - Chaînage : `map`, `bind`, `filter` → *ROP*
+- How to use them:
+  - Chaining: `map`, `bind`, `filter` → *ROP*
   - Pattern matching
-- Leurs bénéfices :
-  - `null` free, `Exception` free → pas de guard polluant code
-  - Rend logique métier et *happy path* \+ lisible
+- Their benefits:
+  - `null` free, `Exception` free → no guard clauses Cluttering the code
+  - Makes business logic and *happy path* more readable
 
 ---
-
-<!-- _footer: '' -->
 
 # *Computation expression (CE)*
 
-- Sucre syntaxique : syntaxe intérieure standard ou "bangée" (`let!`)
-- *Separation of Concerns* : logique métier *vs* « machinerie »
-- Compilateur fait lien avec *builder*
-  - Objet stockant un état
-  - Build une valeur en sortie, d'un type spécifique
-- Imbricables mais pas faciles à combiner !
-- Concepts théoriques sous-jacents
-  - Monoïde → `seq` *(d'éléments composables et avec un "zéro"*)
-  - Monade → `async`, `option`, `result`
+- Syntactic sugar: inner syntax standard or "banged" (`let!`)
+- *Separation of Concerns*: business logic *vs* "machinery"
+- Compiler is linked to *builder*
+  - Object storing a state
+  - Builds an output value of a specific type
+- Can be nested but not easy to combine!
+- Underlying theoretical concepts
+  - Monoid → `seq` *(of composable elements and with a "zero "*)
+  - Monad → `async`, `option`, `result`
   - Applicative → `validation`/`Result<'T, 'Err list>`
-- Librairies : FSharpPlus, FsToolkit, Expecto, Farmer, Saturn
+- Libraries: FSharpPlus, FsToolkit, Expecto, Farmer, Saturn
 
 ---
 
-# 🔗 Ressources complémentaires
+# 🔗 Additional ressources
 
 Compositional IT *(Isaac Abraham)*
-→ https://kutt.it/gpIgfD • *Writing more succinct C# – in F#! (Part 2)* • Jul 2020
+→ https://kutt.it/gpIgfD • *Writing more succinct C# – in F#! (Part 2)* • 2020
 
 F# for Fun and Profit *(Scott Wlaschin)*
-→ https://kutt.it/e78rNj • *The Option type* • Jun 2012
-→ https://kutt.it/7J5Krc • *Making illegal states unrepresentable* • Jan 2013
-→ https://kutt.it/drchkQ • Série de 11 articles sur les CE • Jan 2013
-→ https://kutt.it/ebfGNA • Série de 7 articles sur monades 'n co • Aug 2015
+→ https://kutt.it/e78rNj • *The Option type* • 2012
+→ https://kutt.it/7J5Krc • *Making illegal states unrepresentable* • 2013
+→ https://kutt.it/ebfGNA • *The "Map and Bind and Apply, Oh my!" series* • 2015
+→ https://kutt.it/drchkQ • *The "Computation Expressions" series* • 2013
 
 ---
 
