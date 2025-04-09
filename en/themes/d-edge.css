@@ -382,6 +382,13 @@ section:not(.title):not(.speaker):not(.chapter):not(.agenda):not(.workshop):not(
   margin-bottom: 0;
 }
 
+section:not(.title):not(.speaker):not(.chapter):not(.agenda):not(.workshop):not(.break):not(.end) h2 {
+  background: rgba(139, 66, 225, 0.3);
+  padding: 20px 40px 15px;
+  margin: -40px;
+  margin-bottom: 0;
+}
+
 /* PAGINATION */
 section::after {
   color: #1d1d1b;
