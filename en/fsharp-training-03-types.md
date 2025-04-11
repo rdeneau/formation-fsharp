@@ -49,9 +49,7 @@ In addition to the common .NET types, F# has other types that are very common in
 
 ---
 
-# Overview
-
-.NET type classifications:
+# .NET type classifications
 
 1. Value types *vs* reference types
 2. Primitive types *vs* composite types
@@ -68,16 +66,16 @@ In addition to the common .NET types, F# has other types that are very common in
 Created by combining other types
 👉 F# type features stable and mature
 
-| Types          | *Version* | Name                   | *Ref. type*  | *Value type* |
-|----------------|-----------|------------------------|--------------|--------------|
-| Types .NET     |           | `class`                | ✅           | ❌           |
-|                |           | `struct`, `enum`       | ❌           | ✅           |
-| Specific to C♯ | C♯ 3.0    | Anonymous type         | ✅           | ❌           |
-|                | C♯ 7.0    | *Value tuple*          | ❌           | ✅           |
-|                | C♯ 9.0    | `record (class)`       | ✅           | ❌           |
-|                | C♯ 10.0   | `record struct`        | ❌           | ✅           |
-| Specific to F♯ |           | *Tuple, Record, Union* | ✅ (default) | ✅ (opt-in)  |
-|                | F♯ 4.6    | Anonymous *Record*     | ✅ (default) | ✅ (opt-in)  |
+| Types          | *Version* | Name                   | *Ref. type* | *Value type* |
+|----------------|-----------|------------------------|-------------|--------------|
+| Types .NET     |           | `class`                | ✅           | ❌            |
+|                |           | `struct`, `enum`       | ❌           | ✅            |
+| Specific to C♯ | C♯ 3.0    | Anonymous type         | ✅           | ❌            |
+|                | C♯ 7.0    | *Value tuple*          | ❌           | ✅            |
+|                | C♯ 9.0    | `record (class)`       | ✅           | ❌            |
+|                | C♯ 10.0   | `record struct`        | ❌           | ✅            |
+| Specific to F♯ |           | *Tuple, Record, Union* | ✅ (default) | ✅ (opt-in)   |
+|                | F♯ 4.6    | Anonymous *Record*     | ✅ (default) | ✅ (opt-in)   |
 
 ---
 
@@ -99,18 +97,13 @@ In F♯, all type definitions are made with the `type` keyword
 
 # Particularity of F♯ types / .NET types
 
-*Tuple, Record, Union* are :
+*Tuple, Record, Union* are:
 
-- Immutable
-- Non-nullable
+- Immutable by default
+- Non-nullable by default
 - Equality and structural comparison *(except with fields of `function` type)*
 - `sealed`: cannot be inherited
 - Deconstruction, with same syntax as construction 📍
-
-Reflects different approaches depending on paradigm:
-
-- FP: focus on data organized into types
-- OOP: focus on behaviors, possibly polymorphic
 
 ---
 
@@ -136,10 +129,10 @@ Literal values = instances whose type is inferred
 
 Let's take the types `A` and `B`, then we can create:
 
-- The product type `A × B` :
+- The product type `A × B`:
   - Contains 1 component of type `A` AND 1 of type `B`.
   - Anonymous or named components
-- Sum type `A + B` :
+- Sum type `A + B`:
   - Contains 1 component of type `A` OR 1 of type `B`.
 
 By extension, same for the product/sum types of N types.
@@ -163,17 +156,18 @@ The number of values in the composed type will be:
 
 # Algebraic types *vs* Composite types
 
-| Type                             | Sum   | Product |
-|----------------------------------|-------|---------|
-| `enum`                           | ✅     | ❌       |
-| *Union* F♯                       | ✅     | ❌       |
-| `class` ⭐, `interface`, `struct` | ❌     | ✅       |
-| *Record* F♯                      | ❌     | ✅       |
-| *Tuple* F♯                       | ❌     | ✅       |
+| Type                               | Sum | Product |
+|------------------------------------|-----|---------|
+| `enum`                             | ✅   | ❌       |
+| *Union* F♯                         | ✅   | ❌       |
+| `class` (1), `interface`, `struct` | ❌   | ✅       |
+| *Record* F♯                        | ❌   | ✅       |
+| *Tuple* F♯                         | ❌   | ✅       |
 
-⭐ C♯ classes, including variations : type anonyme, *Value tuple* and `record`
+(1) C♯ classes in the broadest sense:
+→ including modern variations like *anonymous type,* *Value tuple* and *Record*
 
-👉 In C♯, no sum type except `enum`, very limited / union type 📍
+👉 In C♯, only 1 sum type: `enum`, very limited / union type 📍
 
 ---
 
@@ -181,21 +175,30 @@ The number of values in the composed type will be:
 
 **Alias** of another type: `type [name] = [existingType]`
 
-Different uses:
+Different use-cases:
 
 ```fs
-// Document code to avoid repetition
+// 1. Document code to avoid repetition
 type ComplexNumber = float * float
 type Addition<'num> = 'num -> 'num -> 'num // 👈 Also works with generics
 
-// Decouple (partially) usage / implementation
-// → Easier to change the implementation (for a stronger type)
+// 2. Decouple (partially) usage / implementation
+//    → Easier to change the implementation (for a stronger type)
 type ProductCode = string
 type CustomerId = int
 ```
 
 ⚠️ Deleted at compile time → ~~*type safety*~~
-→ Compiler allows `int` to be passed instead of `CustomerId` !
+→ Compiler allows `int` to be passed instead of `CustomerId`!
+
+---
+
+# Type abbreviation (2)
+
+💡 It's also possible to create an alias for a module 📍
+`module [name] = [existingModule]`
+
+⚠️ It's NOT possible to create an alias for a namespace (≠ C♯)
 
 ---
 
@@ -211,15 +214,20 @@ type CustomerId = int
 
 # Tuples: key points
 
-- Types with literal values
-- Anonymous types, but aliases can be defined to give them a name
-- Product types by definition
-  - Hence the `*` sign in the type signature: `A * B`
-- Number of elements in the tuples:
-  - 👌 2 or 3 (`A * B * C`)
-  - ⚠️ \> 3 : possible but prefer *Record*
-- Order of elements is important
-  - If `A` ≠ `B`, then `A * B` ≠ `B * A`
+Types constructed from **literal values**
+
+Anonymous types
+*but aliases can be defined to give them a name*
+
+Product types by definition
+→ `*` sign in the type signature: `A * B`
+
+Number of elements in the tuples:
+• 👌 2 or 3 (`A * B * C`)
+• ⚠️ \> 3 : possible but prefer *Records*
+
+Element order matters
+→ `A * B` ≠ `B * A` *(if `A` ≠ `B`)*
 
 ---
 
@@ -243,9 +251,9 @@ Syntax of literals: `a,b` or `a, b` or `(a, b)`
 
 - Same syntax as construction 👍
 - All elements must appear in the deconstruction ⚠️
-  - Use discard `_` to ignore one of the elements
+  - Use `_` *(discard)* to ignore one of the elements
 
-```fs
+```fsharp
 let point = 1.0, 2.5
 let x, y = point
 
@@ -253,7 +261,7 @@ let x, y = 1, 2, 3 // 💥 Error FS0001: Type incompatibility...
                    // ... Tuples have lengths other than 2 and 3
 
 let result = System.Int32.TryParse("123") // (bool * int)
-let _, value = result // Ignore the "bool".
+let _, value = result // Ignore the "bool"
 ```
 
 ---
@@ -266,8 +274,7 @@ Use a tuple for a data structure:
 
 - Small: 2 to 3 elements
 - Light: no need for element names
-- Local: local data exchange not relevant to the whole *codebase*
-  - Return multiple values - see `Int32.TryParse: bool * int`
+- Local: small scope
 
 Immutable tuple:
 → modifications are made by creating a new tuple
@@ -301,9 +308,9 @@ doublet = quadruplet                  // 💥 Error FS0001: Type incompatibility
 
 ---
 
-# Tuples : pattern matching
+# Tuples: pattern matching
 
-Patterns recognized with tuples :
+Patterns recognized with tuples:
 
 ```fs
 let print move =
@@ -316,7 +323,7 @@ let print move =
     | x, y -> $"Other ({x}, {y})"
 ```
 
-☝ **Notes :**
+☝ **Notes:**
 
 - Patterns are ordered from specific to generic
 - The last pattern `x, y` is the default one to deconstruct a tuple
@@ -343,7 +350,7 @@ snd pair  // "b" (string)
 
 # Pair Quiz 🕹️
 
-#### **1.** How do you implement `fst` and `snd` yourself?
+#### **1.** Implement `fst` and `snd`
 
 ```fs
 let fst ... ?
@@ -403,7 +410,7 @@ let inline toList (x, y) = [x; y]
 
 ---
 
-# Record: key points
+# Records: key points
 
 > Product type with named elements called *fields.*
 
@@ -422,7 +429,7 @@ type ComplexNumber = { Real: float; Imaginary: float }
 
 ---
 
-# Record: declaration
+# Records: declaration
 
 Base syntax:
 
@@ -471,10 +478,10 @@ type PostalAddress =   ┆  type PostalAddress =     ┆  type PostalAddress = {
 
 # Record: styles comparison
 
-| Criterion | Best styles 🏆 |
-|-----------|-------------|
-| Compactness |  Single-line, Cramped |
-| Refacto Easiness <br/> *(re)indentation, fields (re)ordering* | Aligned, Stroustrup |
+| Criterion                                                     | Best styles 🏆       |
+|---------------------------------------------------------------|----------------------|
+| Compactness                                                   | Single-line, Cramped |
+| Refacto Easiness <br/> *(re)indentation, fields (re)ordering* | Aligned, Stroustrup  |
 
 ☝️ **Recommendation:** *Strive for Consistency*
 → Apply consistently the same multi-line style across a repository
@@ -684,7 +691,8 @@ let { Person1.Last = lastName } = alice     // 💥 Error FS0001
 # Record: modification
 
 Record is immutable, but easy to get a modified copy
-→ **copy and update** expression of  of a *Record*
+→ **copy and update** expression of a *Record*
+→ use multi-line formatting for long expressions
 
 ```fs
 // Single-line
@@ -718,7 +726,7 @@ address with { Street = "Rue Vivienne" }
 
 ---
 
-# Record *copy-update* : limits (< F# 8)
+# *Copy-update* limits (< F# 8)
 
 Reduced readability with several nested levels
 
@@ -740,7 +748,7 @@ let person' =
 
 ---
 
-# Record *copy-update* : F# 8 improvements
+# *Copy-update* : F# 8 improvements
 
 ```fs
 type Street = { Num: string; Label: string }
@@ -753,6 +761,8 @@ let person' =
     { person with
         Person.Address.Street.Num = person.Address.Street.Num + " bis" }
 ```
+
+☝️ Usually we have to qualify the field: see `Person.`
 
 ---
 
@@ -769,9 +779,9 @@ let person' =
 # Unions: key points
 
 - Exact term: *Discriminated Union (DU)*
-- Sum Type: represents an **OR**, a **choice** between several *Cases*
+- Sum type: represents an **OR**, a **choice** between several *Cases*
   - Same principle as for an `enum`, but on steroids 💪
-- Each *case* must have a *Tag* *(a.k.a Label, Discriminator)* -- in `PascalCase` ❗
+- Each *case* must have a *Tag* *(a.k.a Label, Discriminator)*
 - Each *case* **may** contain data
   - As Tuple: its elements can be named -- in camelCase 🙏
 
@@ -809,9 +819,39 @@ type Found<'T> = Found of 'T | NotFound     // 💡 Generic union type (no auto 
 
 ---
 
+# Unions declaration (2)
+
+*Cases* can be used without **qualification**: `Int32` *vs* `IntOrBool.Int32`
+
+Qualification can be forced with `RequireQualifiedAccess` attribute:
+• Cases using common terms (e.g. `None`) → to avoid name collision
+• Cases names are designed to read better/more explicitly with qualification
+
+*Cases* must be named in **PascalCase** ❗
+• Since F# 7.0, camelCase is allowed for `RequireQualifiedAccess` unions 💡
+
+---
+
+# Unions declaration (3)
+
+**Field labels** are helpful for:
+
+• Adding meaning to a primitive type:
+  → See `Ticket` previous example: `Senior of int` vs `Child of age: int`
+• Distinguish between two fields of the same type
+  → See example below:
+
+```fsharp
+type ComplexNumber =
+    | Cartesian of Real: float * Imaginary: float
+    | Polar of Magnitude: float * Phase: float
+```
+
+---
+
 # Unions: instanciation
 
-*Tag* ≃ **constructor**
+*Case* ≃ **constructor**
 → Function called with any *case* data
 
 ```fs
@@ -819,10 +859,10 @@ type Shape =
     | Circle of radius: int
     | Rectangle of width: int * height: int
 
-let circle = Circle 12         // Type: 'Shape', Valeur: 'Circle 12'
-let rect = Rectangle(4, 3)     // Type: 'Shape', Valeur: 'Rectangle (4, 3)'
+let circle = Circle 12         // Type: 'Shape', Value: 'Circle 12'
+let rect = Rectangle(4, 3)     // Type: 'Shape', Value: 'Rectangle (4, 3)'
 
-let circles = [1..4] |> List.map Circle     // 👈 Tag used as function
+let circles = [1..4] |> List.map Circle     // 👈 Case used as function
 ```
 
 ---
@@ -848,10 +888,10 @@ let draw' = Draw.Circle
 
 ---
 
-# Unions: get the data
+# Unions: get the data out
 
-Only via *pattern matching*.
-Matching a Union type is **exhaustive**.
+• Only via *pattern matching*.
+• Matching a union type is **exhaustive**.
 
 ```fs
 type Shape =
@@ -873,9 +913,9 @@ let isFlat = function
 
 ---
 
-# Unions: *single-case*
+# Single-case unions
 
-Union with a single case encapsulating a type (usually primitive)
+Unions with a single case encapsulating a type (usually primitive)
 
 ```fs
 type CustomerId = CustomerId of int
@@ -893,13 +933,13 @@ let fetchOrder (OrderId orderId) =    // 💡 Direct deconstruction without 'mat
 
 ---
 
-# Unions: "enum" style
+# Enum style unions
 
 All *cases* are empty = devoid of data
-→ ≠ `enum` .NET 📍
+→ ≠ .NET `enum` based on numeric values 📍
 
-Instantiation and pattern matching are done just with the *tag*.
-→ The *tag* is no longer a ~~function~~ but a *singleton* value.
+Instantiation and pattern matching are done just with the *Case*.
+→ The *Case* is no longer a ~~function~~ but a *singleton* value.
 
 ```fs
 type Answer = Yes | No | Maybe
@@ -913,6 +953,73 @@ let print answer =
 ```
 
 🔗 [“Enum” style unions | F# for fun and profit](https://fsharpforfunandprofit.com/posts/fsharp-decompiled/#enum-style-unions)
+
+---
+
+# Unions .Is* properties
+
+The compiler generates `.Is{Case}` properties for each case in a union
+• Before F♯ 9: not accessible + we cannot add them manually 😒
+• Since F♯ 9: accessible 👍
+
+```fsharp
+type Contact =
+    | Email of address: string
+    | Phone of countryCode: int * number: string
+
+type Person = { Name: string; Contact: Contact }
+
+let canSendEmailTo person =  // Person -> bool
+    person.Contact.IsEmail   // `.IsEmail` is auto-generated
+```
+
+---
+
+# Union (FP) *vs* Object Hierarchy (OOP)
+
+👉 A union can usually replace a small *object hierarchy.*
+
+### Explanations
+
+Behaviors/operations implementation:
+• **OO:** *virtual methods* in separated classes
+• **FP:** *functions* relying on **pattern matchings**
+   → exhaustivity
+   → avoid duplication by grouping cases
+   → improve readability by flattening split cases in a single `match..with`
+
+---
+
+# FP *vs* OOP
+
+**How we reason about the code** *(at both design and reading time)*
+• **FP: by functions** → how an operation is performed for the different cases
+• **OOP: by objects** → how all operations are performed for a single case
+
+**Abstraction**
+• Objects are more abstract than functions
+• Good abstraction is difficult to design
+• The more abstract a thing is, the more stable it should be
+
+**👉 FP is usually easier to write, to understand, to evolve**
+
+---
+
+# FP *vs* OOP: Open-Closed Principle
+
+It's easier to extend what's **Open.**
+
+**OOP:** open hierarchy, closed operations
+→ Painful to add an operation: in all classes 😓
+→ Easy to add a class in the hierarchy 👍
+
+**FP:** open operations, closed cases
+→ Easy to add an operation 👍
+→ Painful to add a case: in all functions 😓
+   • Still, it's usually easier in F♯: only 1 file to change
+
+Adding a class = new concept in the domain → always tricky ⚠️
+Adding an operation = new behavior for the existing domain concepts
 
 ---
 
@@ -930,18 +1037,63 @@ Real .NET `enum`
 
 # Enum: declaration
 
-- Set of integer constants (`byte`, `int`...)
-- Syntax ≠ union
+Set of integer constants (`byte`, `int`...) or `char`
 
-```fs
-type Color  = Red | Green | Blue        // Union
-type ColorN = Red=1 | Green=2 | Blue=3  // Enum
+```fsharp
+type ColorN =
+    | Red   = 1
+    | Green = 2
+    | Blue  = 3
+```
 
-type AnswerChar = Yes='Y' | No='N'  // 💡 enum based on 'char' but not on string:
-type AnswerChar = Yes="Y" | No="N"  // 💥 Error FS0037
-//   ~~~~~~~~~~ Duplicate definition of type, exception or module 'AnswerChar'
+☝️ Note the syntax difference with a enum-like union:
 
-type File = a='a' | b='b' | c='c'  // 💡 enum members can be in camelCase
+```fsharp
+type Color = Red | Green | Blue
+```
+
+---
+
+# Enum: underlying type
+
+The underlying type is defined by means of literals defining member values:
+• `1`, `2`, `3` → `int`
+• `1uy`, `2uy`, `3uy` → `byte`
+• Etc. - see [Literals](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/literals)
+
+→ Same type required for all members:
+
+```fsharp
+type ColorN =
+    | Red   = 1
+    | Green = 2
+    | Blue  = 3uy
+// 💥         ~~~
+// This expression was expected to have type 'int' but here has type 'byte'
+```
+
+---
+
+# Enum: char based
+
+💡 Enum can be based on `char` but not on `string`
+
+```fsharp
+type AnswerChar = Yes='Y' | No='N'  ✅
+
+// ... but not on string!
+type AnswerChar = Yes="Y" | No="N"  // 💥 Error FS0951
+// Literal enumerations must have type int, uint, int16, uint16, int64, uint64, byte, sbyte or char
+```
+
+---
+
+# Enum members naming
+
+💡 Enum members can be in **camelCase**
+
+```fsharp
+type File = a='a' | b='b' | c='c'
 ```
 
 ---
@@ -952,8 +1104,10 @@ type File = a='a' | b='b' | c='c'  // 💡 enum members can be in camelCase
 
 ```fs
 type AnswerChar = Yes='Y' | No='N'
+
 let answerKo = Yes  // 💥 Error FS0039
 //             ~~~     The value or constructor 'Yes' is not defined.
+
 let answer = AnswerChar.Yes   // 👌 OK
 ```
 
@@ -962,22 +1116,6 @@ let answer = AnswerChar.Yes   // 👌 OK
 ```fs
 [<RequireQualifiedAccess>] // 👈
 type Color = Red | Green | Blue
-```
-
----
-
-# Enum: usages (2)
-
-#### Conversion `int <-> enum`
-
-```fs
-let redValue = int ColorN.Red         // enum -> int
-let redAgain = enum<ColorN> redValue  // int -> enum
-let red: ColorN = enum redValue       // int -> enum
-
-// ⚠️ Does not work with char enum
-let ko = char AnswerChar.No   // 💥 Error FS0001
-let no: AnswerChar = enum 'N' // 💥 Error FS0001
 ```
 
 ---
@@ -1025,12 +1163,58 @@ let canRead = permission.HasFlag PermissionFlags.Read
 
 ---
 
+## Enum flags: binary notation
+
+💡 **Hint:** use binary notation for flag values:
+
+```fsharp
+[<Flags>]
+type PermissionFlags =
+    | Read    = 0b001
+    | Write   = 0b010
+    | Execute = 0b100
+```
+
+---
+
+# Enum: values
+
+`System.Enum.GetValues()` returns the list of members of an `enum`
+⚠️ Weakly typed: `Array` (non-generic array)
+💡 Use a helper like:
+
+```fsharp
+let enumValues<'a> () =
+    Enum.GetValues(typeof<'a>)
+    :?> ('a array)
+    |> Array.toList
+
+let allPermissions = enumValues<PermissionFlags>()
+// val allPermissions: PermissionFlags list = [Read; Write; Execute]
+```
+
+---
+
+# Enum: conversion
+
+```fs
+let redValue = int ColorN.Red         // enum -> int
+let redAgain = enum<ColorN> redValue  // int -> enum
+let red: ColorN = enum redValue       // int -> enum
+
+// ⚠️ Use LanguagePrimitives for char enum
+let n: AnswerChar = LanguagePrimitives.EnumOfValue 'N' // char -> enum
+let y = LanguagePrimitives.EnumToValue AnswerChar.Yes  // enum -> char
+```
+
+---
+
 # Enum *vs* Union
 
 | Type  | Data inside | Qualification | Exhaustivity |
 |-------|-------------|---------------|--------------|
-| Enum  | integers    | Required      | ❌ No        |
-| Union | any         | Optional      | ✅ Yes       |
+| Enum  | integers    | Required      | ❌ No         |
+| Union | any         | Optional      | ✅ Yes        |
 
 ☝ **Recommendation:**
 
@@ -1039,6 +1223,17 @@ let canRead = permission.HasFlag PermissionFlags.Read
   - .NET Interop
   - int data
   - Flags feature
+
+---
+
+# Enum: FSharpx.Extras
+
+💡 NuGet package [FSharpx.Extras](https://github.com/fsprojects/FSharpx.Extras)
+→ Includes an `Enum` module with these helpers:
+
+- `parse<'enum>: string -> 'enum`
+- `tryParse<'enum>: string -> 'enum option`
+- `getValues<'enum>: unit -> 'enum seq`
 
 ---
 
@@ -1258,23 +1453,43 @@ Does not cross project (`.fsproj`) boundaries ❗
 
 ---
 
-# Struct Tuple/Record/Union
+# Struct F♯ Types
 
 - Regular tuple/record/union are reference-types
 - Possible to get them as value-types
   - Instances stored on the *Stack* rather than in the *Heap*
-  - Tuple: `struct` keyword
-  - Record/Union: `[<Struct>]` attribute
+  - Records, Unions: `[<Struct>]` attribute
+  - Tuples, Anonymous Records: `struct` keyword
+
+---
+
+# Struct tuples & anonymous records
 
 ```fs
-// Tuple
-let a = struct (1, 'b', "trois") // struct (int * char * string)
+// Struct tuple
+let a = struct (1, 'b', "Three") // struct (int * char * string)
 
-// Record
+// Struct anonymous record
+let b = struct {| Num = 1; Char = 'b'; Text = "Three" |}
+```
+
+---
+
+# Struct records & unions
+
+```fs
+// Struct record
 [<Struct>]
 type Point = { X: float; Y: float }
+let p = { X = 1.0; Y = 2.3 } // val p: Point = { X = 1.0; Y = 2.3 }
 
-let p = { X = 1.0; Y = 2.3 } // Point
+// Struct union: unique fields labels are required❗
+[<Struct>]
+type Multicase =
+    | Int  of i: int
+    | Char of c: char
+    | Text of s: string
+let t = Int 1 // val t: Multicase = Int 1
 ```
 
 ---

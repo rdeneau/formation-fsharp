@@ -607,6 +607,17 @@ let test2 = 6 |> classifyBetween 1 5  // "Sup"
 
 ---
 
+# Exhaustivity in OOP
+
+The equivalent of the pattern matching exhaustivity in FP is
+... the [Visitor design pattern](https://refactoring.guru/design-patterns/visitor) in OOP
+
+> Visitor is a behavioral design pattern that lets you **separate algorithms from the objects** on which they operate.
+
+→ It's FP in OOP, much very convoluted: see *double-dispatch technique*
+
+---
+
 # `fold` function 🚀
 
 Function associated with a union type and hiding the *matching* logic
