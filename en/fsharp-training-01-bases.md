@@ -7,22 +7,6 @@ footer: 'F♯ Training • Bases'
 paginate: true
 ---
 
-<!-- RDE
-
-Terminal commands :
-- HTML: marp fsharp-training-01-bases.md --watch --theme themes/d-edge.css
-- PDF : marp fsharp-training-01-bases.md --pdf --allow-local-files --theme themes/d-edge.css
-
-VSCode:
-- [F11] Full screen
-- [Ctrl]+[KeyPad+/-] Zoom
-- [F1] + "Screencast mode" → show key stroke
-- [Ctrl]+[ù] → show terminal
-- [Ctrl]+[L] → clear terminal
-- Terminal tab > Right click : "Move panel right"
-
--->
-
 <!-- _class: title invert -->
 
 # F♯ Training
@@ -39,20 +23,20 @@ VSCode:
 
 ## Table of contents
 
-- Le F♯, c'est quoi ?
-- Syntaxe : fondamentaux, indentation
-- Premiers concepts
-         • Currification et application partielle
-         • Tout est expression
-         • Inférence de type
+- What is F♯?
+- Syntax: fundamentals, indentation
+- Language design traits
+         - Everything is an expression!
+         - Type inference
 
 ---
 
-# ☝ Notes préalables
+# ☝ Preliminary notes
 
-1. Symbole 📍 : indique notion abordée + tard
+1. Symbol 📍 : indicates a concept we will see later.
 
-2. Code utilise la police **Fira Code** - 🔗 [github.com/tonsky/FiraCode](https://github.com/tonsky/FiraCode) :
+2. Code is displayed using the **Fira Code** font
+   🔗 [github.com/tonsky/FiraCode](https://github.com/tonsky/FiraCode):
 
 ```js
 '->' = '-' + '>'    '<=' = '<' + '='    '==' = '=' + '='
@@ -61,9 +45,10 @@ VSCode:
 '[|' = '[' + '|'    '|]' = '|' + ']'
 ```
 
-💡 Setting dans VsCode pour activer la ligature : `"editor.fontLigatures": true`
+💡 Setting in VsCode to enable ligatures: `"editor.fontLigatures": true`
 
-💡 Dans Rider, idem avec police **JetBrains Mono** - 🔗 [jetbrains.com/lp/mono/](https://www.jetbrains.com/lp/mono/)
+💡 In Rider, same with **JetBrains Mono** font
+🔗 [jetbrains.com/lp/mono/](https://www.jetbrains.com/lp/mono/)
 
 ---
 
@@ -73,121 +58,116 @@ VSCode:
 
 # 1.
 
-## Le F♯, c'est quoi ?
+## What is F♯?
 
 ---
 
-# Points clés
+# Key points
 
-Famille des langages Microsoft - Plateforme **.NET**
+Microsoft language family - **.NET** platform
 
-- Son concepteur : Don Syme @ Microsoft Research
-- ≃ Implémentation de OCaml pour .NET
-- ≃ Inspirée par Haskell *(Version 1.0 en 1990)*
-- `dotnet new -lang F#`
-- Inter-opérabilité entre projets/assemblies C♯ et F♯
+- Designer: Don Syme @ Microsoft Research
+- ≃ OCaml implementation for .NET
+- ≃ Inspired by Haskell *(Version 1.0 in 1990)*
+- dotnet new -lang F#`
+- Interoperability between C♯ and F♯ projects/assemblies
 
-Langage multi-paradigme __*Functional-first*__ et très concis
+Multi-paradigm __*Functional-first*__ and very concise language
 
-Là où C♯ est *imperative/object-oriented-first* et plutôt verbeux
-*(même s’il s'inspire de F♯ pour être \+ succinct)*
-
----
-
-# Historique
-
-| Date     | C♯     | F♯     | .NET                              | Visual Studio |
-|----------|--------|--------|-----------------------------------|---------------|
-| 2002     | C♯ 1.0 |        | .NET Framework 1.0                | VS .NET 2002  |
-| **2005** |        | F♯ 1.x | .NET Framework 1.0                | VS 2005 ?     |
-| 2010     | C♯ 4.0 | F♯ 2.0 | .NET Framework 4                  | VS 2010       |
-| 2015     | C♯ 6.0 | F♯ 4.0 | .NET Framework 4.6, .NET Core 1.x | VS 2015       |
-| 2018     | C♯ 7.3 | F♯ 4.5 | .NET Framework 4.8, .NET Core 2.x | VS 2017       |
-| 2019     | C♯ 8.0 | F♯ 4.7 | .NET Core 3.x                     | VS 2019       |
-| 2020     | C♯ 9.0 | F♯ 5.0 | .NET 5.0                          | VS 2019       |
+Where C♯ is *imperative/object-oriented-first* and rather verbose
+*(even if it's inspired by F♯ to become more succinct and functional)*
 
 ---
 
-# Éditeurs / IDE
+# History
+
+| Date | C♯         | F♯         | .NET               | Visual Studio |
+|------|------------|------------|--------------------|---------------|
+| 2002 | C♯ 1.0     |            | .NET Framework 1.0 | VS .NET 2002  |
+| 2005 | C♯ 2.0     | **F♯ 1.x** | .NET Framework ?.? | VS 2005       |
+| 2007 | **C♯ 3.0** |            | .NET Framework 3.5 | VS 2008       |
+| 2010 | C♯ 4.0     | **F♯ 2.0** | .NET Framework 4   | VS 2010       |
+| ...  | ...        | ...        | ...                | ...           |
+| 2019 | C♯ 8.0     | F♯ 4.7     | .NET Core 3.x      | VS 2019       |
+| 2020 | C♯ 9.0     | **F♯ 5.0** | **.NET 5.0**       | VS 2019       |
+| ...  | ...        | ...        | ...                | ...           |
+| 2024 | C♯ 13.0    | F♯ 9.0     | .NET 9.0           | VS 2022       |
+
+---
+
+# Editors / IDE
 
 VsCode + [Ionide](https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-fsharp)
-→ ☝ Permissif : ne remonte pas toujours toutes les erreurs de compilation
+→ ☝ More a boosted text editor than a full IDE
+→ ☝ Permissive: does not always report all compilation errors
+→ 🔗 [Fantastic F# and Azure Developer Extensions for VSCode](https://www.compositional-it.com/news-blog/fantastic-f-and-azure-developer-extensions-for-vscode/) by Compositional IT
 
 Visual Studio / Rider
-→ ☝ Moins de refacto que pour C♯
+→ ☝ Less refactoring capabilities for F♯ than for C♯
 
-https://try.fsharp.org/
-→ Online [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) avec exemples
-
----
-
-# Rappel : setup du poste
-
-[https://docs.microsoft.com/en-us/learn/modules/fsharp-first-steps/
-4-set-up-development-environment-exercise](https://docs.microsoft.com/en-us/learn/modules/fsharp-first-steps/4-set-up-development-environment-exercise)
-
-- Installation du SDK .NET (5.0 min, 6.0 si dispo)
-- Installation de VScode
-- Ajout de l'extension Ionide-fsharp
-
-*(Optionnel)* extensions complémentaires : https://www.compositional-it.com/news-blog/fantastic-f-and-azure-developer-extensions-for-vscode/
+Try F#: https://try.fsharp.org/
+→ Online [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) with some examples
 
 ---
 
-# F♯ interactive *(FSI)*
+## F♯ interactive _(FSI)_
 
-- REPL disponible dans VS, Rider, vscode + `dotnet fsi`
-- Usage : vérifier en live un bout de code
-  - 💡 Terminer expression par `;;` pour l'évaluer
-- Existe depuis le départ *(cf. aspect scripting du F#)*
-  - *C♯ interactive* + récent (VS 2015 Update 1)
-- Alternative : [LINQPad](https://www.linqpad.net/)
+- REPL available in VS, Rider, vscode + `dotnet fsi`
+- Usage : instantly test a snippet
+  - 💡 In the FSI console, enter `;;` at the end of an expression to evaluate it
 
-👨‍🏫 **Démo**
+☝️ **Notes:**
 
----
+- _C♯ interactive_ is more recent (VS 2015 Update 1). The FSI was there from the get go.
+- Alternative worth trying, also working for C#: [LINQPad](https://www.linqpad.net/)
 
-# Types de fichier
-
-4 types de fichier : `.fs`, `.fsi`, `.fsx`, `.fsproj`
-
-- Mono langage : purement pour/en F♯
-- Standalone vs Projet
-
-## Fichier standalone
-
-- Fichier de script `.fsx`
-  - Exécutable *(d'où le **x**)* dans la console FSI
-  - Indépendant mais peut référencer autre fichier, DLL, package NuGet.
+👨‍🏫 **Demo**
 
 ---
 
-## Fichiers de projet
+# File types
 
-- En C♯ : `.sln` contient `.csproj` qui contient `.cs`
-- En F♯ : `.sln` contient `.fsproj` qui contient `.fs` et `.fsi`
-  - Fichier projet `.fsproj`
-  - Fichier de code `.fs`
-  - Fichier de signature `.fsi` *(**i** comme interface)*
-    - Associé à un fichier `.fs` de même nom
-    - Optionnel et plutôt rare -- + d'info : [MSDN](https://docs.microsoft.com/fr-fr/dotnet/fsharp/language-reference/signature-files)
-    - Renforcer encapsulation *(idem `.h` en C)*
-    - Séparer longue documentation (xml-doc)
+4 file types: `.fs`, `.fsi`, `.fsx`, `.fsproj`
 
-💡 **Interop C♯ - F♯** = Mixer `.csproj` et `.fsproj` dans `.sln`... 📍
+> ⚠️ Single language : for F♯ only
 
 ---
 
-## Projet F♯
+## Standalone file
 
-Création dans un IDE ou avec la CLI `dotnet` :
+- Script file `.fsx`
+  - Executable _(hence the final **x**)_ using the FSI
+  - Independent but can reference other files, DLLs, NuGet packages
 
-- `dotnet new -l` : lister les types de projet supportés
+---
+
+## Project files
+
+- In C♯ : `.sln` contains `.csproj` projects that contains `.cs` files
+- In F♯ : `.sln` contains `.fsproj` projects that contains `.fs(i)` code files
+
+💡 **Easy Interop** = Combine both `.csproj` and `.fsproj` projects in the same `.sln`
+
+`.fsi` are signature files _(**i** for interface)_
+
+- Associated with a `.fs` file of the same name
+- Optional and rather rare in codebases
+- Usages
+  - Reinforces encapsulation _(like `.h` in C)_
+  - Separate long documentation _(xml-doc)_
+
+---
+
+## F♯ Project
+
+Creation in the IDE or using the CLI `dotnet`:
+
+- `dotnet new -l` : list supported project types
 - `dotnet new console --language F# -o MyFSharpApp`
-  - Création d'un projet console nommé `MyFSharpApp`
-  - `--language F#` à spécifier ; sinon C#
-- `dotnet build` : builder le projet
-- `dotnet run` : builder le projet et lancer l'exécutable résultant
+  - Création of a console project named `MyFSharpApp`
+  - `--language F#` is key to specify the language, by default in C#
+- `dotnet build` : to build the project
+- `dotnet run` : to build the project and run the underlying executable
 
 ---
 
@@ -197,23 +177,21 @@ Création dans un IDE ou avec la CLI `dotnet` :
 
 # 2.
 
-## Syntaxe - Fondamentaux
+## Syntax - Fundamentals
 
 ---
 
-# Syntaxe - Clé
+# Syntax
 
-1er point fort de F♯ : langage succinct
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_idee.png)
 
-Pour sans rendre compte :
+F# **succinct** syntax is its first key point 💪
 
-1. Passons rapidement en revue sa syntaxe
-2. Ensuite vous pourrez commencer à jouer avec
-   - ☝ C'est à l'usage que l'on mesure le côté succinct de F♯
+*(But, **explicit** is more important)*
 
 ---
 
-# Commentaires
+# Comments
 
 ```fs
 (* This is block
@@ -233,157 +211,274 @@ Pour sans rendre compte :
 
 ---
 
-# ~~Variables~~ Valeurs
+# Variables / Values
 
-- Mot clé `let` pour déclarer/nommer une valeur
-- Pas besoin de `;` en fin de déclaration
-- Liaison/*Binding* est immutable par défaut
-  - ≃ `const` en JS, `readonly` pour un membre en C♯
-- Mutable avec `let mutable` et opérateur d'assignation `<-`
-  - ≃ `let` en JS, `var` en C♯
-  - Avec parcimonie, sur *scope* limité
+- Keyword: `let` to declare/name a value
+- No need for `;` at the end of the declaration
+- Creates a _Binding_ that is immutable by default
+  - ≃ `const` in JS, `readonly` members in C♯
 
-```fs
+```fsharp
 let x = 1
-x <- 2 // ❌ Error FS0027: Cette valeur n'est pas mutable.
-
-let mutable x = 1
-x <- 2 // ✅ Autorisé
+let y = "abc"
 ```
 
 ---
 
-# Noms
+## Variables: Mutable
 
-- Mêmes contraintes qu'en C♯
-- Sauf apostrophe `'`
-  - permise dans nom au milieu ou à la fin *(mais pas au début)*
-  - en fin de nom → indique une variante *(convention)*
-- Entre doubles *backticks* → acceptent tout char (sauf saut de ligne)
+Mutable binding with `let mutable`
 
-```fs
+- ≃ `let` en JS, `var` en C♯
+- ⚠️ The assignment operator is `<-`, not `=` used for equality
+- Use it sparingly, on a limited scope
+
+```fsharp
 let x = 1
-let x' = x + 1  // Se prononce "x prime" ou "x tick"
+x <- 2 // 💥 error FS0027: This value is not mutable. Consider using the mutable keyword...
 
+let mutable y = 1
+y <- 2 // ✅ OK
+```
+
+---
+
+# Names
+
+- Same constraints on variable naming than in C♯
+- ... except the apostrophe `'`  _(tick)_
+  - allowed in the middle or at the end, but not at the ~~beginning~~ !
+  - at the end → indicates a variant _(code convention)_
+- Between double _backticks_
+  - allow any character, in particular whitespaces, except line breaks
+
+```fsharp
+let x = 1
+let x' = x + 1
+
+// Works on keyword too! But avoid it because it's confusing!
 let if' b t f = if b then t else f
 
 let ``123 456`` = "123 456"
-// 💡 Auto-complétion : pas besoin de taper les ``, directement 123 (quand ça veut marcher)
+// 💡 no need to enter the ``, just the 123 to get the auto-completion
 ```
 
 ---
 
 # *Shadowing*
 
-- Consiste à redéfinir une valeur avec un nom existant
-- En F♯, interdit dans un même *scope* mais autorisé dans un sous-scope
-  - Mais pas recommandé, sauf cas particulier
+- Use to redefine a value with a name already used above
+- The previous value is no longer accessible in the current scope
+- Not allowed at `module` level but allowed in a sub-scope
+- Convenient but can be misleading
 
-```fs
+```fsharp
 let a = 2
 
-let a = "ko"  // 💥 Error FS0037: Définition dupliquée de value 'a'
+let a = "ko"  // 💥 Error FS0037: Duplicate definition of value 'a'
 
 let b =
-    let a = "ok" // 👌 Pas d'erreur de compilation
-    // `a` vaut "ok" (et pas 2) dans tout le reste de `b`
-    // ...
+    let a = "ok" // 👌 No compilation error
+    // `a` is bound to the "ok" string (not the previous value: 2)
+    // in all the rest of the b expression
+    let a = "ko" // 👌 Consecutive shadowings are possible!
+    ...
 ```
 
 ---
 
-# Annotation de type
+# Type Annotation
 
-- Optionnelle grâce à l'inférence
-- Type déclaré après nom `name: type` *(comme en TypeScript)*
-- Valeur obligatoire, même si `mutable`
+- Optional thanks to inference
+- The type is declared after the name `name: type` _(like in TypeScript)_
+- The value is mandatory, even with `mutable`
+  - good constraint for the code quality 👍
 
-```fs
-let x = 1       // Inféré (int)
-let y: int = 2  // Explicite
+```fsharp
+let x = 1       // Type inferred (int)
+let y: int = 2  // Type explicit
 
-let z1: int           // 💥 Error FS0010: Construction structurée incomplète à cet emplacement...
-let mutable z2: int   // 💥 ... ou avant dans la liaison. '=' ou autre jeton attendu.
+let z1: int
+// 💥 Error FS0010: Incomplete structured construct at or before this point
+// in binding. Expected '=' or other token. 
+
+let mutable z2: int
+// 💥 Same error
 ```
 
 ---
 
-# Constante
+# Constant
 
-- *What:* Variable effacée à la compilation, remplacée par sa valeur
-  - ≃ `const` C♯ - même idée en TS que `const enum`
-- *How:* Valeur décorée avec attribut `Literal`
-- Convention de nommage : PascalCase
+_What:_ Variable erased during compilation, every usage is replaced by the value
+≃ `const` C♯ - same idea than `const enum` in TypeScript
 
-```fs
-[<Literal>] // Saut de ligne nécessaire car avant le `let`
+_How:_ Value decorated with the `Literal` attribute
+
+Recommended naming convention : **PascalCase**
+
+```fsharp
+[<Literal>] // Line break required before the `let`
 let AgeOfMajority = 18
 
-let [<Literal>] Pi = 3.14 // Possible aussi après le `let`
+let [<Literal>] Pi = 3.14 // Also possible but not recommended by MS/Fantomas formatter
 ```
+
+⚠️ **Attributes** are between `[< >]`
+→ Frequent beginner error to use `[ ]` _(like in C♯)_
 
 ---
 
-# Nombre
+# Number
 
-```fs
-let pi = 3.14             // val pi : float = 3.14       • System.Double
-let age = 18              // val age : int = 18          • System.Int32
+```fsharp
+let pi = 3.14             // val pi    : float   = 3.14  • System.Double
+let age = 18              // val age   : int     = 18    • System.Int32
 let price = 5.95m         // val price : decimal = 5.95M • System.Decimal
 ```
 
-⚠️ Pas de conversion implicite entre nombre
+⚠️ No implicit conversion between number types
+→ 💡 use `int`, `float`, `decimal` helper functions to do this conversion
+→ ☝️ rule relaxed in some cases in [F# 6](https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-6#additional-implicit-conversions)
 
-→ 💡 Utiliser fonctions `int`, `float`, `decimal`
-
-```fs
-float 3;;             // val it : float = 3.0
-decimal 3;;           // val it : decimal = 3M
-int 3.6;;             // val it : int = 3
-int "2";;             // val it : int = 2
+```fsharp
+let i = 1
+i * 1.2;;    // 💣 Error FS0001: The type 'float' does not match the type 'int'
+​
+float 3;;    // val it : float   = 3.0
+decimal 3;;  // val it : decimal = 3M
+int 3.6;;    // val it : int     = 3
+int "2";;    // val it : int     = 2
 ```
 
 ---
 
 # String
 
-```fs
-let name = "Bob"              // val name : string = "Bob"
-let name2 = $"{name} Marley"  // val name' : string = "Bob Marley"
-let initial = name2.[0]       // val initial :  char = 'B'
-let firstName = name2.[0..2]  // val firstName : string = "Bob"
-```
+```fsharp
+let name = "Bob"                          // val name : string = "Bob"
 
-- `$"{val}"` chaîne avec interpolation (⚠️ F♯ 5)
-  - Avant F♯ 5 → utiliser `sprintf`
-- `.[0]` : accès par index → caractère
-- `.[0..2]` : accès par plage → sous-chaîne
-  - Alternative à méthode `Substring(index [, length])`
+// String formatting (available from the get go)
+let name2 = sprintf "%s Marley" name      // val name2 : string = "Bob Marley"
+
+// String interpolation (F♯ 5)
+let name3 = $"{name} Marley"              // val name3 : string = "Bob Marley"
+
+// Type safe string interpolation
+let rank = 1
+let name4 = $"%s{name} Marley, #%i{rank}" // val name4: string = "Bob Marley, #1"
+
+// Access to a character by its index (>= 0) (F♯ 6)
+let initial = name2[0]                    // val initial :  char = 'B'
+let initial = name2.[0]                   // Dot syntax, still supported
+
+// String slicing (F♯ 6) (alternative to x.Substring(index [, length]) method)
+let firstName = name2[0..2]               // val firstName : string = "Bob"
+let lastName  = name2[4..]                // val lastName: string = "Marley"
+```
 
 ---
 
 # String (2)
 
-```fs
+```fsharp
 // Verbatim string: idem C♯
 let verbatimXml = @"<book title=""Paradise Lost"">"
 
-// Triple-quoted string : pas besoin d'échapper les guillemets `"`
+// Triple-quoted string : no need to esapce the double-quotes `"`
 let tripleXml = """<book title="Paradise Lost">"""
 
-// Backslash strings : trim les espaces à gauche
-let poem = 
-    "The lesser world was daubed\n\
-     By a colorist of modest skill\n\
-     A master limned you in the finest inks\n\
-     And with a fresh-cut quill."
+// Regular strings accept line breaks but do not trim whitespaces
+let poemIndented = "
+    The lesser world was daubed
+    By a colorist of modest skill
+    A master limned you in the finest inks
+    And with a fresh-cut quill."
 ```
 
 ---
 
-# Listes
+# String (3)
 
-Liste immuable → type spécial F♯ ≠ `System.Collection.Generic.List<T>`
+```fsharp
+// Solution: backslash strings
+// - Whitespaces (space and line break) are ignored between
+//   the \ terminating a line and the following non-whitespace character
+// - hence the \n to add line breaks
+let poem = "\
+    The lesser world was daubed\n\
+    By a colorist of modest skill\n\
+    A master limned you in the finest inks\n\
+    And with a fresh-cut quill."
+
+// We can also combine line breaks and backslash strings 🤷
+let poemWithoutBackslashN = "\
+    The lesser world was daubed
+\
+    By a colorist of modest skill
+\
+    A master limned you in the finest inks
+\
+    And with a fresh-cut quill."
+```
+
+---
+
+# String interpolation in F♯ 8
+
+Interpolated string cannot contain braces unless doubled: `$"{{xxx}}"`
+
+Since F♯ 8, the `$` character is doubled (`$$`) or tripled (`$$`) to indicate
+the number of braces for interpolation, respectively `{{ }}` and `{{{ }}}`
+
+```fsharp
+let classAttr = "bold"
+let cssNew = $$""".{{classAttr}}:hover {background-color: #eee;}"""
+```
+
+---
+
+# Character encoding
+
+String literals are encoded in **Unicode**:
+
+```fsharp
+let unicodeString1 = "abc"  // val unicodeString1: string = "abc"
+let unicodeString2 = "ab✅" // val unicodeString2: string = "ab✅"
+```
+
+We can work in **ASCII** using the `B` suffix, but in this case we get a `byte array`:
+
+```fsharp
+let asciiBytes = "abc"B
+// val asciiBytes1: byte array = [|97uy; 98uy; 99uy|]
+
+let asciiBytesKO = "ab🚫"B
+// 💥 Error FS1140: This byte array literal contains characters
+//    that do not encode as a single byte
+```
+
+💡 Works also for character: `'a'B`
+
+---
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_formation.png)
+
+# Collections
+
+- Lists
+- Arrays
+- Sequences
+
+---
+
+## Lists
+
+A list is an immutable collection of elements of the same type.
+≠ `System.Collection.Generic.List<T>` BCL type
+Implemented internally as a linked list.
+
+Creation with `[]` • Items separated by `;` or line breaks + indentation
 
 ```fs
 let abc = [ 'a'; 'b'; 'c' ] // val abc : char list = ['a'; 'b'; 'c']
@@ -392,36 +487,84 @@ let a =
     3 ]  // val a : int list = [2; 3]
 ```
 
-- Création avec `[]`, éléments séparés par `;` ou saut de ligne + indentation
-  - ⚠️ Piège : ne pas utiliser `,` sinon on a 1! élément : un tuple 📍
-- Notation ML du type `int list` = `List<int>`
-  - ☝ Idiomatique que pour `list` et `option` 📍
+⚠️ **Trap:** using `,` to separate items = single item: a tuple 📍
+
+☝ **ML style type annotation:** `int list` = `List<int>`
+→ Idiomatic only for some `FSharp.Core` types: `array`, `list`, `option` 📍
 
 ---
 
-# Listes - Opérateurs
+## List operators
 
-```fs
-let nums = [2..5]                 // val nums : int list = [2; 3; 4; 5]
-let nums' = 1 :: nums             // val nums' : int list = [1; 2; 3; 4; 5]
+`::`  _Cons_ _(for "construction")_: add an item to the top of the list
+`..` _Range_ of numbers between `min..max` *(included)* or `min..step..max`
+`@`  _Append_ 2 lists
+
+```fsharp
+let ints = [2..5]                 // val ints : int list = [2; 3; 4; 5]
+let ints' = 1 :: ints             // val ints' : int list = [1; 2; 3; 4; 5]
+let floats = [ 2. .. 5. ]         // val floats: float list = [2.0; 3.0; 4.0; 5.0]
 
 let chars = [ 'a' .. 'd' ]        // val chars : char list = ['a'; 'b'; 'c'; 'd']
 let chars' = chars @ [ 'e'; 'f' ] // val chars' : char list = ['a'; 'b'; 'c'; 'd'; 'e'; 'f']
-let c = chars.[0]                 // val c : char = 'a'
+let e = chars'[4]                 // val e: char = 'e'
 ```
 
-- `min..max` plage d'entiers entre min et max inclus
-  - `min..step..max` pour un écart > 1
-- `::` opérateur *Cons* (signifiant construction)
-  - Ajoute un élément en tête de liste
-- `@` opérateur *Append* = Concatène 2 listes
-- Point `.` nécessaire pour accès par index `.[index]`
+⚠️ **Space** required before `[]` to create a list; otherwise: access by index
 
 ---
 
-# Listes - Module `List`
+## Arrays
 
-| F♯ `List`          | C♯ LINQ                    | JS `Array`           |
+Mutable fixed-size collections of elements of the same type.
+`array 't` = `'t[]`: BCL type
+
+Creation with `[||]` • Items separated by `;` or line breaks + indentation
+
+```fsharp
+let a1 = [| 'a'; 'b'; 'c' |]
+// val a1: char array = [|'a'; 'b'; 'c'|]
+
+let a2 =
+    [| 2
+       3 |]
+// val a2: int array = [|2; 3|]
+```
+
+⚠️ **Trap:** `[]` used for list creation and array type!
+
+---
+
+## Sequences
+
+Series of elements of the same type
+`'t seq` = alias for `System.Collections.Generic.IEnumerable<'t>` BCL type
+
+Creation with `seq { }`
+
+```fsharp
+let seq1 = seq { 'a'; 'b'; 'c' }
+// val seq1: char seq
+
+let seq2 =
+    seq {
+        2
+        3
+    }
+// val seq2: int seq
+```
+
+⚠️ **Lazy**: possible multiple enumeration • hence not evaluated in FSI console
+
+---
+
+## Collections functions
+
+Each type has its own module containing dedicated functions.
+
+Common functions:
+
+| F♯ collections     | C♯ LINQ (`IEnumerable<_>`) | JS `Array`           |
 |--------------------|----------------------------|----------------------|
 | `map`, `collect`   | `Select()`, `SelectMany()` | `map()`, `flatMap()` |
 | `exists`, `forall` | `Any(predicate)`, `All()`  | `some()`, `every()`  |
@@ -430,117 +573,160 @@ let c = chars.[0]                 // val c : char = 'a'
 | `fold`, `reduce`   | `Aggregate([seed]])`       | `reduce()`           |
 | `average`, `sum`   | `Average()`, `Sum()`       | ×                    |
 
-```txt
-☝ Autres fonctions : cf. documentation
-   https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-listmodule.html
-```
+🔗 Full documentation on fsharp.github.io: [Array](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-arraymodule.html) • [List](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-listmodule.html) • [Seq](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-seqmodule.html)
 
 ---
 
-# Fonctions
+# Named functions
 
-- Fonction nommée : déclarée avec `let`
-- Convention de nommage : **camelCase**
-- Pas de `return` : renvoie toujours dernière expression
-- Pas de `()` autour de tous les paramètres
-  - `()` autour d'un paramètre avec type explicite ou déconstruit 📍
+• Declared in a `let` binding _(like a variable)_
+• Naming convention: **camelCase**
+• No `return` keyword: always returns the last expression in the body
+• No `()` around all parameters, no `,` between parameters
+• `()` required around parameter with type annotation (1) or deconstruction (2)
 
-```fs
-let square x = x * x  // Fonction à 1 paramètre
-let res = square 2    // Vaut 4
+```fsharp
+let square x = x * x  // Function with 1 parameter
+let res = square 2    // Returns 4
 
-// Avec types explicites - juste pour l'exemple - pas idiomatique !
+// (1) Parentheses required for annotations of type
 let square' (x: int) : int = x * x
+
+// (2) Brackets required when deconstructing an object
+//     (here it's a single-case discriminated union 📍
+let hotelId (HotelId value) = value
 ```
 
 ---
 
-# Fonctions de 0-n paramètres
+## Functions of 2 or more parameters
 
-- Paramètres et arguments séparés par **espace**
-  - ⚠️ Piège : `,` sert à instancier 1 tuple 📍 = 1! paramètre
-- `()` : fonction sans paramètre, sans argument
-- Sans `()`, on déclare une valeur "vide", pas une fonction :
+Separate parameters and arguments with **spaces**:
 
-```fs
-let add x y = x + y  // Fonction à 2 paramètres
-let res = add 1 2    // `res` vaut 3
+```fsharp
+// Function with 2 parameters
+let add x y = x + y  // val add: x: int -> y: int -> int
 
-let printHello () = printfn "Hello"  // Fonction sans paramètre
-printHello ()                        // Affiche "Hello" en console
+// Call with the 2 arguments
+let res = add 1 2    // val res: int = 3
+```
 
-let notAFunction = printfn "Hello"   // Affiche "Hello" en console et renvoie "vide"
+⚠️️ `,` creates another kind of functions using tuples 📍
+
+```fsharp
+let addByPair (x, y) = x + y
+// val addByPair: x: int * y: int -> int
 ```
 
 ---
 
-# Fonction multi-ligne
+## Functions without parameter
 
-**Indentation** nécessaire, mais pas de `{}`
+Use `()` _(like in C#)_
 
-```fs
+```fsharp
+let printHello () = printfn "Hello"
+// val printHello: unit -> unit
+printHello ();;
+// Hello
+
+let notAFunction = printfn "Hello"
+// Hello
+// val notAFunction: unit = ()
+```
+
+☝️ `unit` means "nothing" 📍
+
+---
+
+## Multi-line function
+
+**Indentation** required, but no need for `{}` \
+Can contain sub-function
+
+```fsharp
 let evens list =
-    let isEven x =  // 👈 Sous-fonction
-        x % 2 = 0   // 💡 `=` opérateur d'égalité - Pas de `==`
+    let isEven x =  // 👈 Sub-function
+        x % 2 = 0   // 💡 `=` equality operator - No `==` operator in F#
     List.filter isEven list
+// val evens: list: int list -> int list
 
-let res = evens [1;2;3;4;5] // Vaut [2;4]
+let res = evens [1;2;3;4;5]
+// val res: int list = [2; 4]
 ```
 
 ---
 
-# Fonction anonyme
+# Anonymous function
 
-A.k.a. **Lambda**, arrow function
+*A.k.a. **Lambda**, arrow function*
 
-- Déclarée avec `fun` et `->`
-- En général entre `()` pour question de précédence
+- Syntax: `fun {parameters} -> body` *(≠ in C♯ `{parameters} ⇒ body`)*
+- In general, `()` required all around, for precedence reason
 
-```fs
+```fsharp
 let evens' list = List.filter (fun x -> x % 2 = 0) list
 ```
 
-☝ **Note** : taille de la flèche
+---
 
-- Fine `->` en F♯, Java
-- Large / *fat* `=>` en C♯, JS
+## \_.Member shorthand (F♯ 8)
+
+```fsharp
+type Person = { Name: string; Age: int }
+
+let people =
+    [ { Name = "Alice"; Age = 30 }
+      { Name = "Billy"; Age =  5 } ]
+
+// Regular lambda (Shorthand not possible)
+let adults = people |> List.filter (fun person -> person.Age >= 18)
+// val adults: Person list = [{ Name = "Alice"; Age = 30 }]
+
+// Member chain shorthand
+let uppercaseNames = people |> List.map _.Name.ToUpperInvariant() // 👈👈
+// val uppercaseNames: string list = ["ALICE"; "BILLY"]
+```
 
 ---
 
-# Convention de noms courts
+# Naming convention related to functions
 
-- `x`, `y`, `z` : paramètres de type valeurs simples
-- `f`, `g`, `h` : paramètres de type fonction
-- `xs` : liste de `x` → `x::xs` (ou `h::t`) = *head* et *tail* d'une liste non vide
-- `_` : *discard* / élément ignoré car non utilisé *(comme en C♯ 7.0)*
+It's usual in F♯ to use short names:
+• `x`, `y`, `z` : parameters for values of the same type
+• `f`, `g`, `h` : parameters for input functions
+• `_` : *discard* an element not used *(like in C♯ 7.0)*
+• `xs` : list of `x`
 
-Bien adapté quand fonction courte ou très générique :
+☝️ Suited for a short function body or for a generic function:
 
-```fs
-// Fonction qui renvoie son paramètre d'entrée, quel qu'il soit
+```fsharp
+// Function that simply returns its input parameter, whatever its type
 let id x = x
 
-// Composition de 2 fonctions
+// Composition of 2 functions
 let compose f g = fun x -> g (f x)
 ```
 
+🔗 [When x, y, and z are great variable names](https://blog.ploeh.dk/2015/08/17/when-x-y-and-z-are-great-variable-names/) *by Mark Seemann*
+
 ---
 
-# *Piping*
+# Piping
 
-Opérateur *pipe* `|>` : même idée que `|` UNIX
-→ Envoyer la valeur à gauche dans une fonction à droite
-→ Ordre naturel "sujet verbe" - idem appel méthode d'un objet
+_Pipe_ operator `|>` : same idea that in UNIX with `|` \
+→ `value |> function` send a value to a function \
+→ match left-to-right reading order: "subject verb" \
+→ same order than when we dot an object: `object.Method`
 
-```fs
-let a = 2 |> add 3  // Se lit comme "2 + 3"
+```fsharp
+let a = 2 |> add 3  // to read "2 + 3"
 
-let nums = [1;2;3;4;5]
-let evens = nums |> List.filter (fun x -> x % 2 = 0)
-// Idem     List.filter (fun x -> x % 2 = 0) nums
+// We pipe a list to the "List.filter predicate" function
+let evens = [1;2;3;4;5] |> List.filter (fun x -> x % 2 = 0)
 ```
 
-```cs
+```csharp
 // ≃ C♯
 var a = 2.Add(3);
 var nums = new[] { 1, 2, 3, 4, 5 };
@@ -549,36 +735,35 @@ var evens = nums.Where(x => x % 2 == 0);
 
 ---
 
-<!-- _footer: '' -->
+## Pipeline: chain of pipings
 
-# Chainage de *pipes* - *Pipeline*
+Style of coding to emphasize the data flowing from functions to functions
+→ without intermediary variable 👍
 
-Comme fluent API en C♯ mais natif : pas besoin de méthode d'extension 👍
+Similar to a built-in *fluent API*
+→ no need to return the object at the end of each method 👍
 
-Façon naturelle de représenter le flux de données entre différentes opérations
-→ Sans variable intermédiaire 👍
-
-Écriture :
-
-```fs
-// Sur une seule ligne (courte)
+```fsharp
+// Short syntax: in a single line fitting the screen width
 let res = [1;2;3;4;5] |> List.filter (fun x -> x % 2 = 0) |> List.sum
 
-// Sur plusieurs lignes => fait ressortir les différentes opérations
+// More readable with line breaks
 let res' =
     [1; 2; 3; 4; 5]
-    |> List.filter isOdd  // Avec `let isOdd x = x % 2 <> 0`
+    |> List.filter isOdd  // With `let isOdd x = x % 2 <> 0`
     |> List.map square    //      `let square x = x * x`
     |> List.map addOne    //      `let addOne x = x + 1`
 ```
 
 ---
 
-# Expression `if/then/else`
+# If/then/else expression
 
-💡 `if b then x else y` ≃ Opérateur ternaire C♯ `b ? x : y`
+In F♯, `if/then(/else)` is an expression, not a statement
+→ every branch (`then` and `else`) should return a value
+→ all returned values should be type-compatible
 
-```fs
+```fsharp
 let isEven n =
     if n % 2 = 0 then
         "Even"
@@ -586,20 +771,28 @@ let isEven n =
         "Odd"
 ```
 
-☝ Si `then` ne renvoie pas de valeur, `else` facultatif
+💡 `if b then x else y` ≃ C♯ ternary operator `b ? x : y`
 
-```fs
+---
+
+# If/then/else expression (2)
+
+☝ When `then` returns "nothing" (`unit`📍), `else` is optional:
+
+```fsharp
 let printIfEven n msg =
     if n |> isEven then
         printfn msg
 ```
 
+💡 We can use `elif` keyword instead of `else if`.
+
 ---
 
-# Pattern matching avec `match/with`
+# Match expression
 
 ```fs
-let translate civility =
+let translateInFrench civility =
     match civility with
     | "Mister" -> "Monsieur"
     | "Madam"  -> "Madame"
@@ -607,10 +800,10 @@ let translate civility =
     | _        -> ""   // 👈 wilcard `_`
 ```
 
-Équivalent en C♯ 8 :
+Equivalent in C♯ 8 :
 
 ```cs
-public static string Translate(string civility) =>
+public static string TranslateInFrench(string civility) =>
     civility switch {
         "Mister" => "Monsieur"
         "Madam"  => "Madame"
@@ -621,11 +814,9 @@ public static string Translate(string civility) =>
 
 ---
 
-# Exception
+# Handling Exception
 
-## Handling Exception
-
-→ Bloc `try/with` -- ⚠️ Piège : ~~try/catch~~
+→ `try/with` expression
 
 ```fs
 let tryDivide x y =
@@ -635,9 +826,14 @@ let tryDivide x y =
        None
 ```
 
+⚠️ **Trap**: the keyword used is `with`, not `catch`, contrary to C#.
+
+💡 There is no `try/with/finally` expression, only `try/finally`
+     → Nest a `try/finally` in a `try/with`
+
 ---
 
-## Throwing Exception
+# Throwing Exception
 
 → Helpers `failwith`, `invalidArg`, `nullArg`
 
@@ -652,97 +848,131 @@ let divide x y =
     else x / y
 ```
 
-☝ Pour erreurs métier i.e. cas prévus, non exceptionnels :
-     Préférer type `Result` / *Railway-oriented programming* 📍
-
 🔗 Handling Errors Elegantly https://devonburriss.me/how-to-fsharp-pt-8/
 
 ---
 
-# Ordre des déclarations
+![bg h:300](../themes/d-edge/pictos/SOAT_pictos_formation.png)
 
-⚠️ Déclarations ordonnées de haut en bas
+# Syntax rules
 
-- Déclaration précède usage
-- Au sein d'un fichier
-- Entre fichiers dépendants
-  - ☝ Importance de l'ordre des fichiers dans un `.fsproj`
-- Bénéfice : pas de dépendances cycliques 👍
+- Declarations order
+- Indentation
 
-```fs
+---
+
+# Declarations order
+
+In a file, the declarations are ordered, from top to bottom.\
+→ Declaration comes before the usages.
+
+In a `.fsproj`, the files are ordered too.\
+→ We can import only something previously declared.
+
+Type inference works by proximity: the closest match will be used.
+
+👍 Pros:
+→ no cyclic dependencies
+→ faster and more predictable compilation
+→ code easier de reason about
+
+☝️ Cons:
+→ need more coding discipline
+
+---
+
+## Declarations order: example
+
+We try to use the `fn` before its declaration:
+
+```fsharp
 let result = fn 2
-//           ~~ 💥 Error FS0039: La valeur ou le constructeur 'fn' n'est pas défini
+//           ~~ 💥 Error FS0039: The value or constructor 'fn' is not defined.
 
-let fn i = i + 1 // ☝ Doit être déclarée avant `result`
+let fn i = i + 1
 ```
 
 ---
 
 # Indentation
 
-- Très importante pour lisibilité du code
-  - Crée struct. visuelle qui reflète struct. logique / hiérarchie
-  - `{}` alignées verticalement (C♯) = aide visuelle mais < indentation
-- Essentielle en F♯ :
-  - Façon de définir des blocs de code
-  - Compilateur assure que indentation est correcte
+In general, indentation is very important for code readability:
+→ It creates visual structures that match the logical structure, the hierarchy.
 
-👉 **Conclusion :**
+In C♯: indentation is optional; logical blocks defined with `{ }` and `;`
+→ It's the indentation that matters for readability, then `{ }` can help
+→ A code not properly indented can be mis-interpreted, that can lead to bugs!
 
-- F♯ force à bien indenter
-- Mais c'est pour notre bien
-- Car c'est bénéfique pour lisibilité du code 👍
+In F♯, indentation is required to define code blocks and nesting level.
+→ Compiler ensures indentation is correct
+→ Reader can really trust the indentation to understand the code structure
+
+👉 **Conclusion:**
+F♯ forces us to do what matters the most for the code readability 👍
 
 ---
 
-# Ligne verticale d'indentation
+## Vertical line of indentation
 
-→ Démarre après `let ... =`, `(`, `then`/`else`,
- `try`/`finally`, `do`, `->` (dans clause `match`) mais pas `fun` !
-→ Commence au 1er caractère non *whitespace* qui suit
-→ Tout le reste du bloc doit s'aligner verticalement
-→ L'indentation peut varier d'un bloc à l'autre
+Concept related to the way F♯ understands the indentation.
+• In general, a block starts in a new line, at a greater indentation level.
+• But sometimes a block can start in a middle of a line.
+  → This position defines the expected vertical indentation line.
 
-```fs
+```fsharp
 let f =
-  let x=1     // ligne d'indentation fixée en column 3 (indépendamment des lignes précédentes)
-  x+1         // 👉 cette ligne (du même bloc) doit commencer en column 3 ; ni 2, ni 4 ❗
+   let x=1
+   x+1
+// ^ Vertical line here
 
-let f = let x=1  // Indentation en column 10
-        x+1      // 👉 alignement vertical des autres lignes du bloc en column 10
+let f = let x=1
+        x+1
+//      ^ Vertical line here!
 ```
 
-🔗 https://fsharpforfunandprofit.com/posts/fsharp-syntax/
+---
+
+## Vertical line of indentation (2)
+
+There are some exceptions to this rule, for instance with operators.
+🔗 [F♯ syntax: indentation and verbosity](https://fsharpforfunandprofit.com/posts/fsharp-syntax/) | F♯ for fun and profit.
+
+☝️ Indentation rules have been relaxed in [F♯ 6](https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-6#indentation-syntax-revisions).
 
 ---
 
-# Indentation - *Guideline*
+## Indentation Guideline
 
-• Utiliser des **espaces**, pas des ~~tabulations~~
+F♯ allows to have different:
+→ whitespace **characters**: tabs and spaces.
+→ **number** of whitespaces per indentation level.
 
-• Utiliser **4 espaces** par indentation
-
-- Facilite la détection visuelle des blocs
-- ... qui ne peut se baser sur les `{ }` comme en C♯
+Recommendations:
+• In temporary `fsx`, writing speed > code readability
+• In `fsproj`, proper and consistent formatting is important for maintainability
+  → Use consistently only spaces
+  → Use the same number of spaces for all indentation level
+  → 4 spaces is idiomatic; exception: vertical indentation line *(next slide)*
+  → Use a code formatter like [**Fantomas**](https://github.com/fsprojects/fantomas) to ensure this consistency.
 
 ---
 
-# Indentation - *Guideline* (2)
+## Indentation Guideline (2)
 
-• Éviter un alignement sensible au nom, a.k.a *vanity alignment*
+Avoid naming-sensible indentation a.k.a *Vanity Alignment*:
 
-- Risque de rupture de l'alignement après renommage → 💥 Compilation
-- Bloc trop décalé à droite → nuit à la lisibilité
+- They can break compilation after a renaming.
+- Blocks too far at the right: less readable *(left-to-right language)*
 
-```fs
+```fsharp
 // 👌 OK
 let myLongValueName =
     someExpression
     |> anotherExpression
 
-// ⚠️ À éviter
+// ⚠️ To avoid
 let myLongValueName = someExpression
-                      |> anotherExpression  // 👈 Dépend de la longueur de `myLongValueName`
+                      |> anotherExpression  // 👈 Depend on the length of `myLongValueName`
 ```
 
 ---
@@ -753,324 +983,246 @@ let myLongValueName = someExpression
 
 # 3.
 
-## Premiers concepts
+## *F♯ language* design traits
 
 ---
 
-# Curryfication
+# Expression *vs* Statement
 
-Consiste à transformer :
+> A **statement** will produce a side effect.\
+> An **expression** will produce a value... and an eventual side-effect.
 
-- une fonction prenant N paramètres
-  - `Func<T1, T2...Tn, TReturn>` en C♯
-- en une chaîne de N fonctions prenant 1 paramètre
-  - `Func<T1, Func<Tn, ...Func<Tn, TReturn>>>`
+- F♯ is a functional, based on expressions only
+- In comparison, C♯ is an imperative language, based on statements,...
+- ... including more and more syntactic sugar based on expressions:
+  - Ternary operator `b ? x : y`
+  - [Null-coalescing operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator) `??` in C♯ 8 : `label ?? "(Empty)"`
+  - [Expression-bodied members](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/expression-bodied-members) in C♯ 6 and 7
+  - `switch` expression in C♯ 8
 
 ---
 
-# Application partielle
+## ⚖️ Benefits of expressions over instructions
 
-Appel d'une fonction avec moins d'arguments que son nombre de paramètres
+- **Conciseness**: less visual clutters → more readable
+- **Composability**: composing expressions is like composing values
+- **Understanding**: no need to know the previous instructions to understand the current one
+- **Testability**: pure expressions (\*) → easier to test
+  - *Predictable*: same inputs mean same outputs
+  - *Isolated*: shorter *Arrange/Setup* phase in tests, no need for mocks...
 
-- Possible grâce à la curryfication
-- Renvoie fonction prenant en paramètre le reste d'arguments à fournir
+(\*) **Pure:** with no side-effects
 
-```fs
-// Template à 2 paramètres
-let insideTag (tagName: string) (content: string) =
-    $"<{tagName}>{content}</{tagName}>"
+---
 
-// Helpers à 1! paramètre `content`, `tagName` étant fixé par application partielle
-let emphasize = insideTag "em"     // `tagName` fixé à la valeur "em"
-let strong    = insideTag "strong" // `tagName` fixé à la valeur "strong"
+# In F♯ « Everything is an expression »
 
-// Equivalent - élégant mais + explicite
-let em content = insideTag "em" content
+- A function is declared and behaves like a value
+  - We can pass it as parameter or return it from another function (1)
+- The *control flow* building blocks are also expressions
+  - `if … then/else` , `match … with`
+  - `for … in`, `for … to`, `while … do` just return "nothing" (2)
+
+☝️ **Notes:**
+  • (1) See *1st-class citizens, high-order functions* 📍
+  • (2) Except in *collection comprehensions* 📍
+
+---
+
+## Everything is an expression » Consequences
+
+No `void`
+→ Best replaced by the `unit` type 📍
+
+No *early exit*
+• In C#, you can exit a function with `return` and exit a `for/while` loop with `break`.
+• In F♯, these keywords do not exist. *(Alternatives: next slides)*
+
+---
+
+## Early exit alternatives » Imperative style
+
+💩 `BreakException`
+   → *See code in* [StackOverflow](https://stackoverflow.com/a/42018355/8634147)
+
+😕 **Mutable variables**
+
+```fsharp
+let firstItemOr defaultValue predicate (items: 't array) =
+    let mutable result = None
+    let mutable i = 0
+    while i < items.Length && result.IsNone do
+        let item = items[i]
+        if predicate item then
+            result <- Some item
+        i <- i + 1
+
+    result
+    |> Option.defaultValue defaultValue
+
+let test1' = firstItemOr -1 (fun x -> x > 5) [| 1 |]     // -1
 ```
 
 ---
 
-# Expression *vs* Instruction *(Statement)*
+## Early exit alternatives » Functional style
 
-> Une **instruction** produit un effet de bord.
-> Une **expression** produit une valeur et un éventuel effet de bord **(à éviter)**.
+✅ **Recursive function** 📍
 
-- F♯ est un langage fonctionnel, à base **d'expressions** uniquement.
-- C♯ est un langage impératif, à base **d'instructions** *(statements)*
-  mais comporte de + en + de sucre syntaxique à base d'expressions :
-  - Opérateur ternaire `b ? x : y`
-  - [Null-conditional operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#null-conditional-operators--and-) `?.` en C♯ 6 : `model?.name`
-  - [Null-coalescing operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator) `??` en C♯ 8 : `label ?? '(Vide)'`
-  - Expression lambda en C♯ 3 avec LINQ : `numbers.Select(x => x + 1)`
-  - [Expression-bodied members](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/expression-bodied-members) en C♯ 6 et 7
-  - Expression `switch` en C♯ 8
+```fsharp
+[<TailCall>]
+let rec firstItemOr defaultValue predicate list =
+    let loop list =
+        firstItemOr defaultValue predicate list
 
----
-
-## ⚖️ Avantages des expressions / instructions
-
-- **Concision** : code + compact == + lisible
-- **Composabilité** : composer expressions == composer valeurs
-  - Addition, multiplication... de nombres,
-  - Concaténation dans une chaîne,
-  - Collecte dans une liste...
-- **Compréhension** : pas besoin de connaître les instructions précédentes
-- **Testabilité** : expressions pures *(sans effet de bord)* + facile à tester
-  - *Prédictible* : même inputs produisent même outputs
-  - *Isolée* : phase *arrange/setup* allégée *(pas de mock...)*
-
----
-
-# En F♯ « Tout est expression »
-
-- Une fonction se déclare et se comporte comme une valeur
-  - En param ou en sortie d'une autre fonction *(dite high-order function)*
-- Éléments du *control flow* sont aussi des expressions
-  - Branches des `if/else` et `match/with` (`~=switch`) renvoient une valeur.
-  - Sauf bloc `for` mais style impératif, pas fonctionnel → cas particuliers
-
-**Remarques**
-
-- 🔎 `let a = expression` ressemble à instruction de déclaration/affectation
-- 🐞 **Débogage** : quasi même expérience de débogage pas à pas qu'en C♯
-
----
-
-## Tout est expression • Conséquences
-
-### Pas de `void`
-
-- Remplacé par le type `unit` ayant 1! valeur notée `()` 📍
-- `else` optionnel si `if` renvoie `unit`
-
-### Pas de *early exit*
-
-- Pas de `return` pour court-circuiter fonction ❌
-- Pas de `break` pour sortir d'une boucle `for/while` ❌
-
----
-
-### Pas de *early exit* - Solutions
-
-- 💩 `throw BreakException` (cf. [réponse StackOverflow](https://stackoverflow.com/a/42018355/8634147))
-- 😕 Impératif : `while (ok)` avec `ok` mutable
-- ✅ Fonctionnel via fonction récursive 📍
-  - *Décide ou non de continuer la "boucle" en s'appelant*
-
-```fs
-let rec firstOr defaultValue predicate list =
     match list with
-    | [] -> defaultValue                                // 👈 Sortie
-    | x :: _ when predicate x -> x                      // 👈 Sortie
-    | _ :: rest -> firstOr defaultValue predicate rest  // 👈 Appel récursif → continue
+    | [] -> defaultValue            // 👈 Exit
+    | x :: _ when predicate x -> x  // 👈 Exit
+    | _ :: rest -> loop rest        // 👈 Continue recursion
 
-let test1 = firstOr -1 (fun x -> x > 5) [1]     // -1
-let test2 = firstOr -1 (fun x -> x > 5) [1; 6]  // 6
+// Tests
+let test1 = [1]    |> firstItemOr -1 (fun x -> x > 5)  // -1
+let test2 = [1..7] |> firstItemOr -1 (fun x -> x > 5)  // 6
 ```
 
 ---
 
-### Pas de *early exit* - Inconvénients
+# Typing, inference and ceremony
 
-⚠️ Risque de `if` imbriqués *(+ difficile à comprendre)*
-💡 Solutions *(les mêmes qu'en C♯)* :
+The ceremony is correlated to the typing weakness
+🔗 [Zone of Ceremony](https://blog.ploeh.dk/2019/12/16/zone-of-ceremony/) _by Mark Seemann_
 
-- Décomposer en sous fonctions -- *"Do one thing"* de *Clean Code*
-- Aplatir : réunir valeurs + *Pattern matching*
-  - `match x, y with ...` où `x, y` est un tuple 📍
+| Lang | Typing strength                  | Inference | Ceremony |
+|------|----------------------------------|-----------|----------|
+| JS   | Low (dynamic)                    | ×         | Low      |
+| C♯   | Medium (static nominal)          | Low       | Strong   |
+| TS   | Strong (static structural + ADT) | Medium    | Medium   |
+| F♯   | Strong (static nominal + ADT)    | Élevée    | Low      |
 
----
-
-# Typage, inférence et cérémonie
-
-Poids de la cérémonie ≠ Force du typage
-→ Cf. https://blog.ploeh.dk/2019/12/16/zone-of-ceremony/
-
-| Lang | Force du typage                  | Inférence | Cérémonie |
-|------|----------------------------------|-----------|-----------|
-| JS   | Faible (dynamique)               | ×         | Faible    |
-| C♯   | Moyen (statique nominal)         | Faible    | Fort      |
-| TS   | Fort (statique structurel + ADT) | Moyenne   | Moyen     |
-| F♯   | Fort (statique nominal + ADT)    | Élevée    | Faible    |
-
-ADT = *Algebraic Data Types* = product types + sum types
+ADT = *Algebraic Data Types* 📍
 
 ---
 
-# Inférence de type
+# Type inference
 
-Objectif : Typer explicitement le moins possible
+Goal: write type annotations as little as possible
 
-- Moins de code à écrire 👍
-- Compilateur garantit la cohérence
-- IntelliSense aide le codage et la lecture
-  - Importance du nommage pour lecture hors IDE ⚠️
-
----
-
-## Inférence de type en C♯ : plutôt faible
-
-- Déclaration d’une méthode → paramètres et retour ❌
-- Argument lambda : `list.Find(i => i == 5)` ✔️
-- Variable, y.c. objet anonyme : `var o = new { Name = "John" }` ✔️
-  - Sauf lambda : `Func<int, int> fn = (x: int) => x + 1;` → KO avec `var`
-    - 💡 LanguageExt : `var fn = fun( (x: int) => x + 1 );` ✔️
-    - 💡 Autorisé en C♯ 10 : `var fn = f(x: int) => x + 1;` ✔️
-- Initialisation d'un tableau : `new[] { 1, 2 }` ✔️
-- Appel à une méthode générique avec argument, sauf constructeur :
-  - `Tuple.Create(1, "a")` ✔️
-  - `new Tuple<int, string>(1, "a")` ❌
-- C♯ 9 *target-typed expression* `StringBuilder sb = new();` ✔️
+- Less code to write
+- Compiler ensures consistency
+- IntelliSense helps with coding and reading
 
 ---
 
-## Inférence en TypeScript - *The good parts* 👍
+## Type inference in C♯
 
-👉 Code pur JavaScript *(modulo `as const` qui reste élégant)*
-
-```ts
-const obj1 = { a: 1 };                // { a: number }
-const obj2 = Object.freeze({ a: 1 }); // { readonly a: number }
-const obj3 = { a: 1 } as const;       // { readonly a: 1 }
-
-const arr1 = [1, 2, null]; // (number | null)[]
-const arr2 = [1, 2, 3]; // number[]
-const arr3 = arr2.map(x => x * x); // ✔️ Pure lambda
-
-// Type littéral
-let s   = 'a';   // string
-const a = 'a';   // "a"
-```
+- Method parameters and return value ❌❌
+- Variable declaration: `var o = new { Name = "John" }` ✔️
+- Lambda as argument: `list.Find(i => i == 5)` ✔️
+- Lambda declaration in C# 10: `var f3 = () => 1;` ✔️ *(limited)*
+- Array initialisation: `var a = new[] { 1, 2 };` ✔️
+- Generic classes:
+  - constructor: `new Tuple<int, string>(1, "a")` ❌
+  - static helper class: `Tuple.Create(1, "a")` ✔️
+- C♯ 9 target-typed expression `StringBuilder sb = new();` ✔️
 
 ---
 
-## Inférence en TypeScript - Limites 🛑
+## Type inference in F♯
 
-```ts
-// 1. Combinaison de littéraux
-const a  = 'a';   // "a"
-const aa = a + a; // string (et pas "aa")
+[Hindley–Milner](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system) method
 
-// 2. Tuple, immuable ou non
-const tupleMutableKo = [1, 'a']; // ❌ (string | number)[]
-const tupleMutableOk: [number, string] = [1, 'a'];
+- Able to deduce the type of variables, expressions and functions
+  - without any type annotation
+- Based on both the implementation and the usage
 
-const tupleImmutKo = Object.freeze([1, 'a']); // ❌ readonly (string | number)[]
-const tupleImmutOk = [1, 'a'] as const; // readonly [1, "a"]
+**Example:**
 
-// 3. Paramètres d'une fonction → gêne *Extract function* 😔
-// => Refacto de `arr2.map(x => x * x)` en `arr2.map(square)`
-const square = x => x * x; // ❌ Sans annotation
-//             ~ Parameter 'x' implicitly has an 'any' type.(7006)
-const square = (x: number) => x * x; // (x: number) => number
-```
-
----
-
-## Inférence de type en F♯ : forte 💪
-
-Méthode [Hindley–Milner](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system)
-
-- Capable de déduire le type de variables, expressions et fonctions
-  d'un programme dépourvu de toute annotation de type
-- Se base sur implémentation et usage
-
-```fs
+```fsharp
 let helper instruction source =
-    if instruction = "inc" then // 1. `instruction` a même type que `"inc"` => `string`
-      source + 1                // 2. `source` a même type que `1` => `int`
+    if instruction = "inc" then // 1. `instruction` has the same type than `"inc"` => `string`
+      source + 1                // 2. `source` has the same type than `1` => `int`
     elif instruction = "dec" then
       source - 1
     else
-      source                    // 3. `return` a même type que `source` => `int`
+      source                    // 3. `return` has the same type than `source` => `int`
 ```
 
 ---
 
-### Inférence en F♯ - Généralisation automatique
+## F♯ inference - Automatic generalization
 
-```fs
-// Valeurs génériques
+If something can be inferred as generic, it will be\
+→ Open to more cases 🥳
+
+```fsharp
+// Generic value
 let a = [] // 'a list
 
-// Fonctions génériques : 2 param 'a, renvoie 'a list
+// Generic function with both parameters generic
 let listOf2 x y = [x; y]
+// val listOf2: x: 'a -> y: 'a -> 'a list
 
-// Idem avec 'a "comparable"
+// Generic type constraint inference: 'a must be "comparable"
 let max x y = if x > y then x else y
 ```
 
-- ☝ En F♯, type générique précédé d'une apostrophe : `'a`
-  - Partie `when 'a : comparison` = contraintes sur type
-- 💡 Généralisation rend fonction utilisable dans \+ de cas 🥳
-  - `max` utilisable pour 2 args de type `int`, `float`, `string`...
-- ☝ D'où l'intérêt de laisser l'inférence plutôt que d'annoter les types
+☝ In F♯, a generic type starts with an apostrophe `'` *(a.k.a. tick)*
+    • Can be in camelCase (`'a`) or PascalCase (`'T`)
+    • C♯ `TXxx` → F♯ `'xxx` or `'Xxx`
 
 ---
 
-### Inférence en F♯ - Résolution statique
+## Inference *vs* type annotation
 
-**Problème :** type inféré \+ restreint qu'attendu 😯
+**Pros** 👍
+→ code terser
+→ automatic generalization
 
-```fs
-let sumOfInt x y = x + y // Seulement int
-```
+**Cons** ⚠️
+→ we can break code in cascade
+→ inference limited:
+    • an object type cannot be determine by the call to one of its members (1)
+    • sensible to the instructions order (2)
 
-- Juste `int` ? Pourtant `+` marche pour les nombres et les chaînes 😕
-
-**Solution :** fonction `inline`
-
-```fs
-let inline sum x y = x + y // Full generic: 2 params ^a ^b, retour ^c
-```
-
-- Paramètres ont un type résolu statiquement = à la compilation
-  - Noté avec un *caret* : `^a`
-  - ≠ Type générique `'a`, résolu au runtime
+(1)(2) Example on next slides
 
 ---
 
-### Inférence en F♯ - Limites
+## Inference *vs* type annotation - Limit #1
 
-⚠️ Type d'un objet non inférable depuis ses méthodes
+⚠️ No inference from *"object dotting"* *(Exception: records 📍)*
 
-```fs
-let helperKo instruction source = // 💥 Error FS0072: Recherche d'un objet de type indéterminé...
+```fsharp
+let helperKO instruction source =
     match instruction with
     | 'U' -> source.ToUpper()
+    //       ~~~~~~~~~~~~~~~~ 💥
+    // Error FS0072: Lookup on object of indeterminate type based on information prior to this program point.
+    // A type annotation may be needed prior to this program point to constrain the type of the object.
     | _   -> source
 
-let helper instruction (source: string) = [...] // 👈 Annotation nécessaire
+let helperOk instruction (source: string) = [...]
+// Type annotation needed here  : ^^^^^^
 
+// If there is a function equalivalent to the method, it will work
 let info list = if list.Length = 0 then "Vide" else "..." // 💥 Error FS0072...
 let info list = if List.length list = 0 then "Vide" else $"{list.Length} éléments" // 👌
 ```
 
-☝ D'où l'intérêt de l'approche FP *(fonctions séparées des données)*
-   *Vs* approche OO *(données + méthodes ensemble dans objet)*
-
 ---
 
-### Inférence en F♯ - Gestion de la précédence
+## Inference *vs* type annotation - Limit #2
 
-⚠️ Ordre des termes impacte inférence
+⚠️ Sensitivity to the instructions order
 
-```fs
+```fsharp
 let listKo = List.sortBy (fun x -> x.Length) ["three"; "two"; "one"]
-  // 💥 Error FS0072: Recherche d'un objet de type indéterminé...
-```
+//                                 ~~~~~~~~ 💥 Error FS0072: Lookup on object of indeterminate type...
 
-💡 **Solutions**
-
-1. Inverser ordre des termes en utilisant le *pipe*
-
-```fs
+// Solution 1: reverse the order by piping the list
 let listOk = ["three"; "two"; "one"] |> List.sortBy (fun x -> x.Length)
-```
 
-2. Utiliser fonction plutôt que méthode
-
-```fs
+// Solution 2: use a named function  instead of a lambda
 let listOk' = List.sortBy String.length ["three"; "two"; "one"]
 ```
 
@@ -1088,197 +1240,176 @@ let listOk' = List.sortBy String.length ["three"; "two"; "one"]
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 1. Qui est le papa de F♯ ?
+## 1. Who is the father of the F♯? ⏱ 10’’
 
-## **A.** Anders Hejlsberg
+**A.** Anders Hejlsberg
 
-## **B.** Don Syme
+**B.** Don Syme
 
-## **C.** Scott Wlaschin
-
-⏱ 10’’
+**C.** Scott Wlaschin
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# 1. Qui est le papa de F♯ ?
+## 1. Who is the father of the F♯ ?
 
-## **A.** Anders Hejlsberg ❌
+**A.** Anders Hejlsberg ❌
 
-Papa de C♯ et de TypeScript
+→ Father of C♯ and TypeScript!
 
-## **B.** Don Syme ✅
+**B.** Don Syme ✅
 
-![social-network w:30](../themes/d-edge/pictos/twitter-round.png) [dsymetweets](https://twitter.com/dsymetweets) • 🎥 [F♯ Code I Love](https://www.youtube.com/watch?v=1AZA1zoP-II)
+→ [dsymetweets](https://twitter.com/dsymetweets) • 🎥 [F♯ Code I Love](https://www.youtube.com/watch?v=1AZA1zoP-II)
 
-## **C.** Scott Wlaschin ❌
+**C.** Scott Wlaschin ❌
 
-Auteur du blog [F♯ for Fun and Profit](https://fsharpforfunandprofit.com/), mine d'or pour F♯
+→ Famous blog [F♯ for Fun and Profit](https://fsharpforfunandprofit.com/), a gold mine for F♯
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 2. Comment se nomme l'opérateur `::` ?
+## 2. What is the name of the `::` operator? ⏱ 10’’
 
-## **A.** Append
+**A.** Append
 
-## **B.** Concat
+**B.** Concat
 
-## **C.** Cons
-
-⏱ 10’’
+**C.** Cons
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# 2. Comment se nomme l'opérateur `::` ?
+## 2. What is the name of the `::` operator?
 
-## **A.** Append ❌
+**A.** Append ❌
 
-`List.append` : concatène 2 listes
+`List.append` : concatenation of 2 lists
 
-## **B.** Concat ❌
+**B.** Concat ❌
 
-`List.concat` : concatène un ensemble de listes
+`List.concat` : concatenation of a set of lists
 
-## **C.** Cons ✅
+**C.** Cons ✅
 
-`newItem :: list` est la manière la + rapide de créer une nouvelle liste avec un nouvel élément en tête : `1 :: [2; 3]` renvoie `[1; 2; 3]`.
+`newItem :: list` is the fasted way to add an item at the top of a list
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 3. Cherchez l'intrus
+## 3. Find the intruder! ⏱ 15’’
 
-## **A.** `let a = "a"`
+**A.** `let a = "a"`
 
-## **B.** `let a () = "a"`
+**B.** `let a () = "a"`
 
-## **C.** `let a = fun () -> "a"`
-
-⏱ 15’’
+**C.** `let a = fun () -> "a"`
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# 3. Cherchez l'intrus
+## 3. Find the intruder!
 
-B et C sont des fonctions, A est juste une `string`.
+B and C are functions, while A is a simple value: a `string`.
 
-## **A.** `let a = "a"` ✅
+**A.** `let a = "a"` ✅
 
-## **B.** `let a () = "a"` ❌
+**B.** `let a () = "a"` ❌
 
-## **C.** `let a = fun () -> "a"` ❌
+**C.** `let a = fun () -> "a"` ❌
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 4. Quelle ligne ne compile pas ?
+## 4. What line does not compile? ⏱ 20’’
 
 ```fs
-let evens list =
-    let isEven x =
-    x % 2 = 0
-    List.filter isEven list
-```
-
-### Ligne **1.** `let evens list =`
-
-### Ligne **2.** `let isEven x =`
-
-### Ligne **3.** `x % 2 = 0`
-
-### Ligne **4.** `List.filter isEven list`
-
-⏱ 15’’
-
----
-
-![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
-
-# 4. Quelle ligne ne compile pas ?
-
-### Ligne **3.** `x % 2 = 0`
-
-Problème d'indentation
-
-```fs
-let evens list =
-    let isEven x =
-    x % 2 = 0       // 👈 Manque une indentation ici
-    List.filter isEven list
+(* 1 *) let evens list =
+(* 2 *)     let isEven x =
+(* 3 *)     x % 2 = 0
+(* 4 *)     List.filter isEven list
 ```
 
 ---
 
-![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
-
-# 5. Comment se nomme l'opérateur `|>` ?
-
-## **A.** Compose
-
-## **B.** Chain
-
-## **C.** Pipeline
-
-## **D.** Pipe
-
-⏱ 10’’
-
----
-
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# 5. Comment se nomme l'opérateur `|>` ?
+## 4. What line does not compile?
 
-## **A.** Compose ❌
+```fs
+(* 1 *) let evens list =
+(* 2 *)     let isEven x =
+(* 3 *)     x % 2 = 0 // 💥 Error FS0058: Unexpected syntax or possible incorrect indentation
+(* 4 *)     List.filter isEven list
+```
 
-L'opérateur de composition est `>>` 📍
-
-## **B.** Chain ❌
-
-## **C.** Pipeline ❌
-
-## **D.** Pipe ✅
+Line **3.** `x % 2 = 0` : an indentation is missing
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 6. Quelle expression compile ?
+## 5. What is the name of `|>` operator? ⏱ 10’’
 
-## **A.** `a == "a" && b != "*"`
+**A.** Compose
 
-## **B.** `a == "a" && b <> "*"`
+**B.** Chain
 
-## **C.** `a = "a" && b <> "*"`
+**C.** Pipeline
 
-## **D.** `a = "a" && b != "*"`
-
-⏱ 15’’
+**D.** Pipe
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# 6. Quelle expression compile ?
+## 5. What is the name of `|>` operator?
 
-☝ En F♯, les opérateurs d'égalité et d'inégalité sont respectivement `=` et `<>`.
+**A.** Compose ❌ - Composition operator is `>>` 📍
 
-## **A.** `a == b && b != ""` ❌
+**B.** Chain ❌
 
-## **B.** `a == b && b <> ""` ❌
+**C.** Pipeline ❌
 
-## **C.** `a = b && b <> ""` ✅
+**D.** Pipe ✅
 
-## **D.** `a = b && b != ""` ❌
+---
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
+
+## 6. Which expression compiles? ⏱ 20’’
+
+**A.** `a == "a" && b != "*"`
+
+**B.** `a == "a" && b <> "*"`
+
+**C.** `a = "a" && b <> "*"`
+
+**D.** `a = "a" && b != "*"`
+
+---
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
+
+## 6. Which expression compiles?
+
+**A.** `a == "a" && b != ""` ❌
+
+**B.** `a == "a" && b <> ""` ❌
+
+**C.** `a = "a" && b <> ""` ✅
+
+**D.** `a = "a" && b != ""` ❌
+
+| Operator   | C♯             | F♯             |
+|------------|----------------|----------------|
+| Equality   | `==`           | `=`            |
+| Inequality | `!=` (`!` `=`) | `<>` (`<` `>`) |
 
 ---
 
@@ -1288,33 +1419,26 @@ L'opérateur de composition est `>>` 📍
 
 # 5.
 
-## Le    Récap’
+## Wrap up
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_note.png)
 
-# Récap’
+# Recap
 
-- Syntaxe du F♯
-  - Aperçu général, déjà copieux
-  - Nous permettra de nous focaliser sur des détails
-- Concepts engrammés dans F♯
-  - Curryfication, application partielle
-  - « Une expression sinon rien ! »
-  - Inférence de type
+- F♯ Syntax
+- F♯ Language design traits
+  - Everything is an expression!
+  - Type inference
 
 ---
 
-# Complément
+# Addendum
 
-https://blog.ploeh.dk/2015/08/17/when-x-y-and-z-are-great-variable-names
+🔗 [F♯ Cheatsheet](https://fsprojects.github.io/fsharp-cheatsheet/)
 
-En F♯, les fonctions et variables ont souvent des noms courts : `f`, `x` et `y`.
-Mauvais nommage ? Non, pas dans les cas suivants :
-
-- Fonction hyper générique → paramètres avec nom générique
-- Portée courte → code \+ lisible avec nom court que nom long
+🔗 [Troubleshooting F♯ - Why won't my code compile?](https://fsharpforfunandprofit.com/troubleshooting-fsharp/)
 
 ---
 

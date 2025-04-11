@@ -2,17 +2,11 @@
 
 Support for a 3-day training course on F♯
 
-## Commandes
+## Slides
 
 Use `marp` ([link](https://marp.app)) to convert markdown slides to HTML or PDF.
 
 ### Markdown to HTML
-
-*watch* mode:
-
-```bash
-marp fsharp-training-01-bases.md --output ./html/fsharp-training-01-bases.html --theme themes/d-edge.css --watch
-```
 
 All files:
 
@@ -29,6 +23,12 @@ marp fsharp-training-09-oo.md --output ./html/fsharp-training-09-oo.html --theme
 marp fsharp-training-10-types-addendum.md --output ./html/fsharp-training-10-types-addendum.html --theme themes/d-edge.css
 ```
 
+*watch* mode: add ` --watch`
+
+```bash
+marp fsharp-training-01-bases.md --output ./html/fsharp-training-01-bases.html --theme themes/d-edge.css --watch
+```
+
 ### Markdown to PDF
 
 TBD
@@ -42,3 +42,17 @@ TBD
 - ∀ ∃ ∈
 - ∅ ∑ ∞
 - … ┆｜
+- thin space: ' '
+
+## Speaker tips
+
+VSCode:
+
+| Feature         | Command                                                |
+|-----------------|--------------------------------------------------------|
+| Full screen     | <kbd>F11</kbd>                                         |
+| Zoom            | <kbd>Ctrl</kbd>+<kbd>KeyPad+/-</kbd>                   |
+| Show key stroke | <kbd>F1</kbd> / Screencast mode                        |
+| Show terminal   | <kbd>Ctrl</kbd>+<kbd>ù</kbd>                           |
+| Clear terminal  | <kbd>Ctrl</kbd>+<kbd>L</kbd>                           |
+| Move terminal   | `Right click` on the *Terminal tab* / Move panel right |
