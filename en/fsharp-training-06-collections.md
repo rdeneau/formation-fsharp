@@ -11,7 +11,7 @@ paginate: true
 
 # F♯ Training
 
-## *Les collections*
+## _F♯ collections_
 
 ### 2025 April
 
@@ -23,9 +23,9 @@ paginate: true
 
 ## Table of contents
 
-- Vue d'ensemble
+- Overview
 - Types
-- Fonctions
+- Functions
 
 ---
 
@@ -35,114 +35,119 @@ paginate: true
 
 # 1.
 
-## Vue      d'ensemble
+## _Collections_ Overview
 
 ---
 
-# 🔍 Types et Modules
+# 🔍 Common F♯ collections
 
-5 collections usuelles en F♯ avec leur module associé
-
-| Module  | Type          | Alias BCL                     | Immutable | Trié par     |
-|---------|---------------|-------------------------------|-----------|--------------|
-| `Array` | `'T array`    | ≡ `Array<T>`                  | ❌         | Ordre ajout  |
-| `List`  | `'T list`     | ≃ `ImmutableList<T>`          | ✅         | Ordre ajout  |
-| `Seq`   | `seq<'T>`     | ≡ `IEnumerable<T>`            | ✅         | Ordre ajout  |
-| `Set`   | `Set<'T>`     | ≃ `ImmutableHashSet<T>`       | ✅         | Valeur       |
-| `Map`   | `Map<'K, 'V>` | ≃ `ImmutableDictionary<K, V>` | ✅         | Clé          |
+| Module |  Type          | - | BCL Equivalent             | Immutable | Structural comparison |
+|--------|----------------|---|----------------------------|-----------|-----------------------|
+| `Array`|  `'T array`    | ≡ | `Array<T>`                 | ❌        | ✅                   |
+| `List` |  `'T list`     | ≃ | `ImmutableList<T>`         | ✅        | ✅                   |
+| `Seq`  |  `seq<'T>`     | ≡ | `IEnumerable<T>`           | ✅        | ✅                   |
+| `Set`  |  `Set<'T>`     | ≃ | `ImmutableHashSet<T>`      | ✅        | ✅                   |
+| `Map`  |  `Map<'K, 'V>` | ≃ | `ImmutableDictionary<K,V>` | ✅        | ✅                   |
+| ❌     | `dict`         | ≡ | `IDictionary<K,V>`         | ☑️ ❗     | ❌                   |
+| ❌     | `readOnlyDict` | ≡ | `IReadOnlyDictionary<K,V>` | ☑️        | ❌                   |
+| ❌     | `ResizeArray`  | ≡ | `List<T>`                  | ❌        | ❌                   |
 
 ---
 
-# 👍 Homogénéité des fonctions
+# 👍 Functions consistency
 
-Communes aux 5 modules :
+Common to all 5 modules:
 → `empty`/`isEmpty`, `exists`/`forall`
-→ `find`/`tryFind`, `pick`/`tryPick`, `contains` (`containsKey` pour `Map`)
+→ `find`/`tryFind`, `pick`/`tryPick`, `contains` (`containsKey` for `Map`)
 → `map`/`iter`, `filter`, `fold`
 
-Communes à `Array`, `List`, `Seq` :
+Common to `Array`, `List`, `Seq`:
 → `append`/`concat`, `choose`, `collect`
 → `item`, `head`, `last`
 → `take`, `skip`
-→ ... *une centaine de fonctions en tout !*
+→ ... _a hundred functions altogether!_
 
 ---
 
-# 👍 Homogénéité de la syntaxe
+# 👍 Syntax consistency
 
-| Type    | Éléments       | *Range*        | *Comprehension* |
-|---------|----------------|----------------|-----------------|
-| `Array` | `[∣ 1; 2 ∣]`   | `[∣ 1..5 ∣]`   | ...             |
-| `List`  | `[ 1; 2 ]`     | `[ 1..5 ]`     | ...             |
-| `Seq`   | `seq { 1; 2 }` | `seq { 1..5 }` | ...             |
-| `Set`   | `set [ 1; 2 ]` | `set [ 1..5 ]` | ...             |
+| Type    | Construction   | Range          | Comprehension |
+|---------|----------------|----------------|---------------|
+| `Array` | `[∣ 1; 2 ∣]`   | `[∣ 1..5 ∣]`   | ✅            |
+| `List`  | `[ 1; 2 ]`     | `[ 1..5 ]`     | ✅            |
+| `Seq`   | `seq { 1; 2 }` | `seq { 1..5 }` | ✅            |
+| `Set`   | `set [ 1; 2 ]` | `set [ 1..5 ]` | ✅            |
 
 ---
 
-# ⚠️ Piège de la syntaxe
+# ⚠️ Syntax trap
 
-Les crochets `[]` sont utilisés pour :
+Square brackets `[]` are used for:
 
-- *Valeur* : instance d'une liste `[ 1; 2 ]` (de type `int list`)
-- *Type* : tableau `int []`, par ex. de `[| 1; 2 |]`
+- _Value:_ instance of a list `[ 1; 2 ]` (of type `int list`)
+- _Type:_ array `int []`, e.g. of `[| 1; 2 |]`
 
 ☝ **Recommendations**
 
-- Bien distinguer type *vs* valeur ❗
-- Préférer écrire `int array` plutôt que `int []`
-  - *N.B. En console FSI, le type affiché est encore `int []`*
+- Distinguish between type _vs_ value ❗
+- Write `int array` rather than `int[]`
 
 ---
 
-# Création par *Comprehension*
+# Comprehension
 
-- Syntaxe similaire à boucle `for`
-- Même principe que générateurs en C♯, JS
-  - Mot clé `yield` mais souvent optionnel (F♯ 4.7 / .NET Core 3)
-  - Mot clé `yield!` ≡ `yield*` JS
-  - Fonctionne pour toutes les collections 👍
+- **Purpose:** syntactic sugar to construct collection
+  - Handy, succinct, powerful
+  - Syntax includes `for` loops, `if` condition
+- Same principle as generators in C♯, JS
+  - `yield` keyword but often **optional** (since F♯ 4.7)
+  - `yield!` keyword _(pronounce "yield bang")_ ≡ `yield*` in JS
+  - Works for all collections 👍
 
 ---
 
-# *Comprehension* : exemples
+# Comprehension: examples
 
-```fs
-// Syntaxes équivalentes
-seq { for i in 1 .. 10 -> i * i }         // Plutôt obsolète
-seq { for i in 1 .. 10 do yield i * i }   // 'yield' explicite
-seq { for i in 1 .. 10 do i * i }         // 'yield' omis 👍
+```fsharp
+// Multi-line (recommended)
+let squares =
+    seq { for i in 1 .. 10 do
+        yield i * i // 💡 'yield' can be omitted most of the time 👍
+    }
 
-// Avec 'if'
+// Single line
+let squares = seq { for i in 1 .. 10 -> i * i }
+
+// Can contain 'if'
 let halfEvens =
     [ for i in [1..10] do
         if (i % 2) = 0 then i / 2 ]  // [1; 2; 3; 4; 5]
 
-// 'for' imbriqués
+// Nested 'for'
 let pairs =
     [ for i in [1..3] do
       for j in [1..3] do
-        (i, j) ]              // [(1, 1); (1; 2); (1; 3); (2, 1); ... (3, 3)]
+        i, j ]              // [(1, 1); (1; 2); (1; 3); (2, 1); ... (3, 3)]
 ```
 
 ---
 
-# *Comprehension* : exemples (2)
+# Comprehension: examples (2)
 
-```fs
-// Même ici les 'yield' peuvent être omis 👍
+Flattening:
+
+```fsharp
+// Multiple items
 let twoToNine =
     [ for i in [1; 4; 7] do
         if i > 1 then i
         i + 1
         i + 2 ]  // [2; 3; 4; 5; 6; 7; 8; 9]
-```
 
-`yield!` permet d'aplatir des collections imbriquées :
-
-```fs
+// With 'yield! collections'
 let oneToSix =
     [ for i in [1; 3; 5] do
-        yield! set [i; i+1] ]
+        yield! [i; i+1] ]
 ```
 
 ---
@@ -153,41 +158,75 @@ let oneToSix =
 
 # 2.
 
-## Les Types
+## The Types
 
 ---
 
 # 💠 Type `List`
 
-Implémentée sous forme de **liste simplement chaînée** :
-→ 1 liste = 1 élément *(Head)* + 1 sous-liste *(Tail)*
-→ Construction nommée *Cons* et notée `::`
+Implemented as a **linked list:**
+→ 1 list = 1 element _(Head)_ + 1 sub-list _(Tail)_
+→ Construction using `::` _Cons_ operator
 
-Pour éviter récursion infinie, besoin d'un cas de "sortie" :
-→ Liste vide nommée *Empty* et notée `[]`
+To avoid infinite recursion, we need an "exit" case:
+→ Empty list named _Empty_ and noted `[]`
 
-👉 **Type union générique et récursif** :
+👉 **Generic and recursive union type:**
 
-```fs
+```fsharp
 type List<'T> =
   | ( [] )
   | ( :: ) of head: 'T * tail: List<'T>
 ```
 
+☝️ **Note:** this syntax with cases as operator is only allowed in `FSharp.Core`.
+
 ---
 
-# `List` : littéraux
+## `List` : Type alias
 
-| Nb | Notation    | Notation explicite  | Signification                       |
+`List` _(big L)_ : reference to the F♯ type (`List<'t>`) or its companion module.
+`list` _(small l)_ : alias of F♯'s `List` type, often used with OCaml notation: \
+→ `let l : string list = ...`
+
+⚠️ **Warnings:** After `open System.Collections.Generic`:
+→ `List` is the C♯ mutable list, hiding the F♯ type!
+→ The `List` F♯ companion module remains available → confusion!
+
+💡 **Tips:** Use the `ResizeArray` alias 📍
+
+---
+
+## `List` : Immutability
+
+A `List` is **immutable**:
+→ It is not possible to modify an existing list.
+
+Adding an element in the list:
+= Cheap operation with the _Cons_ operator (`::`)
+→ Creates a new list with:
+  • _Head_ = given element
+  • _Tail_ = existing list
+
+🏷️ **Related concepts:**
+
+- linked list
+- recursive type
+
+---
+
+## `List` : Literals
+
+| \# | Notation    | Equivalent          | Meaning (*)                         |
 |----|-------------|---------------------|-------------------------------------|
 | 0  | `[]`        | `[]`                | Empty                               |
 | 1  | `[1]`       | `1 :: []`           | Cons (1, Empty)                     |
 | 2  | `[2; 1]`    | `2 :: 1 :: []`      | Cons (2, Cons (1, Empty))           |
 | 3  | `[3; 2; 1]` | `3 :: 2 :: 1 :: []` | Cons (3, Cons (2, Cons (1, Empty))) |
 
-Vérification par décompilation avec [SharpLab.io](https://sharplab.io/#v2:DYLgZgzgPsCmAuACAbgBkQXkQbQLoFgAoOJZARkxzIOIRQCZLt6BuRaoklAZie7dbsaRIA==) :
+(*) We can verify it with [SharpLab.io](https://sharplab.io/#v2:DYLgZgzgPsCmAuACAbgBkQXkQbQLoFgAoOJZARkxzIOIRQCZLt6BuRaoklAZie7dbsaRIA==) :
 
-```cs
+```csharp
 //...
 v1@2 = FSharpList<int>.Cons(1, FSharpList<int>.Empty);
 v2@3 = FSharpList<int>.Cons(2, FSharpList<int>.Cons(1, FSharpList<int>.Empty));
@@ -196,19 +235,9 @@ v2@3 = FSharpList<int>.Cons(2, FSharpList<int>.Cons(1, FSharpList<int>.Empty));
 
 ---
 
-# `List` : immuable
+## `List` : Initialisation
 
-Il n'est pas possible de modifier une liste existante.
-→ C'est cela qui permet de l'implémenter en liste chaînée.
-
-💡 L'idée est de créer une nouvelle liste pour signifier un changement.
-→ Utiliser les opérateurs *Cons* (`::`) et *Append* (`@`) 📍
-
----
-
-# `List` : initialisation
-
-```fs
+```fsharp
 // Range: Start..End (Step=1)
 let numFromOneToFive = [1..5]     // [1; 2; 3; 4; 5]
 
@@ -216,35 +245,37 @@ let numFromOneToFive = [1..5]     // [1; 2; 3; 4; 5]
 let oddFromOneToNine = [1..2..9]  // [1; 3; 5; 7; 9]
 
 // Comprehension
-let pairs =
+let pairsWithDistinctItems =
     [ for i in [1..3] do
       for j in [1..3] do
-        (i, j) ]              // [(1, 1); (1; 2); (1; 3); (2, 1); ... (3, 3)]
+        if i <> j then
+            i, j ]
+// [(1; 2); (1; 3); (2, 1); (2, 3); (3, 1); (3, 2)]
 ```
 
 ---
 
-# `List` - Exercices 🕹️
+## `List` - Exercices 🕹️
 
-### **1.** Implémenter la fonction `rev`
+### **1.** Implement the `rev` function
 
-Inverse une liste : `rev [1; 2; 3]` ≡ `[3; 2; 1]`
+Inverts a list: `rev [1; 2; 3]` ≡ `[3; 2; 1]`
 
-### **2.** Implémenter la fonction `map`
+### **2.** Implement the `map` function
 
-Transforme chaque élément : `[1; 2; 3] |> map ((+) 1)` ≡ `[2; 3; 4]`
+Transforms each element: `[1; 2; 3] |> map ((+) 1)` ≡ `[2; 3; 4]`
 
-💡 **Astuces**
-   → Pattern matching liste vide `[]` ou *Cons* `head :: tail`
-   → Sous-fonction *(tail-) recursive*
+💡 **Hints**
+   → Use empty list `[]` or _Cons_ `head :: tail` patterns
+   → Write a recursive function
 
 ⏱ 5'
 
 ---
 
-# `List` - Exercices - Solution 🎲
+## `List` - Exercices 🎲
 
-```fs
+```fsharp
 let rev list =
     let rec loop acc rest =
         match rest with
@@ -260,14 +291,15 @@ let map f list =
     list |> loop [] |> rev
 ```
 
-💡 Vérification avec [sharplab.io](https://sharplab.io/#v2:DYLgZgzgNAJiDUAfYBTALgAgE4oG4eAEsJMBeAWACgMaD1sUBjAgexYAcMBDR5nEjBWq0RAWy5pGACwYCA7oTRSqIkYgwBtALoYAtAD5uvFaprqAHhhAgM5iHsPA2nABSXrRxgEpbEEzScOTR0iEiogA) de la *tail recursion* compilée en boucle `while`
+💡 **Bonus:** verify the tail recursion with [sharplab.io](https://sharplab.io)
 
 ---
 
-# `List` - Exercices - Tests ✅
+## `List` - Exercices ✅
 
-```fs
-// Tests en console FSI
+Tests can be done in FSI console:
+
+```fsharp
 let (=!) actual expected =
     if actual = expected
     then printfn $"✅ {actual}"
@@ -284,250 +316,394 @@ let (=!) actual expected =
 
 # 💠 Type `Array`
 
-- Différences / `List` : mutable, taille fixe, accès indexé en O(1)
-- Signature générique : `'T array` *(récemment recommandée)* ou `'T []`
-- Littéral et *comprehension* : similaires à `List`
+Signature: `'T array` _(recommended)_ or `'T[]` or `'T []`
 
-```fs
-// Littéral
+Main differences compared to the `List`:
+
+- Fixed-size
+- Fat square brackets `[| |]` for literals
+- Mutable ❗
+- Access by index in `O(1)` 👍
+
+---
+
+## `Array` : Syntax
+
+```fsharp
+// Literal
 [| 1; 2; 3; 4; 5 |]  // val it : int [] = [|1; 2; 3; 4; 5|]
 
-// Comprehension using range
+// Range
 [| 1 .. 5 |] = [| 1; 2; 3; 4; 5 |]  // true
 [| 1 .. 3 .. 10 |] = [| 1; 4; 7; 10 |] // true
 
-// Comprehension using generator
-[| for a in 1 .. 5 do (a, a * 2) |]
+// Comprehension
+[| for i in 1 .. 5 -> i, i * 2 |]
 // [|(1, 2); (2, 4); (3, 6); (4, 8); (5, 10)|]
+
+// Mutation
+let names = [| "Juliet"; "Tony" |]
+names[1] <- "Bob"
+names;;  // [| "Juliet"; "Bob" |]
 ```
 
 ---
 
-# `Array` : accès indexé & mutation
+## `Array` : Slicing
 
-Accès par index : `my-array.[my-index]`
+Returns a sub-array between the given `(start)..(end)` indices
 
-⚠️ **Piège :** ne pas oublier le `.` avant les crochets `[]` ❗
-🎁 **F♯ 6.0** supporte sans le `.` : `my-array[my-index]`
+```fsharp
+let names =    [|"0: Alice"; "1: Jim"; "2: Rachel"; "3: Sophia"; "4: Tony"|]
 
-```fs
-let names = [| "Juliet"; "Monique"; "Rachelle"; "Tara"; "Sophia" |]
-names.[4] <- "Kristen" // "Rachelle"
-names    // [| "Juliet"; "Monique"; "Rachelle"; "Tara"; "Kristen" |]
-         //                                              ^^^^^^^
+names[1..3] // [|            "1: Jim"; "2: Rachel"; "3: Sophia"           |]
+names[2..]  // [|                      "2: Rachel"; "3: Sophia"; "4: Tony"|]
+names[..3]  // [|"0: Alice"; "1: Jim"; "2: Rachel"; "3: Sophia"           |]
 ```
+
+💡 Works also with `string`: `"012345"[1..3]` ≡ `"123"`
 
 ---
 
-# `Array` : *slicing*
+# 💠 Alias `ResizeArray`
 
-Renvoie un sous-tableau entre les indices `start..end` optionnels
+Alias for BCL `System.Collections.Generic.List<T>`
 
-```fs
-let names = [|"0: Juliet"; "1: Monique"; "2: Rachelle"; "3: Tara"; "4: Sophia"|]
-
-names.[1..3]  // [|"1: Monique"; "2: Rachelle"; "3: Tara"|]
-names.[2..]   // [|"2: Rachelle"; "3: Tara"; "4: Sophia"|]
-names.[..3]   // [|"0: Juliet"; "1: Monique"; "2: Rachelle"; "3: Tara"|]
+```fsharp
+let rev items = items |> Seq.rev |> ResizeArray
+let initial = ResizeArray [ 1..5 ]
+let reversed = rev initial // ResizeArray [ 5..-1..0 ]
 ```
 
-💡 Marche aussi avec une `string` : `"012345".[1..3]` ≡ `"123"`
+**Advantages** 👍
+• No need for `open System.Collections.Generic`
+• No name conflicts on `List`
+
+**Notes** ☝️
+• Do not confuse the alias `ResizeArray` with the `Array` F♯ type.
+• `ResizeArray` is in F♯ a better name for the BCL generic `List<T>`
+   → Closer semantically and in usages to an array than a list
 
 ---
 
 # 💠 Type `Seq`
 
-`type Seq<'T> = IEnumerable<'T>`
-→ Série d'éléments de même type
+**Definition:** Series of elements of the same type
 
-*Lazy* : séquence construite au fur et à mesure lors de son itération
-≠ `List` construite dès la déclaration
+`'t seq` ≡ `Seq<'T>` ≡ `IEnumerable<'T>`
 
-→ Peut offrir de meilleures performances qu'un `List` pour une collection avec beaucoup d'éléments et qu'on ne souhaite pas parcourir entièrement.
+**Lazy:** sequence built gradually as it is iterated
+≠ All other collections built entirely from their declaration
 
 ---
 
-# `Seq` - Syntaxe
+# `Seq` - Syntax
 
-`seq { comprehension }`
+`seq { items | range | comprehension }`
 
-```fs
-seq { yield 1; yield 2 }   // 'yield' explicites 😕
-seq { 1; 2; 3; 5; 8; 13 }  // 'yield' implicites 👍
+```fsharp
+seq { yield 1; yield 2 }   // 'yield' explicit 😕
+seq { 1; 2; 3; 5; 8; 13 }  // 'yield' omitted 👍
 
 // Range
 seq { 1 .. 10 }       // seq [1; 2; 3; 4; ...]
 seq { 1 .. 2 .. 10 }  // seq [1; 3; 5; 7; ...]
 
-// Générateur
-seq { for a in 1 .. 5 do (a, a * 2) }
+// Comprehension
+seq { for i in 1 .. 5 do i, i * 2 }
 // seq [(1, 2); (2, 4); (3, 6); (4, 8); ...]
 ```
 
 ---
 
-<!-- _footer: '' -->
+# `Seq` - Infinite sequence
 
-# `Seq` - Séquence infinie
+2 options to write an infinite sequence
 
-**Option 1** : appeler la fonction `Seq.initInfinite` :
-→ `Seq.initInfinite : (initializer: (index: int) -> 'T) -> seq<'T>`
-→ Paramètre `initializer` sert à créer l'élément d'index (>= 0) spécifié
+- Use `Seq.initInfinite` function
+- Write a recursive function to generate the sequence
 
-**Option 2** : écrire une fonction récursive générant la séquence
+**Option 1**: `Seq.initInfinite` function
+• Signature: `(initializer: (index: int) -> 'T) -> seq<'T>`
+• Parameter: `initializer` is used to create the specified index element (>= 0)
 
-```fs
-// Option 1
+```fsharp
 let seqOfSquares = Seq.initInfinite (fun i -> i * i)
 
-// Option 2
-let seqOfSquares' =
-    let rec loop n = seq { yield n * n; yield! loop (n+1) }
-    loop 0
+seqOfSquares |> Seq.take 5 |> List.ofSeq;;
+// val it: int list = [0; 1; 4; 9; 16]
+```
 
-// Test
-let firstTenSquares = seqOfSquares |> Seq.take 5 |> List.ofSeq // [0; 1; 4; 9; 16]
+---
+
+# `Seq` - Infinite sequence (2)
+
+**Option 2**: recursive function to generate the sequence
+
+```fsharp
+[<TailCall>]
+let rec private squaresStartingAt n =
+    seq {
+        yield n * n
+        yield! squaresStartingAt (n + 1) // 🔄️
+    }
+
+let squares = squaresStartingAt 0
+
+squares |> Seq.take 10 |> List.ofSeq;;
+// val it: int list = [0; 1; 4; 9; 16; 25; 36; 49; 64; 81]
 ```
 
 ---
 
 # 💠 Type `Set`
 
-Collection auto-ordonnée d'éléments uniques *(sans doublon)*
-→ Implémentée sous forme d'arbre binaire
+- Self-ordering collection of unique elements _(without duplicates)_
+- Implemented as a binary tree
 
-```fs
-// Création
-set [ 2; 9; 4; 2 ]          // set [2; 4; 9]  // ☝ Élément 2 dédoublonné
+```fsharp
+// Construct
+set [ 2; 9; 4; 2 ]          // set [2; 4; 9]  // ☝ Only one '2' in the set
 Set.ofArray [| 1; 3 |]      // set [1; 3]
 Set.ofList [ 1; 3 ]         // set [1; 3]
 seq { 1; 3 } |> Set.ofSeq   // set [1; 3]
 
-// Ajout/retrait d'élément
+// Add/remove element
 Set.empty         // set []
 |> Set.add 2      // set [2]
-|> Set.remove 9   // set [2]    // ☝ Pas d'exception
+|> Set.remove 9   // set [2]    // ☝ No exception
 |> Set.add 9      // set [2; 9]
 |> Set.remove 9   // set [2]
 ```
 
 ---
 
-# `Set` : informations
+## `Set` : Informations
 
-→ count, minElement, maxElement
+→ `count`, `minElement`, `maxElement`
 
-```fs
+```fsharp
 let oneToFive = set [1..5]          // set [1; 2; 3; 4; 5]
 
-// Nombre d'éléments : propriété `Count` ou fonction `Set.count` - ⚠️ O(N)
-// ☝ Ne pas confondre avec `Xxx.length` pour Array, List, Seq
-let nb = Set.count oneToFive  // 5
+// Number of elements: `Count` property or `Set.count` function - ⚠️ O(N)
+// ☝ Do not confuse with `Xxx.length` for Array, List, Seq
+let nb = Set.count oneToFive // 5
 
-// Élément min, max
+// Element min, max
 let min = oneToFive |> Set.minElement   // 1
 let max = oneToFive |> Set.maxElement   // 5
 ```
 
 ---
 
-# `Set` : opérations
+## `Set` : Operations
 
-→ **Union**, **Différence**, **Intersection** *(idem ensembles en Math)*
-
-| Opération    | ? | Opérateur | Fonction 2 sets  | Fonction N sets      |
-|--------------|---|-----------|------------------|----------------------|
-| Union        | ∪ | `+`       | `Set.union`      | `Set.unionMany`      |
-| Différence   | ⊖ | `-`       | `Set.difference` | `Set.differenceMany` |
-| Intersection | ∩ | ×         | `Set.intersect`  | `Set.intersectMany`  |
+|   | Operation    | Operator | Function for 2 sets  | Function for N sets  |
+|---|--------------|----------|----------------------|----------------------|
+| ⊖ | Difference   | `-`      | `Set.difference`     | `Set.differenceMany` |
+| ∪ | Union        | `+`      | `Set.union`          | `Set.unionMany`      |
+| ∩ | Intersection | ×        | `Set.intersect`      | `Set.intersectMany`  |
 
 ---
 
-# `Set` : opérations - exemples
+## `Set` : Operations examples
 
-```fs
-let oneToFive = set [1..5]                 // A - set [1; 2; 3; 4; 5]
-let evenToSix = set [2; 4; 6]              // B - set [2; 4; 6]
-
-let union = oneToFive + evenToSix              // set [1; 2; 3; 4; 5; 6]
-let diff  = oneToFive - evenToSix              // set [1; 3; 5]
-let inter = Set.intersect oneToFive evenToSix  // set [2; 4]
+```txt
+| Union             | Difference        | Intersection      |
+|-------------------|-------------------|-------------------|
+|   [ 1 2 3 4 5   ] |   [ 1 2 3 4 5   ] |   [ 1 2 3 4 5   ] |
+| + [   2   4   6 ] | - [   2   4   6 ] | ∩ [   2   4   6 ] |
+| = [ 1 2 3 4 5 6 ] | = [ 1   3   5   ] | = [   2   4     ] |
 ```
-
-| Valeur | Union             | Différence        | Intersection      |
-|--------|-------------------|-------------------|-------------------|
-| A      | `[ 1 2 3 4 5   ]` | `[ 1 2 3 4 5   ]` | `[ 1 2 3 4 5   ]` |
-| B      | `[   2   4   6 ]` | `[   2   4   6 ]` | `[   2   4   6 ]` |
-| A ? B  | `[ 1 2 3 4 5 6 ]` | `[ 1   3   5   ]` | `[   2   4     ]` |
 
 ---
 
 # 💠 Type `Map`
 
-Tableau associatif { *Clé* → *Valeur* } ≃ `Dictionary` immutable en C♯
+Associative array { _Key_ → _Value_ } ≃ C♯ immutable dictionary
 
-```fs
-// Création : depuis collection de tuples (key, val)
-// → Fonction `Map.ofXxx` (Array, List, Seq)
+```fsharp
+// Construct: from collection of (key, val) pairs
+// → `Map.ofXxx` function • Xxx = Array, List, Seq
 let map1 = seq { (2, "A"); (1, "B") } |> Map.ofSeq
-// → Constructeur `Map(tuples)`
+// → `Map(tuples)` constructor
 let map2 = Map [ (2, "A"); (1, "B"); (3, "C"); (3, "D") ]
 // map [(1, "B"); (2, "A"); (3, "D")]
-// 👉 Ordonnés par clés (1, 2, 3) et dédoublonnés en last win - cf. { 3 → "D" }
+// 👉 Ordered by key (1, 2, 3) and deduplicated in last win - see '(3, "D")'
 
-// Ajout/retrait d'élément
+// Add/remove entry
 Map.empty         // map []
 |> Map.add 2 "A"  // map [(2, "A")]
-|> Map.remove 5   // map [(2, "A")] // ☝ Pas d'exception si clé absente
+|> Map.remove 5   // map [(2, "A")] // ☝ No exception if key not found
 |> Map.add 9 "B"  // map [(2, "A"); (9, "B")]
 |> Map.remove 2   // map [(9, "B")]
 ```
 
 ---
 
-# `Map` : accès par clé
+## `Map` : Access/Lookup by key
 
-```fs
-let table = Map [ (2, "A"); (1, "B"); (3, "D") ]
+```fsharp
+let table = Map [ ("A", "Abc"); ("G", "Ghi"); ("Z", "Zzz") ]
 
-// Syntaxe `.[key]`
-table.[1]  // "B"  // ⚠️ `1` est bien une clé et pas un indice
-table.[0]  // 💥 KeyNotFoundException
+// Indexer by key
+table["A"];;  // val it: string = "Abc"
+table["-"];;  // 💣 KeyNotFoundException
 
-// Fonction `Map.find` : renvoie valeur ou 💥 si clé absente
-table |> Map.find 3     // "D"
+// `Map.find`: return the matching value or 💣 if the key is not found
+table |> Map.find "G";; // val it: string = "Ghi"
 
-// Fonction `Map.tryFind` : renvoie `'V option`
-table |> Map.tryFind 3  // Some "D"
-table |> Map.tryFind 9  // None
+// `Map.tryFind`: return the matching value in an option
+table |> Map.tryFind "Z";;  // val it: string option = Some "Zzz"
+table |> Map.tryFind "-";;  // val it: string option = None
 ```
 
 ---
 
-# `Map` : performance des lookups (`find`)
+# 💠 Dictionaries
 
-🔗 *High Performance Collections in F#* https://kutt.it/dxDOi7 (Jan 2021)
-
-## `Map` vs `Dictionary`
-
-Fonction `readOnlyDict` permet de créer rapidement un `IReadOnlyDictionary`
-→ à partir d'une séquence de tuples `key, item`
-→ très performant : 10x plus rapide que `Map` pour le *lookup*
-
-## `Dictionary` vs `Array`
-
-→ `Array` suffit si peu de lookups (< 100) et peu d'éléments (< 100)
-→ `Dictionary` sinon
+- `dict`
+- `readOnlyDict`
 
 ---
 
-# ☝ Types `Set` et `Map` *vs* `IComparable`
+## Dictionaries: `dict` function
 
-Ne marchent que si éléments (d'un `Set`) / clés (d'une `Map`) sont **comparables** !
+- Builds an `IDictionary<'k, 'v>` from a sequence of key/value pairs
+- The interface is not honest: the dictionary is **immutable** ❗
 
-🎉 Compatibles avec tous les types F♯ *(cf. égalité structurelle)*
+```fsharp
+let table = dict [ (1, 100); (2, 200) ] // System.Collections.Generic.IDictionary<int,int>
 
-⚠️ Pour les classes : implémenter `IComparable`
+table[1];;          // val it: int = 100
+
+table[99];;         // 💣 KeyNotFoundException
+
+table[1] <- 111;;   // 💣 NotSupportedException: This value cannot be mutated
+table.Add(3, 300);; // 💣 NotSupportedException: This value cannot be mutated
+```
+
+---
+
+## Dictionaries: `readOnlyDict` function
+
+- Builds an `IReadOnlyDictionary<'k, 'v>` from a sequence of key/value pairs
+- The interface is honest: the dictionary is **immutable**
+
+```fsharp
+let table = readOnlyDict [ (1, 100); (2, 200) ]
+// val table: System.Collections.Generic.IReadOnlyDictionary<int,int>
+
+table[1];;          // val it: int = 100
+
+table[99];;         // 💣 KeyNotFoundException
+
+do table[1] <- 111;;
+// ~~~~~~~~ 💥 Error FS0810: Property 'Item' cannot be set
+
+do table.Add(3, 300);;
+//       ~~~ 💥 Error FS0039: The type 'IReadOnlyDictionary<_,_>'
+//              does not define the field, constructor or member 'Add'.
+```
+
+---
+
+## Dictionaries: recommendation
+
+`dict` returns an object that does not implement fully `IDictionary<'k, 'v>`
+→ Violate the Liskov's substitution principle❗
+
+`readOnlyDict` returns an object that respects `IReadOnlyDictionary<'k, 'v>`
+
+👉 Prefer `readOnlyDict` to `dict` when possible
+
+---
+
+## Dictionaries: `KeyValue` active pattern
+
+Used to deconstruct a `KeyValuePair` dictionary entry to a `(key, value)` pair
+
+```fsharp
+// FSharp.Core / prim-types.fs#4983
+let (|KeyValue|) (kvp: KeyValuePair<'k, 'v>) : 'k * 'v =
+    kvp.Key, kvp.Value
+
+let table =
+    readOnlyDict
+        [ (1, 100)
+          (2, 200)
+          (3, 300) ]
+
+// Iterate through the dictionary
+for kv in table do // kv: KeyValuePair<int,int>
+    printfn $"{kv.Key}, {kv.Value}"
+
+// Same with the active pattern
+for KeyValue (key, value) in table do
+    printfn $"{key}, {value}"
+```
+
+---
+
+# Lookup performance
+
+🔗 _High Performance Collections in F#_ • https://kutt.it/dxDOi7 • Jan 2021
+
+### `Dictionary` _vs_ `Map`
+
+`readOnlyDict` creates **high-performance** dictionaries
+→ 10x faster than `Map` for lookups
+
+### `Dictionary` _vs_ `Array`
+
+~ Rough heuristics
+
+→ The `Array` type is OK for few lookups (< 100) and few elements (< 100)
+→ Use a `Dictionary` otherwise
+
+---
+
+# `Map` and `Set` _vs_ `IComparable`
+
+Only work if elements (of a `Set`) or keys (of a `Map`) are **comparable**!
+
+Examples:
+
+```fsharp
+// Classes are not comparable by default, so you cannot use them in a set or a map
+type NameClass(name: string) =
+    member val Value = name
+
+let namesClass = set [NameClass("Alice"); NameClass("Bob")]
+//                    ~~~~~~~~~~~~~~~~~~
+// 💥 Error FS0193: The type 'NameClass' does not support the 'comparison' constraint.
+//     For example, it does not support the 'System.IComparable' interface
+```
+
+---
+
+# `Map` and `Set`: `IComparable` types
+
+F# functional type: tuple, record, union
+
+```fsharp
+// Example: single-case union
+type Name = Name of string
+
+let names = set [Name "Alice"; Name "Bob"]
+```
+
+Structs:
+
+```fsharp
+[<Struct>]
+type NameStruct(name: string) =
+    member this.Name = name
+
+let namesStruct = set [NameStruct("Alice"); NameStruct("Bob")]
+```
+
+Classes implementing `IComparable`... _but not `IComparable<'T>`_ 🤷
 
 ---
 
@@ -537,33 +713,53 @@ Ne marchent que si éléments (d'un `Set`) / clés (d'une `Map`) sont **comparab
 
 # 3.
 
-## Les     Fonctions
+## Common functions
 
 ---
 
-# Accès à un élément
+# Common functions
 
-| ↓ Accès \ Renvoie → | `'T` ou 💥     | `'T option`     |
-|---------------------|----------------|-----------------|
-| Par index           | `list.[index]` |                 |
-|                     | `item index`   | `tryItem index` |
-| Premier élément     | `head`         | `tryHead`       |
-| Dernier élément     | `last`         | `tryLast`       |
+Functions available in different modules
+→ Customized for the target type
 
-→ Fonctions à préfixer par le module associé : `Array`, `List` ou `Seq`
-→ Dernier paramètre, la "collection", omis par concision
-→ 💥 `ArgumentException` ou `IndexOutOfRangeException`
+Operations: access, construct, find, select, aggregate...
 
-```fs
+---
+
+# Convention
+
+☝️ **Convention** used here:
+
+1. Functions are given by their name
+   - To use them, we need to qualify them by the module.
+2. The last parameter is omitted for brevity
+   - It's always the collection.
+
+**Example:** `head` _vs_ `List.head x`
+
+---
+
+# Access to an element
+
+| ↓ Access \ Returns → | `'T` or 💣    | `'T option`     |
+|----------------------|---------------|-----------------|
+| By index             | `list[index]` |                 |
+| By index             | `item index`  | `tryItem index` |
+| First element        | `head`        | `tryHead`       |
+| Last element         | `last`        | `tryLast`       |
+
+💣 `ArgumentException` or `IndexOutOfRangeException`
+
+```fsharp
 [1; 2] |> List.tryHead    // Some 1
 [1; 2] |> List.tryItem 2  // None
 ```
 
 ---
 
-# Accès à un élément : coût ⚠️
+## Access to an element : Cost ⚠️
 
-| Fonction \ Module | `Array` | `List` | `Seq`  |
+| Function \ Module | `Array` | `List` | `Seq`  |
 |-------------------|---------|--------|--------|
 | `head`            | O(1)    | O(1)   | O(1)   |
 | `item`            | O(1)    | O(n) ❗ | O(n) ❗ |
@@ -572,51 +768,40 @@ Ne marchent que si éléments (d'un `Set`) / clés (d'une `Map`) sont **comparab
 
 ---
 
-# Combiner des collections
+# Combine collections
 
-| Fonction       | Paramètre(s)                      | Taille finale      |
-|----------------|-----------------------------------|--------------------|
-| `append` / `@` | 2 collections de tailles N1 et N2 | N1 + N2            |
-| `concat`       | K collections de tailles N1..Nk   | N1 + N2 + ... + Nk |
-| `zip`          | 2 collections de même taille N ❗  | N tuples (x1, x2)  |
+| Function       | Parameters                      | Final size         |
+|----------------|---------------------------------|--------------------|
+| `append` / `@` | 2 collections of sizes N1 et N2 | N1 + N2            |
+| `concat`       | K collections of sizes N1..Nk   | N1 + N2 + ... + Nk |
+| `zip`          | 2 collections of same size N ❗ | N pairs            |
+| `allPairs`     | 2 collections of sizes N1 et N2 | N1 * N2 pairs      |
 
-💡 `@` = opérateur infixe alias de `List.append` uniquement ~~(Array, Seq)~~
+```fsharp
+List.concat [ [1]; [2; 3] ];;  // [1; 2; 3]
+List.append [1;2;3] [4;5;6];;  // [1; 2; 3; 4; 5; 6]
 
-```fs
-List.append [1;2;3] [4;5;6]  // [1; 2; 3; 4; 5; 6]
-[1;2;3] @ [4;5;6]            // idem
+// @ operator: alias of `List.append` only • not working with Array, Seq
+[1;2;3] @ [4;5;6];;            // [1; 2; 3; 4; 5; 6]
 
-List.concat [ [1]; [2; 3] ]  // [1; 2; 3]
-
-List.zip [1; 2] ['a'; 'b']   // [(1, 'a'); (2, 'b')]
+List.zip      [1; 2] ['a'; 'b'];;  // [(1, 'a'); (2, 'b')]
+List.allPairs [1; 2] ['a'; 'b'];;  // [(1, 'a'); (1, 'b'); (2, 'a'); (2, 'b')]
 ```
 
 ---
 
-# `List` : `::` *vs* `@`
+# Find an element
 
-*Cons* `1 :: [2; 3]`
-→ Élément ajouté en tête de liste → liste paraît en ordre inverse 😕
-→ Mais opération en **O(1)** 👍 -- *(Tail conservée)*
+Using a predicate `f : 'T -> bool`:
 
-*Append* `[1] @ [2; 3]`
-→ Liste en ordre normal
-→ Mais opération en **O(n)** ❗ -- *(Nouvelle Tail à chaque niveau)*
+| Which element \ Returns | `'T` or 💣      | `'T option`        |
+|-------------------------|-----------------|--------------------|
+| First found             | `find`          | `tryFind`          |
+| Last found              | `findBack`      | `tryFindBack`      |
+| Index of first found    | `findIndex`     | `tryFindIndex`     |
+| Index of last found     | `findIndexBack` | `tryFindIndexBack` |
 
----
-
-# Recherche d'un élément
-
-Via un prédicat `f : 'T -> bool` :
-
-| Quel élément \ Renvoie | `'T` ou 💥      | `'T option`        |
-|------------------------|-----------------|--------------------|
-| Premier trouvé         | `find`          | `tryFind`          |
-| Dernier trouvé         | `findBack`      | `tryFindBack`      |
-| Index du 1er trouvé    | `findIndex`     | `tryFindIndex`     |
-| Index du der trouvé    | `findIndexBack` | `tryFindIndexBack` |
-
-```fs
+```fsharp
 [1; 2] |> List.find (fun x -> x < 2)      // 1
 [1; 2] |> List.tryFind (fun x -> x >= 2)  // Some 2
 [1; 2] |> List.tryFind (fun x -> x > 2)   // None
@@ -624,15 +809,15 @@ Via un prédicat `f : 'T -> bool` :
 
 ---
 
-# Recherche d'éléments
+# Search elements
 
-| Recherche        | Combien d'éléments | Méthode          |
-|------------------|--------------------|------------------|
-| Par valeur       | Au moins un        | `contains value` |
-| Par prédicat `f` | Au moins un        | `exists f`       |
-| "                | Tous               | `forall f`       |
+| Search           | How many items | Function         |
+|------------------|----------------|------------------|
+| By value         | At least 1     | `contains value` |
+| By predicate `f` | At least 1     | `exists f`       |
+| "                | All            | `forall f`       |
 
-```fs
+```fsharp
 [1; 2] |> List.contains 0      // false
 [1; 2] |> List.contains 1      // true
 [1; 2] |> List.exists (fun x -> x >= 2)  // true
@@ -641,50 +826,50 @@ Via un prédicat `f : 'T -> bool` :
 
 ---
 
-# Sélection d'éléments
+# Select elements
 
-| Quels éléments    | Par nombre   | Par prédicat `f` |
-|-------------------|--------------|------------------|
-| Tous ceux trouvés |              | `filter f`       |
-| Premiers ignorés  | `skip n`     | `skipWhile f`    |
-| Premiers trouvés  | `take n`     | `takeWhile f`    |
-|                   | `truncate n` |                  |
+| What elements   | By size      | By predicate `f` |
+|-----------------|--------------|------------------|
+| All those found |              | `filter f`       |
+| First ignored   | `skip n`     | `skipWhile f`    |
+| First found     | `take n`     | `takeWhile f`    |
+|                 | `truncate n` |                  |
 
-☝ **Notes :**
-
-- Avec `skip` et `take`, 💥 exception si `n > list.Length` ; pas avec `truncate`
-- Alternative pour `Array` : sélection par *Range* `arr.[2..5]`
-
----
-
-# Mapping d'éléments
-
-Fonction prenant en entrée :
-→ Une fonction de mapping `f`
-→ Une collection d'éléments de type `'T`
-
-| Fonction  | Mapping `f`       | Retour      | Quel(s) élément(s) |
-|-----------|-------------------|-------------|--------------------|
-| `map`     | `'T -> 'U`        | `'U list`   | Autant d'éléments  |
-| `mapi`    | `int -> 'T -> 'U` | `'U list`   | idem               |
-| `collect` | `'T -> 'U list`   | `'U list`   | *flatMap*          |
-| `choose`  | `'T -> 'U option` | `'U list`   | Moins d'éléments   |
-| `pick`    | `'T -> 'U option` | `'U`        | 1er élément ou 💥  |
-| `tryPick` | `'T -> 'U option` | `'U option` | 1er élément        |
+☝ **Notes:**
+• `skip`, `take` _vs_ `truncate` when `n` > collection's size
+  → `skip`, `take`: 💣 exception
+  → `truncate`: empty collections w/o exception
+• Alternative for `Array`: _Range_ `arr[2..5]`
 
 ---
 
-## `map` *vs* `mapi`
+# Map elements
+
+Functions taking as input:
+→ A mapping function `f` (a.k.a. _mapper_)
+→ A collection of elements of type `'T`
+
+| Function  | Mapping `f`              | Returns     | How many elements?           |
+|-----------|--------------------------|-------------|------------------------------|
+| `map`     | `       'T -> 'U`        | `'U list`   | As many in than out          |
+| `mapi`    | `int -> 'T -> 'U`        | `'U list`   | As many in than out          |
+| `collect` | `       'T -> 'U list`   | `'U list`   | *flatMap*                    |
+| `choose`  | `       'T -> 'U option` | `'U list`   | Less                         |
+| `pick`    | `       'T -> 'U option` | `'U`        | 1 (the first matching) or 💣 |
+| `tryPick` | `       'T -> 'U option` | `'U option` | 1 (the first matching)       |
+
+---
+
+## `map` _vs_ `mapi`
 
 `mapi` ≡ `map` *with index*
 
-`map` : mapping `'T -> 'U` 
-→ Opère sur valeur de chaque élément
+The difference is on the `f` mapping parameter:
 
-`mapi` : mapping `int -> 'T -> 'U` 
-→ Opère sur index et valeur de chaque élément
+• `map`: `'T -> 'U`
+• `mapi`: `int -> 'T -> 'U` → the additional `int` parameter is the item index
 
-```fs
+```fsharp
 ["A"; "B"]
 |> List.mapi (fun i x -> $"{i+1}. {x}")
 // ["1. A"; "2. B"]
@@ -692,13 +877,13 @@ Fonction prenant en entrée :
 
 ---
 
-## Alternative à `mapi`
+## Alternative to `mapi`
 
-Hormis `map` et `iter`, aucune fonction `xxx` n'a de variante en `xxxi`.
+Apart from `map` and `iter`, no `xxx` function has a `xxxi` variant.
 
-💡 Utiliser `indexed` pour obtenir les éléments avec leur index
+💡 Use `indexed` to obtain elements with their index
 
-```fs
+```fsharp
 let isOk (i, x) = i >= 1 && x <= "C"
 
 ["A"; "B"; "C"; "D"]
@@ -709,18 +894,18 @@ let isOk (i, x) = i >= 1 && x <= "C"
 
 ---
 
-## `map` *vs* `iter`
+## `map` _vs_ `iter`
 
-`iter` ≡ `map` sans *mapping* : `f: 'T -> unit` *(= `Action` en C#)*
+`iter` looks like `map` with
+• no mapping: `'T -> unit` _vs_ `'T -> 'U`
+• no output: `unit` _vs_ `'U list`
 
-☝ Même si `map` marche, utiliser `iter` pour la compréhension du code
-→ Révèle intention d'itérer/parcourir la liste plutôt que de mapper ses éléments
+But `iter` is in fact used for a different use case:
+→ to trigger an action, a side-effect, for each item
 
-```fs
-// ❌ À éviter
-["A"; "B"; "C"] |> List.mapi (fun i x -> printfn $"Item #{i}: {x}")
+Example: print the item to the console
 
-// ✅ Recommandé
+```fsharp
 ["A"; "B"; "C"] |> List.iteri (fun i x -> printfn $"Item #{i}: {x}")
 // Item #0: A
 // Item #1: B
@@ -731,21 +916,27 @@ let isOk (i, x) = i >= 1 && x <= "C"
 
 ## `choose`, `pick`, `tryPick`
 
-Mapping `'T -> 'U option`
-→ Peut échouer en fonction des éléments
-→ Renvoie `Some value` pour indiquer le succès du mapping
-→ Exemple : `tryParseInt: string -> int option`
+Signatures:
+• `choose  : mapper: ('a -> 'b option) -> list: 'a list -> 'b list`
+• `pick    : mapper: ('a -> 'b option) -> list: 'a list -> 'b`
+• `tryPick : mapper: ('a -> 'b option) -> list: 'a list -> 'b option`
 
-`choose` et `pick` *unwrap* la/les valeurs dans les `Some`
+The mapping may return `None` for some items not mappable (or just ignored)
 
-`pick` émet une exception 💥 si aucun `Some` (= que des `None`)
-`tryPick` renvoie tel quel le 1er `Some`
+Different use cases:
+• `choose` to get all the mappable items mapped
+• `pick` or `tryPick` to get the first one
+
+When no items are mappable:
+• `choose` returns an empty collection
+• `tryPick` returns `None`
+• `pick` raises a `KeyNotFoundException` 💣
 
 ---
 
-## `choose`, `pick`, `tryPick` - Exemples
+## `choose`, `pick`, `tryPick` - Examples
 
-```fs
+```fsharp
 let tryParseInt (s: string) =
     match System.Int32.TryParse(s) with
     | true,  i -> Some i
@@ -758,135 +949,158 @@ let tryParseInt (s: string) =
 
 ---
 
-# Sélection *vs* mapping
+# Analogies
 
-- `filter` ou `choose` ?
-- `find`/`tryFind` ou `pick`/`tryPick` ?
+`choose f` ≃
+• `collect (f >> Option.to{Collection})`
+• `(filter (f >> Option.isSome)) >> (map (f >> Option.value))`
 
-`filter`, `find`/`tryFind` opèrent avec un **prédicat** `'T -> bool`, sans mapping
-
-`choose`, `pick`/`tryPick` opèrent avec un **mapping** `'T -> 'U option`
-
----
-
-# Sélection *vs* mapping (2)
-
-- `filter` ou `find`/`tryFind` ?
-- `choose` ou `pick`/`tryPick` ?
-
-`filter`, `choose` renvoient **tous** les éléments trouvés/mappés
-
-`find`, `pick` ne renvoient que le **1er** élément trouvé/mappé
+`(try)pick f` ≃
+• `(try)find(f >> Option.isSome)) >> f`
+• `choose f >> (try)head`
 
 ---
 
-# Agrégation : fonctions spécialisées
+# Aggregate : versatile functions
 
-| Opération | Sur élément | Sur projection `'T -> 'U` |
-|-----------|-------------|---------------------------|
-| Maximum   | `max`       | `maxBy projection`        |
-| Minimum   | `min`       | `minBy projection`        |
-| Somme     | `sum`       | `sumBy projection`        |
-| Moyenne   | `average`   | `averageBy projection`    |
-| Décompte  | `length`    | `countBy projection`      |
+• `fold       (f: 'U -> 'T -> 'U) (seed: 'U) list`
+• `foldBack   (f: 'T -> 'U -> 'U) list (seed: 'U)`
+• `reduce     (f: 'T -> 'T -> 'T) list`
+• `reduceBack (f: 'T -> 'T -> 'T) list`
 
-```fs
-[1; 2; 3] |> List.max  // 3
-[ (1,"a"); (2,"b"); (3,"c") ] |> List.sumBy fst  // 6
-[ (1,"a"); (2,"b"); (3,"c") ] |> List.map fst |> List.sum  // Equivalent explicite
-```
+folder `f` takes 2 parameters: an "accumulator" `acc` and the current element `x`
 
----
+`xxxBack` _vs_ `xxx`:
+• Iterates from last to first element
+• Parameters `seed` and `list` reversed (for `foldBack`)
+• Folder `f` parameters reversed (`x acc`)
 
-# Agrégation : fonctions génériques
-
-- `fold       (f: 'U -> 'T -> 'U) (seed: 'U) list`
-- `foldBack   (f: 'T -> 'U -> 'U) list (seed: 'U)`
-- `reduce     (f: 'T -> 'T -> 'T) list`
-- `reduceBack (f: 'T -> 'T -> 'T) list`
-
-☝ `f` prend 2 paramètres : un "accumulateur" `acc` et l'élément courant `x`
-
-⚠️ Fonctions `xxxBack` : tout est inversé / fonctions `xxx` !
-   → Parcours des éléments en sens inverse : dernier → 1er élément
-   → Paramètres `seed` et `list` inversés (pour `foldBack` *vs* `fold`)
-   → Paramètres `acc` et `x` de `f` inversés
-
-💥 `reduceXxx` plante si liste vide car 1er élément utilisé en tant que *seed*
+`reduceXxx` _vs_ `foldXxx`:
+• `reduceXxx` uses the first item as the _seed_ and performs no mapping
+• `reduceXxx` fails if the list is empty 💥
 
 ---
 
-# Agrégation : fonctions génériques (2)
+# Agrégation : versatile functions (2)
 
-Exemples :
+Examples:
 
-```fs
+```fsharp
 ["a";"b";"c"] |> List.reduce (+)  // "abc"
 [ 1; 2; 3 ] |> List.reduce ( * )  // 6
 
 [1;2;3;4] |> List.reduce     (fun acc x -> 10 * acc + x)  // 1234
 [1;2;3;4] |> List.reduceBack (fun x acc -> 10 * acc + x)  // 4321
 
-("", [1;2;3;4]) ||> List.fold     (fun acc x -> $"{acc}{x}")  // "1234"
-([1;2;3;4], "") ||> List.foldBack (fun x acc -> $"{acc}{x}")  // "4321"
+("all:", [1;2;3;4]) ||> List.fold     (fun acc x -> $"{acc}{x}")  // "all:1234"
+([1;2;3;4], "rev:") ||> List.foldBack (fun x acc -> $"{acc}{x}")  // "rev:4321"
 ```
 
 ---
 
-# Changer l'ordre des éléments
+# Aggregate : specialized functions
 
-| Opération        | Sur élément              | Sur projection `'T -> 'U` |
-|------------------|--------------------------|---------------------------|
-| Inversion        | `rev list`               |                           |
-| Tri ascendant    | `sort list`              | `sortBy f list`           |
-| Tri descendant   | `sortDescending list`    | `sortDescendingBy f list` |
-| Tri personnalisé | `sortWith comparer list` |                           |
+| Direct    | With mapping |
+|-----------|--------------|
+| `max`     | `maxBy`      |
+| `min`     | `minBy`      |
+| `sum`     | `sumBy`      |
+| `average` | `averageBy`  |
+| `length`  | `countBy`    |
 
-```fs
+`xxxBy f` ≃ `map f >> xxx`
+
+---
+
+# Aggregate : specialized functions (2)
+
+Examples:
+
+```fsharp
+[1; 2; 3] |> List.max  // 3
+
+[ (1,"a"); (2,"b"); (3,"c") ] |> List.sumBy fst  // 6
+
+["abc";"ab";"c";"a";"bc";"a";"b";"c"] |> List.countBy id
+// [("abc", 1); ("ab", 1); ("c", 2); ("a", 2); ("bc", 1); ("b", 1)]
+```
+
+---
+
+# `sum`: type constraints
+
+The `sum` functions only work if the type of elements in the collection includes:
+• a static `Zero` member
+• an overload of the `+` operator
+
+```fsharp
+type Point = Point of X:int * Y:int with
+    static member Zero = Point (0, 0)
+    static member (+) (Point (ax, ay), Point (bx, by)) = Point (ax + bx, ay + by)
+
+let addition = (Point (1, 1)) + (Point (2, 2))
+// val addition : Point = Point (3, 3)
+
+let sum = [1..3] |> List.sumBy (fun i -> Point (i, -i))
+// val sum : Point = Point (6, -6)
+```
+
+---
+
+# Change the order of elements
+
+| Operation   | Direct                   | Mapping                   |
+|-------------|--------------------------|---------------------------|
+| Inversion   | `rev list`               | ×                         |
+| Sort asc    | `sort list`              | `sortBy f list`           |
+| Sort desc   | `sortDescending list`    | `sortDescendingBy f list` |
+| Sort custom | `sortWith comparer list` | ×                         |
+
+```fsharp
 [1..5] |> List.rev // [5; 4; 3; 2; 1]
 [2; 4; 1; 3; 5] |> List.sort // [1..5]
-["b1"; "c3"; "a2"] |> List.sortBy (fun x -> x.[0]) // ["a2"; "b1"; "c3"] cf. a < b < c
-["b1"; "c3"; "a2"] |> List.sortBy (fun x -> x.[1]) // ["b1"; "a2"; "c3"] cf. 1 < 2 < 3
+["b1"; "c3"; "a2"] |> List.sortBy (fun x -> x[0]) // ["a2"; "b1"; "c3"] because a < b < c
+["b1"; "c3"; "a2"] |> List.sortBy (fun x -> x[1]) // ["b1"; "a2"; "c3"] because 1 < 2 < 3
 ```
 
 ---
 
-# Séparer
+# Separate
 
-💡 Les éléments sont répartis en groupes.
+💡 Elements are divided into groups.
 
-| Opération       | Résultat *(`;` omis)*                        | Remarque              |
+| Operation       | Result _(`;` omitted)_                       | Remark                |
 |-----------------|----------------------------------------------|-----------------------|
 | `[1..10]`       | `[ 1   2   3   4   5   6   7   8   9   10 ]` | `length = 10`         |
 | `chunkBySize 3` | `[[1   2   3] [4   5   6] [7   8   9] [10]]` | `forall: length <= 3` |
 | `splitInto 3`   | `[[1   2   3   4] [5   6   7] [8   9   10]]` | `length <= 3`         |
-| `splitAt 3`     | `([1   2   3],[4   5   6   7   8   9   10])` | Tuple ❗               |
+| `splitAt 3`     | `([1   2   3],[4   5   6   7   8   9   10])` | Tuple ❗              |
 
 ---
 
-# Grouper les éléments - Par taille
+# Group items - By size
 
-💡 Les éléments peuvent être **dupliqués** dans différents groupes.
+💡 Items can be **duplicated** into different groups.
 
-| Opération    | Résultat *(`'` et `;` omis)*           | Remarque                 |
-|--------------|----------------------------------------|--------------------------|
-| `[1..5]`     | `[ 1       2       3       4      5 ]` |                          |
-| `pairwise`   | `[(1,2)   (2,3)   (3,4)   (4,5)]`      | Tuple ❗                  |
-| `windowed 2` | `[[1 2]   [2 3]   [3 4]   [4 5]]`      | Tableau de tableaux de 2 |
-| `windowed 3` | `[[1 2 3] [2 3 4] [3 4 5]]`            | Tableau de tableaux de 3 |
+| Operation    | Result _(`'` and `;` omitted)_         | Remark                     |
+|--------------|----------------------------------------|----------------------------|
+| `[1..5]`     | `[ 1       2       3       4      5 ]` |                            |
+| `pairwise`   | `[(1,2)   (2,3)   (3,4)   (4,5)]`      | Tuple ❗                   |
+| `windowed 2` | `[[1 2]   [2 3]   [3 4]   [4 5]]`      | Array of arrays of 2 items |
+| `windowed 3` | `[[1 2 3] [2 3 4] [3 4 5]]`            | Array of arrays of 3 items |
 
 ---
 
-# Grouper les éléments - Par critère
+# Group items - By criteria
 
-| Opération   | Critère                  | Retour                                    |
-|-------------|--------------------------|-------------------------------------------|
-| `partition` | `predicate:  'T -> bool` | `('T list * 'T list)`                     |
-|             |                          | → 1 tuple `([OKs], [KOs])`                |
-| `groupBy`   | `projection: 'T -> 'K`   | `('K * 'T list) list`                     |
-|             |                          | → N tuples `[(clé, [éléments associés])]` |
+| Operation   | Criteria                 | Result                                |
+|-------------|--------------------------|---------------------------------------|
+| `partition` | `predicate:  'T -> bool` | `('T list * 'T list)`                 |
+|             |                          | → 1 pair `([OKs], [KOs])`             |
+| `groupBy`   | `projection: 'T -> 'K`   | `('K * 'T list) list`                 |
+|             |                          | → N tuples `[(key, [related items])]` |
 
-```fs
+```fsharp
 let isOdd i = (i % 2 = 1)
 [1..10] |> List.partition isOdd // (        [1; 3; 5; 7; 9] ,         [2; 4; 6; 8; 10]  )
 [1..10] |> List.groupBy isOdd   // [ (true, [1; 3; 5; 7; 9]); (false, [2; 4; 6; 8; 10]) ]
@@ -898,26 +1112,26 @@ let firstLetter (s: string) = s.[0]
 
 ---
 
-# Changer de type de collection
+# Change collection type
 
-Au choix : `Dest.ofSource` ou `Source.toDest`
+Your choice: `Dest.ofSource` or `Source.toDest`
 
-| De / vers | `Array`        | `List`         | `Seq`         |
-|-----------|----------------|----------------|---------------|
-| `Array`   | ×              | `List.ofArray` | `Seq.ofArray` |
-|           | ×              | `Array.toList` | `Array.toSeq` |
-| `List`    | `Array.ofList` | ×              | `Seq.ofList`  |
-|           | `List.toArray` | ×              | `List.toSeq`  |
-| `Seq`     | `Array.ofSeq`  | `List.ofSeq`   | ×             |
-|           | `Seq.toArray`  | `Seq.toList`   | ×             |
+| From \\ to | `Array`        | `List`         | `Seq`         |
+|------------|----------------|----------------|---------------|
+| `Array`    | ×              | `List.ofArray` | `Seq.ofArray` |
+|            | ×              | `Array.toList` | `Array.toSeq` |
+| `List`     | `Array.ofList` | ×              | `Seq.ofList`  |
+|            | `List.toArray` | ×              | `List.toSeq`  |
+| `Seq`      | `Array.ofSeq`  | `List.ofSeq`   | ×             |
+|            | `Seq.toArray`  | `Seq.toList`   | ×             |
 
 ---
 
-# Fonctions *vs* compréhension
+# Functions _vs_ comprehension
 
-Les fonctions de `List`/`Array`/`Seq` peuvent souvent être remplacées par une compréhension :
+The functions of `List`/`Array`/`Seq` can often be replaced by a comprehension, more versatile:
 
-```fs
+```fsharp
 let list = [ 0..99 ]
 
 list |> List.map f                   <->  [ for x in list do f x ]
@@ -928,35 +1142,65 @@ list |> List.collect g               <->  [ for x in list do yield! g x ]
 
 ---
 
-# Module `Map` : fonctions spécifiques
+<!-- _class: chapter invert -->
 
-## `Map.change` : modification intelligente
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_qualite.png)
 
-Signature : `Map.change key (f: 'T option -> 'T option) table`
+# 4.
 
-Selon la fonction `f` passée en argument, on peut :
-→ Ajouter, modifier ou supprimer l'élément d'une clé donnée
-
-| Entrée                               | Renvoie `None`                               | Renvoie `Some newVal`                                             |
-|--------------------------------------|----------------------------------------------|-------------------------------------------------------------------|
-| `None`<br>*(Élément absent)*         | Ignore cette clé                             | Ajoute l'élément *(key, newVal)*<br> ≡ `Map.add key newVal table` |
-| `Some value`<br>*(Élément existant)* | Supprime la clé<br> ≡ `Map.remove key table` | Passe la valeur à *newVal*<br> ≡ `Map.add key newVal table`       |
+## Dedicated functions
 
 ---
 
-## `Map` : `containsKey` *vs* `exists` *vs* `filter`
+# `List` module
+
+_Cons_ `1 :: [2; 3]`
+
+- Item added to top of list
+- List appears in reverse order 😕
+- But operation efficient: in **O(1)** _(`Tail` preserved)_ 👍
+
+_Append_ `[1] @ [2; 3]`
+
+- List in normal order
+- But operation in **O(n)** ❗ _(New `Tail` at each iteration)_
+
+---
+
+# `Map` module
+
+...
+
+---
+
+## `Map` : `change`
+
+Signature : `Map.change key (f: 'T option -> 'T option) table`
+
+Depending on the `f` function passed as an argument, we can:
+→ Add, modify or delete the element of a given key
+
+| Key       | Input        | `f` returns `None`       | `f` returns `Some newVal`    |
+|-----------|--------------|--------------------------|------------------------------|
+| -         | -            | ≡ `Map.remove key table` | ≡ `Map.add key newVal table` |
+| Found     | `Some value` | Remove the entry         | Change the value to _newVal_ |
+| Not found | `None`       | Ignore this key          | Add the item _(key, newVal)_ |
+
+---
+
+## `Map` : `containsKey` _vs_ `exists` _vs_ `filter`
 
 ```txt
-Fonction      Signature                        Commentaire                                             
-------------+--------------------------------+---------------------------------------------------------
-containsKey   'K -> Map<'K,'V> -> bool         Indique si la clé est présente                          
-exists         f -> Map<'K,'V> -> bool         Indique si un couple clé/valeur satisfait le prédicat   
-filter         f -> Map<'K,'V> -> Map<'K,'V>   Conserve les couples clé/valeur satisfaisant le prédicat
+Function      Signature                        Comment                                                   
+------------+--------------------------------+-----------------------------------------------------------
+containsKey   'K -> Map<'K,'V> -> bool         Indicates whether the key is present                      
+exists         f -> Map<'K,'V> -> bool         Indicates whether a key/value pair satisfies the predicate
+filter         f -> Map<'K,'V> -> Map<'K,'V>   Keeps key/value pairs satisfying the predicate            
 
-Avec prédicat f: 'K -> 'V -> bool
+With predicate f: 'K -> 'V -> bool
 ```
 
-```fs
+```fsharp
 let table = Map [ (2, "A"); (1, "B"); (3, "D") ]
 
 table |> Map.containsKey 0  // false
@@ -971,14 +1215,24 @@ table |> Map.filter (fun k v -> (isEven k) && (isFigure v))  // map [(2, "A")]
 
 ---
 
-# Module `String`
+# `Seq` module: `cache`
 
-`string` ≡ `Seq<char>` → Module `(FSharp.Core.)String` (≠ `System.String`) 
-→ Propose quelques fonctions similaires à celles de `Seq` en \+ performantes :
+As a sequence is lazy, it's reconstructed each time it's iterated. This reconstruction can be costly. An algorithm that iterates (even partially) an invariant sequence several times can be optimized by caching the sequence using the `Seq.cache` function.
 
-```fs
+Signature : `Seq.cache: source: 'T seq -> 'T seq`
+
+Caching is optimized by being deferred and performed only on the elements iterated.
+
+---
+
+# `String` module
+
+`string` ≡ `Seq<char>` functions + `String` *FSharp.Core* module / `System` class
+
+```fsharp
 String.concat (separator: string) (strings: seq<string>) : string
-String.init (count: int) (f: (index: int) -> string) : string
+
+String.init      (count: int) (f: (index: int) -> string) : string
 String.replicate (count: int) (s: string) : string
 
 String.exists (predicate: char -> bool) (s: string) : bool
@@ -988,14 +1242,14 @@ String.filter (predicate: char -> bool) (s: string) : string
 String.collect (mapping:        char -> string) (s: string) : string
 String.map     (mapping:        char -> char)   (s: string) : string
 String.mapi    (mapping: int -> char -> char)   (s: string) : string
-// Idem iter/iteri qui renvoie unit
+// Idem iter/iteri which returns unit
 ```
 
 ---
 
-# Module `String` - Exemples
+## `String` module - Examples
 
-```fs
+```fsharp
 let a = String.concat "-" ["a"; "b"; "c"]  // "a-b-c"
 let b = String.init 3 (fun i -> $"#{i}")   // "#0#1#2"
 let c = String.replicate 3 "0"             // "000"
@@ -1015,7 +1269,7 @@ let h = "abcd" |> String.map (fun c -> (int c) + 1 |> char)  // "bcde"
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# 4.
+# 5.
 
 ## 🍔 Quiz
 
@@ -1025,16 +1279,17 @@ let h = "abcd" |> String.map (fun c -> (int c) + 1 |> char)  // "bcde"
 
 # Question 1
 
-```fs
+#### What function should you use to `format` all `addresses`?
+
+```fsharp
 type Address = { City: string; Country: string }
 
 let format address = $"{address.City}, {address.Country}"
 
-let addresses: Address list = ...
-```
+let addresses: Address list = [...]
 
-**Quelle fonction de `List` utiliser sur `addresses`
-pour appliquer `format` aux éléments ?**
+let formattedAddresses = addresses |> List.??? format // ❓
+```
 
 **A.** `List.iter()`
 **B.** `List.map()`
@@ -1046,12 +1301,22 @@ pour appliquer `format` aux éléments ?**
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Réponse 1
+# Question 1 » Answer
+
+#### What function should you use to `format` all `addresses`?
+
+```fsharp
+type Address = { City: string; Country: string }
+
+let format address = $"{address.City}, {address.Country}"
+
+let addresses: Address list = [...]
+
+let formattedAddresses = addresses |> List.map format
+```
 
 **A.** `List.iter()` ❌
-
 **B.** `List.map()` ✅
-
 **C.** `List.sum()` ❌
 
 ---
@@ -1060,7 +1325,7 @@ pour appliquer `format` aux éléments ?**
 
 # Question 2
 
-#### Que vaut `[1..4] |> List.head` ?
+#### What is the returned value of `[1..4] |> List.head`?
 
 **A.** `[2; 3; 4]`
 
@@ -1074,17 +1339,15 @@ pour appliquer `format` aux éléments ?**
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Réponse 2
+# Question 2 » Answer
 
-#### `[1..4] |> List.head =`
+#### What is the returned value of `[1..4] |> List.head`?
 
-**A.** `[2; 3; 4]` ❌
-    *(Ne pas confondre avec `List.tail`)*
+**A.** `[2; 3; 4]` ❌ _(This is the result of `List.tail`)_
 
 **B.** `1` ✅
 
-**C.** `4` ❌
-    *(Ne pas confondre avec `List.last`)*
+**C.** `4` ❌ _(This is the result of `List.last`)_
 
 ---
 
@@ -1092,7 +1355,7 @@ pour appliquer `format` aux éléments ?**
 
 # Question 3
 
-#### Quelle est la bonne manière d'obtenir la moyenne d'une liste ?
+#### What's the right way to compute the average of a list?
 
 **A.** `[2; 4] |> List.average`
 
@@ -1106,15 +1369,17 @@ pour appliquer `format` aux éléments ?**
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Réponse 3
+# Question 3 » Answer
 
-#### Bonne manière d'obtenir la moyenne d'une liste :
+#### What's the right way to compute the average of a list?
 
 **A.** `[2; 4] |> List.average` ❌
-    💥 Error FS0001: Le type `int` ne prend pas en charge l'opérateur `DivideByInt`
+💥 **Error FS0001:** `List.average` does not support the type `int`,
+because the latter lacks the required (real or built-in) member `DivideByInt`
 
 **B.** `[2; 4] |> List.avg`
-    💥 Error FS0039: La valeur [...] `avg` n'est pas définie.
+💥 **Error FS0039:** The value, constructor, namespace or
+type `avg` is not defined.
 
 **C.** `[2.0; 4.0] |> List.average` ✅
     `val it : float = 3.0`
@@ -1125,23 +1390,27 @@ pour appliquer `format` aux éléments ?**
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
 
-# 5.
+# 6.
 
-## Le    Récap’
+## The    Recap
 
 ---
 
 # Types
 
-5 collections dont 4 fonctionnelles/immutables
+5 collections including 4 functional/immutable
 
-- `List` : choix par défaut
-  - *Passe-partout*
-  - *Pratique* : pattern matching, opérateurs *Cons* `::` et *Append* `@`...
-- `Array` : mutabilité / performance
-- `Seq` : évaluation différée (*Lazy*), séquence infinie
-- `Set` : unicité des éléments
-- `Map` : classement des éléments par clé
+`List`: default choice / _Versatile, Practical_
+→ `[ ]`, Operators: _Cons_ `::`, _Append_ `@`, Pattern matching
+
+`Array`: fixed-size, mutable, performance-oriented (e.g. indexer)
+→ `[| |]` less handy to write than `[ ]`
+
+`Seq`: deferred evaluation (_Lazy_), infinite sequence
+
+`Set`: unique elements
+
+`Map`: values by unique key
 
 ---
 
@@ -1149,15 +1418,19 @@ pour appliquer `format` aux éléments ?**
 
 # API
 
-**Riche** → Centaine de fonctions >> Cinquantaine pour LINQ
+**Rich**
+→ Hundreds of functions >> Fifty for LINQ
 
-**Homogène** → Syntaxe et fonctions communes
+**Consistency**
+→ Common syntax and functions
+→ Functions preserve the collection type (≠ LINQ sticked to `IEnumerable<>`)
 
-**Sémantique** → Nom des fonctions proche du JS
+**Semantic**
+→ Function names closer to JS
 
 ---
 
-## API - Comparatif C♯ / F♯ / JS
+## API - Comparison C♯ / F♯ / JS
 
 | C♯ LINQ                       | F♯                    | JS `Array`           |
 |-------------------------------|-----------------------|----------------------|
@@ -1173,35 +1446,47 @@ pour appliquer `format` aux éléments ?**
 
 ---
 
-# Exercices
+# BCL types
 
-Sur [exercism.io](https://exercism.io/tracks/fsharp) *(se créer un compte)*
+- `Array`
+- `ResizeArray` for C# List
+- _Dictionaries:_ `dict`, `readOnlyDict`
 
-| Exercice            | Niveau | Sujets                 |
-|---------------------|--------|------------------------|
-| High Scores         | Facile | `List`                 |
-| Protein Translation | Moyen+ | `Seq`/`List` 💡        |
-| ETL                 | Moyen  | `Map` de `List`, Tuple |
-| Grade School        | Moyen+ | `Map` de `List`        |
-
-💡 **Astuces :**
-→ `string` est une `Seq<char>`
-→ Quid de `Seq.chunkBySize` ?
+For interop or performance
 
 ---
 
-# Ressources complémentaires
+# 🕹️ Exercises @ [exercism.io](https://exercism.io/tracks/fsharp)
 
-*Toutes les fonctions, avec leur coût en O(?)*
+| Exercise            | Level   | Topics                 |
+|---------------------|---------|------------------------|
+| High Scores         | Easy    | `List`                 |
+| Protein Translation | Medium+ | `Seq`/`List` 💡        |
+| ETL                 | Medium  | `Map` of `List`, Tuple |
+| Grade School        | Medium+ | `Map` of `List`        |
+
+☝ **Pre-requisites:** \
+→ Create an account, with GitHub for instance \
+→ Solve the first exercises to unlock the access to the one above
+
+💡 **Tips:**
+→ `string` is a `Seq<char>`
+→ What about `Seq.chunkBySize`?
+
+---
+
+# 🔗 Additional resources
+
+_All functions, with their cost in O(?)_
 https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-collection-types#table-of-functions
 
-*Choosing between collection functions* (2015)
+_Choosing between collection functions_ (2015)
 https://fsharpforfunandprofit.com/posts/list-module-functions/
 
-*An F# Primer for curious C# developers - Work with collections* (2020)
+_An introduction to F# for curious C# developers - Working with collections_
 https://laenas.github.io/posts/01-fs-primer.html#work-with-collections
 
-*Formatage des collections*
+_Formatting collections_
 https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting#formatting-lists-and-arrays
 
 ---
