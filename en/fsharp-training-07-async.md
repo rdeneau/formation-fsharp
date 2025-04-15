@@ -2,8 +2,8 @@
 marp: true
 html: true
 theme: 'd-edge'
-title: 'F♯ Training • Programmation asynchrone'
-footer: 'F♯ Training • Programmation asynchrone'
+title: 'F♯ Training • Asynchronous programming'
+footer: 'F♯ Training • Asynchronous programming'
 paginate: true
 ---
 
@@ -11,7 +11,7 @@ paginate: true
 
 # F♯ Training
 
-## *Programmation asynchrone*
+## _Asynchronous programming_
 
 ### 2025 April
 
@@ -23,8 +23,8 @@ paginate: true
 
 ## Table of contents
 
-- *Workflow* asynchrone
-- Interop avec la TPL .NET
+- Asynchronous Workflow
+- Interop with .NET TPL
 
 ---
 
@@ -34,84 +34,85 @@ paginate: true
 
 # 1.
 
-## Workflow asynchrone
+## Asynchronous Workflow
 
 ---
 
-# Workflow asynchrone : Besoins
+# Asynchronous Workflow : Purpose
 
-1. Ne pas bloquer le thread courant en attendant un calcul long
-2. Permettre calculs en parallèle
-3. Indiquer qu'un calcul peut prendre du temps
-
----
-
-# Type `Async<'T>`
-
-- Représente un calcul asynchrone
-- Similaire au pattern `async/await` avant l'heure 📆
-  - 2007 : `Async<'T>` F♯
-  - 2012 : `Task<T>` .NET et pattern `async`/`await`
-  - 2017 : `Promise` JavaScript et pattern `async`/`await`
+1. Do not block the current thread while waiting for a long calculation
+2. Allow parallel calculations
+3. Indicate that a calculation may take some time
 
 ---
 
-# Méthodes renvoyant un objet `Async`
+# `Async<'T>` type
 
-`Async.AwaitTask(task: Task or Task<'T>) : Async<'T>`
-→ Conversion d'une `Task` (.NET) en `Async` (F♯)
+Represents an asynchronous calculation
+
+📆 Similar to the `async/await` pattern way before C♯ and JS
+
+- 2007: `Async<'T>` F♯
+- 2012: `Task<T>` .NET and pattern `async`/`await`
+- 2017: `Promise` JavaScript and pattern `async`/`await`
+
+---
+
+# Methods returning an `Async` object
+
+`Async.AwaitTask(task : Task or Task<'T>) : Async<'T>`
+→ Convert a `Task` (.NET) to `Async` (F♯)
 
 `Async.Sleep(milliseconds or TimeSpan) : Async<unit>`
-≃ `await Task.Delay()` ≠ `Thread.Sleep` → ne bloque pas le thread courant
+≃ `await Task.Delay()` ≠ `Thread.Sleep` → does not block current thread
 
-[FSharp.Control.CommonExtensions](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-commonextensions.html) : étend le type `System.IO.Stream`
+FSharp.Control `CommonExtensions` module: extends the `System.IO.Stream` type ([doc](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-commonextensions.html))
 → `AsyncRead(buffer: byte[], ?offset: int, ?count: int) : Async<int>`
 → `AsyncWrite(buffer: byte[], ?offset: int, ?count: int) : Async<unit>`
 
-[FSharp.Control.WebExtensions](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-webextensions.html) : étend le type `System.Net.WebClient`
-→ `AsyncDownloadData(address: Uri) : Async<byte[]>`
-→ `AsyncDownloadString(address: Uri) : Async<string`
+FSharp.Control `WebExtensions` module: extends type `System.Net.WebClient` ([doc](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-webextensions.html))
+→ `AsyncDownloadData(address : Uri) : Async<byte[]>`
+→ `AsyncDownloadString(address : Uri) : Async<string`
 
 ---
 
-# Lancement d'un calcul async
+# Run an async calculation
 
 `Async.RunSynchronously(calc: Async<'T>, ?timeoutMs: int, ?cancellationToken) : 'T`
-→ Attend la fin du calcul mais bloque le thread appelant ! (≠ `await` C♯) ⚠️
+→ Waits for the calculation to end, blocking the calling thread! (≠ `await` C♯) ⚠️
 
 `Async.Start(operation: Async<unit>, ?cancellationToken) : unit`
-→ Exécute l'opération en background *(sans bloqué le thread appelant)*
-⚠️ Si une exception survient, elle est "avalée" !
+→ Perform the operation in background _(without blocking calling thread)_
+⚠️ If an exception occurs, it is "swallowed"!
 
 `Async.StartImmediate(calc: Async<'T>, ?cancellationToken) : unit`
-→ Exécute le calcul dans le thread appelant !
-💡 Pratique dans une GUI pour la mettre à jour : barre de progression...
+→ Perform the calculation in the calling thread!
+💡 Useful in a GUI to update it: progress bar...
 
 `Async.StartWithContinuations(calc, continuations..., ?cancellationToken)`
-→ Idem `Async.RunSynchronously` ⚠️ ... avec 3 *callbacks* de continuation :
-→ en cas de succès ✅, d'exception 💥 et d'annulation 🛑
+→ Ditto `Async.RunSynchronously` ⚠️ ... with 3 _callbacks_ of continuation :
+→ on success ✅, exception 💥 and cancellation 🛑
 
 ---
 
-# Bloc `async { expression }`
+# `async { expression }` block
 
-*A.k.a. Async workflow*
+_A.k.a. Async workflow_
 
-Syntaxe pour écrire de manière séquentielle un calcul asynchrone
-→ Le résultat du calcul est wrappé dans un objet `Async`
+Syntax for sequentially writing an asynchronous calculation
+→ The result of the calculation is wrapped in an `Async` object
 
-**Mots clés**
-• `return` → valeur finale du calcul - `unit` si omis
-• `let!` *(prononcer « let bang »)*
-   → accès au résultat d'un sous-calcul async *(≃ `await` en C♯)*
-• `use!` → idem `use` *(gestion d'un `IDisposable`)* + `let!`
-• `do!` → idem `let!` pour calcul async sans retour (`Async<unit>`)
+**Key words**
+• `return` → final value of calculation • `unit` if omitted
+• `let!` → access to the result of an async sub-calculation _(≃ `await` in C♯)_
+• `use!` → ditto `use` _(management of an `IDisposable`)_ + `let!`
+• `do!` → ditto `let!` for async calculation without return (`Async<unit>`)
 
 ---
 
-## Bloc `async` - Exemples
+## `async` block - Examples
 
-```fs
+```fsharp
 let repeat (computeAsync: int -> Async<string>) times = async {
     for i in [ 1..times ] do
         printf $"Start operation #{i}... "
@@ -135,42 +136,45 @@ repeat basicOp 5 |> Async.RunSynchronously
 
 ---
 
-# Usage inapproprié de `Async.RunSynchronously`
+# Inappropriate use of `Async.RunSynchronously`
 
-`Async.RunSynchronously` lance le calcul et renvoie son résultat MAIS en bloquant le thread appelant ! Ne l'utiliser qu'en « bout de chaîne » et pas pour *unwrap* des calculs asynchrones intermédiaires ! Utiliser plutôt un bloc `async`.
+`Async.RunSynchronously` runs the calculation and returns the result BUT blocks the calling thread! Use it only at the "end of the chain" and not to _unwrap_ intermediate asynchronous calculations! Use an `async` block instead.
 
-```fs
-// ❌ À éviter
+```fsharp
+// ❌ Avoid
 let a = calcA |> Async.RunSynchronously
 let b = calcB a |> Async.RunSynchronously
 calcC b
 
-// ✅ À préférer
+// ✅ Favor
 async {
     let! a = calcA
     let! b = calcB a
     return calcC b
-} |> Async.RunSynchronously
+}
+|> Async.RunSynchronously
 ```
 
 ---
 
-# Calculs en parallèle
+# Parallel calculations
 
 **1.** `Async.Parallel(computations: seq<Async<'T>>, ?maxBranches) : Async<'T[]>`
 
-≃ `Task.WhenAll` : modèle [Fork-Join](https://en.wikipedia.org/wiki/Fork%E2%80%93join_model)
-- *Fork* : calculs lancés en parallèle
-- Attente de la terminaison de tous les calculs
-- *Join* : agrégation des résultats *(qui sont du même type)*
-  - dans le même ordre que les calculs
+≃ `Task.WhenAll` : [Fork-Join model](https://en.wikipedia.org/wiki/Fork%E2%80%93join_model)
+
+- _Fork_: calculations run in parallel
+- Wait for all calculations to finish
+- _Join_: aggregation of results _(which are of the same type)_
+  - in the same order as calculations
+
+⚠️ All calculations must return the same type!
 
 ---
 
-## `Async.Parallel` - Exemple
+## `Async.Parallel` - Example
 
-
-```fs
+```fsharp
 let downloadSite (site: string) = async {
     do! Async.Sleep (100 * site.Length)
     printfn $"{site} ✅"
@@ -191,45 +195,45 @@ let downloadSite (site: string) = async {
 
 ---
 
-# Calculs en parallèle (2)
+# Parallel calculations (2)
 
 **2.** `Async.StartChild(calc: Async<'T>, ?timeoutMs: int) : Async<Async<'T>>`
 
-Permet de lancer en parallèle plusieurs calculs
-→ ... dont les résultats sont de types différents _(≠ `Async.Parallel`)_
+Allows several calculations to be run in parallel
+→ ... whose results are of different types _(≠ `Async.Parallel`)_
 
-S'utilise dans bloc `async` avec 2 `let!` par calcul enfant *(cf. `Async<Async<'T>>`)*
+Used in `async` block with 2 `let!` per child calculation _(cf. `Async<Async<'T>>`)_
 
-Annulation conjointe 📍
-→ Calcul enfant partage jeton d’annulation du calcul parent
+**Shared cancellation** 📍
+→ Child calculation shares cancellation token with its parent calculation
 
 ---
 
-## `Async.StartChild` - Exemple partie 1
+## `Async.StartChild` - Example part 1
 
-Soit le fonction `delay`
-→ qui renvoie la valeur spécifiée `x`
-→ au bout de `ms` millisecondes
+Let's first define a function `delay`
+→ which returns the specified value `x`
+→ after `ms` milliseconds
 
-```fs
+```fsharp
 let delay (ms: int) x = async {
     do! Async.Sleep ms
     return x
 }
 
-// 💡 Minutage avec la directive FSI `#time` • 🔗 https://kutt.it/Zbp6ot
-#time "on"  // --> Minutage activé
-"a" |> delay 100 |> Async.RunSynchronously // Réel : 00:00:00.111, Proc...
-#time "off" // --> Minutage désactivé
+// 💡 Timing with FSI directive `#time` - 🔗 https://kutt.it/Zbp6ot
+#time "on" // --> Timer start
+"a" |> delay 100 |> Async.RunSynchronously // Real: 00:00:00.111, CPU...
+#time "off" // --> Timer stop
 ```
 
 ---
 
 <!-- _footer: "" -->
 
-## `Async.StartChild` - Exemple partie 2
+## `Async.StartChild` - Example part 2
 
-```fs
+```fsharp
 let inSeries = async {
     let! result1 = "a" |> delay 100
     let! result2 = 123 |> delay 200
@@ -245,36 +249,36 @@ let inParallel = async {
 }
 
 #time "on"
-inSeries |> Async.RunSynchronously    // Réel : 00:00:00.317, ...
+inSeries |> Async.RunSynchronously    // Real: 00:00:00.317, ...
 #time "off"
 #time "on"
-inParallel |> Async.RunSynchronously  // Réel : 00:00:00.205, ...
+inParallel |> Async.RunSynchronously  // Real: 00:00:00.205, ...
 #time "off"
 ```
 
 ---
 
-# Annulation d'une tâche
+# Cancelling a task
 
-Se base sur un `CancellationToken/Source` par défaut ou explicite :
+Based on a default or explicit `CancellationToken/Source`:
 • `Async.RunSynchronously(computation, ?timeout, ?cancellationToken)`
 • `Async.Start(computation, ?cancellationToken)`
 
-Déclencher l'annulation
-• Token explicite + `cancellationTokenSource.Cancel()`
-• Token explicite avec timeout `new CancellationTokenSource(timeout)`
-• Token par défaut : `Async.CancelDefaultToken()` → `OperationCanceledException`💥
+Trigger cancellation
+• Explicit token + `cancellationTokenSource.Cancel()`
+• Explicit token with timeout `new CancellationTokenSource(timeout)`
+• Default token: `Async.CancelDefaultToken()` → `OperationCanceledException` 💣
 
-Vérifier l'annulation
-• Implicite : à chaque mot clé dans bloc async : `let`, `let!`, `for`...
-• Explicite local : `let! ct = Async.CancellationToken` puis `ct.IsCancellationRequested`
-• Explicite global : `Async.OnCancel(callback)`
+Check cancellation
+• Implicit: at each keyword in async block: `let`, `let!`, `for`...
+• Explicit local: `let! ct = Async.CancellationToken` then `ct.IsCancellationRequested`.
+• Explicit global: `Async.OnCancel(callback)`
 
 ---
 
-## Annulation d'une tâche - Exemple - Partie 1
+## Cancelling a task - Example Part 1
 
-```fs
+```fsharp
 let sleepLoop = async {
     let stopwatch = System.Diagnostics.Stopwatch()
     stopwatch.Start()
@@ -288,13 +292,17 @@ let sleepLoop = async {
         do! Async.Sleep 500
         log $"  Completed ✅"
 }
+
+// ...
 ```
 
 ---
 
-## Annulation d'une tâche - Exemple - Partie 2
+## Cancelling a task - Example Part 2
 
-```fs
+```fsharp
+// ...
+
 open System.Threading
 
 printfn "1. RunSynchronously:"
@@ -315,7 +323,7 @@ Async.Start(sleepLoop, cancellationByTimeoutSource.Token)
 
 <!-- _footer: '' -->
 
-## Annulation d'une tâche - Exemple - Outputs
+## Cancelling a task - Example Outputs
 
 ```txt
 1. RunSynchronously:
@@ -348,33 +356,33 @@ Async.Start(sleepLoop, cancellationByTimeoutSource.Token)
 
 # 2.
 
-## Interop avec TPL .NET
+## Interop with .NET TPL
 
-TPL : Task Parallel Library
-
----
-
-# Interaction avec librairie .NET
-
-Librairies asynchrones en .NET et pattern `async`/`await` C♯ :
-→ Basés sur **TPL** et le type `Task`
-
-Passerelles avec worflow asynchrone F♯ :
-
-- Fonctions `Async.AwaitTask` et `Async.StartAsTask`
-- Bloc `task {}`
+**TPL:** Task Parallel Library
 
 ---
 
-# Fonctions passerelles
+# Interaction with .NET libraries
+
+Asynchronous libraries in .NET and the `async`/`await` C♯ pattern:
+→ Based on **TPL** and the `Task` type
+
+Gateways with asynchronous worflow F♯ :
+
+- `Async.AwaitTask` and `Async.StartAsTask` functions
+- `task {}` block
+
+---
+
+# Gateway functions
 
 `Async.AwaitTask: Task<'T> -> Async<'T>`
-→ Consommer une librairie .NET asynchrone dans bloc `async`
+→ Consume an asynchronous .NET library in `async` block
 
 `Async.StartAsTask: Async<'T> -> Task<'T>`
-→ Lancer un calcul async sous forme de `Task`
+→ Launch an async calculation as a `Task`
 
-```fs
+```fsharp
 let getValueFromLibrary param = async {
     let! value = DotNetLibrary.GetValueAsync param |> Async.AwaitTask
     return value
@@ -384,18 +392,19 @@ let computationForCaller param =
     async {
         let! result = getAsyncResult param
         return result
-    } |> Async.StartAsTask
+    }
+    |> Async.StartAsTask
 ```
 
 ---
 
-# Bloc `task {}`
+# `task {}` block
 
-> Permet de consommer directement une librairie .NET asynchrone en ne faisant qu'un seul `Async.AwaitTask` plutôt que 1 à chaque méthode appelée
+> Allows to consume an asynchronous .NET library directly, using a single `Async.AwaitTask` rather than 1 for each async method called.
 
-💡 Disponible en F♯ 6 ou via package nuget [Ply](https://github.com/crowded/ply)
+💡 Available since F♯ 6 _(before: [Ply](https://github.com/crowded/ply) package nuget)_
 
-```fs
+```fsharp
 #r "nuget: Ply"
 open FSharp.Control.Tasks
 
@@ -412,57 +421,38 @@ task {
 
 # `Async` *vs* `Task`
 
-#### 1. Mode de démarrage du calcul
+#### 1. Calculation start mode
 
-`Task` = *hot tasks* → calculs démarrés immédiatement❗
+`Task` = _hot tasks_ → calculations started immediately❗
 
-`Async` = *task generators* = spécification de calculs, indépendante du démarrage
-→ Approche fonctionnelle : sans effet de bord ni mutation, composabilité
-→ Contrôle du mode de démarrage : quand et comment 👍
+`Async` = _task generators_ = calculation specification, independent of startup
+→ Functional approach: no side-effects or mutations, composability
+→ Control of startup mode: when and how 👍
 
-#### 2. Support de l'annulation
+#### 2. Cancellation support
 
-`Task` : en ajoutant un paramètre `CancellationToken` aux méthodes async
-→ Oblige à tester manuellement si token est annulé = fastidieux + _error prone❗_
+`Task`: by adding a `CancellationToken` parameter to async methods
+→ Forces manual testing if token is canceled = tedious + _error prone❗_
 
-`Async` : support automatique dans les calculs - token à fournir au démarrage 👍
+`Async`: automatic support in calculations - token to be provided at startup 👍
 
 ---
 
-# Pièges du pattern `async`/`await` en C♯
+# Recommendation for async function in F♯
 
-#### Piège 1 - Vraiment asynchrone ?
+C♯ `async` applied at a method level
+≠ F♯ `async` defines an async block, not an async function
 
-En C♯ : méthode `async` reste sur le thread appelant jusqu'au 1er `await`
-→ Sentiment trompeur d'être asynchrone dans toute la méthode
+☝ **Recommendation:**
+» Put the entire body of the async function in an `async` block.
 
-```cs
-async Task WorkThenWait() {
-    Thread.Sleep(1000);           // ⚠️ Bloque thread appelant !
-    await Task.Delay(1000);       // Vraiment async à partir d'ici 🤔
-}
-```
-
-En F♯ : `async` ne définit pas une fonction mais un **bloc**
-
-```fs
+```fsharp
+// ❌ Avoid
 let workThenWait () =
     Thread.Sleep(1000)
-    async { do! Async.Sleep(1000) }   // Async que dans ce bloc 🧐
-```
+    async { do! Async.Sleep(1000) } // Async only in this block 🧐
 
----
-
-## Préconisation pour fonction asynchrone en F♯
-
-Fonction asynchrone = renvoyant un `Async<_>`
-→ On s'attend à ce qu'elle soit **totalement** asynchrone
-→ Fonction précédente `workThenWait` ne respecte pas cette attente
-
-☝ **Préconisation :**
-» Mettre tout le corps de la fonction asynchrone dans un bloc `async`
-
-```fs
+// ✅ Prefer
 let workThenWait () = async {
     Thread.Sleep(1000)
     printfn "work"
@@ -472,22 +462,43 @@ let workThenWait () = async {
 
 ---
 
-# Piège 2 - Omettre le `await` en C♯
+# Pitfalls of the `async`/`await` C♯ pattern
 
-```cs
+1. Really asynchronous?
+2. Omit the `await`
+
+---
+
+## Pitfall 1 - Really asynchronous?
+
+In C♯: method `async` remains on the calling thread until the 1st `await`
+→ Misleading feeling of being asynchronous throughout the method
+
+```csharp
+async Task WorkThenWait() {
+    Thread.Sleep(1000); // ⚠️ Blocks calling thread !
+    await Task.Delay(1000); // Really async from here 🤔
+}
+```
+
+---
+
+## Pitfall 2 - Omit the `await`
+
+```csharp
 async Task PrintAfterOneSecond(string message) {
     await Task.Delay(1000);
     Console.WriteLine($"[{DateTime.Now:T}] {message}");
 }
 
 async Task Main() {
-    PrintAfterOneSecond("Before"); // ⚠️ Manque `await`→ warning CS4014
+    PrintAfterOneSecond("Before"); // ⚠️ Missing `await`→ warning CS4014
     Console.WriteLine($"[{DateTime.Now:T}] After");
     await Task.CompletedTask;
 }
 ```
 
-Cela compile 📍 et produit un résultat inattendu _After_ avant _Before❗_
+Compiles but returns unexpected result: _After_ before _Before_❗
 
 ```txt
 [11:45:27] After
@@ -496,21 +507,21 @@ Cela compile 📍 et produit un résultat inattendu _After_ avant _Before❗_
 
 ---
 
-# Piège 2 - Équivalent en F♯
+## Pitfall 2 - In F♯ too 😢
 
-```fs
+```fsharp
 let printAfterOneSecond message = async {
     do! Async.Sleep 1000
     printfn $"[{DateTime.Now:T}] {message}"
 }
 
 async {
-    printAfterOneSecond "Before" // ⚠️ Manque `do!` → warning FS0020
+    printAfterOneSecond "Before" // ⚠️ Missing `do!` → warning FS0020
     printfn $"[{DateTime.Now:T}] After"
 } |> Async.RunSynchronously
 ```
 
-Cela compile aussi 📍 et produit un autre résultat inattendu : pas de _Before❗_
+Compiles but returns another unexpected result: no _Before_ at all ⁉️
 
 ```txt
 [11:45:27] After
@@ -518,20 +529,20 @@ Cela compile aussi 📍 et produit un autre résultat inattendu : pas de _Before
 
 ---
 
-# Piège 2 - Étude des warnings
+# Pitfall 2 - Compilation warnings
 
-Les exemples précédemment compilent mais avec des gros *warnings* !
+The previous examples compile but with big _warnings_!
 
-En C♯, le [*warning CS4014*](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs4014) indique :
-❝ *Because this call is not awaited, execution of the current method continues
-   before the call is completed. Consider applying the `await` operator...* ❞
+C♯ [_warning CS4014_](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs4014) message:
+❝ _Because this call is not awaited, execution of the current method continues
+   before the call is completed. Consider applying the `await` operator..._ ❞
 
-En F♯, le *warning FS0020* est accompagné du message :
-❝ *The result of this expression has type `Async<unit>` and is implicitly ignored.
-   Consider using `ignore` to discard this value explicitly...* ❞
+F♯ _warning FS0020_ message:
+❝ _The result of this expression has type `Async<unit>` and is implicitly ignored.
+   Consider using `ignore` to discard this value explicitly..._ ❞
 
-☝ **Préconisation :** veillez à **toujours** traiter ce type de *warning* !
-    *C'est encore \+ crucial en F♯ où la compilation est \+ délicate.*
+☝ **Recommendation:** be sure to **always** handle this type of _warnings_!
+    _This is even more crucial in F♯ where compilation is tricky._
 
 ---
 
@@ -541,28 +552,28 @@ En F♯, le *warning FS0020* est accompagné du message :
 
 # 3.
 
-## Le    Récap’
+## The    Recap
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_note.png)
 
-# Programmation asynchrone en F♯
+# Asynchronous programming in F♯
 
-Via bloc `async {}` en F♯ pur
-→ Similaire mais antérieur au pattern `async`/`await`
-→ Permet d'éviter quelques pièges du `async`/`await`
-→ Oblige à démarrer manuellement calcul
-→ Mais compilation empêche d'oublier
+Via `async {}` block in pure F♯
+→ Similar to C♯ `async`/`await` pattern but prior
+→ Avoids some of the pitfalls of the `async`/`await` pattern
+→ Requires manual start of calculation
+→ But compilation prevents forgetting it
 
-Via bloc `task {}`
-→ Facilite interactions avec librairie .NET asynchrone
+Via `task {}` block
+→ Facilitates interaction with asynchronous .NET library
 
 ---
 
-# Ressources complémentaires
+# 🔗 Additional resources
 
-🔗 https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/async
+https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/async
 
 ---
 
