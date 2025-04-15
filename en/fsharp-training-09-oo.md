@@ -2,8 +2,8 @@
 marp: true
 html: true
 theme: 'd-edge'
-title: 'F♯ Training • Orienté-objet'
-footer: 'F♯ Training • Orienté-objet'
+title: 'F♯ Training • Object-oriented'
+footer: 'F♯ Training • Object-oriented'
 paginate: true
 ---
 
@@ -16,7 +16,7 @@ paginate: true
 
 # F♯ Training
 
-## *Orienté-objet*
+## *Object-oriented*
 
 ### 2025 April
 
@@ -24,17 +24,17 @@ paginate: true
 
 # Introduction
 
-En F♯, orienté-objet parfois \+ pratique que style fonctionnel.
+In F♯, object-oriented sometimes \+ practical than functional style.
 
-Briques permettant l'orienté-objet en F♯ :
+Object-oriented bricks in F♯:
 
-1. Membres
-   - Méthodes, propriétés, opérateurs
-   - Consistent à attacher des fonctionnalités directement dans le type
-   - Permettent d'encapsuler l'état (en particulier mutable) de l'objet
-   - S'utilisent avec la notation "pointée" `my-object.my-member`
-2. Interfaces et classes
-   - Supports de l'abstraction par héritage
+1. Members
+   - Methods, properties, operators
+   - Attach functionalities directly to the type
+   - Encapsulate the object's state (particularly if mutable)
+   - Used with object dotting `my-object.my-member`
+2. Interfaces and classes
+   - Support abstraction through inheritance
 
 ---
 
@@ -44,27 +44,27 @@ Briques permettant l'orienté-objet en F♯ :
 
 ## Table of contents
 
-1. Membres : méthodes, propriétés, opérateurs
-2. Extensions de type
-3. Classe, structure
-4. Interface
-5. Expression objet
+- Members: methods, properties, operators
+- Type extensions
+- Class, structure
+- Interface
+- Object expression
 
 ---
 
-# Polymorphisme
+# Polymorphism
 
-4e pilier de l'orienté-objet
+4th pillar of object-oriented programming
 
-En fait, il existe plusieurs polymorphismes. Les principaux :
+In fact, there are several polymorphisms. The main ones are:
 
-1. Par sous-typage : celui évoqué classiquement avec l'orienté-objet
-   → Type de base définissant membres abstraits ou virtuels
-   → Sous-types en héritant et implémentant ces membres
-2. Ad hoc/overloading → surcharge de membres de même nom
-3. Paramétrique → génériques en C♯, Java, TypeScript
-4. Structurel/duck-typing → SRTP en F♯, typage structurel en TypeScript
-5. Higher-kinded → classes de type en Haskell
+1. By sub-typing: the one classically evoked with object-orientation
+   → Basic type defining abstract or virtual members
+   → Subtypes inheriting and implementing these members
+2. Ad hoc/overloading → overloading of members with the same name
+3. Parametric → generic in C♯, Java, TypeScript
+4. Structural/duck-typing → SRTP in F♯, structural typing in TypeScript
+5. Higher-kinded → type classes in Haskell
 
 ---
 
@@ -74,113 +74,112 @@ En fait, il existe plusieurs polymorphismes. Les principaux :
 
 # 1.
 
-## Les   Membres
+## *Members* ───────
 
 ---
 
-# Membres
+# Members
 
-Éléments complémentaires dans définition d'un type *(classe, record, union)*
+Additional elements in type definition *(class, record, union)*
 
-- *(Événement)*
-- Méthode
-- Propriété
-- Propriété indexée
-- Surcharge d'opérateur
-
----
-
-# Membres statiques et d'instance
-
-Membre statique : `static member member-name ...`
-
-Membre d'instance :
-→ Membre concret : `member self-identifier.member-name ...`
-→ Membre abstrait : `abstract member member-name : type-signature`
-→ Membre virtuel = nécessite 2 déclarations
-    1. Membre abstrait
-    2. Implémentation par défaut : `default self-identifier.member-name ...`
-→ Surcharge d'un membre virtuel : `override self-identifier.member-name ...`
-
-☝ `member-name` en PascalCase *(convention .NET)*
-☝ Pas de membre `protected` ou `private` !
+- (Event)
+- Method
+- Property
+- Indexed property
+- Operator overload
 
 ---
 
-# *Self identifier*
+# Static and instance members
 
-En C♯, Java, TypeScript : `this`
-En VB : `Me`
-En F♯ : au choix → `this`, `self`, `me`, n'importe quel *identifier* valide...
+Static member: `static member member-name ...`.
 
-Définissable de 3 manières complémentaires :
+Instance member:
+→ Concrete member: `member self-identifier.member-name ...`
+→ Abstract member: `abstract member member-name: type-signature`
+→ Virtual member = requires 2 declarations
+    1. Abstract member
+    2. Default implementation: `default self-identifier.member-name ...`
+→ Override virtual member: `override self-identifier.member-name ...`
 
-1. Pour le constructeur primaire : avec `as` → `type MyClass() as self = ...`
-2. Pour un membre : `member me.Introduce() = printfn $"Hi, I'm {me.Name}"`
-3. Pour un membre ne l'utilisant pas : avec `_` → `member _.Hi() = printfn "Hi!"`
-
----
-
-# Appeler un membre
-
-💡 Mêmes règles quand C♯
-
-Appeler un membre statique
-→ Préfixer par le nom du type : `type-name.static-member-name`
-
-Appeler un membre d'instance à l'intérieur du type
-→ Préfixer avec *self-identifier* : `self-identifier.instance-member-name`
-
-Appeler un membre d'instance depuis l'extérieur
-→ Préfixer avec le nom de l'instance : `instance-name.instance-member-name`
+☝ `member-name` in PascalCase *(.NET convention)*
+☝ No `protected` member !
 
 ---
 
-# Méthode
+# *Self-identifier*
 
-Méthode ≃ Fonction attachée directement à un type
+In C♯, Java, TypeScript : `this`
+In VB : `Me`
+In F♯ : we can choose → `this`, `self`, `me`, any valid *identifier*...
 
-2 formes de déclaration des paramètres :
+**Declaration:**
 
-1. Paramètres curryfiés = Style FP
-2. Paramètres en tuple = Style OOP
-   - Meilleure interop avec C♯
-   - Seul mode autorisé pour les constructeurs
-   - Support des paramètres nommés, optionnels, en tableau
-   - Support des surcharges *(overloads)*
+1. For the primary constructor❗: with `as` → `type MyClass() as self = ...`
+   - ⚠️ Can be costly
+2. For a member: `member me.Introduce() = printfn $"Hi, I'm {me.Name}"`
+3. For a member not using it: with `_` → `member _.Hi() = printfn "Hi!"`
 
 ---
 
-<!-- _footer: '' -->
+# Call a member
 
-# Méthode (2)
+💡 Same rules than for C♯
+
+Calling a static member
+→ Prefix with the type name: `type-name.static-member-name`
+
+Calling an instance member inside the type
+→ Prefix with *self-identifier*: `self-identifier.instance-member-name`
+
+Call an instance member from outside the type
+→ Prefix with instance-name: `instance-name.instance-member-name`
+
+---
+
+# Method
+
+≃ Function attached directly to a type
+
+2 forms of parameter declaration:
+
+1. Curried parameters = FP style
+2. Parameters in tuple = OOP style
+   - Better interop with C♯
+   - Only mode allowed for constructors
+   - Support named, optional, arrayed parameters
+   - Support overloads
+
+---
+
+# Method (2)
 
 ```fsharp
-// (1) Forme en tuple (la + classique)
+// (1) Tuple form (the most classic)
 type Product = { SKU: string; Price: float } with
     member this.TupleTotal(qty, discount) =
         (this.Price * float qty) - discount  // (A)
 
-// (2) Forme currifiée
+// (2) Curried form
 type Product' =
     { SKU: string; Price: float }
     member me.CurriedTotal qty discount =
         (me.Price * float qty) - discount  // (B)
 ```
 
-☝ `with` nécessaire en ① mais pas en ② à cause de l'indentation
-    → `end` peut terminer le bloc commencé avec `with`
+☝ `with` required in ① but not in ② because of indentation
+    → `end` can end the block started with `with` *(not recommended)*
 
-☝ `this.Price` Ⓐ et `me.Price` Ⓑ
-    → Accès à l'instance via le *self-identifier* défini par le membre
+☝ `this.Price` Ⓐ and `me.Price` Ⓑ
+    → Access to instance via *self-identifier* defined by member
 
 ---
 
 <!-- _footer: '' -->
 
-# Arguments nommés
+# Named arguments
 
-Permet d'appeler une méthode tuplifiée en spécifiant le nom des paramètres :
+Calls a tuplified method by specifying parameter names:
 
 ```fsharp
 type SpeedingTicket() =
@@ -191,34 +190,34 @@ type SpeedingTicket() =
         if x.SpeedExcess(limit = 55, speed = 70) < 20 then 50.0 else 100.0
 ```
 
-Pratique pour :
-→ Clarifier un usage pour le lecteur ou le compilateur (en cas de surcharges)
-→ Choisir l'ordre des arguments
-→ Ne spécifier que certains arguments, les autres étant optionnels
+Useful for :
+→ Clarify a usage for the reader or compiler (in case of overloads)
+→ Choose the order of arguments
+→ specify only certain arguments, the others being optional
 
-☝ Les arguments *après un argument nommé* sont forcément nommés eux-aussi
-
----
-
-# Paramètres optionnels
-
-Permet d'appeler une méthode tuplifiée sans spécifier tous les paramètres.
-
-Paramètre optionnel :
-• Déclaré avec `?` devant son nom → `?arg1: int`
-• Dans le corps de la méthode, wrappé dans une `Option` → `arg1: int option`
-   → On peut utiliser `defaultArg` pour indiquer la **valeur par défaut**
-   → Mais la valeur par défaut n'apparaît pas dans la signature !
-
-Lors de l'appel de la méthode, l'argument est spécifiable au choix :
-• Directement dans son type → `M(arg1 = 1)`
-• Wrappé dans une `Option` si nommé avec préfixe `?` → `M(?arg1 = Some 1)`
-
-☝ Autre syntaxe pour interop .NET : `[<Optional; DefaultParameterValue(...)>] arg`
+☝ Arguments *after a named argument* are necessarily named too.
 
 ---
 
-# Paramètres optionnels : exemples
+# Optional parameters
+
+Allows you to call a tuplified method without specifying all the parameters.
+
+Optional parameter:
+• Declared with `?` in front of its name → `?arg1: int`
+• In the body of the method, wrapped in an `Option` → `arg1: int option`
+   → You can use `defaultArg` to specify the **default value**
+   → But the default value does not appear in the signature!
+
+When the method is called, the argument can be specified either:
+• Directly in its type → `M(arg1 = 1)`
+• Wrapped in an `Option` if named with prefix `?` → `M(?arg1 = Some 1)`
+
+☝ Other syntax for interop .NET: `[<Optional; DefaultParameterValue(...)>] arg`
+
+---
+
+# Optional parameters: Examples
 
 ```fsharp
 type DuplexType = Full | Half
@@ -235,15 +234,15 @@ let conn2 = Connection(?duplex = Some Half)
 let conn3 = Connection(300, Half, true)
 ```
 
-☝ Noter le *shadowing* des paramètres par des variables de même nom
+☝ Notice the *shadowing* of parameters by variables of the same name
 `let parity (* bool *) = defaultArg parity (* bool option *) Full`
 
 ---
 
-# Tableau de paramètres
+# Parameter array
 
-Permet de spécifier un nombre variable de paramètres de même type
-→ Via attribut `System.ParamArray` sur le **dernier** argument de la méthode
+Allows you to specify a variable number of parameters of the same type
+→ Via `System.ParamArray` attribute on **last** method argument
 
 ```fsharp
 open System
@@ -255,19 +254,19 @@ type MathHelper() =
 let x = MathHelper.Max(1, 2, 4, 5)  // 5
 ```
 
-💡 Équivalent en C♯ de `public static T Max<T>(params T[] items)`
+💡 Equivalent of C♯ `public static T Max<T>(params T[] items)`
 
 ---
 
-# Appeler méthode C♯ *TryXxx()*
+# Call C♯ method *TryXxx()*
 
-❓ Comment appeler en F♯ une méthode C♯ `bool TryXxx(args, out T outputArg)` ?
-*(Exemple : `int.TryParse`, `IDictionnary::TryGetValue`)*
+❓ How to call in F♯ a C♯ method `bool TryXxx(args, out T outputArg)`?
+*(Example: `int.TryParse`, `IDictionnary::TryGetValue`)*
 
-- 👎 Utiliser équivalent F♯ de `out outputArg` mais utilise mutation 🤮
-- ✅ Ne pas spécifier l'argument `outputArg`
-  - Change le type de retour en tuple `bool * T`
-  - `outputArg` devient le 2e élément de ce tuple
+- 👎 Use F♯ equivalent of `out outputArg` but use mutation 😵
+- ✅ Do not specify `outputArg` argument
+  - Change return type to tuple `bool * T`
+  - `outputArg` becomes the 2nd element of this tuple
 
 ```fsharp
   match System.Int32.TryParse text with
@@ -277,82 +276,84 @@ let x = MathHelper.Max(1, 2, 4, 5)  // 5
 
 ---
 
-# Appeler méthode *Xxx(tuple)*
+# Call method *Xxx(tuple)*
 
-❓ Comment appeler une méthode dont 1er param est lui-même un tuple ?!
+❓ How do you call a method whose 1st parameter is itself a tuple?!
 
-Essayons :
+Let's try:
 
 ```fsharp
-let friendsLocation = Map.ofList [ (0,0),"Peter" ; (1,0),"Jane" ]
+let friendsLocation = Map.ofList [ (0,0), "Peter" ; (1,0), "Jane" ]
 // Map<(int * int), string>
 let peter = friendsLocation.TryGetValue (0,0)
-// 💥 error FS0001: expression censée avoir le type `int * int`, pas `int`
+// 💥 Error FS0001: expression supposed to have type `int * int`, not `int`.
 ```
 
-💡 Explications : `TryGetValue(0,0)` = appel méthode en mode tuplifié
-→ Spécifie 2 paramètres, `0` et `0`.
-→ `0` est un `int` alors qu'on attend un tuple `int * int` !
+💡 **Explanations:** `TryGetValue(0,0)` = method call in tuplified mode
+→ Specifies 2 parameters, `0` and `0`.
+→ `0` is an `int` whereas we expect an `int * int` tuple!
 
 ---
 
-# Appeler méthode *Xxx(tuple)* - Solutions
+## Call method *Xxx(tuple)* - Solutions
 
-1. 😕 Doubles parenthèses, mais syntaxe confusante
+1. 😕 Double parentheses, but confusing syntax
    - `friendsLocation.TryGetValue((0,0))`
-2. 😕 *Backward pipe*, mais confusant aussi
+2. 😕 *Backward pipe*, but also confusing
    - `friendsLocation.TryGetValue <| (0,0)`
-3. ✅ Utiliser une fonction plutôt qu'une méthode
+3. ✅ Use a function rather than a method
    - `friendsLocation |> Map.tryFind (0,0)`
 
 ---
 
-# Méthode *vs* Fonction
+# Method *vs* Function
 
-| Fonctionnalité         | Fonction | Méthode currifiée | Méthode tuplifiée |
-|------------------------|----------|-------------------|-------------------|
-| Application partielle  | ✅ oui    | ✅ oui             | ❌ non             |
-| Arguments nommés       | ❌ non    | ❌ non             | ✅ oui             |
-| Paramètres optionnels  | ❌ non    | ❌ non             | ✅ oui             |
-| Tableau de paramètres  | ❌ non    | ❌ non             | ✅ oui             |
-| Surcharge / *overload* | ❌ non    | ❌ non             | ✅ oui  ①          |
+| Feature             | Function | Curried method | Tuplified method |
+|---------------------|----------|----------------|------------------|
+| Partial application | ✅ yes    | ✅ yes          | ❌ no             |
+| Named arguments     | ❌ no     | ❌ no           | ✅ yes            |
+| Optional parameters | ❌ no     | ❌ no           | ✅ yes            |
+| Params array        | ❌ no     | ❌ no           | ✅ yes            |
+| Overload            | ❌ no     | ❌ no           | ✅ yes  ①         |
 
-① Si possible, préférer paramètres optionnels à surcharge
-
----
-
-# Méthode *vs* Fonction (2)
-
-| Fonctionnalité        | Fonction      | Méthode statique | Méthode d'instance |
-|-----------------------|---------------|------------------|--------------------|
-| Nommage               | camelCase     | PascalCase       | PascalCase         |
-| Support du `inline`   | ✅ oui         | ✅ oui            | ✅ oui              |
-| Récursive             | ✅ si `rec`    | ✅ oui            | ✅ oui              |
-| Inférence de `x` dans | `f x` → ✅ oui | ➖                | `x.M()` → ❌ non    |
-| Passable en argument  | ✅ oui : `g f` | ✅ oui : `g T.M`  | ❌ non : `g x.M`  ① |
-
-① Alternative : wrappée dans lambda → `g (fun x -> x.M())`
+① If possible, prefer optional parameters
 
 ---
 
-# Propriétés
+# Method *vs* Function (2)
 
-≃ Sucre syntaxique masquant un *getter* et/ou un *setter*
-→ Permet d'utiliser la propriété comme s'il s'agissait d'un champ
+| Feature                   | Function      | Static method   | Instance method   |
+|---------------------------|---------------|-----------------|-------------------|
+| Naming                    | camelCase     | PascalCase      | PascalCase        |
+| Support of `inline`       | ✅ yes         | ✅ yes           | ✅ yes             |
+| Recursive                 | ✅ if `rec`    | ✅ yes           | ✅ yes             |
+| Inference of `x` in       | `f x` → ✅ yes | ➖               | `x.M()` → ❌ no    |
+| Can be passed as argument | ✅ yes : `g f` | ✅ yes : `g T.M` | ❌ no : `g x.M`  ① |
 
-2 façons de déclarer une propriété :
-• Déclaration **explicite** : en relation avec un *backing field*
+① Alternatives:
+  → F# 8: shorthand members → `g _.M()`
+  → Wrap in lambda → `g (fun x -> x.M())`
+
+---
+
+# Properties
+
+≃ Syntactic sugar hiding a *getter* and/or a *setter*
+→ Allows the property to be used as if it were a field
+
+2 ways to declare a property:
+• Declaration **explicit**: in relation to a *backing field*.
    → *Getter* : `member this.Property = expression`
-   → Autres : verbeux *([détails](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/members/properties))*   👉 Préférer méthodes explicites
-• Déclaration **automatique** : *backing field* implicite
-   → *Read-only* :  `member val Property = value`
+   → Others: verbose *([details](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/members/properties))* 👉 Prefer explicit methods
+• Declaration **automatic** : *backing field* implicit
+   → *Read-only* : `member val Property = value`
    → *Read/write* : `member val Property = value with get, set`
 
-☝ *Getter* évalué à chaque appel ≠ *Read-only* initialisé à la construction
+☝ *Getter* evaluated on each call ≠ *Read-only* initialized on construction
 
 ---
 
-# Propriétés - exemple
+# Properties - Example
 
 ```fsharp
 type Person = { First: string; Last: string } with
@@ -365,10 +366,10 @@ let s = joe.FullName  // "DALTON Joe"
 
 ---
 
-# Propriétés et pattern matching
+# Properties and pattern matching
 
-⚠️ Les propriétés ne sont pas déconstructibles.
-→ Peuvent participer à un pattern matching que dans partie `when`
+⚠️ Properties cannot be deconstructed
+→ Can only participate in pattern matching in `when` part
 
 ```fsharp
 type Person = { First: string; Last: string } with
@@ -389,12 +390,12 @@ let salut =
 
 ---
 
-# Propriétés indexées
+# Indexed properties
 
-Permet accès par indice, comme si la classe était un tableau : `instance.[index]`
-→ Intéressant pour une collection ordonnée, pour masquer l'implémentation
+Allows access by index, as if the class were an array: `instance.[index]`
+→ Interesting for an ordered collection, to hide the implementation
 
-Mise en place en déclarant membre `Item`
+Set up by declaring member `Item`
 
 ```fsharp
 member self-identifier.Item
@@ -404,9 +405,9 @@ member self-identifier.Item
         set-member-body
 ```
 
-💡 Propriété *read-only* (*write-only*) → ne déclarer que le *getter* (*setter*)
+💡 Property *read-only* (*write-only*) → declare only the *getter* (*setter*)
 
-☝ Paramètre en tuple pour *getter* ≠ paramètres curryfiés *setter*
+☝ Tuple parameter for *getter* ≠ *setter* curried parameters
 
 ---
 
@@ -812,11 +813,11 @@ Ne participent pas au polymorphisme :
 
 # Extensions *vs* classe partielle C♯
 
-| Fonctionnalité      | Multi-fichiers | Compilé dans type | Tout type             |
-|---------------------|----------------|-------------------|-----------------------|
-| Classe partielle C♯ | ✅ Oui         | ✅ Oui            | Que `partial class`  |
-| Extens° intrinsèque | ❌ Non         | ✅ Oui            | ✅ Oui               |
-| Extens° optionnelle | ✅ Oui         | ❌ Non            | ✅ Oui               |
+| Fonctionnalité      | Multi-fichiers | Compilé dans type | Tout type           |
+|---------------------|----------------|-------------------|---------------------|
+| Classe partielle C♯ | ✅ Oui          | ✅ Oui             | Que `partial class` |
+| Extens° intrinsèque | ❌ Non          | ✅ Oui             | ✅ Oui               |
+| Extens° optionnelle | ✅ Oui          | ❌ Non             | ✅ Oui               |
 
 ---
 
