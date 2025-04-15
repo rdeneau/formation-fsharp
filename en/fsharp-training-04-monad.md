@@ -47,10 +47,10 @@ A.k.a `Maybe` *(Haskell),* `Optional` *(Java 8)*
 Models the absence of value
 → Defined as a union with 2 *cases*
 
-```fs
+```fsharp
 type Option<'Value> =
-    | None              // Box without data → when value is missing
-    | Some of 'Value    // Box with data → when value is present
+    | None              // Case without data → when value is missing
+    | Some of 'Value    // Case with data → when value is present
 ```
 
 ---
@@ -64,7 +64,7 @@ type Option<'Value> =
 
 ## Case 1: Modeling an optional field
 
-```fs
+```fsharp
 type Civility = Mr | Mrs
 
 type User = { Name: string; Civility: Civility option } with
@@ -86,7 +86,7 @@ Operation where no output value is possible for certain inputs.
 
 #### Example 1: inverse of a number
 
-```fs
+```fsharp
 let inverse n = 1.0 / n
 
 let tryInverse n =
@@ -135,7 +135,7 @@ To test for the presence of the value *(of type `'T`)* in the option
 
 Example:
 
-```fs
+```fsharp
 let print option =
     match option with
     | Some x -> printfn "%A" x
@@ -163,7 +163,7 @@ Keep value **if present** and if conditions are met:
 
 ## 👨‍🏫 Demo » Solution
 
-```fs
+```fsharp
 let map f option =             // (f: 'T -> 'U) -> 'T option -> 'U option
     match option with
     | Some x -> Some (f x)
@@ -184,7 +184,7 @@ let filter predicate option =  // (predicate: 'T -> bool) -> 'T option -> 'T opt
 
 ## 🎁 Bonus questions » Answers
 
-```fs
+```fsharp
 // 🎁 1. Why can't we write `None -> option`?
 let map (f: 'T -> 'U) (option: 'T option) : 'U option =
     match option with
@@ -192,7 +192,7 @@ let map (f: 'T -> 'U) (option: 'T option) : 'U option =
     | None   -> (*None*) option  // 💥 Type error: `'U option` given != `'T option` expected
 ```
 
-```fs
+```fsharp
 // 🎁 2. Implement `filter` with `bind`?
 let filter predicate option =  // (predicate: 'T -> bool) -> 'T option -> 'T option
     option |> bind (fun x -> if predicate x then option else None)
@@ -202,7 +202,7 @@ let filter predicate option =  // (predicate: 'T -> bool) -> 'T option -> 'T opt
 
 ## Integrated control flow » Example
 
-```fs
+```fsharp
 // Question/answer console application
 type Answer = A | B | C | D
 
@@ -279,7 +279,7 @@ Due to the interop with the BCL, F♯ has to deal with `null` in some cases.
 
 👉 **Good practice**: isolate these cases and wrap them in an `Option` type.
 
-```fs
+```fsharp
 let readLine (reader: System.IO.TextReader) =
     reader.ReadLine() // Can return `null`
     |> Option.ofObj   // `null` becomes None
@@ -308,7 +308,7 @@ A.k.a `Either` *(Haskell)*
 
 Models a *double-track* Success/Failure
 
-```fs
+```fsharp
 type Result<'Success, 'Error> = // 2 generic parameters
     | Ok of 'Success  // Success Track
     | Error of 'Error // Failure Track
@@ -356,7 +356,7 @@ Implement `Result.map` and `Result.bind`
 
 **Solution:** implementation of `Result.map` and `Result.bind`
 
-```fs
+```fsharp
 // ('T -> 'U) -> Result<'T, 'Error> -> Result<'U, 'Error>
 let map f result =
     match result with
@@ -375,7 +375,7 @@ let bind f result =
 
 # `Result`: Success/Failure tracks
 
-`map` : no track change
+`map`: no track change
 
 ```txt
 Track      Input          Operation      Output
@@ -383,7 +383,7 @@ Success ─ Ok x    ───► map( x -> y ) ───► Ok y
 Failure ─ Error e ───► map(  ....  ) ───► Error e
 ```
 
-`bind` : eventual routing to Failure track, but never vice versa
+`bind`: eventual routing to Failure track, but never vice versa
 
 ```txt
 Track     Input              Operation           Output
@@ -406,7 +406,7 @@ Failure ─ Error e ───► bind(     ....      ) ─┴─► Error ~
 → `None` ≃ `Error ()`
 → See `Result.toOption` *(built-in)* and `Result.ofOption` *(below)*
 
-```fs
+```fsharp
 [<RequireQualifiedAccess>]
 module Result =
     let ofOption error option =
@@ -436,7 +436,7 @@ module Result =
 
 Let's change our previous `checkAnswer` to indicate the `Error`:
 
-```fs
+```fsharp
 type Answer = A | B | C | D
 type Error = InvalidInput of string | WrongAnswer of Answer
 
@@ -458,7 +458,7 @@ let checkAnswerIs expected actual =
 
 ## `Result` *vs* `Option` » Example (2)
 
-```fs
+```fsharp
 // ...
 
 let printAnswerCheck (givenAnswer: string) =
@@ -473,23 +473,6 @@ printAnswerCheck "X";;  // X: ❌ Invalid Input
 printAnswerCheck "A";;  // A: ❌ Wrong Answer
 printAnswerCheck "B";;  // B: ✅ Correct
 ```
-
----
-
-# `Result` *vs* `Validation`
-
-`Result` is "monadic": on the 1st error, we "unplug".
-
-`Validation` is "applicative": allows to accumulate errors
-→ ≃ `Result<'ok, 'error list>`
-→ Handy for validating user input and reporting all errors
-
-🔗 **Ressources**
-• FsToolkit.ErrorHandling
-https://github.com/demystifyfp/FsToolkit.ErrorHandling
-
-• Validation with F# 5 and FsToolkit
-https://www.compositional-it.com/news-blog/validation-with-f-5-and-fstoolkit/
 
 ---
 
@@ -539,7 +522,7 @@ Smart constructor :
 → `tryCreate` function in companion module
 → Returns an `Option`
 
-```fs
+```fsharp
 type Latitude = private { Latitude: float } // 👈 A single field, named like the
 
 [<RequireQualifiedAccess>]                  // 👈 Optional
@@ -562,7 +545,7 @@ Smart constructor:
 → Static method `Of`
 → Returns `Result` with error of type `string`
 
-```fs
+```fsharp
 type Tweet =
     private { Tweet: string }
 
@@ -598,7 +581,7 @@ Syntax: `builder { expr }`
 → `builder` instance of a "Builder" 📍
 → `expr` can contain `let`, `let!`, `do!`, `yield`, `yield!`, `return`, `return!`
 
-💡 **Note :** `seq`, `async` and `task` are CEs
+💡 **Note:** `seq`, `async` and `task` are CEs
 
 ---
 
@@ -621,9 +604,9 @@ The *builder* can also wrap the result in a type of its own:
 # Builder desugaring
 
 The compiler translates to the *builder* methods.
-→ The CE masks the complexity of these calls, which are often nested:
+→ The CE hides the complexity of these calls, which are often nested:
 
-```fs
+```fsharp
 seq {
     for n in list do
         yield n
@@ -641,7 +624,7 @@ seq.For(list, fun () ->
 
 Need: log the intermediate values of a calculation
 
-```fs
+```fsharp
 let log value = printfn $"{value}"
 
 let loggedCalc =
@@ -664,7 +647,7 @@ let loggedCalc =
 
 💡 Make logs implicit in a CE when `let!` / `Bind` :
 
-```fs
+```fsharp
 type LoggingBuilder() =
     let log value = printfn $"{value}"; value
     member _.Bind(x, f) = x |> log |> f
@@ -686,9 +669,9 @@ let loggedCalc = logger {
 
 # Builder - Example : `maybe`
 
-Need : simplify the sequence of "trySomething" returning an `Option`
+Need: simplify the sequence of "trySomething" returning an `Option`
 
-```fs
+```fsharp
 let tryDivideBy bottom top = // (bottom: int) -> (top: int) -> int option
     if (bottom = 0) or (top % bottom <> 0)
     then None
@@ -706,7 +689,7 @@ let division =
 
 # Builder - Example : `maybe` (2)
 
-```fs
+```fsharp
 // With CE
 type MaybeBuilder() =
     member _.Bind(x, f) = x |> Option.bind f
@@ -735,7 +718,7 @@ Example: combining `logger` and `maybe` ❓
 
 Alternative solution 🚀🚀:
 
-```fs
+```fsharp
 // Define an operator for `bind`
 let inline (>>=) x f = x |> Option.bind f
 
@@ -753,10 +736,10 @@ let division' =
 
 # Limit: combining CEs
 
-Combine `Async` + `Option`/`Result` ?
-→ Solution : CE `asyncResult` + helpers in [FsToolkit](https://demystifyfp.gitbook.io/fstoolkit-errorhandling/#a-motivating-example)
+How to combine `Async` + `Option`/`Result` ? \
+→ `asyncResult` CE + helpers in [FsToolkit](https://demystifyfp.gitbook.io/fstoolkit-errorhandling/#a-motivating-example)
 
-```fs
+```fsharp
 type LoginError =
     | InvalidUser | InvalidPassword
     | Unauthorized of AuthError | TokenErr of TokenError
@@ -867,7 +850,7 @@ The builder of a monadic CE has `Return` and `Bind` methods.
 The `Option` and `Result` types are monadic.
 → We can create their own CE :
 
-```fs
+```fsharp
 type OptionBuilder() =
     member _.Bind(x, f) = x |> Option.bind f
     member _.Return(x) = Some x
@@ -884,7 +867,7 @@ type ResultBuilder() =
 [FSharpPlus](http://fsprojects.github.io/FSharpPlus//computation-expressions.html) provides a `monad` CE
 → Works for all monadic types: `Option`, `Result`, ... and even `Lazy`!
 
-```fs
+```fsharp
 #r "nuget: FSharpPlus"
 open FSharpPlus
 
@@ -904,9 +887,9 @@ let result = lazyValue.Value
 
 # Monadic and generic CE (2)
 
-Example with type `Option`:
+Example with `Option` type:
 
-```fs
+```fsharp
 #r "nuget: FSharpPlus"
 open FSharpPlus
 
@@ -926,7 +909,7 @@ let v2 = addOptions (Some 1) None     // None
 
 ⚠️ **Limit:** several monadic types cannot be mixed!
 
-```fs
+```fsharp
 #r "nuget: FSharpPlus"
 open FSharpPlus
 
@@ -953,7 +936,7 @@ let v2 = monad {
 
 ☝ Recommended as it is more explicit than `monad` CE.
 
-```fs
+```fsharp
 #r "nuget: FSToolkit.ErrorHandling"
 open FsToolkit.ErrorHandling
 
@@ -1004,7 +987,7 @@ Allows errors to be accumulated → Uses:
 
 # Applicative CE: example
 
-```fs
+```fsharp
 #r "nuget: FSToolkit.ErrorHandling"
 open FsToolkit.ErrorHandling
 
@@ -1040,35 +1023,25 @@ let c3 = Customer.tryCreate "" 0<cm>    // Error ["Name can't be empty"; "Height
 
 # Applicative _vs_ Monad
 
-> Let N operations `tryXxx` return an `Option` or `Result`.
+The `Result` type is "monadic": on the 1st error, we "unplug".
 
-**Monadic style :**
-• With `bind` or CE `let! ... let! ...`
-• **String** operations, executed 1 by 1, N depending on N-1
-• Stops at 1st operation KO → just 1st error in `Result` ①
-• *[Railway-oriented programming](https://fsharpforfunandprofit.com/rop/)* by Scott Wlaschin
+There is another type called `Validation` that is "applicative": it allows to accumulate errors.
 
-```fs
-module Result =
-    // f : 'T -> Result<'U, 'Err>
-    // x': Result<'T, 'Err>
-    //  -> Result<'U, 'Err>
-    let bind f x' =
-        match x' with
-        | Error e  -> Error e // 👈 ①
-        | Ok value -> f value
-```
+- ≃ `Result<'ok, 'error list>`\
+- Handy for validating user input and reporting all errors
+
+🔗 **Ressources**
+
+- [FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling)
+- [Validation with F# 5 and FsToolkit](https://www.compositional-it.com/news-blog/validation-with-f-5-and-fstoolkit/)
 
 ---
 
 # Applicative _vs_ Monad (2)
 
-**Application style:**
-• With `mapN` or CE `let! ... and! ...`
-• **Combines** 2...N independent operations → parallelizable 👍
-• Combines `Error` cases containing a `List` ②
+Example: `Validation.map2` to combine 2 results and get the list of their eventual errors.
 
-```fs
+```fsharp
 module Validation =
     // f : 'T -> 'U -> Result<'V, 'Err list>
     // x': Result<'T, 'Err list>
@@ -1090,110 +1063,12 @@ We've seen 2 libraries that extend F♯ and offer their CEs:
 - FSharpPlus → `monad`
 - FsToolkit.ErrorHandling → `option`, `result`, `validation`
 
-Many libraries have their own DSL _(Domain Specific Language.)_
-Some are based on CE :
+Many libraries have their own DSL *(Domain Specific Language.)*
+Some are based on CE:
 
-- Expecto
-- Farmer
-- Saturn
-
----
-
-# Expecto
-
-❝ Testing library: assertions + runner ❞
-🔗 https://github.com/haf/expecto
-
-```fs
-open Expecto
-
-let tests =
-  test "A simple test" {
-    let subject = "Hello World"
-    Expect.equal subject "Hello World" "The strings should equal"
-  }
-
-[<EntryPoint>]
-let main args =
-  runTestsWithCLIArgs [] args tests
-```
-
----
-
-# Farmer
-
-❝ *Infrastructure-as-code* for Azure ❞
-🔗 https://github.com/compositionalit/farmer
-
-```fs
-// Create a storage account with a container
-let myStorageAccount = storageAccount {
-    name "myTestStorage"
-    add_public_container "myContainer"
-}
-
-// Create a web app with application insights that's connected to the storage account
-let myWebApp = webApp {
-    name "myTestWebApp"
-    setting "storageKey" myStorageAccount.Key
-}
-
-// [...]
-```
-
----
-
-# Farmer (2)
-
-```fs
-// [...]
-
-// Create an ARM template (Azure Resource Manager)
-let deployment = arm {
-    location Location.NorthEurope
-    add_resources [
-        myStorageAccount
-        myWebApp
-    ]
-}
-
-// Deploy it to Azure!
-deployment
-|> Writer.quickDeploy "myResourceGroup" Deploy.NoParameters
-```
-
----
-
-# Saturn
-
-❝ Web framework above ASP.NET Core, MVC pattern ❞
-🔗 https://saturnframework.org/
-
-```fs
-open Saturn
-open Giraffe
-
-let app = application {
-    use_router (text "Hello World from Saturn")
-}
-
-run app
-```
-
----
-
-# CE: go further
-
-Extending F# through Computation Expressions
-📹 https://youtu.be/bYor0oBgvws
-📜 https://panesofglass.github.io/computation-expressions/#/
-    → Références en [slide 14](https://panesofglass.github.io/computation-expressions/#/14)
-
-Computation Expressions Workshop
-🔗 https://github.com/panesofglass/computation-expressions-workshop
-
-Applicatives IRL by Jeremie
-🔗 https://thinkbeforecoding.com/post/2020/10/03/applicatives-irl
+- [Expecto](https://github.com/haf/expecto): Testing library (`test "..." {...}`)
+- [Farmer](https://github.com/compositionalit/farmer): Infra as code for Azure (`storageAccount {...}`)
+- [Saturn](https://saturnframework.org/): Web framework on top of ASP.NET Core (`application {...}`)
 
 ---
 
@@ -1240,14 +1115,18 @@ Applicatives IRL by Jeremie
 
 # 🔗 Additional ressources
 
-Compositional IT *(Isaac Abraham)*
-→ https://kutt.it/gpIgfD • *Writing more succinct C# – in F#! (Part 2)* • 2020
-
-F# for Fun and Profit *(Scott Wlaschin)*
-→ https://kutt.it/e78rNj • *The Option type* • 2012
-→ https://kutt.it/7J5Krc • *Making illegal states unrepresentable* • 2013
-→ https://kutt.it/ebfGNA • *The "Map and Bind and Apply, Oh my!" series* • 2015
-→ https://kutt.it/drchkQ • *The "Computation Expressions" series* • 2013
+- Compositional IT *(Isaac Abraham)*
+  - [*Writing more succinct C# – in F#! (Part 2)*](https://kutt.it/gpIgfD) • 2020
+- F# for Fun and Profit *(Scott Wlaschin)*
+  - [*The Option type*](https://kutt.it/e78rNj) • 2012
+  - [*Making illegal states unrepresentable*](https://kutt.it/7J5Krc) • 2013
+  - [*The "Map and Bind and Apply, Oh my!" series*](https://kutt.it/ebfGNA) • 2015
+  - [*The "Computation Expressions" series*](https://kutt.it/drchkQ) • 2013
+- Extending F# through Computation Expressions
+  - 📹 [Video](https://youtu.be/bYor0oBgvws)
+  - 📜 [Article](https://panesofglass.github.io/computation-expressions/#/)
+- [Computation Expressions Workshop](https://github.com/panesofglass/computation-expressions-workshop)
+- [Applicatives IRL](https://thinkbeforecoding.com/post/2020/10/03/applicatives-irl) by Jeremie Chassaing
 
 ---
 

@@ -177,7 +177,7 @@ The number of values in the composed type will be:
 
 Different use-cases:
 
-```fs
+```fsharp
 // 1. Document code to avoid repetition
 type ComplexNumber = float * float
 type Addition<'num> = 'num -> 'num -> 'num // 👈 Also works with generics
@@ -279,7 +279,7 @@ Use a tuple for a data structure:
 Immutable tuple:
 → modifications are made by creating a new tuple
 
-```fs
+```fsharp
 let addOneToTuple (x, y, z) = x + 1, y + 1, z + 1
 ```
 
@@ -289,7 +289,7 @@ let addOneToTuple (x, y, z) = x + 1, y + 1, z + 1
 
 **Structural equality**, but only between 2 tuples of the same signature!
 
-```fs
+```fsharp
 (1,2) = (1,2)       // true
 (1,2) = (0,0)       // false
 (1,2) = (1,2,3)     // 💥 Error FS0001: Type incompatibility...
@@ -300,7 +300,7 @@ let addOneToTuple (x, y, z) = x + 1, y + 1, z + 1
 
 **Nesting** of tuples using `()`
 
-```fs
+```fsharp
 let doublet = (true,1), (false, "a")  // (bool * int) * (bool * string) → pair of pairs
 let quadruplet = true, 1, false, "a"  // bool * int * bool * string → quadruplet
 doublet = quadruplet                  // 💥 Error FS0001: Type incompatibility...
@@ -312,7 +312,7 @@ doublet = quadruplet                  // 💥 Error FS0001: Type incompatibility
 
 Patterns recognized with tuples:
 
-```fs
+```fsharp
 let print move =
     match move with
     | 0, 0 -> "No move"                     // Constant 0
@@ -338,7 +338,7 @@ let print move =
   - `snd` as *second* to extract the 2nd element of the pair
   - ⚠️ Only works for pairs
 
-```fs
+```fsharp
 let pair = 'a', "b"
 fst pair  // 'a' (char)
 snd pair  // "b" (string)
@@ -352,14 +352,14 @@ snd pair  // "b" (string)
 
 #### **1.** Implement `fst` and `snd`
 
-```fs
+```fsharp
 let fst ... ?
 let snd ... ?
 ```
 
 #### **2.** What is the signature of this function?
 
-```fs
+```fsharp
 let toList (x, y) = [x; y]
 ```
 
@@ -371,7 +371,7 @@ let toList (x, y) = [x; y]
 
 #### **1.** How do you implement `fst` and `snd` yourself?
 
-```fs
+```fsharp
 let inline fst (x, _) = x  // Signature : 'a * 'b -> 'a
 let inline snd (_, y) = y  // Signature : 'a * 'b -> 'b
 ```
@@ -388,7 +388,7 @@ let inline snd (_, y) = y  // Signature : 'a * 'b -> 'b
 
 #### **2.** Signature of `toList` ?
 
-```fs
+```fsharp
 let inline toList (x, y) = [x; y]
 ```
 
@@ -421,7 +421,7 @@ Alternative to tuples when they are imprecise, for instance `float * float`:
 
 Eleviate the doubt by naming both the type and its elements:
 
-```fs
+```fsharp
 type Point = { X: float; Y: float }
 type Coordinate = { Latitude: float; Longitude: float }
 type ComplexNumber = { Real: float; Imaginary: float }
@@ -433,7 +433,7 @@ type ComplexNumber = { Real: float; Imaginary: float }
 
 Base syntax:
 
-```fs
+```fsharp
 type RecordName =
     { Label1: type1
       Label2: type2
@@ -444,7 +444,7 @@ type RecordName =
 
 Complete syntax:
 
-```fs
+```fsharp
 [ attributes ]                                // [<Struct>]
 type [accessibility-modifier] RecordName =    // private, internal
     { [ mutable ] Label1: type1
@@ -461,7 +461,7 @@ type [accessibility-modifier] RecordName =    // private, internal
 - Multi-line: properties separated by line breaks
   - 3 variations: *Cramped, Aligned, Stroustrup*
 
-```fs
+```fsharp
 // Single line
 type PostalAddress = { Address: string; City: string; Zip: string }
 
@@ -514,7 +514,7 @@ fsharp_max_record_width = 120
 
 #### Single-line
 
-```fs
+```fsharp
 // `with` keyword required
 type PostalAddress = { Address: string; City: string; Zip: string } with
     member x.ZipAndCity = $"{x.Zip} {x.City}"
@@ -535,7 +535,7 @@ type PostalAddress =
 
 ☝️ 2 line breaks
 
-```fs
+```fsharp
 type PostalAddress =
     { Address: string
       City: string
@@ -553,7 +553,7 @@ type PostalAddress =
 
 ☝️ `with` keyword + 1 line break + indentation
 
-```fs
+```fsharp
 type PostalAddress = {
     Address: string
     City: string
@@ -571,7 +571,7 @@ type PostalAddress = {
 - All fields must be populated, but in any order (but can be confusing)
 - Same possible styles: single/multi-lines
 
-```fs
+```fsharp
 type Point = { X: float; Y: float }
 let point1 = { X = 1.0; Y = 2.0 }
 let pointKo = { Y = 2.0 }           // 💥 Error FS0764
@@ -591,7 +591,7 @@ let pointKo = { Y = 2.0 }           // 💥 Error FS0764
   - Same syntax for deconstructing a *Record* as for instantiating it 👍
   - Unused fields can be ignored 💡
 
-```fs
+```fsharp
 let { X = x1 } = point1
 let { X = x2; Y = y2 } = point1
 ```
@@ -602,7 +602,7 @@ let { X = x2; Y = y2 } = point1
 
 ⚠️ Additional members *(properties)* cannot be deconstructed!
 
-```fs
+```fsharp
 type PostalAddress =
     {
         Address: string
@@ -625,7 +625,7 @@ let cityLine = address.CityLine         // 👌 OK
 - A record type can be inferred from the fields used 👍 but not with members ❗
 - As soon as the type is inferred, IntelliSense will work
 
-```fs
+```fsharp
 type PostalAddress =
     { Address: string
       City: string
@@ -646,7 +646,7 @@ let departmentKo zip =
 
 Let's use an example: `inhabitantOf` is a function giving the inhabitants name *(in French)* at a given address *(in France)*
 
-```fs
+```fsharp
 type Address = { Street: string; City: string; Zip: string }
 
 let department { Zip = zip } = int zip[0..1] // Address -> int
@@ -671,7 +671,7 @@ In F♯, typing is nominal, not structural as in TypeScript
 → Use qualification to resolve ambiguity
 → Even better: write ≠ types or put them in ≠ modules
 
-```fs
+```fsharp
 type Person1 = { First: string; Last: string }
 type Person2 = { First: string; Last: string }
 let alice = { First = "Alice"; Last = "Jones"}  // val alice: Person2... (by proximity)
@@ -694,7 +694,7 @@ Record is immutable, but easy to get a modified copy
 → **copy and update** expression of a *Record*
 → use multi-line formatting for long expressions
 
-```fs
+```fsharp
 // Single-line
 let address2 = { address with Street = "Rue Vivienne" }
 
@@ -709,12 +709,12 @@ let address3 =
 
 # Record *copy-update*: C♯ / F♯ / JS
 
-```cs
+```csharp
 // Record C♯ 9.0
 address with { Street = "Rue Vivienne" }
 ```
 
-```fs
+```fsharp
 // F♯ copy and update
 { address with Street = "Rue Vivienne" }
 ```
@@ -730,7 +730,7 @@ address with { Street = "Rue Vivienne" }
 
 Reduced readability with several nested levels
 
-```fs
+```fsharp
 type Street = { Num: string; Label: string }
 type Address = { Street: Street }
 type Person = { Address: Address }
@@ -750,7 +750,7 @@ let person' =
 
 # *Copy-update* : F# 8 improvements
 
-```fs
+```fsharp
 type Street = { Num: string; Label: string }
 type Address = { Street: Street }
 type Person = { Address: Address }
@@ -785,7 +785,7 @@ let person' =
 - Each *case* **may** contain data
   - As Tuple: its elements can be named -- in camelCase 🙏
 
-```fs
+```fsharp
 type Ticket =
     | Adult                  // no data -> ≃ singleton stateless
     | Senior of int          // holds an 'int' (w/o more precision)
@@ -804,7 +804,7 @@ On several lines: 1 line / *case*
 On a single (short) line
 → 💡 No need for the 1st `|`
 
-```fs
+```fsharp
 open System
 
 type IntOrBool =
@@ -854,7 +854,7 @@ type ComplexNumber =
 *Case* ≃ **constructor**
 → Function called with any *case* data
 
-```fs
+```fsharp
 type Shape =
     | Circle of radius: int
     | Rectangle of width: int * height: int
@@ -872,7 +872,7 @@ let circles = [1..4] |> List.map Circle     // 👈 Case used as function
 When 2 unions have tags with the same name
 → Qualify the tag with the union name
 
-```fs
+```fsharp
 type Shape =
     | Circle of radius: int
     | Rectangle of width: int * height: int
@@ -893,7 +893,7 @@ let draw' = Draw.Circle
 • Only via *pattern matching*.
 • Matching a union type is **exhaustive**.
 
-```fs
+```fsharp
 type Shape =
     | Circle of radius: float
     | Rectangle of width: float * height: float
@@ -917,7 +917,7 @@ let isFlat = function
 
 Unions with a single case encapsulating a type (usually primitive)
 
-```fs
+```fsharp
 type CustomerId = CustomerId of int
 type OrderId = OrderId of int
 
@@ -941,7 +941,7 @@ All *cases* are empty = devoid of data
 Instantiation and pattern matching are done just with the *Case*.
 → The *Case* is no longer a ~~function~~ but a *singleton* value.
 
-```fs
+```fsharp
 type Answer = Yes | No | Maybe
 let answer = Yes
 
@@ -1081,8 +1081,7 @@ type ColorN =
 ```fsharp
 type AnswerChar = Yes='Y' | No='N'  ✅
 
-// ... but not on string!
-type AnswerChar = Yes="Y" | No="N"  // 💥 Error FS0951
+type AnswerStringKo = Yes="Y" | No="N"  // 💥 Error FS0951
 // Literal enumerations must have type int, uint, int16, uint16, int64, uint64, byte, sbyte or char
 ```
 
@@ -1102,7 +1101,7 @@ type File = a='a' | b='b' | c='c'
 
 ⚠️ Unlike unions, the use of an `enum` literal is necessarily **qualified**
 
-```fs
+```fsharp
 type AnswerChar = Yes='Y' | No='N'
 
 let answerKo = Yes  // 💥 Error FS0039
@@ -1113,7 +1112,7 @@ let answer = AnswerChar.Yes   // 👌 OK
 
 💡 We can force the qualification for union types too:
 
-```fs
+```fsharp
 [<RequireQualifiedAccess>] // 👈
 type Color = Red | Green | Blue
 ```
@@ -1125,7 +1124,7 @@ type Color = Red | Green | Blue
 ⚠️ Unlike unions, *pattern matching* on enums is **not exhaustive**
 → See `Warning FS0104: Enums may take values outside known cases...`
 
-```fs
+```fsharp
 type ColorN =
     | Red   = 1
     | Green = 2
@@ -1145,7 +1144,7 @@ let toHex color =
 
 Same principle as in C♯:
 
-```fs
+```fsharp
 open System
 
 [<Flags>]
@@ -1197,7 +1196,7 @@ let allPermissions = enumValues<PermissionFlags>()
 
 # Enum: conversion
 
-```fs
+```fsharp
 let redValue = int ColorN.Red         // enum -> int
 let redAgain = enum<ColorN> redValue  // int -> enum
 let red: ColorN = enum redValue       // int -> enum
@@ -1279,7 +1278,7 @@ Examples *(more on this later)* :
 
 💡 Select a subset of properties
 
-```fs
+```fsharp
 let names =
     query {
         for p in persons do
@@ -1289,7 +1288,7 @@ let names =
 
 In C♯, we would use an anonymous type:
 
-```cs
+```csharp
 var names =
     from p in persons
     select new { Name = p.FirstName };
@@ -1303,7 +1302,7 @@ var names =
 
 💡 An anonymous record can be instantiated from a record instance
 
-```fs
+```fsharp
 type Person = { Age: int; Name: string }
 let william = { Age = 12; Name = "William" }
 
@@ -1318,11 +1317,11 @@ let jack = {| william' with Name = "Jack"; Age = 16.5 |}
 
 ---
 
-## ✅ JSON serialization
+## ✅ JSON serialization: issue
 
 😕 Unions can be serialized in an impractical format
 
-```fs
+```fsharp
 #r "nuget: Newtonsoft.Json"
 let serialize obj = Newtonsoft.Json.JsonConvert.SerializeObject obj
 
@@ -1343,11 +1342,11 @@ serialize { Id = CustomerId 1; Age = 23; Name = "Abc"; Title = Some "Mr" }
 
 ---
 
-## ✅ JSON serialization (2)
+## ✅ JSON serialization: solution
 
 💡 Define an anonymous record to serialize a *customer*
 
-```fs
+```fsharp
 let serialisable customer =
     let (CustomerId customerId) = customer.Id
     {| customer with
@@ -1372,7 +1371,7 @@ serialize (serialisable { Id = CustomerId 1; Age = 23; Name = "Abc"; Title = Som
 
 💡 Use an anonymous *inline* record to reduce cognitive load
 
-```fs
+```fsharp
 type Title = Mr | Mrs
 type Customer =
     { Age  : int
@@ -1382,34 +1381,10 @@ type Customer =
 
 ---
 
-## ✅ Alias per module
-
-```fs
-module Api =
-    type Customer = // ☝ Customer is an alias
-        {| Id   : System.Guid
-           Name : string
-           Age  : int |}
-
-module Dto =
-    type Customer =
-        {| Id   : System.Guid
-           Name : string
-           Age  : int |}
-
-let (customerApi: Api.Customer) = {| Id = Guid.Empty; Name = "Name"; Age = 34 |}
-let (customerDto: Dto.Customer) = customerApi // 🎉 No need to convert
-```
-
-💡 Now: same type in 2 modules
-💡 Later: easy customization of types in each module
-
----
-
 # Anonymous Record: Limits 🛑
 
-```fs
-// Limited inference
+```fsharp
+// No inference from field usage
 let nameKo x = x.Name  // 💥 Error FS0072: Lookup on object of indeterminate type...
 let nameOk (x: {| Name:string |}) = x.Name
 
@@ -1427,19 +1402,6 @@ let banYelOk = {| banana with Color = "Yellow" |}
 // No omissions
 let ko = {| banYelOk without Color |}  // 💥 No 'without' keyword
 ```
-
----
-
-# Anonymous Record: Limits (2) 🛑
-
-```fs
-// Not structural typing => all fields are required
-let capitaliseFruit (x: {| Fruit: string |}) = x.Fruit.ToUpper()
-capitaliseFruit {| Fruit = "Banana" |}                      // 👌 "BANANA"
-capitaliseFruit {| Fruit = "Banana"; Origin = "Réunion" |}  // 💥 Too much fields... [Origin]
-```
-
-Does not cross project (`.fsproj`) boundaries ❗
 
 ---
 
@@ -1465,7 +1427,7 @@ Does not cross project (`.fsproj`) boundaries ❗
 
 # Struct tuples & anonymous records
 
-```fs
+```fsharp
 // Struct tuple
 let a = struct (1, 'b', "Three") // struct (int * char * string)
 
@@ -1477,7 +1439,7 @@ let b = struct {| Num = 1; Char = 'b'; Text = "Three" |}
 
 # Struct records & unions
 
-```fs
+```fsharp
 // Struct record
 [<Struct>]
 type Point = { X: float; Y: float }
@@ -1522,7 +1484,7 @@ let t = Int 1 // val t: Multicase = Int 1
 
 # 🕹️ Quiz wrap up
 
-```fs
+```fsharp
 // Match types with concepts (1 to many)
 type Color1 = int * int * int
 type Color2 = Red | Green | Blue
@@ -1571,7 +1533,7 @@ Combine 2 unions?
 → ❌ Not "flattenable" as in TypeScript ①
 → ✅ New parent union type ②
 
-```fs
+```fsharp
 // French-suited cards
 type Noir = Pique | Trefle // pikes or spades ♠ | clovers or clubs ♣
 type Rouge = Coeur | Carreau // hearts ♥ | tiles or diamonds ♦

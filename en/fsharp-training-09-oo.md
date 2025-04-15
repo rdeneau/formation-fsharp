@@ -155,7 +155,7 @@ Méthode ≃ Fonction attachée directement à un type
 
 # Méthode (2)
 
-```fs
+```fsharp
 // (1) Forme en tuple (la + classique)
 type Product = { SKU: string; Price: float } with
     member this.TupleTotal(qty, discount) =
@@ -182,7 +182,7 @@ type Product' =
 
 Permet d'appeler une méthode tuplifiée en spécifiant le nom des paramètres :
 
-```fs
+```fsharp
 type SpeedingTicket() =
     member _.SpeedExcess(speed: int, limit: int) =
         speed - limit
@@ -220,7 +220,7 @@ Lors de l'appel de la méthode, l'argument est spécifiable au choix :
 
 # Paramètres optionnels : exemples
 
-```fs
+```fsharp
 type DuplexType = Full | Half
 
 type Connection(?rate: int, ?duplex: DuplexType, ?parity: bool) =
@@ -245,7 +245,7 @@ let conn3 = Connection(300, Half, true)
 Permet de spécifier un nombre variable de paramètres de même type
 → Via attribut `System.ParamArray` sur le **dernier** argument de la méthode
 
-```fs
+```fsharp
 open System
 
 type MathHelper() =
@@ -269,7 +269,7 @@ let x = MathHelper.Max(1, 2, 4, 5)  // 5
   - Change le type de retour en tuple `bool * T`
   - `outputArg` devient le 2e élément de ce tuple
 
-```fs
+```fsharp
   match System.Int32.TryParse text with
   | true, i  -> printf $"It's the number {value}."
   | false, _ -> printf $"{text} is not a number."
@@ -283,7 +283,7 @@ let x = MathHelper.Max(1, 2, 4, 5)  // 5
 
 Essayons :
 
-```fs
+```fsharp
 let friendsLocation = Map.ofList [ (0,0),"Peter" ; (1,0),"Jane" ]
 // Map<(int * int), string>
 let peter = friendsLocation.TryGetValue (0,0)
@@ -354,7 +354,7 @@ let peter = friendsLocation.TryGetValue (0,0)
 
 # Propriétés - exemple
 
-```fs
+```fsharp
 type Person = { First: string; Last: string } with
     member this.FullName = // Getter
         $"{this.Last.ToUpper()} {this.First}"
@@ -370,7 +370,7 @@ let s = joe.FullName  // "DALTON Joe"
 ⚠️ Les propriétés ne sont pas déconstructibles.
 → Peuvent participer à un pattern matching que dans partie `when`
 
-```fs
+```fsharp
 type Person = { First: string; Last: string } with
     member this.FullName = // Getter
         $"{this.Last.ToUpper()} {this.First}"
@@ -396,7 +396,7 @@ Permet accès par indice, comme si la classe était un tableau : `instance.[inde
 
 Mise en place en déclarant membre `Item`
 
-```fs
+```fsharp
 member self-identifier.Item
     with get(index) =
         get-member-body
@@ -412,7 +412,7 @@ member self-identifier.Item
 
 # Propriétés indexées : exemple
 
-```fs
+```fsharp
 type Lang = En | Fr
 
 type DigitLabel() =
@@ -442,7 +442,7 @@ Définition : via méthode *(normale ou d'extension)* `GetSlice(?start, ?end)`
 
 Usage : via opérateur `..`
 
-```fs
+```fsharp
 type Range = { Min: int; Max: int } with
     member this.GetSlice(min, max) =
         { Min = System.Math.Max(defaultArg min this.Min, this.Min)
@@ -474,7 +474,7 @@ Opérateur surchargé à 2 niveaux possibles :
 
 # Surcharge d'opérateur : exemple
 
-```fs
+```fsharp
 type Vector(x: float, y: float) =
     member _.X = x
     member _.Y = y
@@ -540,7 +540,7 @@ Déclarer successivement :
 
 # Extension intrinsèque - Exemple
 
-```fs
+```fsharp
 namespace Example
 
 type Variant =
@@ -567,7 +567,7 @@ Extension définie en-dehors du module/namespace/assembly du type étendu.
 💡 Pratique pour les types dont la déclaration n'est pas modifiable directement,
      par exemple ceux issus d'une librairie.
 
-```fs
+```fsharp
 module EnumerableExtensions
 
 open System.Collections.Generic
@@ -587,7 +587,7 @@ type IEnumerable<'T> with
 
 **Compilation :** en méthode statique → version simplifiée :
 
-```cs
+```csharp
 public static class Extensions
 {
     public static IEnumerable<T> RepeatElements<T>(IEnumerable<T> xs, int n) {...}
@@ -596,7 +596,7 @@ public static class Extensions
 
 **Usage :** comme un vrai membre, après avoir importé son module :
 
-```fs
+```fsharp
 open Extensions
 
 let x = [1..3].RepeatElements(2) |> List.ofSeq
@@ -607,7 +607,7 @@ let x = [1..3].RepeatElements(2) |> List.ofSeq
 
 # Extension optionnelle - Autre exemple
 
-```fs
+```fsharp
 // File Person.fs
 type Person = { First: string; Last: string }
 
@@ -639,7 +639,7 @@ let s = joe.FullName  // "DALTON Joe"
 → Recommandé dans la déclaration initiale du type ✅
 → Déconseillé dans une extension de type ⛔
 
-```fs
+```fsharp
 type Variant = Num of int | Str of string with
     override this.ToString() = ... ✅
 
@@ -656,7 +656,7 @@ type Variant with
 
 Sont incompatibles :
 
-```fs
+```fsharp
 type i32 = System.Int32
 
 type i32 with
@@ -666,7 +666,7 @@ type i32 with
 
 💡 **Solution :** il faut utiliser le vrai nom du type
 
-```fs
+```fsharp
 type System.Int32 with
     member this.IsEven = this % 2 = 0
 ```
@@ -680,7 +680,7 @@ type System.Int32 with
 
 Extension autorisée sur type générique sauf quand contraintes diffèrent :
 
-```fs
+```fsharp
 open System.Collections.Generic
 
 type IEnumerable<'T> with
@@ -705,7 +705,7 @@ Méthode statique :
 • Définie dans classe `[<Extension>]`
 • Type du 1er argument = type étendu *(`IEnumerable<'T>` ci-dessous)*
 
-```fs
+```fsharp
 namespace Extensions
 
 open System.Collections.Generic
@@ -725,7 +725,7 @@ type EnumerableExtensions =
 
 # Méthode d'extension - Exemple simplifié
 
-```fs
+```fsharp
 open System.Runtime.CompilerServices
 
 [<Extension>]
@@ -752,7 +752,7 @@ val x : int = 6
 
 Pseudo-équivalent en C# :
 
-```cs
+```csharp
 using System.Collections.Generic;
 
 namespace Extensions
@@ -773,7 +773,7 @@ namespace Extensions
 
 On peut ajouter une méthode d'extension à tout tuple F# :
 
-```fs
+```fsharp
 open System.Runtime.CompilerServices
 
 [<Extension>]
@@ -840,7 +840,7 @@ Définition d'une classe
 → Commence par `type` *(comme tout type en F♯)*
 → Nom de la classe généralement suivi du **constructeur primaire**
 
-```fs
+```fsharp
 type CustomerName(firstName: string, lastName: string) =
     // Corps du constructeur primaire
     // Membres...
@@ -854,7 +854,7 @@ type CustomerName(firstName: string, lastName: string) =
 
 Paramètres génériques à spécifier car non inférés
 
-```fs
+```fsharp
 type Tuple2_KO(item1, item2) = // ⚠️ 'item1' et 'item2': type 'obj' !
     // ...
 
@@ -871,7 +871,7 @@ Syntaxe pour définir un autre constructeur :
 
 ☝ Doit appeler le constructeur primaire !
 
-```fs
+```fsharp
 type Point(x: float, y: float) =
     new() = Point(0, 0)
     // Membres...
@@ -901,7 +901,7 @@ On peut initialiser des propriétés avec setter à l'instanciation
 → Les spécifier en tant que **arguments nommés** dans l'appel au constructeur
 → Les placer après les éventuels arguments du constructeur :
 
-```fs
+```fsharp
 type PersonName(first: string) =
     member val First = first with get, set
     member val Last = "" with get, set
@@ -934,7 +934,7 @@ Héritage via mot clé `inherit`
 
 # Classe abstraite : exemple
 
-```fs
+```fsharp
 [<AbstractClass>]
 type Shape2D() =
     member val Center = (0.0, 0.0) with get, set
@@ -987,7 +987,7 @@ Syntaxe :
 
 # Champ implicite d'instance : exemple
 
-```fs
+```fsharp
 type Person(firstName: string, lastName: string) =
     let fullName = $"{firstName} {lastName}"
     member _.Hi() = printfn $"Hi, I'm {fullName}!"
@@ -1000,7 +1000,7 @@ p.Hi()  // Hi, I'm John Doe!
 
 # Champ implicite statique : exemple
 
-```fs
+```fsharp
 type K() =
     static let mutable count = 0
 
@@ -1032,7 +1032,7 @@ Déclaration du type, sans valeur initiale :
 
 # Champ *vs* propriété
 
-```fs
+```fsharp
 // Champs explicites readonly
 type C1 =
     val a: int
@@ -1082,7 +1082,7 @@ Même syntaxe que pour les classes mais avec en plus :
 - Soit attribut `[<Struct>]`
 - Soit bloc `struct...end` *(fréquent)*
 
-```fs
+```fsharp
 type Point =
     struct
         val mutable X: float
@@ -1111,7 +1111,7 @@ Idem classe abstraite avec :
 • Que des membres abstraits, définis par signature
 • Sans l'attribut `[<AbstractClass>]`
 
-```fs
+```fsharp
 type [accessibility-modifier] interface-name =
     abstract memberN : [ argument-typesN -> ] return-typeN
 ```
@@ -1119,7 +1119,7 @@ type [accessibility-modifier] interface-name =
 • Nom d'une interface commence par `I` pour suivre convention .NET
 • Les arguments peuvent être nommés *(sans parenthèses sinon 💥)*
 
-```fs
+```fsharp
 type IPrintable =
     abstract member Print : format:string -> unit
 ```
@@ -1137,7 +1137,7 @@ type IPrintable =
 
 # Implémentation dans un type
 
-```fs
+```fsharp
 type IPrintable =
     abstract member Print : unit -> unit
 
@@ -1154,7 +1154,7 @@ type Range = { Min: int; Max: int } with
 
 # Implémentation dans une expression objet
 
-```fs
+```fsharp
 type IConsole =
     abstract ReadLine : unit -> string
     abstract WriteLine : string -> unit
@@ -1182,7 +1182,7 @@ Implémentation d'une interface en F♯
 
 → Les méthodes de l'interface ne sont consommables que par *upcasting* :
 
-```fs
+```fsharp
 type IPrintable =
     abstract member Print : unit -> unit
 
@@ -1199,7 +1199,7 @@ let range = { Min = 1; Max = 5 }
 
 # Implémentation d'une interface générique
 
-```fs
+```fsharp
 type IValue<'T> =
     abstract member Get : unit -> 'T
 
@@ -1222,7 +1222,7 @@ let s = (o :> IValue<string>).Get() // "hello"
 
 Défini avec mot clé `inherit`
 
-```fs
+```fsharp
 type Base(x: int) =
     do
         printf "Base: "
@@ -1259,7 +1259,7 @@ let child = Child(1)
 Expression permettant d'implémenter à la volée un type abstrait
 → Similaire à une classe anonyme en Java
 
-```fs
+```fsharp
 let makeResource (resourceName: string) =
     printfn $"create {resourceName}"
     { new System.IDisposable with
@@ -1277,7 +1277,7 @@ let makeResource (resourceName: string) =
 
 Possible mais 2e interface non consommable facilement et sûrement
 
-```fs
+```fsharp
 let makeDelimiter (delim1: string, delim2: string, value: string) =
     { new System.IFormattable with
         member _.ToString(format: string, _: System.IFormatProvider) =
@@ -1339,7 +1339,7 @@ Inférence marche mieux avec fonction(objet) que objet.membre
 
 # Classe pour encapsuler état mutable
 
-```fs
+```fsharp
 // 😕 Encapsuler état mutable dans une closure → fonction impure contre-intuitif ⚠️
 let counter =
     let mutable count = 0
@@ -1362,7 +1362,7 @@ type Counter() =
 
 # Interface pour grouper fonctionnalités
 
-```fs
+```fsharp
 let checkRoundTrip serialize deserialize value =
     value = (value |> serialize |> deserialize)
 // val checkRoundTrip :
@@ -1373,7 +1373,7 @@ let checkRoundTrip serialize deserialize value =
 `serialize` et `deserialize` forment un groupe cohérent
 → Les grouper dans un objet
 
-```fs
+```fsharp
 let checkRoundTrip serializer data =
     data = (data |> serializer.Serialize |> serializer.Deserialize)
 ```
@@ -1384,7 +1384,7 @@ let checkRoundTrip serializer data =
 
 💡 Préférer une interface à un *Record*
 
-```fs
+```fsharp
 // ❌ Éviter : ce n'est pas un bon usage d'un Record
 type Serializer<'T> = {
     Serialize: 'T -> string
@@ -1404,7 +1404,7 @@ type Serializer =
 
 # API expressive
 
-```fs
+```fsharp
 // ❌ Éviter                        // ✅ Préférer
                                     [<AbstractClass; Sealed>]
 module Utilities =                  type Utilities =
@@ -1426,7 +1426,7 @@ module Utilities =                  type Utilities =
 
 Ne pas exposer ce type tel quel :
 
-```fs
+```fsharp
 type RadialPoint = { Angle: float; Radius: float }
 
 module RadialPoint =
@@ -1446,7 +1446,7 @@ module RadialPoint =
 - Mettre le tout dans un namespace
 - Augmenter le type avec fonctionnalités du module compagnon
 
-```fs
+```fsharp
 namespace Fabrikam
 
 type RadialPoint = {...}
@@ -1464,7 +1464,7 @@ type RadialPoint with
 
 👉 L'API consommée en C♯ est +/- équivalente à :
 
-```cs
+```csharp
 namespace Fabrikam
 {
     public static class RadialPointModule { ... }
@@ -1490,7 +1490,7 @@ namespace Fabrikam
 → Marche à petite dose : peu de dépendances, peu de fonctions concernées
 → Sinon, vite pénible à coder et à utiliser 🥱
 
-```fs
+```fsharp
 module MyApi =
     let function1 dep1 dep2 dep3 arg1 = doStuffWith dep1 dep2 dep3 arg1
     let function2 dep1 dep2 dep3 arg2 = doStuffWith' dep1 dep2 dep3 arg2
@@ -1506,7 +1506,7 @@ module MyApi =
 
 👉 Offre une API \+ user-friendly 👍
 
-```fs
+```fsharp
 type MyParametricApi(dep1, dep2, dep3) =
     member _.Function1 arg1 = doStuffWith dep1 dep2 dep3 arg1
     member _.Function2 arg2 = doStuffWith' dep1 dep2 dep3 arg2
@@ -1554,7 +1554,7 @@ en paramètre d'une fonction d'ordre supérieure quand :
 
 3. Lambda "vraiment" générique
 
-```fs
+```fsharp
 let test42 (f: 'T -> 'U) =
     f 42 = f "42"
 // ❌ ^^     ~~~~
@@ -1565,7 +1565,7 @@ let test42 (f: 'T -> 'U) =
 
 ✅ Solution : wrapper la fonction dans un objet
 
-```fs
+```fsharp
 type Func2<'U> =
     abstract Invoke<'T> : 'T -> 'U
 

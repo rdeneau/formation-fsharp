@@ -60,7 +60,7 @@ Always true
 ⚠️ Always seek 1st to handle all cases exhaustively/explicitly
      When impossible, then use the `_`
 
-```fs
+```fsharp
 match option with
 | Some 1 -> ...
 | _ -> ...              // ⚠️ Non exhaustive
@@ -76,7 +76,7 @@ match option with
 
 Detects constants, `null` and number literals, `char`, `string`, `enum`.
 
-```fs
+```fsharp
 [<Literal>]
 let Three = 3   // Constant
 
@@ -137,7 +137,7 @@ let confirm personName =
 
 ⚠️ You cannot link to the same variable more than once.
 
-```fs
+```fsharp
 let elementsAreEqualKo tuple =
     match tuple with
     | (x,x) -> true  // 💥 Error FS0038: x' is linked twice in this model
@@ -146,7 +146,7 @@ let elementsAreEqualKo tuple =
 
 Solutions: use 2 variables then check their equality
 
-```fs
+```fsharp
 // 1. Guard clause📍
 let elementsAreEqualOk = function
     | (x,y) when x = y -> true
@@ -165,7 +165,7 @@ Several possibilities:
 ② Pattern of a single field by its name → `Field = value`
 ③ Pattern of several fields by name → `F1 = v1; F2 = v2`
 
-```fs
+```fsharp
 type Shape =
     | Rectangle of Height: int * Width: int
     | Circle of Radius: int
@@ -184,14 +184,14 @@ let describe shape =
 
 `as` is used to name an element whose content is deconstructed
 
-```fs
+```fsharp
 let (x, y) as coordinate = (1, 2)
 printfn "%i %i %A" x y coordinate  // 1 2 (1, 2)
 ```
 
 💡 Also works within functions to get back the parameter name:
 
-```fs
+```fsharp
 type Person = { Name: string; Age: int }
 
 let acceptMajorOnly ({ Age = age } as person) = // person: Person -> Person option
@@ -208,7 +208,7 @@ Combine two patterns *(named `P1` and `P2` below)*.
 
 💡 Use the same variable (`name` in the example below):
 
-```fs
+```fsharp
 type Upload = { Filename: string; Title: string option }
 
 let titleOrFile ({ Title = Some name } | { Filename = name }) = name
@@ -223,7 +223,7 @@ titleOrFile { Filename = "Report.docx"; Title = Some "Report+" }  // "Report+"
 
 Use of parentheses `()` to group patterns, to tackle precedence
 
-```fs
+```fsharp
 type Shape = Circle of Radius: int | Square of Side: int
 
 let countFlatShapes shapes =
@@ -244,7 +244,7 @@ let countFlatShapes shapes =
 ⚠️ Parentheses complicate reading
 💡 Try to do without when possible
 
-```fs
+```fsharp
 let countFlatShapes shapes =
     let rec loop rest count =
         match rest with
@@ -292,7 +292,7 @@ The default *match expression* combines the 2 patterns:
 
 Recursive functions traversing a list use the `[]` pattern to stop recursion:
 
-```fs
+```fsharp
 [<TailCall>]
 let rec printList l =
     match l with
@@ -308,7 +308,7 @@ let rec printList l =
 
 Syntax: `[| items |]` for 0..N items between `;`
 
-```fs
+```fsharp
 let length vector =
     match vector with
     | [| x |] -> x
@@ -327,7 +327,7 @@ Syntax: `items` or `(items)` for 2..N items between `,`.
 
 💡 Useful to match several values at the same time
 
-```fs
+```fsharp
 type Color = Red | Blue
 type Style = Background | Text
 
@@ -349,7 +349,7 @@ Syntax: `{ Field1 = var1; ... }`
 
 💡 Also works for function parameters:
 
-```fs
+```fsharp
 type Person = { Name: string; Age: int }
 
 let displayMajority { Age = age; Name = name } =
@@ -367,7 +367,7 @@ displayMajority john // John is major
 
 ⚠️ **Reminder:** there is no pattern for anonymous *Records*!
 
-```fs
+```fsharp
 type Person = { Name: string; Age: int }
 
 let john = { Name = "John"; Age = 25 }
@@ -386,7 +386,7 @@ Syntax: `my-object :? sub-type` and returns a `bool`
 
 Usage: with a type hierarchy
 
-```fs
+```fsharp
 open System.Windows.Forms
 
 let RegisterControl (control: Control) =
@@ -403,7 +403,7 @@ let RegisterControl (control: Control) =
 
 This pattern is common in `try`/`with` blocks:
 
-```fs
+```fsharp
 try
     printfn "Difference: %i" (42 / 0)
 with
@@ -420,7 +420,7 @@ with
 The *Type Test Pattern* only works with reference types.
 → For a value type or unknown type, it must be boxed.
 
-```fs
+```fsharp
 let isIntKo = function :? int -> true | _ -> false
 //                     ~~~~~~
 // 💥 Error FS0008: This runtime coercion or type test from type 'a to int
@@ -450,7 +450,7 @@ Similar to a `switch` expression in C♯ 8.0 but more powerful thanks to pattern
 
 Syntax:
 
-```fs
+```fsharp
 match test-expression with
 | pattern1 [ when condition ] -> result-expression1
 | pattern2 [ when condition ] -> result-expression2
@@ -471,7 +471,7 @@ Otherwise: compile warning, 💥 `MatchFailureException` at runtime
 Not necessary in a F# *match expression* if branches cover all cases
 because the compiler checks for completeness and "dead" branches
 
-```fs
+```fsharp
 let fn x =
     match x with
     | Some true  -> "ok"
@@ -501,7 +501,7 @@ the addition of a case by a warning at compile time:
 Syntax: `pattern1 when condition`
 Usage: to refine a pattern, using constraints on variables
 
-```fs
+```fsharp
 let classifyBetween low top value =
     match value with
     | x when x < low -> "Inf"
@@ -522,7 +522,7 @@ let test2 = 6 |> classifyBetween 1 5  // "Sup"
 
 The OR pattern has a higher *precedence/priority* than the *Guard* :
 
-```fs
+```fsharp
 type Parity = Even of int | Odd of int
 
 let parityOf value =
@@ -545,7 +545,7 @@ let test2 = 3 |> hasSquare 9  // true
 
 Syntax :
 
-```fs
+```fsharp
 function
 | pattern1 [ when condition ] -> result-expression1
 | pattern2 [ when condition ] -> result-expression2
@@ -554,7 +554,7 @@ function
 
 Equivalent to a lambda taking an implicit parameter which is "matched" :
 
-```fs
+```fsharp
 fun value ->
     match value with
     | pattern1 [ when condition ] -> result-expression1
@@ -568,7 +568,7 @@ fun value ->
 
 1. In pipeline
 
-```fs
+```fsharp
 value
 |> is123
 |> function
@@ -578,7 +578,7 @@ value
 
 2. Terser function
 
-```fs
+```fsharp
 let is123 = function
     | 1 | 2 | 3 -> true
     | _ -> false
@@ -593,7 +593,7 @@ let is123 = function
 Example: function declared with other explicit parameters
 → The number of parameters and their order can be wrong:
 
-```fs
+```fsharp
 let classifyBetween low high = function  // 👈 3 parameters : `low`, `high`, and another one implicit
     | x when x < low  -> "Inf"
     | x when x = low  -> "Low"
@@ -623,7 +623,7 @@ The equivalent of the pattern matching exhaustivity in FP is
 Function associated with a union type and hiding the *matching* logic
 Takes N+1 parameters for a union type with N *cases*
 
-```fs
+```fsharp
 type [<Measure>] C
 type [<Measure>] F
 
@@ -642,7 +642,7 @@ module Temperature =
 
 # `fold` function: usage
 
-```fs
+```fsharp
 module Temperature =
     // ...
     let [<Literal>] FactorC2F = 1.8<F/C>
@@ -669,7 +669,7 @@ let t2 = t1 |> Temperature.toggleUnit  // Fahrenheint 212.0
 For example, we could add a `Kelvin` *case* and only impact `fold`,
 not the functions that call it, such as `toggleUnit` in the previous example
 
-```fs
+```fsharp
 type [<Measure>] C
 type [<Measure>] F
 type [<Measure>] K  // 🌟
@@ -686,7 +686,7 @@ type Temperature =
 
 # `fold` function: interest (2)
 
-```fs
+```fsharp
 // ...
 module Temperature =
     let fold mapCelsius mapFahrenheint temperature : 'T =
@@ -773,7 +773,7 @@ There are 4 types of active patterns:
 Syntax: `let (|Case|) [...parameters] value = Case [data]`
 Usage: on-site value adjustment
 
-```fs
+```fsharp
 /// Ensure the given string is never null
 let (|NotNullOrEmpty|) (s: string) = // string -> string
     if s |> isNull then System.String.Empty else s
@@ -789,7 +789,7 @@ let (NotNullOrEmpty b) = null  // val b: string = ""
 
 Can accept **parameters** → ⚠️ usually more difficult to understand
 
-```fs
+```fsharp
 /// Get the value in the given option if there is some, otherwise the specified default value
 let (|Default|) defaultValue option = option |> Option.defaultValue defaultValue
 //              'T     -> 'T option -> 'T
@@ -810,7 +810,7 @@ let (ValueOrUnknown person) = None  // val person: string = "unknown"
 
 Another example: extracting the polar form of a complex number
 
-```fs
+```fsharp
 /// Extracts the polar form (Magnitude, Phase) of the given complex number
 let (|Polar|) (x: System.Numerics.Complex) =
     x.Magnitude, x.Phase
@@ -833,7 +833,7 @@ let multiply' (x: System.Numerics.Complex) (y: System.Numerics.Complex) =
 Syntax: `let (|Case1|...|CaseN|) value = CaseI [dataI]`
 ☝ No parameters❗
 
-```fs
+```fsharp
 // Using an ad-hoc union type                       ┆  // Using a total active pattern
 type Parity = Even of int | Odd of int with         ┆  let (|Even|Odd|) x =  // int -> Choice<int, int>
     static member Of(x) =                           ┆      if x % 2 = 0 then Even x else Odd x
@@ -856,7 +856,7 @@ Syntax: `let (|Case|_|) value = Some Case | Some data | None`
 → Returns the type `'T option` if *Case* includes data, otherwise `unit option`
 → Pattern matching is non-exhaustive → a default case is required
 
-```fs
+```fsharp
 let (|Integer|_|) (x: string) = // (x: string) -> int option
     match System.Int32.TryParse x with
     | true, i -> Some i
@@ -882,7 +882,7 @@ Syntax: `let (|Case|_|) ...arguments value = Some Case | Some data | None`
 **Example 1: leap year**
 → Year multiple of 4 but not 100 except 400
 
-```fs
+```fsharp
 let (|DivisibleBy|_|) factor x =  // (factor: int) -> (x: int) -> unit option
     match x % factor with
     | 0 -> Some DivisibleBy
@@ -902,7 +902,7 @@ let isLeapYear year =  // (year: int) -> bool
 
 #### Example 2: Regular expression
 
-```fs
+```fsharp
 let (|Regexp|_|) pattern value =  // string -> string -> string list option
     let m = System.Text.RegularExpressions.Regex.Match(value, pattern)
     if not m.Success || m.Groups.Count < 1 then
@@ -921,7 +921,7 @@ let (|Regexp|_|) pattern value =  // string -> string -> string list option
 
 #### Example 3: Hexadecimal color
 
-```fs
+```fsharp
 let hexToInt hex =  // string -> int // E.g. "FF" -> 255
     System.Int32.Parse(hex, System.Globalization.NumberStyles.HexNumber)
 
@@ -967,7 +967,7 @@ Partial simple | let (|Case|_|)                x |                     'T -> 'U 
 
 ≃ *factory* function of an "anonymous" union type
 
-```fs
+```fsharp
 // -- Single-case ----
 let (|Cartesian|) (x: System.Numerics.Complex) = Cartesian(x.Real, x.Imaginary)
 
@@ -1022,7 +1022,7 @@ Examine the active pattern signature: `[...params ->] value -> 'U option`
 
 Rewrite this fizz buzz using an active pattern `DivisibleBy`.
 
-```fs
+```fsharp
 let isDivisibleBy factor number =
     number % factor = 0
 
@@ -1042,7 +1042,7 @@ let fizzBuzz = function
 
 # Fizz buzz with active pattern: solution
 
-```fs
+```fsharp
 let isDivisibleBy factor number =
     number % factor = 0
 
@@ -1068,7 +1068,7 @@ let fizzBuzz = function
 
 # Fizz buzz with active pattern: alternative
 
-```fs
+```fsharp
 let isDivisibleBy factor number =
     number % factor = 0
 
@@ -1086,7 +1086,7 @@ let fizzBuzz = function
 ```
 
 → The 2 solutions are equal. It's a matter of style / personal taste.
-→ In F# 9, no need to do `|> boolToOption`.
+→ In F♯ 9, no need to do `|> boolToOption`.
 
 ---
 
@@ -1096,7 +1096,7 @@ let fizzBuzz = function
 2. Wrapping a BCL method *(see `(|Regexp|_|)` and below)*.
 3. Improve expressiveness, help to understand logic *(see below)*
 
-```fs
+```fsharp
 [<RequireQualifiedAccess>]
 module String =
     let (|Int|_|) (input: string) = // string -> int option
@@ -1116,7 +1116,7 @@ let v2 = addOneOrZero "a"  // 0
 
 # Expressiveness with active patterns
 
-```fs
+```fsharp
 type Movie = { Title: string; Director: string; Year: int; Studio: string }
 
 module Movie =
@@ -1137,7 +1137,7 @@ module Movie =
 
 # Expressiveness with active patterns (2)
 
-```fs
+```fsharp
 // ...
 
 open Movie
@@ -1159,7 +1159,7 @@ let topAnimes =
 
 An active pattern ≃ function with metadata → 1st class citizen in F#
 
-```fs
+```fsharp
 // 1. Return an active pattern from a function
 let (|Hayao_Miyazaki|_|) movie =
     (|Director|_|) "Hayao Miyazaki" movie

@@ -70,7 +70,7 @@ Modules et namespaces permettent de :
    - En C♯ ≡ `using` pour un namespace
    - En C♯ ≡ `using static` pour un module *(classe statique .NET)*
 
-```fs
+```fsharp
 // Option 1. Qualifier les usages
 let result1 = Arithmetic.add 5 9
 
@@ -91,7 +91,7 @@ i.e. masque un précédent élément importé de même nom
 
 Exemple : erreur car fonction `add` appelée est celle du module `FloatHelper` !
 
-```fs
+```fsharp
 module IntHelper =
     let add x y = x + y
 
@@ -156,7 +156,7 @@ Quid des namespaces imbriqués ?
 Permet d'étendre la visibilité par défaut unidirectionnelle, de bas en haut,
 pour que des éléments les uns au-dessous des autres se voient mutuellement
 
-```fs
+```fsharp
 namespace rec Fruit
 
 type Banana = { Peeled: bool }
@@ -184,7 +184,7 @@ module BananaHelper =
 
 # Module : syntaxe
 
-```fs
+```fsharp
 // Top-level module
 module [accessibility-modifier] [qualified-namespace.]module-name
 declarations
@@ -245,7 +245,7 @@ Différence : l'indentation du contenu
 
 # Equivalence module / classe statique
 
-```fs
+```fsharp
 module MathStuff =
     let add x y  = x + y
     let subtract x y = x - y
@@ -253,7 +253,7 @@ module MathStuff =
 
 Ce module F# est équivalent à la classe statique suivante :
 
-```cs
+```csharp
 public static class MathStuff
 {
     public static int add(int x, int y) => x + y;
@@ -269,7 +269,7 @@ Cf. [sharplab.io](https://sharplab.io/#v2:DYLgZgzgPgtg9gEwK7AKYAICyBDALgCwGVckwx
 
 Comme en C# et les classes, les modules F# peuvent être imbriqués
 
-```fs
+```fsharp
 module Y =
     module Z =
         let z = 5
@@ -352,7 +352,7 @@ Si `addItemToCart item cart` : `[<AutoOpen>]` intéressant
 - Bonne interop autres langages .NET
 - Module peut porter le même nom que le type
 
-```fs
+```fsharp
 type Person = { FirstName: string; LastName: string }
 
 module Person =
@@ -369,7 +369,7 @@ person |> Person.fullName // "John Doe"
 - Type défini à l'intérieur du module
 - On peut nommer le type `T` ou comme le module
 
-```fs
+```fsharp
 module Person =
     type T = { FirstName: string; LastName: string }
 
@@ -389,7 +389,7 @@ Recommandé pour améliorer encapsulation
 → Constructeur du type `private`
 → Module contient un *smart constructor*
 
-```fs
+```fsharp
 module Person =
     type T = private { FirstName: string; LastName: string }
 
@@ -432,7 +432,7 @@ Cf. [docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](http
 
 # Q1. Valide ou non ?
 
-```fs
+```fsharp
 namespace A
 
 let a = 1
@@ -448,7 +448,7 @@ let a = 1
 
 # Q1. Valide ou non ?
 
-```fs
+```fsharp
 namespace A
 
 let a = 1
@@ -464,7 +464,7 @@ let a = 1
 
 # Q2. Valide ou non ?
 
-```fs
+```fsharp
 namespace A
 
 module B
@@ -482,7 +482,7 @@ let a = 1
 
 # Q2. Valide ou non ?
 
-```fs
+```fsharp
 namespace A
 
 module B
@@ -501,7 +501,7 @@ let a = 1
 
 Option 1 : module top-level qualifié
 
-```fs
+```fsharp
 module A.B
 
 let a = 1
@@ -509,7 +509,7 @@ let a = 1
 
 Option 2 : namespace + module local
 
-```fs
+```fsharp
 namespace A
 
 module B =
@@ -522,7 +522,7 @@ module B =
 
 # Q3. Nom qualifié de `add` ?
 
-```fs
+```fsharp
 namespace Common.Utilities
 
 module IntHelper =
@@ -543,7 +543,7 @@ module IntHelper =
 
 # Q3. Nom qualifié de `add` ?
 
-```fs
+```fsharp
 namespace Common.Utilities
 
 module IntHelper =

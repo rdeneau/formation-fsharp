@@ -49,7 +49,7 @@ paginate: true
 
 Example:
 
-```cs
+```csharp
 interface ITelemetry
 {
   void Run(Action action);
@@ -68,7 +68,7 @@ interface ITelemetry
 
 💡 If we had a `Void` type, a *Singleton* of type :
 
-```cs
+```csharp
 public class Void
 {
     public static readonly Void Instance = new Void();
@@ -83,7 +83,7 @@ public class Void
 
 The following *helpers* can be defined to convert to `Void` :
 
-```cs
+```csharp
 public static class VoidExtensions
 {
     // Action -> Func<Void>
@@ -108,7 +108,7 @@ public static class VoidExtensions
 
 We can write a default implementation (C♯ 8) for 2 of the 4 methods:
 
-```cs
+```csharp
 interface ITelemetry
 {
     void Run(Action action) =>
@@ -132,7 +132,7 @@ In F♯, no `void` function but functions with return type `Unit` / `unit`.
 `unit` has a single instance (hence its name), noted `()`.
 → Used as the last expression of a `void` function:
 
-```fs
+```fsharp
 let voidFunction arg =
     // ...
     ()
@@ -144,7 +144,7 @@ let voidFunction arg =
 
 `unit` is also used to model parameter-free functions:
 
-```fs
+```fsharp
 let oneParam arg = ...
 let noParam () = ... // 👈 With
 let noParam2() = ... // 👈 or without space
@@ -168,7 +168,7 @@ Problem: calling a `save` function to save in base, but it returns the `true` or
 Solution: use the `ignore` signature function `'a -> unit`.
 → Whatever the value supplied as a parameter, it ignores it and returns `()`.
 
-```fs
+```fsharp
 let save entity = true
 
 let a =
@@ -201,7 +201,7 @@ F♯ function syntax: parameters separated by spaces
 → Indicates that functions are curried
 → Hence the `->` in the signature between parameters
 
-```fs
+```fsharp
 let fn () = result         // unit -> TResult
 let fn arg = ()            // T    -> unit
 let fn arg = result        // T    -> TResult
@@ -224,13 +224,13 @@ let fn x =                 // 2. With a sub-function
 
 Example : F♯ then equivalent C♯ *(simplified from [SharpLab](https://sharplab.io/#v2:DYLgZgzgNAJiDUAfAtgexgV2AUwAQEFcBeAWAChdLccAXXAQxhlwA9cBPY13eD8q6tjoA3esAx4iuAEy5EAPgZNcARnJA===))* :
 
-```fs
+```fsharp
 module A =
     let add x y = x + y
     let value = 2 |> add 1
 ```
 
-```cs
+```csharp
 public static class A
 {
     public static int add(int x, int y) => x + y;
@@ -279,7 +279,7 @@ Style *data-last* favors:
 
 ☝ Solution: wrap in a function with params in a nice F♯ order
 
-```fs
+```fsharp
 let startsWith (prefix: string) (s: string) =
     s.StartsWith(prefix)
 ```
@@ -355,7 +355,7 @@ Syntax: `fun parameter1 parameter2 etc -> expression`
 - To avoid having to define a named function
 - Recommended for a short function, to keep it readable
 
-```fs
+```fsharp
 [1..10] |> List.map (fun i -> i + 1) // 👈 () around the lambda
 
 // Versus a function named
@@ -373,7 +373,7 @@ let add1 i = i + 1
 - A kind of manual currying
 - Use sparingly
 
-```fs
+```fsharp
 let add x y = x + y // Normal version, automatically curried
 let add' x = fun y -> x + y // Same with a lambda sub
 let add'' = fun x -> (fun y -> x + y) // Same, totally lambda-ized
@@ -388,7 +388,7 @@ let add'' = fun x -> (fun y -> x + y) // Same, totally lambda-ized
   - To force implementation to follow signature
   - Ex: *Domain modelling made functional* by Scott Wlaschin
 
-```fs
+```fsharp
 type Add = int -> int -> int
 
 let add: Add = fun x y -> x + y // 👈 Final signature with named param : (x: int) -> (y: int) -> int
@@ -402,7 +402,7 @@ let add: Add = fun x y -> x + y // 👈 Final signature with named param : (x: i
 - Short syntax equivalent to `fun x -> match x with`
 - Takes 1 parameter which is implicit
 
-```fs
+```fsharp
 let ouiNon x =
   match x with
   | true  -> "Oui"
@@ -426,7 +426,7 @@ let ouiNon = function
 
 Example with a *Record* type 📍
 
-```fs
+```fsharp
 type Person = { Name: string; Age: int }
 
 let name { Name = x } = x     // Person -> string
@@ -446,7 +446,7 @@ let bobAge = age bob // int = 18
   - To avoid *code smell* [long parameter list](https://refactoring.guru/smells/long-parameter-list)
 - You can group them in a tuple and even deconstruct it
 
-```fs
+```fsharp
 // V1 : too many parameters
 let f x y z = ...
 
@@ -486,7 +486,7 @@ let f (x, y, z) = ...
 
 Example: find the number of steps to reach 1 in the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)
 
-```fs
+```fsharp
 let rec steps (n: int) : int =
     if n = 1       then 0
     elif n % 2 = 0 then 1 + steps (n / 2)
@@ -503,7 +503,7 @@ let rec steps (n: int) : int =
 - Classic method of making tail recursive:
   - Add an "accumulator" parameter, such as `fold`/`reduce`.
 
-```fs
+```fsharp
 let steps (number: int) : int =
     [<TailCall>] // (F# 8)
     let rec loop count n = // 👈 `loop` = idiomatic name for this type of recursive internal function
@@ -522,7 +522,7 @@ let steps (number: int) : int =
   - 1st function indicated as recursive with `rec`
   - other functions added to declaration with `and`
 
-```fs
+```fsharp
 // ⚠️ Convoluted algo, just for illustration purposes
 
 let rec Even x =        // 👈 Keyword `rec`
@@ -551,7 +551,7 @@ Example:
 
 Create specialized "overloads" • Example: wrap `String.Compare`:
 
-```fs
+```fsharp
 type ComparisonResult = Bigger | Smaller | Equal // Union type 📍
 
 let private compareTwoStrings (comparison: StringComparison) string1 string2 =
@@ -576,14 +576,14 @@ let compareCaseInsensitive = compareTwoStrings StringComparison.CurrentCultureIg
 
 - Comes last in C♯:
 
-```cs
+```csharp
 String.Compare(String, String, StringComparison)
 String.Compare(String, String)
 ```
 
 - Comes first in F♯, to enable its partial application:
 
-```fs
+```fsharp
 compareTwoStrings    : StringComparison -> String -> String -> ComparisonResult
 compareCaseSensitive :                     String -> String -> ComparisonResult
 ```
@@ -614,7 +614,7 @@ compareCaseSensitive :                     String -> String -> ComparisonResult
 
 ## Methods - Example
 
-```fs
+```fsharp
 type Product = 
     { SKU: string; Price: float }
 
@@ -781,7 +781,7 @@ Reverses the order between function and value: `val |> fn` ≡ `fn val`
 - *Pipeline*: chain function calls, without intermediate variable
 - Object inference help. Example:
 
-```fs
+```fsharp
 let items = ["a"; "bb"; "ccc"]
 
 let longestKo = List.maxBy (fun x -> x.Length) items  // ❌ Error FS0072
@@ -800,7 +800,7 @@ let longest = items |> List.maxBy (fun x -> x.Length) // ✅ Works, returns "ccc
 - ❌ Major disadvantage: reads from right to left
     → Reverses natural English reading direction and execution order
 
-```fs
+```fsharp
 printf "%i" 1+2 // 💥 Error
 printf "%i" (1+2) // With brackets
 printf "%i" <| 1+2 // With inverted pipe
@@ -829,7 +829,7 @@ Executed from left to right:
 • To pass 2 arguments at once, as a tuple
 • Used infrequently, for example with `fold` to pass list & seed
 
-```fs
+```fsharp
 let items = [1..5]
 
 // 😕 Difficult to spot the seed, at the far right
@@ -856,7 +856,7 @@ Binary operators placed **between two functions**
 ⚠️ Types must match: `f: 'T -> 'U` and `g: 'U -> 'V`
 → We get a signature function `'T -> 'V`
 
-```fs
+```fsharp
 let add1 x = x + 1
 let times2 x = x * 2
 
@@ -872,7 +872,7 @@ Rarely used, except to restore a natural order of terms
 
 Example with operator `not` (which replaces the `!` in C♯):
 
-```fs
+```fsharp
 let Even x = x % 2 = 0
 
 // Classic pipeline
@@ -902,7 +902,7 @@ A.k.a *Tacit Programming*
 
 Function defined by composition or partial application
 → **Implicit parameter**, hence `point-free` (in space)
-```fs
+```fsharp
 let add1 x = x + 1                // (x: int) -> int
 let times2 x = x * 2              // (x: int) -> int
 let add1Times2 = add1 >> times2   // int -> int • x implicite • Par composition
@@ -938,7 +938,7 @@ Loses the name of the parameter now implicit in the signature
 
 Works poorly with generic functions :
 
-```fs
+```fsharp
 let isNotEmptyKo = not << List.isEmpty          // 💥 Error FS0030: Value restriction
 let isNotEmpty<'a> = not << List.isEmpty<'a>    // 👌 With type annotation
 let isNotEmpty' list = not (List.isEmpty list)  // 👌 Style explicit
@@ -968,7 +968,7 @@ let isNotEmpty' list = not (List.isEmpty list)  // 👌 Style explicit
 Keyword `inline` tells the compiler to *"inline "* the function
 → Typical use: small "syntactic sugar" function/operator
 
-```fs
+```fsharp
 // See https://github.com/dotnet/fsharp/blob/main/src/fsharp/FSharp.Core/prim-types.fs
 let inline (|>) x f = f x
 let inline ignore _ = ()
@@ -994,7 +994,7 @@ let t = true |> ignore
 Generally concerns a specific type
 → Overload defined within the associated type *(as in C♯)*
 
-```fs
+```fsharp
 type Vector = { X: int; Y: int } with
     // Unary operator (cf ~ and 1! param) for vector inversion
     static member (~-) (v: Vector) =
@@ -1017,7 +1017,7 @@ let v2 = { X=1; Y=1 } + { X=1; Y=3 } // { X = 2; Y = 4 }
 - Definition rather in a module or in an associated type
 - Classic use case: alias for existing function, used as infix
 
-```fs
+```fsharp
 // "OR" Composition of 2 functions (fa, fb) which return an optional result
 let (<||>) fa fb x =
     match fa x with
@@ -1412,7 +1412,7 @@ no parameter - return a `int`
 
 # Question 6. Signature of `h` ?
 
-```fs
+```fsharp
 let f x = x + 1
 let g x y = $"%i{x} + %i{y}"
 let h = f >> g
@@ -1452,7 +1452,7 @@ let h = f >> g
 
 # Addendum Q6.
 
-```fs
+```fsharp
 let f x = x + 1
 let g x y = $"%i{x} + %i{y}"
 let h = f >> g
@@ -1470,7 +1470,7 @@ This question was difficult...
 
 # Question 7. What value returns `f 2`?
 
-```fs
+```fsharp
 let f = (-) 1;
 f 2 // ?
 ```
@@ -1489,7 +1489,7 @@ f 2 // ?
 
 # Answer 7. What value returns `f 2`?
 
-```fs
+```fsharp
 let f = (-) 1
 f 2 // ?
 ```

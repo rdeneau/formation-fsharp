@@ -193,7 +193,7 @@ F# **succinct** syntax is its first key point 💪
 
 # Comments
 
-```fs
+```fsharp
 (* This is block
    comment *)
 
@@ -480,7 +480,7 @@ Implemented internally as a linked list.
 
 Creation with `[]` • Items separated by `;` or line breaks + indentation
 
-```fs
+```fsharp
 let abc = [ 'a'; 'b'; 'c' ] // val abc : char list = ['a'; 'b'; 'c']
 let a =
   [ 2
@@ -791,7 +791,7 @@ let printIfEven n msg =
 
 # Match expression
 
-```fs
+```fsharp
 let translateInFrench civility =
     match civility with
     | "Mister" -> "Monsieur"
@@ -802,7 +802,7 @@ let translateInFrench civility =
 
 Equivalent in C♯ 8 :
 
-```cs
+```csharp
 public static string TranslateInFrench(string civility) =>
     civility switch {
         "Mister" => "Monsieur"
@@ -818,7 +818,7 @@ public static string TranslateInFrench(string civility) =>
 
 → `try/with` expression
 
-```fs
+```fsharp
 let tryDivide x y =
    try
        Some (x / y)
@@ -837,7 +837,7 @@ let tryDivide x y =
 
 → Helpers `failwith`, `invalidArg`, `nullArg`
 
-```fs
+```fsharp
 let fn arg =
     if arg = null then nullArg (nameof arg)
     failwith "Not implemented"
@@ -1328,7 +1328,7 @@ B and C are functions, while A is a simple value: a `string`.
 
 ## 4. What line does not compile? ⏱ 20’’
 
-```fs
+```fsharp
 (* 1 *) let evens list =
 (* 2 *)     let isEven x =
 (* 3 *)     x % 2 = 0
@@ -1341,7 +1341,7 @@ B and C are functions, while A is a simple value: a `string`.
 
 ## 4. What line does not compile?
 
-```fs
+```fsharp
 (* 1 *) let evens list =
 (* 2 *)     let isEven x =
 (* 3 *)     x % 2 = 0 // 💥 Error FS0058: Unexpected syntax or possible incorrect indentation

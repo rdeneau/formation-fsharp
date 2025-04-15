@@ -93,7 +93,7 @@ With the `ignore` function:
 → Takes an ignored, "swallowed" input parameter.
 → Returns `unit`
 
-```fs
+```fsharp
 let inline ignore _ = ()
 // Signature: 'T -> unit
 ```
@@ -130,7 +130,7 @@ Otherwise, genericity can be explicit or statically resolved.
 
 # Implicit genericity
 
-```fs
+```fsharp
 module ListHelper =
     let singleton x = [x]
     // val singleton : x:'a -> 'a list
@@ -151,7 +151,7 @@ to be in a list → Inference
 
 # Explicit genericity
 
-```fs
+```fsharp
 let print2 x y = printfn "%A, %A" x y
 // val print2 : x:'a -> y:'b -> unit
 ```
@@ -162,7 +162,7 @@ let print2 x y = printfn "%A, %A" x y
 
 → Need to indicate it explicitly :
 
-```fs
+```fsharp
 let print2<'T> (x: 'T) (y: 'T) = printfn "%A, %A" x y
 // val print2 : x:'T -> y:'T -> unit
 ```
@@ -173,7 +173,7 @@ let print2<'T> (x: 'T) (y: 'T) = printfn "%A, %A" x y
 
 💡 **Hint:** the `'x` convention to indicate generic type parameter makes it possible to be more concise: the `<'T>` is no needed.
 
-```fs
+```fsharp
 // Before
 let print2<'T> (x: 'T) (y: 'T) = printfn "%A, %A" x y
 
@@ -187,7 +187,7 @@ let print2 (x: 'T) (y: 'T) = printfn "%A, %A" x y
 
 The definition of generic types is explicit:
 
-```fs
+```fsharp
 type Pair = { Item1: 'T ; Item2: 'T }
 // 💥                ~~          ~~
 // Error FS0039: Parameter type `'T' is not defined.
@@ -210,7 +210,7 @@ type Result<'TOk, 'TErr> =
 
 The *wildcard* `_` is used to replace an ignored parameter type:
 
-```fs
+```fsharp
 let printSequence (sequence: seq<'T>) = sequence |> Seq.iteri (printfn "%i: %A")
 // Versus
 let printSequence (sequence: seq<_>) = ...
@@ -218,7 +218,7 @@ let printSequence (sequence: seq<_>) = ...
 
 Even more useful with flexible type 📍 :
 
-```fs
+```fsharp
 let tap action (sequence: 'seq when 'seq :> seq<_>) =
     sequence |> Seq.iteri action
     sequence
@@ -246,7 +246,7 @@ F♯ offers two categories of parameter types:
 
 W/o:
 
-```fs
+```fsharp
 let add x y = x + y
 // val add : x:int -> y:int -> int
 ```
@@ -255,7 +255,7 @@ let add x y = x + y
 
 With SRTP, in conjunction with `inline` function:
 
-```fs
+```fsharp
 let inline add x y = x + y
 // val inline add : x: ^a -> y: ^b -> ^c
 //    when ( ^a or ^b ) : (static member (+) : ^a * ^b -> ^c)
@@ -313,14 +313,14 @@ Same principle as in C♯ with a few differences:
 
 To force basic type: parent class or interface
 
-```fs
+```fsharp
 let check<'TError when 'TError :> System.Exception> condition (error: 'TError) =
     if not condition then raise error
 ```
 
 → C# equivalent:
 
-```cs
+```csharp
 static void check<TError>(bool condition, TError error) where TError : System.Exception
 {
     if (!condition) throw error;
@@ -334,7 +334,7 @@ static void check<TError>(bool condition, TError error) where TError : System.Ex
 
 # Enum constraint
 
-```fs
+```fsharp
 open System
 
 let getValues<'T when 'T : enum<int>>() =
@@ -371,7 +371,7 @@ Indicates that the `'T` type must :
 
 # Comparison constraint - Example
 
-```fs
+```fsharp
 let compare (x: 'T) (y: 'T when 'T : comparison) =
     if   x < y then -1
     elif x > y then +1
@@ -408,7 +408,7 @@ let a = compare [ id; ignore ] [ id; ignore ]
 
 # Explicit member constraint (2)
 
-```fs
+```fsharp
 let inline add (value1 : ^T when ^T : (static member (+) : ^T * ^T -> ^T), value2: ^T) =
     value1 + value2
 
@@ -443,7 +443,7 @@ that a type parameter is a subtype of a certain other type.
 
 → Illustration with an example:
 
-```fs
+```fsharp
 open System.Collections.Generic
 
 // V1
@@ -463,7 +463,7 @@ Solutions :
 → **V2 :** specify a **type constraint**
 → **V3 :** indicate a **flexible type**
 
-```fs
+```fsharp
 (* V1  ❌ *)  let add item (collection: ICollection<_>) = …
 (* V2a 😖 *)  let add<'t, 'u when 'u :> ICollection<'t>> (item: 't) (collection: 'u) : 'u = …
 (* V2b 😕 *)  let add (item: 't) (collection: 'u when 'u :> ICollection<'t>) : 'u = …
@@ -481,7 +481,7 @@ Solutions :
 
 Facilitate the use of the function without the need for an *upcast*.
 
-```fs
+```fsharp
 let join separator (generate: unit -> seq<_>) =
     let items = System.String.Join (separator, generate() |> Seq.map (sprintf "%A"))
     $"[ {items} ]"
@@ -492,7 +492,7 @@ let s2 = join ", " (fun () -> [1..5] :> seq<int>) // 😕 Works but painful to w
 
 With a flexible type:
 
-```fs
+```fsharp
 let join separator (generate: unit -> #seq<_>) =
     // [...]
 
@@ -505,7 +505,7 @@ let s1 = join ", " (fun () -> [1..5]) // ✅ Works naturally
 
 In the example below, `items` is inferred with the correct constraint:
 
-```fs
+```fsharp
 let tap f items =
     items |> Seq.iter f
     items
@@ -514,7 +514,7 @@ let tap f items =
 
 💡 What about making code easier to read with a flexible type?
 
-```fs
+```fsharp
 let tap f (items: #seq<_>) =
     // [...]
 ```
@@ -525,7 +525,7 @@ let tap f (items: #seq<_>) =
 
 ⚠️ Previous tip doesn't always work!
 
-```fs
+```fsharp
 let max x y =
     if x > y then x else y
 // val max : x:'a -> y:'a -> 'a when 'a : comparison
@@ -582,7 +582,7 @@ Units are **checked at compile time**
 
 Syntaxe based on the `[<Measure>]` attribute
 
-```fs
+```fsharp
 // 👉 New units "from scratch"
 [<Measure>] type kilogram
 [<Measure>] type metre
@@ -618,7 +618,7 @@ Syntaxe based on the `[<Measure>]` attribute
 
 💡 **Tip:** use of *double back ticks*
 
-```fs
+```fsharp
 [<Measure>] type ``Ω``
 [<Measure>] type ``°C``
 [<Measure>] type ``°F``
@@ -634,7 +634,7 @@ let waterBoilingAt = 100.0<``°C``>
 
 # Units of measure: usage
 
-```fs
+```fsharp
 // Unit defined by annotating the number
 let distance = 1.0<m>               // val distance : float<m> = 1.0
 let time = 2.0<s>                   // val time : float<s> = 2.0
@@ -661,7 +661,7 @@ let ko3 = (distance = time)           // 💥 Expected 'float<m>', Given: 'float
 - Multiplicative factor with a `<target/source>` unit
 - Conversion function using this factor
 
-```fs
+```fsharp
 [<Measure>] type m
 [<Measure>] type cm
 [<Measure>] type km
@@ -683,7 +683,7 @@ let b = Distance.toKilometer 500.0<m>  // val b : float<km> = 0.5
 
 Example 2: degree Celsius (°C) → degree Fahrenheit (°F)
 
-```fs
+```fsharp
 [<Measure>] type ``°C``
 [<Measure>] type ``°F``
 
@@ -728,7 +728,7 @@ Units of measure are specific to the F♯ compiler.
 Need to distinguish from a classic generic type
 → Annotate generic unit with `[<Measure>]`
 
-```fs
+```fsharp
 type Point<[<Measure>] 'u, 'data> =
     { X: float<'u>; Y: float<'u>; Data: 'data }
 
@@ -743,7 +743,7 @@ let point = { X = 10.0<m>; Y = 2.0<m>; Data = "abc" }
 💡 Nuget [FSharp.UMX](https://github.com/fsprojects/FSharp.UMX) *(Unit of Measure Extension)*
 → For other primitives `bool`, `DateTime`, `Guid`, `string`, `TimeSpan`
 
-```fs
+```fsharp
 open System
 
 #r "nuget: FSharp.UMX"
@@ -780,7 +780,7 @@ Numeric types :
 **explicit** conversion between these types
 → Helper with same name as the target type
 
-```fs
+```fsharp
 let x = 1               // val x : int = 1
 let y = float x         // val y : float = 1.0
 let z = decimal 1.2     // val z : decimal = 1.2M
@@ -797,7 +797,7 @@ Use the enum name to convert a number into an enum:
 
 The reverse operation uses the `int` function. ③
 
-```fs
+```fsharp
 type Color =
     | Red   = 1
     | Green = 2
@@ -828,14 +828,14 @@ let value3 = int Color.Blue     // (3)  val c1 : int = 3
 
 In C♯ : *upcast* can generally be implicit
 
-```cs
+```csharp
 object o = "abc";
 ```
 
 In F♯ : *upcast* can sometimes be implicit
 but in general it must be **explicit**, with the operator `:>`
 
-```fs
+```fsharp
 let o1: obj = "abc"             // Implicit 💥 Error FS0001...
 let o2 = "abc" :> obj           // Explicit 👌
 
@@ -864,7 +864,7 @@ let l2: int seq = [1; 2; 3]  // 👌 OK en F♯ 6
 
 # Object upcast - Example
 
-```fs
+```fsharp
 type Base() =
     abstract member F : unit -> string
     default _.F() = "F Base"
@@ -890,7 +890,7 @@ let one = box 1  // val one : obj = 1
 
 # CObject upcast - Example (2)
 
-```fs
+```fsharp
 let d1' = b1 :?> Derived1           // val d1' : Derived1
 let d2' = b1 :?> Derived2           // 💥 System.InvalidCastException
 
@@ -915,14 +915,14 @@ let a = f (Derived2())  // val a : string = "F Derived2"
 
 The `:?` operator performs a type test and returns a Boolean.
 
-```fs
+```fsharp
 let isDerived1 = b1 :? Derived1   // val isDerived1 : bool = true
 let isDerived2 = b1 :? Derived2   // val isDerived2 : bool = false
 ```
 
 ☝️ A number must be *boxed* to test its type:
 
-```fs
+```fsharp
 let isIntKo = 1 :? int          // 💥 Error FS0016
 let isInt32 = (box 1) :? int    // val isInt32 : bool = true
 let isFloat = (box 1) :? float  // val isFloat : bool = false
