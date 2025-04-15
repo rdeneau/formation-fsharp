@@ -23,7 +23,7 @@ paginate: true
 
 ## Table of contents
 
-- Vue d'ensemble
+- Overview
 - Namespace
 - Module
 
@@ -35,46 +35,47 @@ paginate: true
 
 # 1.
 
-## Vue      d'ensemble
+## *Overview* ────────
 
 ---
 
-# Similarités
+# Similarities
 
-Modules et namespaces permettent de :
+Modules and namespaces allow you to:
 
-- Organiser le code en zones de fonctionnalités connexes
-- Éviter collision de noms
+- **Organize code** into zones of related functionality
+- Avoid name collisions
 
 ---
 
-# Différences
+# Differences
 
-| Propriété        | Namespace      | Module                    |
+| Property         | Namespace      | Module                    |
 |------------------|----------------|---------------------------|
-| Compilation .NET | `namespace`    | `static class`            |
-| Type             | *Top-level*    | *Top-level* ou local      |
-| Contient         | Modules, Types | Idem + Valeurs, Fonctions |
-| Annotable        | ❌ Non          | ✅ Oui                     |
+| .NET equivalent  | `namespace`    | `static class`            |
+| Type             | *Top-level*    | *Top-level* or local      |
+| Contains         | Modules, Types | Idem + Values, Functions  |
+| Annotable        | ❌ No          | ✅ Yes                   |
 
-**Portée :** Namespaces > Fichiers > Modules
+**Scope:** Namespaces > Files > Modules
 
 ---
 
-# Importer un module ou un namespace
+# Import a module or a namespace
 
-💡 Comme en C♯ :
+💡 As in C♯ :
 
-1. Soit qualifier les éléments individuellement à importer
-2. Soit tout importer avec `open` *(placé en haut ou juste avant)*
-   - En C♯ ≡ `using` pour un namespace
-   - En C♯ ≡ `using static` pour un module *(classe statique .NET)*
+1. Either qualify the elements individually to be imported
+2. Either import everything with `open`
+   - placed anywhere before the usage, at the top recommended
+   - `open Name.Space` ≡ C♯ `using Name.Space`
+   - `open My.Module` ≡ C♯ `using static My.Module`
 
 ```fsharp
-// Option 1. Qualifier les usages
+// Option 1: Qualify usages
 let result1 = Arithmetic.add 5 9
 
-// Option 2. Importer tout le module
+// Option 2: Import the entire module
 open Arithmetic
 let result2 = add 5 9
 ```
@@ -85,11 +86,11 @@ let result2 = add 5 9
 
 # Import : *shadowing*
 
-L'import se fait sans conflit de nom mais en mode le dernier importé gagne
-i.e. masque un précédent élément importé de même nom
-→ ⚠️ Peut créer des problèmes difficiles à comprendre ❗
-
-Exemple : erreur car fonction `add` appelée est celle du module `FloatHelper` !
+Imports are done without name conflicts but need **disambiguation:**
+• Modules and static classes are merged ✅
+• Types and functions are shadowed ❗
+  → Last-imported-wins mode: see example below
+  → Import order matters
 
 ```fsharp
 module IntHelper =
@@ -101,7 +102,8 @@ module FloatHelper =
 open IntHelper
 open FloatHelper
 
-let result = add 1 2 // 💥 Error FS0001: Le type 'float' ne correspond pas au type 'int'
+// Error because function `add` called is that of module `FloatHelper`!
+let result = add 1 2 // 💥 Error FS0001: The type 'float' does not match the type 'int'
 ```
 
 ---
@@ -112,63 +114,64 @@ let result = add 1 2 // 💥 Error FS0001: Le type 'float' ne correspond pas au 
 
 # 2.
 
-## Les       Namespaces
+## *Namespaces* ──────────
 
 ---
 
-# Namespace : syntaxe
+# Namespace: syntax
 
-Syntaxe : `namespace [rec] [parent.]identifier`
-→ `rec` pour récursif → *slide suivante*
-→ `parent` permet de regrouper des namespaces
-→ Tout ce qui suit appartiendra à ce namespace
-
----
-
-# Namespace : contenu
-
-Un `namespace` F♯ ne peut contenir que des types et des modules locaux
-→ Ne peut contenir ni valeurs ni fonctions
-
-Par équivalence avec la compilation .NET
-→ idem `namespace` C♯ qui ne peut contenir que des classes / enums
-
-Quid des namespaces imbriqués ?
-→ Se passe uniquement de manière déclarative `namespace [parent.]identifier`
-→ 2 namespaces déclarés à la suite = ~~pas imbriqués~~ mais indépendants
+Syntax: `namespace [rec] [parent.]identifier`
+→ `rec` for recursive → see *slide next*
+→ `parent` for grouping namespaces
 
 ---
 
-# Namespace : portée
+# Namespace: content
 
-- Plusieurs fichiers peuvent partager le même namespace
-- Dans un fichier, on peut déclarer plusieurs namespaces
-  - Ils ne seront pas imbriqués
-  - Peut être source de confusion
+A `namespace` F♯ can only contain local types and modules
+→ Cannot contain values or functions ❗
+→ Equivalent to `namespace` C♯ that contains classes / enums only
 
-☝ **Recommandation**
-→ **Un seul** namespace par fichier, déclaré tout en haut
+What about nested namespaces?
+→ Only happens declaratively `namespace [parent.]identifier`
+→ 2 namespaces declared in the same file = ~~not nested~~ but independent
 
 ---
 
-# Namespace récursif
+# Namespace: scope
 
-Permet d'étendre la visibilité par défaut unidirectionnelle, de bas en haut,
-pour que des éléments les uns au-dessous des autres se voient mutuellement
+- Several files can share the same namespace
+- Several namespaces can be declared in a single file
+  - They will not be ~~nested~~
+  - May cause confusion ❗
+
+☝ **Recommendation**
+→ **Only** one namespace per file, declared at the top
+
+Namespace nesting is declarative
+→ `A.B.C` ⊂ `A.B` ⊂ `A`
+→ Through 1 to 3 namespace declarations
+
+---
+
+# Namespace: recursive
+
+Extends the default unidirectional visibility: from bottom to top
+→ each element can see all the elements in a recursive namespace
 
 ```fsharp
 namespace rec Fruit
 
 type Banana = { Peeled: bool }
     member this.Peel() =
-        BananaHelper.peel  // `peel` non visible ici sans le `rec`
+        BananaHelper.peel  // `peel` not visible here without the `rec`
 
 module BananaHelper =
     let peel banana = { banana with Peeled = true }
 ```
 
-⚠️ **Inconvénients :** compilation \+ lente et risque de référence circulaire
-☝ **Recommandation :** pratique mais à utiliser avec parcimonie
+⚠️ **Drawbacks:** slow compilation, risk of circular reference
+☝ **Recommendation:** handy but only for very few use cases
 
 ---
 
@@ -178,11 +181,11 @@ module BananaHelper =
 
 # 3.
 
-## Les       Modules
+## *Modules* ───────
 
 ---
 
-# Module : syntaxe
+# Module: syntax
 
 ```fsharp
 // Top-level module
@@ -194,56 +197,73 @@ module [accessibility-modifier] module-name =
     declarations
 ```
 
-`accessibility-modifier` : restreint l'accessibilité
-→ `public` *(défaut)*, `internal` *(assembly)*, `private` *(parent)*
+`accessibility-modifier`: restrict accessibility
+→ `public` *(default)*, `internal` *(assembly)*, `private` *(parent)*
 
-Le nom complet (`[namespace.]module-name`) doit être unique
-→ 2 fichiers ne peuvent pas déclarer des modules de même nom
-
----
-
-# Module top-level
-
-- Doit être déclaré en 1er dans un fichier
-- Contient tout le reste du fichier
-  - Contenu non indenté
-  - Ne peut pas contenir de namespace
-- Peut être qualifié = inclus dans un namespace parent *(existant ou non)*
+Full name (`[namespace.]module-name`) must be unique
+→ 2 files cannot declare modules with the same name
 
 ---
 
-# Module top-level implicite
+# Module kind
 
-- Si fichier sans module/namespace top-level
-- Nom du module = nom du fichier
-  - Sans l'extension
-  - Avec 1ère lettre en majuscule
-  - Ex : `program.fs` → `module Program`
+- Top-level module
+  - Implicit top-level module
+- Local module
 
 ---
 
-# Module local
+## Top-level module
 
-- Syntaxe similaire au `let` → ne pas oublier :
-  - Le signe `=` après le nom du module local ❗
-  - D'indenter tout le contenu du module local
-    - Non indenté = ne fait pas partie du module local
+• Only one top-level module per file
+   → Declared on very top of the file
 
----
+• Can (should?) be qualified
+   → Attached to a parent namespace *(already declared or not)*
 
-# Module : contenu
-
-Un module, local comme *top-level*, peut contenir :
-→ types et sous modules locaux
-→ valeurs, fonctions
-
-Différence : l'indentation du contenu
-→ Module top-level : contenu non indenté
-→ Module local : contenu indenté
+• Contains all the rest of the file
+   → Unindented content 👍
 
 ---
 
-# Equivalence module / classe statique
+## Implicit top-level module
+
+- For a file without top-level module/namespace
+- Module name = file name
+  - Without extension
+  - With 1st letter in uppercase
+  - E.g.: `program.fs` → `module Program`
+
+☝️ Not recommended in `.fsproj`
+
+---
+
+## Local module
+
+Syntax similar to `let`
+
+- The `=` sign after the local module name ❗
+- Indent the entire content
+
+---
+
+# Module: content
+
+A module, *local as top-level*, can contain:
+→ local types and sub-modules
+→ values, functions
+
+**Key difference:**
+→ content indentation
+
+| Module    | Indentation |
+|-----------|-------------|
+| top-level | No          |
+| local     | Yes         |
+
+---
+
+# Module/static class equivalence
 
 ```fsharp
 module MathStuff =
@@ -251,7 +271,7 @@ module MathStuff =
     let subtract x y = x - y
 ```
 
-Ce module F# est équivalent à la classe statique suivante :
+This F# module is equivalent to the following static class in C♯:
 
 ```csharp
 public static class MathStuff
@@ -261,13 +281,13 @@ public static class MathStuff
 }
 ```
 
-Cf. [sharplab.io](https://sharplab.io/#v2:DYLgZgzgPgtg9gEwK7AKYAICyBDALgCwGVckwx0BeAWAChb0H01d1sEF0APdATwYq7oA1L3qNm6CEgBGuAE7YAxi259KggLS8gA=)
+See [sharplab.io](https://sharplab.io/#v2:DYLgZgzgPgtg9gEwK7AKYAICyBDALgCwGVckwx0BeAWAChb0H01d1sEF0APdATwYq7oA1L3qNm6CEgBGuAE7YAxi259KggLS8gA=)
 
 ---
 
-# Module imbriqué
+# Module nesting
 
-Comme en C# et les classes, les modules F# peuvent être imbriqués
+As with C♯ classes, F♯ modules can be nested.
 
 ```fsharp
 module Y =
@@ -279,78 +299,82 @@ printfn "%A" Y.Z.z
 
 ☝ **Notes :**
 
-- Intéressant avec module imbriqué privé pour isoler/regrouper
-- Sinon, préférer une vue aplanie
+- Interesting with private nested module to isolate/group
+- Otherwise, prefer a *flat view*
+- F♯ classes cannot be nested
 
 ---
 
-# Module top-level *vs* local
+# Top-level *vs* local module
 
-| Propriété                   | Top-level | Local |
+| Property                    | Top-level | Local |
 |-----------------------------|-----------|-------|
-| Qualifiable                 | ✅         | ❌     |
-| Signe `=` + contenu indenté | ❌         | ✅ ❗   |
+| Qualifiable                 | ✅        | ❌    |
+| `=` sign + indented content | ❌        | ✅ ❗ |
 
-Module *top-level* → 1er élément déclaré dans un fichier
-Sinon *(après un module/namespace top-level)* → module local
-
----
-
-# Module récursif
-
-Même principe que namespace récursif
-→ Pratique pour qu'un type et un module associé se voient mutuellement
-
-☝ **Recommandation :** limiter au maximum la taille des zones récursives
+*Top-level* module → 1st element declared in a file
+Otherwise *(after a top-level module/namespace)* → local module
 
 ---
 
-# Annotation d'un module
+# Recursive module
 
-2 attributs influencent l'usage d'un module
+Same principle as recursive namespace
+→ Convenient for a type and an related module to see each other
 
-`[<AutoOpen>]`
-Import du module en même temps que ns/module parent
-→ 💡 Pratique pour "monter" valeurs/fonctions au niveau d'un namespace
-→ 💡 Équivalent `open type` (F♯ 5) • 🔗 [\+ d'infos](https://www.compositional-it.com/news-blog/open-type-declarations-in-fsharp-5/)
-→ ⚠️ Pollue le *scope* courant
-
-`[<RequireQualifiedAccess>]`
-Empêche l'usage non qualifié des éléments d'un module
-→ 💡 Pratique pour éviter le *shadowing* pour des noms communs : `add`, `parse`...
+☝ **Recommendation:** limit the size of recursive zones as much as possible
 
 ---
 
-# `AutoOpen`, `RequireQualifiedAccess` ou rien ?
+# Module annotation
 
-Soit un type `Cart` avec son module compagnon `Cart`
-→ Comment appeler la fonction qui ajoute un élément au panier ?
+2 opposite attributes impact the module usage
 
-Si `addItem item cart` : `[<RequireQualifiedAccess>]` intéressant
-→ pour forcer à avoir dans le code appelant `Cart.addItem`
+### `[<AutoOpen>]`
 
-Si `addItemToCart item cart` : `[<AutoOpen>]` intéressant
-→ car `addItemToCart` est *self-explicit*
+Import module at same time as the parent namespace/module
+→ 💡 Handy for "mounting" values/functions at namespace level
+→ ⚠️ Pollutes the current *scope*
 
----
+### `[<RequireQualifiedAccess>]`
 
-# Module et Type
-
-> Un module sert typiquement à regrouper des fonctions agissant
-> sur un type de donnée bien spécifique.
-
-2 styles, selon localisation type / module :
-
-- Type défini avant le module → module compagnon
-- Type défini dans le module
+Prevents unqualified use of module elements
+→ 💡 Useful for avoiding *shadowing* for common names: `add`, `parse`...
 
 ---
 
-# Module compagnon d'un type
+# `AutoOpen`, `RequireQualifiedAccess` or nothing?
 
-- Style par défaut - cf. `List`, `Option`, `Result`...
-- Bonne interop autres langages .NET
-- Module peut porter le même nom que le type
+Let's consider a `Cart` type with its `Cart` companion module.
+
+**How do we call the function that adds an item to the cart?**
+→ It depends on the function name.
+
+• `addItem item cart`:
+  → `[<RequireQualifiedAccess>]` to consider
+  → to be compelled to use `Cart.addItem`
+
+• `addItemToCart item cart`:
+  → function name is *self-explicit*
+  → `[<AutoOpen>]` interesting to prevent `Cart.addItemToCart`
+  → Works only if `Cart` parent *(if any)* is not `RequireQualifiedAccess` and opened
+
+---
+
+# Types-Modules main typologies
+
+- Type + Companion module containing function dedicated to this type
+- Multi-type module: several small types + related functions
+- Mapper modules: to map between 2 types sets
+
+---
+
+## Type + Companion module
+
+FSharp.Core style - see `List`, `Option`, `Result`...
+
+Module can have the same name as the type
+→ BCL interop: module compiled name = `{Module}Module`
 
 ```fsharp
 type Person = { FirstName: string; LastName: string }
@@ -364,57 +388,102 @@ person |> Person.fullName // "John Doe"
 
 ---
 
-# Module wrappant un type
+## Multi-type module
 
-- Type défini à l'intérieur du module
-- On peut nommer le type `T` ou comme le module
+Contains several small types + related functions *(eventually)*
 
 ```fsharp
-module Person =
-    type T = { FirstName: string; LastName: string }
+module Common.Errors
 
-    let fullName person = $"{person.FirstName} {person.LastName}"
+type OperationNotAllowedError = { Operation: string; Reason: string }
 
-let person = { FirstName = "John"; LastName = "Doe" }   // Person.T ❗
-person |> Person.fullName // "John Doe"
+type Error =
+    | Bug of exn
+    | OperationNotAllowed of OperationNotAllowedError
+
+
+let bug exn = Bug exn |> Error
+
+let operationNotAllowed operation reason =
+    { Operation = operation
+      Reason = reason }
+    |> Error
 ```
 
 ---
 
-<!-- _footer: '' -->
+## Mapper modules
 
-# Module wrappant un type (2)
-
-Recommandé pour améliorer encapsulation
-→ Constructeur du type `private`
-→ Module contient un *smart constructor*
+To map between 2 types sets
 
 ```fsharp
-module Person =
-    type T = private { FirstName: string; LastName: string }
+// Domain/Types/Mail.fs ---
+module Domain.Types.Mail
 
-    let create first last =
-        if System.String.IsNullOrWhiteSpace first
-        then Error "FirstName required"
-        else Ok { FirstName = first; LastName = last }
+[ types... ]
 
-    let fullName person =
-        $"{person.FirstName} {person.LastName}".Trim()
+// Data/Mail/Entities.fs ---
+module Data.Mail.Entities
 
-Person.create "" "Doe"                                // Error "LastName required"
-Person.create "Joe" "" |> Result.map Person.fullName  // Ok "Joe"
+[ DTO types... ]
+
+// Data/Mail.Mappers ---
+module Data.Mail.Mappers
+
+module DomainToEntity =
+    let mapXxx x : XxxDto = ...
 ```
 
 ---
 
 # Module *vs* namespace
 
-Au niveau top-level :
+If a file contains a single module
 
-- Préférer un namespace à un module
-- Module top-level **implicite** envisageable pour fichier `.fsx`
+- Prefer top-level module in general
+- Prefer namespace + local module for BCL interop
 
-Cf. [docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions#organizing-code)
+---
+
+# Open type *(Since F♯ 5)*
+
+Use cases:
+
+### **1.** Import static classes to get direct access to methods
+
+```fsharp
+open type System.Math
+let x = Max(123., 456.)
+```
+
+*vs*
+
+```fsharp
+open System
+let x = Math.Max(123., 456.)
+```
+
+☝️ In general, use case only recommended for classes designed for this usage.
+
+---
+
+## Open type - Use cases (2)
+
+### **2.** Cherry-pick imports
+
+→ Import only the types needed in a module
+
+```fsharp
+// Domain/Sales.fs ---
+module Domain.Sales =
+    type Balance = Overdrawn of decimal | Remaining of decimal
+    // Other types, functions...
+
+// Other/Module.fs ---
+open type Sales.Balance
+
+let myBalance = Remaining of 500. // myBalance is of type Balance.
+```
 
 ---
 
@@ -430,7 +499,7 @@ Cf. [docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](http
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# Q1. Valide ou non ?
+# Q1. Valid or not?
 
 ```fsharp
 namespace A
@@ -438,15 +507,15 @@ namespace A
 let a = 1
 ```
 
-## **A.** Oui
+### **A.** Yes
 
-## **B.** Non
+### **B.** No
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Q1. Valide ou non ?
+# Q1. Valid or not?
 
 ```fsharp
 namespace A
@@ -454,15 +523,17 @@ namespace A
 let a = 1
 ```
 
-## **B.** Non
+### **A.** ~~Yes~~ ❌
 
-→ Un namespace ne peut pas contenir de valeurs !
+### **B.** No ✅
+
+→ A namespace cannot contain values!
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
-# Q2. Valide ou non ?
+# Q2. Valid or not?
 
 ```fsharp
 namespace A
@@ -472,15 +543,15 @@ module B
 let a = 1
 ```
 
-## **A.** Oui
+### **A.** Yes
 
-## **B.** Non
+### **B.** No
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Q2. Valide ou non ?
+# Q2. Valid or not?
 
 ```fsharp
 namespace A
@@ -490,16 +561,18 @@ module B
 let a = 1
 ```
 
-## **B.** Non
+### **A.** ~~Yes~~ ❌
 
-→ module B est ici top-level
-→ interdit après un namespace
+### **B.** No ✅
+
+→ module B is declared as top-level
+→ forbidden after a namespace
 
 ---
 
-## Q2 - Code équivalent valide
+## Q2 - Valid equivalent code
 
-Option 1 : module top-level qualifié
+#### Option 1: qualifier top-level module
 
 ```fsharp
 module A.B
@@ -507,7 +580,7 @@ module A.B
 let a = 1
 ```
 
-Option 2 : namespace + module local
+#### Option 2: namespace + local module
 
 ```fsharp
 namespace A
@@ -520,7 +593,7 @@ module B =
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Q3. Nom qualifié de `add` ?
+# Q3. Give the fully-qualified name for `add`?
 
 ```fsharp
 namespace Common.Utilities
@@ -529,19 +602,19 @@ module IntHelper =
     let add x y = x + y
 ```
 
-## **A.** `add`
+### **A.** `add`
 
-## **B.** `IntHelper.add`
+### **B.** `IntHelper.add`
 
-## **C.** `Utilities.IntHelper.add`
+### **C.** `Utilities.IntHelper.add`
 
-## **D.** `Common.Utilities.IntHelper.add`
+### **D.** `Common.Utilities.IntHelper.add`
 
 ---
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_solution.png)
 
-# Q3. Nom qualifié de `add` ?
+# Q3. Give the fully-qualified name for `add`?
 
 ```fsharp
 namespace Common.Utilities
@@ -550,10 +623,16 @@ module IntHelper =
     let add x y = x + y
 ```
 
-## **D.** `Common.Utilities.IntHelper.add`
+### **A.** `add` ❌
 
-→ `IntHelper` pour le module parent
-→ `Common.Utilities` pour le namespace racine
+### **B.** `IntHelper.add` ❌
+
+### **C.** `Utilities.IntHelper.add` ❌
+
+### **D.** `Common.Utilities.IntHelper.add` ✅
+
+→ `IntHelper` for the parent module
+→ `Common.Utilities` for the root namespace
 
 ---
 
@@ -563,22 +642,28 @@ module IntHelper =
 
 # 5.
 
-## Le      récap
+## *Recap* ─────
 
 ---
 
-# Modules et namespaces
+# Modules and namespaces
 
-- Regrouper par fonctionnalité
-- Scoper : namespaces > fichiers > modules
+- Group by functionality
+- Scope: namespaces > files > modules
 
-| Propriété                    | Namespace      | Module                    |
+| Property                     | Namespace      | Module                    |
 |------------------------------|----------------|---------------------------|
-| Compilation .NET             | `namespace`    | `static class`            |
+| .NET Compilation             | `namespace`    | `static class`            |
 | Type                         | *Top-level*    | Local (ou *top-level*)    |
-| Contient                     | Modules, Types | Valeurs, Fonctions, Type, <br>Sous-modules |
-| `[<RequireQualifiedAccess>]` | ❌ Non         | ✅ Oui *(vs shadowing)*   |
-| `[<AutoOpen>]`               | ❌ Non         | ✅ Oui mais prudence❗     |
+| Contains                     | Modules, Types | Val, Fun, Type, Modules   |
+| `[<RequireQualifiedAccess>]` | ❌ No          | ✅ Yes *(vs shadowing)*   |
+| `[<AutoOpen>]`               | ❌ No          | ✅ Yes but be careful❗  |
+
+---
+
+# 🔗 Additional ressources
+
+[docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions#organizing-code)
 
 ---
 
