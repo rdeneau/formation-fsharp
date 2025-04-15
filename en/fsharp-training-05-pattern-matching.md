@@ -93,11 +93,50 @@ let is123 num = // int -> bool
 
 ---
 
+# Variable Pattern
+
+Assigns the detected value to a "variable" for subsequent uses.
+
+Example: `b` variable below
+
+```fsharp
+let isInt (s: string) =
+    match System.Int32.TryParse(s) with
+    | b, _ -> b
+```
+
+---
+
+# Variable Pattern (2)
+
+⚠️ You cannot link to the same variable more than once.
+
+```fsharp
+let elementsAreEqualKo tuple =
+    match tuple with
+    | x, x -> true  // 💥 Error FS0038: x' is linked twice in this model
+    | _, _ -> false
+```
+
+💡 **Solution:** use 2 variables then check their equality
+
+```fsharp
+// 1. Guard clause📍
+let elementsAreEqualOk = function
+    | x, y when x = y -> true
+    | _, _ -> false
+
+// 2. Deconstruction
+let elementsAreEqualOk' (x, y) = x = y
+```
+
+---
+
 # Identifier Pattern
 
 Detects *cases* of a union type and their possible contents
 
-```fs
+```fsharp
 type PersonName =
     | FirstOnly of string
     | LastOnly  of string
@@ -112,53 +151,7 @@ let classify personName =
 
 ---
 
-# Variable Pattern
-
-Assigns the detected value to a "variable" for subsequent use
-
-Example: `firstName` and `lastName` variables below
-
-```fs
-type PersonName =
-    | FirstOnly of string
-    | LastOnly  of string
-    | FirstLast of string * string
-
-let confirm personName =
-    match personName with
-    | FirstOnly(firstName) -> printf "May I call you %s?" firstName
-    | LastOnly (lastName) -> printf "Are you Mr. or Ms. %s?" lastName
-    | FirstLast(firstName, lastName) -> printf "Are you %s %s?" firstName lastName
-```
-
----
-
-# Variable Pattern (2)
-
-⚠️ You cannot link to the same variable more than once.
-
-```fsharp
-let elementsAreEqualKo tuple =
-    match tuple with
-    | (x,x) -> true  // 💥 Error FS0038: x' is linked twice in this model
-    | (_,_) -> false
-```
-
-Solutions: use 2 variables then check their equality
-
-```fsharp
-// 1. Guard clause📍
-let elementsAreEqualOk = function
-    | (x,y) when x = y -> true
-    | (_,_) -> false
-
-// 2. Deconstruction
-let elementsAreEqualOk' (x, y) = x = y
-```
-
----
-
-## Fields named with *case* unions
+## Union case labelled fields
 
 Several possibilities:
 ① "Anonymous" pattern of the complete tuple
@@ -172,10 +165,10 @@ type Shape =
 
 let describe shape =
     match shape with
-    | Rectangle (0, _)                                              // ①
-    | Rectangle (Height = 0)            -> "Flat rectangle"         // ②
-    | Rectangle (Width = w; Height = h) -> $"Rectangle {w} × {h}"   // ③
-    | Circle radius                     -> $"Circle ∅ {2*radius}"
+    | Rectangle(0, _)                                              // ①
+    | Rectangle(Height = 0)            -> "Flat rectangle"         // ②
+    | Rectangle(Width = w; Height = h) -> $"Rectangle {w} × {h}"   // ③
+    | Circle radius                    -> $"Circle ∅ {2*radius}"
 ```
 
 ---
@@ -399,7 +392,7 @@ let RegisterControl (control: Control) =
 
 ---
 
-# Type Test Pattern - `try`/`with` block
+## Type Test Pattern - `try`/`with` block
 
 This pattern is common in `try`/`with` blocks:
 
@@ -415,7 +408,7 @@ with
 
 ---
 
-# Type Test Pattern - Boxing
+## Type Test Pattern - Boxing
 
 The *Type Test Pattern* only works with reference types.
 → For a value type or unknown type, it must be boxed.
@@ -543,7 +536,7 @@ let test2 = 3 |> hasSquare 9  // true
 
 # Match function
 
-Syntax :
+Syntax:
 
 ```fsharp
 function
@@ -552,7 +545,7 @@ function
 | ...
 ```
 
-Equivalent to a lambda taking an implicit parameter which is "matched" :
+Equivalent to a lambda taking an implicit parameter which is "matched":
 
 ```fsharp
 fun value ->
@@ -940,7 +933,7 @@ match "#0099FF" with
 
 ---
 
-# Wrapping up active patterns
+# Active patterns recap
 
 ```txt
 Active pattern | Syntax                          | Signature
@@ -1252,7 +1245,7 @@ https://github.com/pblasucci/DeepDiveAP
 # Exercises
 
 The following exercises on https://exercism.org/tracks/fsharp
-can be solved with active patterns :
+can be solved with active patterns:
 
 - Collatz Conjecture *(easy)*
 - Darts *(easy)*
