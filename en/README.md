@@ -11,6 +11,7 @@ Use `marp` ([link](https://marp.app)) to convert markdown slides to HTML or PDF.
 All files:
 
 ```bash
+marp fsharp-training-00-toc.md --output ./html/fsharp-training-00-toc.html --theme themes/d-edge.css
 marp fsharp-training-01-bases.md --output ./html/fsharp-training-01-bases.html --theme themes/d-edge.css
 marp fsharp-training-02-functions.md --output ./html/fsharp-training-02-functions.html --theme themes/d-edge.css
 marp fsharp-training-03-types.md --output ./html/fsharp-training-03-types.html --theme themes/d-edge.css
@@ -39,9 +40,9 @@ TBD
 - Ⓐ Ⓑ Ⓒ
 - → • · À É ♯
 - ≃ ≠ ≡
-- ∀ ∃ ∈ ×
+- ∀ ∃ ∈ ⊂ ×
 - ∅ ∑ ∞
-- … ┆｜
+- … ┆｜ ─
 - thin space: ' '
 
 ## Speaker tips
