@@ -9,7 +9,7 @@ paginate: true
 
 <!-- _class: title invert -->
 
-# F♯ Training
+# F♯ Training [🖇️](fsharp-training-00-toc.html#2 "Root table of contents")
 
 ## _F♯ collections_
 

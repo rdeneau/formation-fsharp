@@ -312,15 +312,28 @@ section.speaker a {
 
 section.agenda h2 {
   text-align: left;
-  margin-left: 60px;
+  position: absolute;
+  top: 40px;
+  left: 110px;
 }
 
 section.agenda ul {
+  margin-top: 80px;
   margin-left: 60px;
 }
 
 section.agenda ul li::before {
   color: #ffe60b;
+}
+
+section.agenda ol {
+  margin-top: 80px;
+  margin-left: 80px;
+}
+
+section.agenda ol li::marker {
+  color: #ffe60b;
+  font-weight: bold;
 }
 
 section.chapter {

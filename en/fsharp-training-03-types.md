@@ -15,7 +15,7 @@ In addition to the common .NET types, F# has other types that are very common in
 
 <!-- _class: title invert -->
 
-# F♯ Training
+# F♯ Training [🖇️](fsharp-training-00-toc.html#2 "Root table of contents")
 
 ## *Types*
 
