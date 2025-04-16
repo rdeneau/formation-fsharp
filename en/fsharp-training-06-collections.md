@@ -363,6 +363,8 @@ names[..3]  // [|"0: Alice"; "1: Jim"; "2: Rachel"; "3: Sophia"           |]
 
 💡 Works also with `string`: `"012345"[1..3]` ≡ `"123"`
 
+TODO RDE: note / pas confondre avec range - syntaxe similarire
+
 ---
 
 # 💠 Alias `ResizeArray`
@@ -981,7 +983,7 @@ folder `f` takes 2 parameters: an "accumulator" `acc` and the current element `x
 
 ---
 
-# Agrégation : versatile functions (2)
+# Aggregate : versatile functions (2)
 
 Examples:
 
@@ -1185,6 +1187,8 @@ Depending on the `f` function passed as an argument, we can:
 | -         | -            | ≡ `Map.remove key table` | ≡ `Map.add key newVal table` |
 | Found     | `Some value` | Remove the entry         | Change the value to _newVal_ |
 | Not found | `None`       | Ignore this key          | Add the item _(key, newVal)_ |
+
+TODO: ajouter un code exemple
 
 ---
 
