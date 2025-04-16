@@ -322,11 +322,11 @@ let peter = friendsLocation.TryGetValue (0,0)
 | Naming                    | camelCase     | PascalCase      | PascalCase        |
 | Support of `inline`       | ✅ yes         | ✅ yes           | ✅ yes             |
 | Recursive                 | ✅ if `rec`    | ✅ yes           | ✅ yes             |
-| Inference of `x` in       | `f x` → ✅ yes | ➖               | `x.M()` → ❌ no    |
+| Inference of `x` in       | `f x` → ✅ yes | `K.M x` → ✅ yes | `x.M()` → ❌ no    |
 | Can be passed as argument | ✅ yes : `g f` | ✅ yes : `g T.M` | ❌ no : `g x.M`  ① |
 
 ① Alternatives:
-  → F# 8: shorthand members → `g _.M()`
+  → F♯ 8: shorthand members → `g _.M()`
   → Wrap in lambda → `g (fun x -> x.M())`
 
 ---
@@ -387,7 +387,7 @@ let salut =
 
 # Indexed properties
 
-Allows access by index, as if the class were an array: `instance.[index]`
+Allows access by index, as if the class were an array: `instance[index]`
 → Interesting for an ordered collection, to hide the implementation
 
 Set up by declaring member `Item`
@@ -402,11 +402,11 @@ member self-identifier.Item
 
 💡 Property *read-only* (*write-only*) → declare only the *getter* (*setter*)
 
-☝ Tuple parameter for *getter* ≠ *setter* curried parameters
+☝ Notice the *setter* parameters are curried
 
 ---
 
-# Propriétés indexées : exemple
+## Indexed properties: example
 
 ```fsharp
 type Lang = En | Fr
@@ -417,58 +417,53 @@ type DigitLabel() =
            (Fr, [| "zéro"; "un"; "deux"; "trois" |]) |] |> Map.ofArray
 
     member val Lang = En with get, set
-    member me.Item with get(i) = labels.[me.Lang].[i]
-    member _.En with get(i) = labels.[En].[i]
+
+    member me.Item with get i = labels[me.Lang][i]
 
 let digitLabel = DigitLabel()
-let v1 = digitLabel.[1]     // "one"
+let v1 = digitLabel[1]     // "one"
 digitLabel.Lang <- Fr
-let v2 = digitLabel.[2]     // "deux"
-let v3 = digitLabel.En(2)   // "two"
-// 💡 Notez la différence de syntaxe de l'appel à la propriété `En`
+let v2 = digitLabel[2]     // "deux"
 ```
 
 ---
 
 # Slice
 
-> Idem propriété indexée mais renvoie plusieurs valeurs
+> Same as indexed property, but with multiple indexes
 
-Définition : via méthode *(normale ou d'extension)* `GetSlice(?start, ?end)`
+**Declaration:** `GetSlice(?start, ?end)` method *(regular or extension)*
 
-Usage : via opérateur `..`
+**Usage:** `..` operator
 
 ```fsharp
 type Range = { Min: int; Max: int } with
-    member this.GetSlice(min, max) =
-        { Min = System.Math.Max(defaultArg min this.Min, this.Min)
-        ; Max = System.Math.Min(defaultArg max this.Max, this.Max) }
+    /// Defines a sub-range - newMin and newMax are optional and ignored if out-of-bounds
+    member this.GetSlice(newMin, newMax) =
+        { Min = max (defaultArg newMin this.Min) this.Min
+        ; Max = min (defaultArg newMax this.Max) this.Max }
 
 let range = { Min = 1; Max = 5 }
-let slice1 = range.[0..3] // { Min = 1; Max = 3 }
-let slice2 = range.[2..]  // { Min = 2; Max = 5 }
+let slice1 = range[0..3] // { Min = 1; Max = 3 }
+let slice2 = range[2..]  // { Min = 2; Max = 5 }
 ```
 
 ---
 
-# Surcharge d'opérateur
+# Operator overload
 
-Opérateur surchargé à 2 niveaux possibles :
+Operator overloaded possible at 2 levels:
 
-1. Dans un module, sous forme de fonction
-   - `let [inline] (operator-symbols) parameter-list = ...`
-   - 👉 Cf. session sur les fonctions
-   - ☝ Limité : 1 seule surcharge possible
-2. Dans un type, sous forme de membre
-   - `static member (operator-symbols) (parameter-list) =`
-   - Mêmes règles que pour la forme de fonction
-   - 👍 Plusieurs surcharges possibles (N types × P *overloads*)
+1. In a module, as a function <br/> `let [inline] (operator-symbols) parameter-list = ...`
+   - 👉 See session on functions
+   - ☝ Limited: only 1 definition possible
+2. In a type, as a member <br/> `static member (operator-symbols) (parameter-list) =`
+   - Same rules as for function form
+   - 👍 Multiple overloads possible (N types × P *overloads*)
 
 ---
 
-<!-- _footer: '' -->
-
-# Surcharge d'opérateur : exemple
+# Operator overload: example
 
 ```fsharp
 type Vector(x: float, y: float) =
@@ -481,8 +476,8 @@ type Vector(x: float, y: float) =
 
     static member (*)(a, v: Vector) = Vector(a * v.X, a * v.Y)
     static member (*)(v: Vector, a) = a * v
-    static member (~-)(v: Vector) = -1.0 * v
     static member (+) (v: Vector, w: Vector) = Vector(v.X + w.X, v.Y + w.Y)
+    static member (~-)(v: Vector) = -1.0 * v // 👈 Unary '-' operator
 
 let v1 = Vector(1.0, 2.0)   // Vector (X: +1.0, Y: +2.0)
 let v2 = v1 * 2.0           // Vector (X: +2.0, Y: +4.0)
@@ -499,42 +494,43 @@ let v5 = v1 + v4            // Vector (X: -0.5, Y: -1.0)
 
 # 2.
 
-## Extensions de type
+## Type extensions
 
 ---
 
-# Extension de type
+# Type extension
 
-Membres d'un type définis hors de son bloc `type` principal.
+Members of a type defined outside its main `type` block.
 
-Chacun de ces membres est appelé une **augmentation**.
+Each of these members is called **augmentation** or **extension**
 
-3 catégories d'extension :
+3 categories of extension :
 
-- Extension intrinsèque
-- Extension optionnelle
-- Méthodes d'extension
-
----
-
-# Extension intrinsèque
-
-Définie dans même fichier et même namespace que le type
-→ Membres intégrés au type à la compilation, visibles par *Reflection*
-
-💡 **Cas d'usage**
-
-Déclarer successivement :
-**1.** Type (ex : `type List`)
-**2.** Module compagnon de ce type (ex : fonction `List.length list`)
-**3.** Extension utilisant ce module compagnon (ex : membre `list.Length`)
-
-👉 Façon \+ propre en FP de séparer les fonctionnalités des données
-💡 Inférence de types marche mieux avec fonctions que membres
+- Intrinsic extension
+- Optional extension
+- Extension methods
 
 ---
 
-# Extension intrinsèque - Exemple
+# Intrinsic extension
+
+> Declared in the same file and namespace as the type
+
+**Use case:** Features available in both companion module and type
+→ E.g. `List.length list` function and `list.Length` member
+
+*How to implement it following top-down declarations?*
+
+**1. Implement in type**, Redirect module functions to type members
+→ More straightforward
+
+**2. Intrinsic extensions:**
+→ Declare type "naked", Implement in module, Augment type after
+→ Favor FP style, Transparent for Interop
+
+---
+
+## Intrinsic extension - Example
 
 ```fsharp
 namespace Example
@@ -549,19 +545,20 @@ module Variant =
         | Num n -> printf "Num %d" n
         | Str s -> printf "Str %s" s
 
-// Add a member to Variant as an extension
+// Add a member as an extension - see `with` required keyword
 type Variant with
     member x.Print() = Variant.print x
 ```
 
 ---
 
-# Extension optionnelle
+# Optional extension
 
-Extension définie en-dehors du module/namespace/assembly du type étendu.
+Extension defined outside the type module/namespace/assembly
 
-💡 Pratique pour les types dont la déclaration n'est pas modifiable directement,
-     par exemple ceux issus d'une librairie.
+**Use cases**
+**1.** Types we can't modify, for instance coming from a library
+**2.** Keep types naked - e.g. Elmish MVU pattern
 
 ```fsharp
 module EnumerableExtensions
@@ -579,21 +576,22 @@ type IEnumerable<'T> with
 
 ---
 
-# Extension optionnelle (2)
+# Optional extension (2)
 
-**Compilation :** en méthode statique → version simplifiée :
+**Compilation:** into static methods
+→ Simplified version of the previous example:
 
 ```csharp
-public static class Extensions
+public static class EnumerableExtensions
 {
     public static IEnumerable<T> RepeatElements<T>(IEnumerable<T> xs, int n) {...}
 }
 ```
 
-**Usage :** comme un vrai membre, après avoir importé son module :
+**Usage:** after the import, the member is used like a regular one
 
 ```fsharp
-open Extensions
+open EnumerableExtensions
 
 let x = [1..3].RepeatElements(2) |> List.ofSeq
 // [1; 1; 2; 2; 3; 3]
@@ -601,19 +599,19 @@ let x = [1..3].RepeatElements(2) |> List.ofSeq
 
 ---
 
-# Extension optionnelle - Autre exemple
+## Optional extension - Another example
 
 ```fsharp
-// File Person.fs
+// Person.fs ---
 type Person = { First: string; Last: string }
 
-// File PersonExtensions.fs
+// PersonExtensions.fs ---
 module PersonExtensions =
     type Person with
         member this.FullName =
             $"{this.Last.ToUpper()} {this.First}"
 
-// Usage elsewhere
+// Usage elsewhere ---
 open PersonExtensions
 let joe = { First = "Joe"; Last = "Dalton" }
 let s = joe.FullName  // "DALTON Joe"
@@ -621,19 +619,20 @@ let s = joe.FullName  // "DALTON Joe"
 
 ---
 
-# Extension optionnelle - Limites
+# Optional extension - Limits
 
-- Doit être déclarée dans un module
-- Pas compilée dans le type, pas visible par Reflection
-- Membres visibles qu'en F#, invisibles en C#
+- Must be declared in a module
+- Not compiled into the type, not visible to Reflection
+- Usage as pseudo-instance members only in F♯
+  - ≠ in C♯: as static methods
 
 ---
 
-# Extension de type et surcharges
+# Type extension *vs* virtual methods
 
-☝ Implémenter des surcharges :
-→ Recommandé dans la déclaration initiale du type ✅
-→ Déconseillé dans une extension de type ⛔
+☝ Override virtual methods:
+  → in the initial type declaration ✅
+  → not in a ~~type extension~~ ⛔
 
 ```fsharp
 type Variant = Num of int | Str of string with
@@ -648,58 +647,56 @@ type Variant with
 
 ---
 
-# Extension de type et alias de type
+# Type extension *vs* type alias
 
-Sont incompatibles :
+Incompatible❗
 
 ```fsharp
 type i32 = System.Int32
 
 type i32 with
     member this.IsEven = this % 2 = 0
-// 💥 Error FS0964: Les abréviations de type ne peuvent pas avoir d'augmentations
+// 💥 Error FS0964: Type abbreviations cannot have augmentations
 ```
 
-💡 **Solution :** il faut utiliser le vrai nom du type
+💡 **Solution:** use the real type name
 
 ```fsharp
 type System.Int32 with
     member this.IsEven = this % 2 = 0
 ```
 
-☝ Les tuples F# tels que `int * int` ne peuvent pas être augmentés ainsi.
-→ Mais on peut avec une méthode d'extension à la C# 📍
+☝ **Corollary:** F♯ tuples such as `int * int` cannot be augmented in this way.
+→ But they can with a C♯-style extension method 📍
 
 ---
 
-# Extension de type - Limite
+# Type extension *vs* Generic type constraints
 
-Extension autorisée sur type générique sauf quand contraintes diffèrent :
+Extension allowed on generic type except when constraints differ:
 
 ```fsharp
 open System.Collections.Generic
 
 type IEnumerable<'T> with
+//   ~~~~~~~~~~~ 💥 Error FS0957
+//   One or more of the declared type parameters for this type extension
+//   have a missing or wrong type constraint not matching the original type constraints on 'IEnumerable<_>'
     member this.Sum() = Seq.sum this
-// 💥      ~~~~~~~~~~ Error FS0670
-// Ce code n'est pas suffisamment générique. Impossible de généraliser la variable de type
-// ^T when ^T: (static member get_Zero: -> ^T) and ^T: (static member (+) : ^T * ^T -> ^T)
 
-// ☝ Cette contrainte provient de `Seq.sum`
+// ☝ This constraint comes from `Seq.sum`.
 ```
 
-**Solution :** méthode d'extension à la C# 📍
+**Solution:** C♯-style extension method 📍
 
 ---
 
-<!-- _footer: '' -->
+# Extension method (C♯-style)
 
-# Méthode d'extension
-
-Méthode statique :
-• Décorée de `[<Extension>]`
-• Définie dans classe `[<Extension>]`
-• Type du 1er argument = type étendu *(`IEnumerable<'T>` ci-dessous)*
+Static method:
+• Decorated with `[<Extension>]`
+• In F♯ < 8.0: Defined in class decorated with `[<Extension>]`
+• Type of 1st argument = extended type *(`IEnumerable<'T>` below)*
 
 ```fsharp
 namespace Extensions
@@ -707,19 +704,17 @@ namespace Extensions
 open System.Collections.Generic
 open System.Runtime.CompilerServices
 
-[<Extension>]
+[<Extension>] // 💡 Not required anymore since F♯ 8.0
 type EnumerableExtensions =
     [<Extension>]
     static member inline Sum(xs: IEnumerable<'T>) = Seq.sum xs
 
-// 💡 `inline` est nécessaire
+// 💡 `inline` required here because of the generic type parameter constraints from Seq.sum
 ```
 
 ---
 
-<!-- _footer: '' -->
-
-# Méthode d'extension - Exemple simplifié
+## Extension method - Simplified example
 
 ```fsharp
 open System.Runtime.CompilerServices
@@ -731,7 +726,7 @@ type EnumerableExtensions =
 
 let x = [1..3].Sum()
 //------------------------------
-// Output en console FSI (syntaxe verbeuse) :
+// Output in FSI console (verbose syntax):
 type EnumerableExtensions =
   class
     static member
@@ -744,9 +739,7 @@ val x : int = 6
 
 ---
 
-# Méthode d'extension - Décompil' en C#
-
-Pseudo-équivalent en C# :
+## Extension method - C♯ equivalent
 
 ```csharp
 using System.Collections.Generic;
@@ -760,14 +753,14 @@ namespace Extensions
 }
 ```
 
-☝ **Note :** en vrai, il y a plein de `Sum()` dans LINQ pour chaque type : `int`, `float`…
-→ [*Code source*](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Sum.cs)
+☝ **Note:** The actual implementations of `Sum()` in LINQ are different,
+one per type: `int`, `float`... → [*Source code*](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Sum.cs)
 
 ---
 
-# Méthode d'extension - Tuples
+# Extension method - Tuples
 
-On peut ajouter une méthode d'extension à tout tuple F# :
+An extension method can be added to any F♯ tuple:
 
 ```fsharp
 open System.Runtime.CompilerServices
@@ -775,8 +768,8 @@ open System.Runtime.CompilerServices
 [<Extension>]
 type EnumerableExtensions =
     [<Extension>]
-    // static member IsDuplicate : ('a * 'a) -> bool when 'a : equality
-    static member inline IsDuplicate((x, y)) =
+    // Signature : ('a * 'a) -> bool when 'a : equality
+    static member inline IsDuplicate((x, y)) = // 👈 Double () required
         x = y
 
 let b1 = (1, 1).IsDuplicate()  // true
@@ -785,34 +778,34 @@ let b2 = ("a", "b").IsDuplicate()  // false
 
 ---
 
-# Extensions - Comparatif
+# Extensions - Comparison
 
-| Fonctionnalité      | Extension de type            | Méthode d'extension    |
-|---------------------|------------------------------|------------------------|
-| Méthodes            | ✅ instance, ✅ statique       | ✅ instance, ❌ statique |
-| Propriétés          | ✅ instance, ✅ statique       | ❌ *Non supporté*       |
-| Constructeurs       | ✅ intrinsèque, ❌ optionnelle | ❌ *Non supporté*       |
-| Étendre contraintes | ❌ *Non supporté*             | ✅ *Supporte SRTP*      |
-
----
-
-# Extensions - Limites
-
-Ne participent pas au polymorphisme :
-
-- Pas dans table virtuelle
-- Pas de membre `virtual`, `abstract`
-- Pas de membre `override` *(mais surcharges 👌)*
+| Feature            | Type extension          | Extension method     |
+|--------------------|-------------------------|----------------------|
+| Methods            | ✅ instance, ✅ static    | ✅ instance, ❌ static |
+| Properties         | ✅ instance, ✅ static    | ❌ *Not supported*    |
+| Constructors       | ✅ intrinsic, ❌ optional | ❌ *Not supported*    |
+| Extend constraints | ❌ *Not supported*       | ✅ *Support SRTP*     |
 
 ---
 
-# Extensions *vs* classe partielle C♯
+# Extensions - Limits
 
-| Fonctionnalité      | Multi-fichiers | Compilé dans type | Tout type           |
-|---------------------|----------------|-------------------|---------------------|
-| Classe partielle C♯ | ✅ Oui          | ✅ Oui             | Que `partial class` |
-| Extens° intrinsèque | ❌ Non          | ✅ Oui             | ✅ Oui               |
-| Extens° optionnelle | ✅ Oui          | ❌ Non             | ✅ Oui               |
+Do not support (sub-typing) polymorphism:
+
+- Not in the virtual table
+- No `virtual`, `abstract` member
+- No `override` member *(but overloads 👌)*
+
+---
+
+# Extensions *vs* C♯ partial class
+
+| Feature             | Multi-files | Compiled into type | Any type             |
+|---------------------|-------------|--------------------|----------------------|
+| C♯ partial class    | ✅ Yes       | ✅ Yes              | Only `partial class` |
+| Extension intrinsic | ❌ No        | ✅ Yes              | ✅ Yes                |
+| Extension optional  | ✅ Yes       | ❌ No               | ✅ Yes                |
 
 ---
 
@@ -826,32 +819,33 @@ Ne participent pas au polymorphisme :
 
 ---
 
-# Classe
+# Class
 
-Classe en F♯ ≡ classe en C♯
-→ Brique de base pour l'orienté-objet
-→ Constructeur d'objets contenant des données de type défini et des méthodes
+Class in F♯ ≡ class in C♯
+→ Object-oriented building block
+→ Constructor of objects containing data of defined type and methods
 
-Définition d'une classe
-→ Commence par `type` *(comme tout type en F♯)*
-→ Nom de la classe généralement suivi du **constructeur primaire**
+Definition of a class
+→ Starts with `type` *(like any type in F♯)*
+→ Class name generally followed by **primary constructor**
 
 ```fsharp
 type CustomerName(firstName: string, lastName: string) =
-    // Corps du constructeur primaire
-    // Membres...
+    // Primary builder's body
+    // Members...
 ```
 
-☝ Paramètres `firstName` et `lastName` visibles dans tout le corps de la classe
+☝ `firstName` and `lastName` parameters visible throughout class body
 
 ---
 
-# Classe générique
+# Generic class
 
-Paramètres génériques à spécifier car non inférés
+No automatic generalization on type
+→ Generic parameters to specify
 
 ```fsharp
-type Tuple2_KO(item1, item2) = // ⚠️ 'item1' et 'item2': type 'obj' !
+type Tuple2_KO(item1, item2) = // ⚠️ 'item1' and 'item2': 'obj' type !
     // ...
 
 type Tuple2<'T1, 'T2>(item1: 'T1, item2: 'T2) =  // 👌
@@ -860,42 +854,42 @@ type Tuple2<'T1, 'T2>(item1: 'T1, item2: 'T2) =  // 👌
 
 ---
 
-# Classe : constructeur secondaire
+# Class: secondary constructor
 
-Syntaxe pour définir un autre constructeur :
+Syntax for defining another constructor:
 `new(argument-list) = constructor-body`
 
-☝ Doit appeler le constructeur primaire !
+☝ Must call the primary constructor!
 
 ```fsharp
 type Point(x: float, y: float) =
     new() = Point(0, 0)
-    // Membres...
+    // Members...
 ```
 
-☝ Paramètres des constructeurs : que en tuple, pas curryfiés !
+☝ Constructor parameters: only tuples, not curried!
 
 ---
 
-# Instanciation
+# Instantiation
 
-Appel d'un des constructeurs, avec arguments en tuple
-→ Ne pas oublier `()` si aucun argument, sinon on obtient une fonction !
+Call one of the constructors, with tuple arguments
+→ Don't forget `()` if no arguments, otherwise you get a function!
 
-Dans un `let` binding : `new` optionnel et non recommandé
+In a `let` binding: `new` optional and not recommended
 → `let v = Vector(1.0, 2.0)` 👌
 → `let v = new Vector(1.0, 2.0)` ❌
 
-Dans un `use` binding : `new` obligatoire
+In a `use` binding: `new` mandatory
 → `use d = new Disposable()`
 
 ---
 
-# Initialisation des propriétés
+# Property initialization
 
-On peut initialiser des propriétés avec setter à l'instanciation
-→ Les spécifier en tant que **arguments nommés** dans l'appel au constructeur
-→ Les placer après les éventuels arguments du constructeur :
+Properties can be initialized with setter at instantiation 👍
+→ Specify them as **named arguments** in the call to the constructor
+→ Place them after any constructor arguments
 
 ```fsharp
 type PersonName(first: string) =
@@ -903,32 +897,32 @@ type PersonName(first: string) =
     member val Last = "" with get, set
 
 let p1 = PersonName("John")
-let p2 = PersonName("John", Last="Paul")
-let p3 = PersonName(first="John", Last="Paul")
+let p2 = PersonName("John", Last = "Paul")
+let p3 = PersonName(first = "John", Last = "Paul")
 ```
 
-💡 Équivalent de la syntaxe C♯ `new PersonName("John") { Last = "Paul" }`
+💡 Equivalent in C♯: `new PersonName("John") { Last = "Paul" }`
 
 ---
 
-# Classe abstraite
+# Abstract class
 
-Annotée avec `[<AbstractClass>]`
+Annotated with `[<AbstractClass>]`
 
-Un des membres est **abstrait** :
+One of the members is **abstract**:
 
-1. Déclaré avec mot clé `abstract`
-2. Pas d'implémentation par défaut avec mot clé `default`
-   *(Sinon le membre est virtuel)*
+1. Declared with the `abstract` keyword
+2. No default implementation (with `default` keyword)
+   *(Otherwise member is virtual)*
 
-Héritage via mot clé `inherit`
-→ Suivi de l'appel au constructeur de la classe de base
+Inheritance with `inherit` keyword
+→ Followed by call to base class constructor
 
 ---
 
 <!-- _footer: '' -->
 
-# Classe abstraite : exemple
+## Abstract class: example
 
 ```fsharp
 [<AbstractClass>]
@@ -955,33 +949,33 @@ printfn $"Center {o.Center}"  // Center (1, -1)
 
 ---
 
-# Champs
+# Fields
 
-Convention de nommage : camelCase
+Naming convention: camelCase
 
-2 types de champs : implicite ou explicite
+2 kind of field: implicit or explicit
 
-- Implicite ≃ Variable à l'intérieur du constructeur primaire
-- Explicite ≡ Champ classique d'une classe en C♯ / Java
+- Implicit ≃ Variable inside primary constructor
+- Explicit ≡ Usual class field in C♯ / Java
 
 ---
 
-# Champ implicite
+# Implicit field
 
-Syntaxe :
-• Variable  : `[static] let [ mutable ] variable-name = expression`
-• Fonction : `[static] let [ rec ] function-name function-args = expression`
+Syntax:
+• Variable: `[static] let [ mutable ] variable-name = expression`
+• Function: `[static] let [ rec ] function-name function-args = expression`
 
 ☝ **Notes**
 
-- Déclaré avant les membres de la classe
-- Valeur initiale obligatoire
-- Privé
-- S'utilise sans devoir préfixer par le `self-identifier`
+- Declared before class members
+- Initial value mandatory
+- Private
+- Direct access: no need to qualify them with the `self-identifier`
 
 ---
 
-# Champ implicite d'instance : exemple
+# Implicit instance field: example
 
 ```fsharp
 type Person(firstName: string, lastName: string) =
@@ -994,13 +988,13 @@ p.Hi()  // Hi, I'm John Doe!
 
 ---
 
-# Champ implicite statique : exemple
+# Static implicit field: example
 
 ```fsharp
 type K() =
     static let mutable count = 0
 
-    // do binding exécuté à chaque construction
+    // do executed for each instance at construction
     do
         count <- count + 1
 
@@ -1014,35 +1008,33 @@ let count2 = k2.CreatedCount  // 2
 
 ---
 
-# Champ explicite
+# Explicit field
 
-Déclaration du type, sans valeur initiale :
-`val [ mutable ] [ access-modifier ] field-name : type-name`
+Type declaration, without initial value:
+`val [ mutable ] [ access-modify ] field-name : type-name`
 
-- `val mutable a: int` → champ publique
-- `val a: int` → champ interne `a@` + propriété `a => a@`
+- `val mutable a: int` → public field
+- `val a: int` → internal field `a@` + property `a => a@`
 
 ---
 
-<!-- _footer: '' -->
-
-# Champ *vs* propriété
+# Field *vs* property
 
 ```fsharp
-// Champs explicites readonly
+// Explicit fields readonly
 type C1 =
     val a: int
     val b: int
     val mutable c: int
-    new(a, b) = { a = a; b = b; c = 0 } // 💡 Constructeur 2ndaire "compacte"
+    new(a, b) = { a = a; b = b; c = 0 } // 💡 Constructor 2ndary "compact"
 
-// VS propriétés readonly => ordre inversé dans SharpLab : b avant a
+// VS readonly properties
 type C2(a: int, b: int) =
     member _.A = a
     member _.B = b
     member _.C = 0
 
-// VS propriétés auto-implémentées
+// VS auto-implemented property
 type C3(a: int, b: int) =
     member val A = a
     member val B = b with get
@@ -1051,32 +1043,32 @@ type C3(a: int, b: int) =
 
 ---
 
-# Champ explicite ou implicite ou propriété
+# Explicit field *vs* implicit field *vs* property
 
-Champ explicite **peu utilisé** :
-→ Ne concerne que les classes et structures
-→ Utile avec fonction native manipulant la mémoire directement
-    *(Car ordre des champs préservés - cf. [SharpLab](https://sharplab.io/#v2:DYLgZgzgNAJiDUAfA9MgBAYQBYEMC2ADhGgKYAeBwAlgMZUAuJxATiTjAPYB2wAngLAAoerwIlMARjQBeIWnloAbjmBocINFS705C5aoBGGrTsEK0XEgHcAFDihoDAShloA3mtc4A3I9cHfAF80VDRAXg3AQp3Mbgh6ZgBXGkZ45jQAJi4YHCpWNAAiGg5CHCSSPKEhUIA1AGU0AmYOBqoAS/oWljZOHgFhUXEMNLtjbQcjTW0XWTMFPBI8AxJUgH0AOgBBL115OYWltDWAIX8hIA===))*
-→ Besoin d'une variable `[<ThreadStatic>]`
-→ Interaction avec classe F♯ de code généré sans constructeur primaire
+Explicit field **not often used** :
+→ Only for classes and structures
+→ Useful with native function manipulating memory directly
+    *(Because fields order is preserved - see [SharpLab](https://sharplab.io/#v2:DYLgZgzgNAJiDUAfA9MgBAYQBYEMC2ADhGgKYAeBwAlgMZUAuJxATiTjAPYB2wAngLAAoerwIlMARjQBeIWnloAbjmBocINFS705C5aoBGGrTsEK0XEgHcAFDihoDAShloA3mtc4A3I9cHfAF80VDRAXg3AQp3Mbgh6ZgBXGkZ45jQAJi4YHCpWNAAiGg5CHCSSPKEhUIA1AGU0AmYOBqoAS/oWljZOHgFhUXEMNLtjbQcjTW0XWTMFPBI8AxJUgH0AOgBBL115OYWltDWAIX8hIA===))*
+→ Need a `[<ThreadStatic>]` variable
+→ Interaction with F♯ class of code generated without primary constructor
 
-Champ implicite - `let` binding
-→ Variable intermédiaire lors de la construction
+Implicit field - `let` binding
+→ Intermediate variable during construction
 
-Autres cas d'usages → propriété auto-implémentée
-→ Exposer une valeur → `member val`
-→ Exposer un "champ" mutable → `member val ... with get, set`
+Other use cases → auto-implemented property
+→ Expose a value → `member val`
+→ Expose a mutable "field" → `member val ... with get, set`
 
 ---
 
 # Structures
 
-Alternatives aux classes mais \+ limités / héritage et récursivité
+Alternatives to classes, but more limited inheritance and recursion features
 
-Même syntaxe que pour les classes mais avec en plus :
+Same syntax as for classes, but with the addition of:
 
-- Soit attribut `[<Struct>]`
-- Soit bloc `struct...end` *(fréquent)*
+- `[<Struct>]` attribute
+- Or `struct...end` block *(more frequent)*
 
 ```fsharp
 type Point =
@@ -1097,43 +1089,31 @@ let x = Point(1.0, 2.0)
 
 # 4.
 
-## Les     Interfaces
+## *Interfaces* ────────
 
 ---
 
-# Interface - Syntaxe
+# Interface - Syntax
 
-Idem classe abstraite avec :
-• Que des membres abstraits, définis par signature
-• Sans l'attribut `[<AbstractClass>]`
+Same as abstract class with:
+• Only abstract members
+• Without `[<AbstractClass>]` attribute
+• With `[<Interface>]` attribute (optional, recommended)
 
 ```fsharp
 type [accessibility-modifier] interface-name =
     abstract memberN : [ argument-typesN -> ] return-typeN
 ```
 
-• Nom d'une interface commence par `I` pour suivre convention .NET
-• Les arguments peuvent être nommés *(sans parenthèses sinon 💥)*
-
-```fsharp
-type IPrintable =
-    abstract member Print : format:string -> unit
-```
+- Interface name begins with `I` to follow .NET convention
+- Arguments can be named *(without parentheses otherwise 💥)*
 
 ---
 
-# Interface - Implémentation
-
-2 manières d'implémenter une interface :
-
-1. Dans un type *(comme en C♯)*
-2. Dans une expression objet 📍
-
----
-
-# Implémentation dans un type
+## Interface implementation in a type
 
 ```fsharp
+[<Interface>]
 type IPrintable =
     abstract member Print : unit -> unit
 
@@ -1142,15 +1122,126 @@ type Range = { Min: int; Max: int } with
         member this.Print() = printfn $"[{this.Min}..{this.Max}]"
 ```
 
-⚠️ **Piège :** mot clé `interface` en F♯
- ≠ mot clé `interface` en C♯, Java, TS
- ≡ mot clé `implements` Java, TS
+⚠️ **Trap:** keywords are different per language
+F♯ `interface`
+≡ Java/TS `implements`
+≠ C♯/Java/TS `interface`
 
 ---
 
-# Implémentation dans une expression objet
+# Interface - Default implementation
+
+F♯ 5.0 supports interfaces defining methods with default implementations written in C♯ 8+ but does not allow them to be defined directly in F♯.
+
+⚠️ Don't confuse with `default` keyword: supported only in classes!
+
+---
+
+# F♯ interface is explicit
+
+F♯ interface implementation
+≡ Explicit implementation of an interface in C♯
+
+→ Interface methods are accessible only by *upcasting*:
 
 ```fsharp
+[<Interface>]
+type IPrintable =
+    abstract member Print : unit -> unit
+
+type Range = { Min: int; Max: int } with
+    interface IPrintable with
+        member this.Print() = printfn $"[{this.Min}..{this.Max}]"
+
+let range = { Min = 1; Max = 5 }
+(range :> IPrintable).Print()  // upcast operator 📍
+// [1..5]
+```
+
+---
+
+# Implementing a generic interface
+
+```fsharp
+[<Interface>]
+type IValue<'T> =
+    abstract member Get : unit -> 'T
+
+// Contrived example for demo purpose
+type DoubleValue(i, s) =
+    interface IValue<int> with
+        member _.Get() = i
+
+    interface IValue<string> with
+        member _.Get() = s
+
+let o = DoubleValue(1, "hello")
+let i = (o :> IValue<int>).Get() // 1
+let s = (o :> IValue<string>).Get() // "hello"
+```
+
+---
+
+<!-- _footer: '' -->
+
+# Inheritance
+
+Defined with `inherit` keyword
+
+```fsharp
+type A(x: int) =
+    do
+        printf "Base (A): "
+        for i in 1..x do printf "%d " i
+        printfn ""
+
+type B(y: int) =
+    inherit Base(y * 2) // 👈
+    do
+        printf "Child (B): "
+        for i in 1..y do printf "%d " i
+        printfn ""
+
+let child = B(1)
+// Base: 1 2
+// Child: 1
+// val child: B
+```
+
+---
+
+<!-- _class: chapter invert -->
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_smiley4.png)
+
+# 5.
+
+## Object expression
+
+---
+
+# Object expression
+
+Expression used to implement an abstract type on the fly
+→ Similar to an anonymous class in Java
+
+```fsharp
+let makeResource (resourceName: string) =
+    printfn $"create {resourceName}"
+    { new System.IDisposable with
+        member _.Dispose() =
+            printfn $"dispose {resourceName}" }
+```
+
+☝ The signature of `makeResource` is `string -> System.IDisposable`.
+💡 Upcasting not required, compared to interface implementation in a type.
+
+---
+
+# Interface singleton
+
+```fsharp
+[<Interface>]
 type IConsole =
     abstract ReadLine : unit -> string
     abstract WriteLine : string -> unit
@@ -1163,115 +1254,9 @@ let console =
 
 ---
 
-# Interface - Implémentation par défaut
+# Implement 2 interfaces
 
-F♯ 5.0 supporte les interfaces définissant des méthodes avec implémentations par défaut écrites en C♯ 8+ mais ne permet pas de les définir.
-
-⚠️ Mot clé `default` : supporté que dans les classes, pas dans les interfaces !
-
----
-
-# Une interface F♯ est explicite
-
-Implémentation d'une interface en F♯
-≡ Implémentation explicite d'une interface en C♯
-
-→ Les méthodes de l'interface ne sont consommables que par *upcasting* :
-
-```fsharp
-type IPrintable =
-    abstract member Print : unit -> unit
-
-type Range = { Min: int; Max: int } with
-    interface IPrintable with
-        member this.Print() = printfn $"[{this.Min}..{this.Max}]"
-
-let range = { Min = 1; Max = 5 }
-(range :> IPrintable).Print()  // Opérateur `:>` de upcast 📍
-// [1..5]
-```
-
----
-
-# Implémentation d'une interface générique
-
-```fsharp
-type IValue<'T> =
-    abstract member Get : unit -> 'T
-
-type BiValue() =
-    interface IValue<int> with
-        member _.Get() = 1
-    interface IValue<string> with
-        member _.Get() = "hello"
-
-let o = BiValue()
-let i = (o :> IValue<int>).Get() // 1
-let s = (o :> IValue<string>).Get() // "hello"
-```
-
----
-
-<!-- _footer: '' -->
-
-# Héritage
-
-Défini avec mot clé `inherit`
-
-```fsharp
-type Base(x: int) =
-    do
-        printf "Base: "
-        for i in 1..x do printf "%d " i
-        printfn ""
-
-type Child(y: int) =
-    inherit Base(y * 2)
-    do
-        printf "Child: "
-        for i in 1..y do printf "%d " i
-        printfn ""
-
-let child = Child(1)
-
-// Base: 1 2 3 4
-// Child: 1
-```
-
----
-
-<!-- _class: chapter invert -->
-
-![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_smiley4.png)
-
-# 5.
-
-## Expression Objet
-
----
-
-# Expression objet
-
-Expression permettant d'implémenter à la volée un type abstrait
-→ Similaire à une classe anonyme en Java
-
-```fsharp
-let makeResource (resourceName: string) =
-    printfn $"create {resourceName}"
-    { new System.IDisposable with
-        member _.Dispose() =
-            printfn $"dispose {resourceName}" }
-```
-
-☝ La signature de `makeResource` est `string -> System.IDisposable`.
-
----
-
-<!-- _footer: '' -->
-
-# Implémenter 2 interfaces
-
-Possible mais 2e interface non consommable facilement et sûrement
+Possible but unsafe usage → not recommended
 
 ```fsharp
 let makeDelimiter (delim1: string, delim2: string, value: string) =
@@ -1288,7 +1273,7 @@ let o = makeDelimiter("<", ">", "abc")
 // val o : System.IFormattable
 let s = o.ToString("D", System.Globalization.CultureInfo.CurrentCulture)
 // val s : string = "<abc>"
-let i = (d :?> System.IComparable).CompareTo("cde")  // ❗ Dangereux
+let i = (d :?> System.IComparable).CompareTo("cde")  // ❗ Unsafe
 // val i : int = -1
 ```
 
@@ -1300,43 +1285,43 @@ let i = (d :?> System.IComparable).CompareTo("cde")  // ❗ Dangereux
 
 # 6.
 
-## Recommandations pour l'orienté-objet
+## Object-oriented recommendations
 
 ---
 
-# Pas d'orienté-objet là où F♯ est bon
+# No object orientation where F♯ is good
 
-Inférence marche mieux avec fonction(objet) que objet.membre
+Inference works better with `function (object)` than `object.member`
 
-**Hiérarchie simple d'objets**
-❌ Éviter héritage
-✅ Préférer type *Union* et *pattern matching* exhaustif, \+ simple en général
-→ En particulier les types récursifs comme les arbres, épaulés par fonction `fold`
+**Simple object hierarchy**
+❌ Avoid inheritance
+✅ Prefer type *Union* and exhaustive *pattern matching*
+→ Particularly recursive types such as trees, for their `fold` function
 → https://fsharpforfunandprofit.com/series/recursive-types-and-folds/
 
-**Égalité structurelle**
-❌ Éviter classe *(égalité par référence par défaut)*
-✅ Préférer un *Record* ou une *Union*
-❓ Envisager égalité structurelle custom / performance
+**Structural equality**
+❌ Avoid class *(equality by default reference)*
+✅ Prefer a *Record* or a *Union*
+❓ Consider custom / performance structural equality
 → https://www.compositional-it.com/news-blog/custom-equality-and-comparison-in-f/
 
 ---
 
-# Orienté-objet recommandé
+# Object-oriented recommended use-cases
 
-1. Encapsuler état mutable → dans une classe
-2. Grouper fonctionnalités → dans une interface
-3. API expressive et user-friendly → méthodes tuplifiées
-4. API F♯ consommée en C♯ → membres d'extension
-5. Gestion des dépendances → injection dans constructeur
-6. Dépasser limites des fonctions d'ordre supérieur
+1. Encapsulate mutable state → in a class
+2. Group features → in an interface
+3. Expressive, user-friendly API → tuplified methods
+4. API F♯ consumed in C♯ → member extensions
+5. Dependency management → injection into constructor
+6. Tackle higher-order functions limits
 
 ---
 
-# Classe pour encapsuler état mutable
+## Class to encapsulate mutable state
 
 ```fsharp
-// 😕 Encapsuler état mutable dans une closure → fonction impure contre-intuitif ⚠️
+// 😕 Encapsulate mutable state in a closure → impure function → counter-intuitive ⚠️
 let counter =
     let mutable count = 0
     fun () ->
@@ -1346,9 +1331,9 @@ let counter =
 let x = counter ()  // 1
 let y = counter ()  // 2
 
-// ✅ Encapsuler état mutable dans une classe
+// ✅ Encapsulate mutable state in a class
 type Counter() =
-    let mutable count = 0   // Champ privé
+    let mutable count = 0 // Private field
     member _.Next() =
         count <- count + 1
         count
@@ -1356,7 +1341,7 @@ type Counter() =
 
 ---
 
-# Interface pour grouper fonctionnalités
+## Interface grouping features
 
 ```fsharp
 let checkRoundTrip serialize deserialize value =
@@ -1366,8 +1351,8 @@ let checkRoundTrip serialize deserialize value =
 //     when 'a : equality
 ```
 
-`serialize` et `deserialize` forment un groupe cohérent
-→ Les grouper dans un objet
+`serialize` and `deserialize` form a consistent group
+→ Grouping them in an object makes sense
 
 ```fsharp
 let checkRoundTrip serializer data =
@@ -1376,51 +1361,52 @@ let checkRoundTrip serializer data =
 
 ---
 
-# Interface pour grouper fonctionnalités (2)
+## Interface grouping features (2)
 
-💡 Préférer une interface à un *Record*
+💡 Prefer an interface to a *Record* *(not possible with `Fable.Remoting`)*
 
 ```fsharp
-// ❌ Éviter : ce n'est pas un bon usage d'un Record
+// ❌ Avoid: not a good use of a Record: unnamed parameters, structural comparison lost...
 type Serializer<'T> = {
     Serialize: 'T -> string
     Deserialize: string -> 'T
 }
 
-// ✅ Recommandé
+// ✅ Recommended
 type Serializer =
     abstract Serialize<'T> : value: 'T -> string
     abstract Deserialize<'T> : data: string -> 'T
 ```
 
-→ Paramètres sont nommés dans les méthodes
-→ Objet facilement instanciable avec une expression objet
+→ Parameters are named in the methods
+→ Object easily instantiated with an object expression
 
 ---
 
-# API expressive
+## User-friendly API
 
 ```fsharp
-// ❌ Éviter                        // ✅ Préférer
+// ❌ Avoid                         // ✅ Favor
                                     [<AbstractClass; Sealed>]
 module Utilities =                  type Utilities =
     let name = "Bob"                    static member Name = "Bob"
-    let add2 x y = x + y                static member Add(x,y) = x + y
-    let add3 x y z = x + y + z          static member Add(x,y,z) = x + y + z
+    let add2 x y = x + y                static member Add(x, y) = x + y
+    let add3 x y z = x + y + z          static member Add(x, y, z) = x + y + z
     let log x = ...                     static member Log(x, ?retryPolicy) = ...
     let log' x retryPolicy = ...
 ```
 
-→ Méthode `Add` surchargée *vs* `add2`, `add3`
-→ Une seule méthode `Log` avec paramètre optionnel `retryPolicy`
+Advantages of OO implementation:
+→ `Add` method overloaded *vs* `add2`, `add3` functions *(`2` and `3` = args count)*
+→ Single `Log` method with `retryPolicy` optional parameter
 
 🔗 [F♯ component design guidelines - Libraries used in C♯](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/component-design-guidelines#guidelines-for-libraries-for-use-from-other-net-languages)
 
 ---
 
-# API F♯ consommée en C♯ - Type
+## API F♯ consumed in C♯ - Type
 
-Ne pas exposer ce type tel quel :
+Do not expose this type as is:
 
 ```fsharp
 type RadialPoint = { Angle: float; Radius: float }
@@ -1435,12 +1421,12 @@ module RadialPoint =
 
 ---
 
-# API F♯ consommée en C♯ - Type (2)
+## API F♯ consommée en C♯ - Type (2)
 
-💡 Pour faciliter la découverte du type et l'usage de ses fonctionnalités en C♯
+💡 To make it easier to discover the type and use its features in C♯
 
-- Mettre le tout dans un namespace
-- Augmenter le type avec fonctionnalités du module compagnon
+- Put everything in a namespace
+- Augment type with companion module functionalities
 
 ```fsharp
 namespace Fabrikam
@@ -1456,9 +1442,9 @@ type RadialPoint with
 
 ---
 
-# API F♯ consommée en C♯ - Type (3)
+## API F♯ consumed in C♯ - Type (3)
 
-👉 L'API consommée en C♯ est +/- équivalente à :
+👉 The API consumed in C♯ is +/- equivalent to:
 
 ```csharp
 namespace Fabrikam
@@ -1480,11 +1466,11 @@ namespace Fabrikam
 
 ---
 
-# Gestion des dépendances - Technique FP
+## Dependency management - FP based technique
 
-**Paramétrisation des dépendances + application partielle**
-→ Marche à petite dose : peu de dépendances, peu de fonctions concernées
-→ Sinon, vite pénible à coder et à utiliser 🥱
+**Parametrization of dependencies + partial application**.
+→ Small-dose approach: few dependencies, few functions involved
+→ Otherwise, quickly tedious to implement and to use
 
 ```fsharp
 module MyApi =
@@ -1494,13 +1480,13 @@ module MyApi =
 
 ---
 
-# Gestion des dépendances - Technique OO
+## Dependency management - OO technique
 
-**Injection de dépendances**
-→ Injecter les dépendances dans le constructeur de la classe
-→ Utiliser ces dépendances dans les méthodes
+**Dependency injection**
+→ Inject dependencies into the class constructor
+→ Use these dependencies in methods
 
-👉 Offre une API \+ user-friendly 👍
+👉 Offers a user-friendly API 👍
 
 ```fsharp
 type MyParametricApi(dep1, dep2, dep3) =
@@ -1508,58 +1494,64 @@ type MyParametricApi(dep1, dep2, dep3) =
     member _.Function2 arg2 = doStuffWith' dep1 dep2 dep3 arg2
 ```
 
-✅ Particulièrement recommandé pour encapsuler des **effets de bord** :
-→ Connexion à une BDD, lecture de settings...
+✅ Particularly recommended for encapsulating **side-effects** :
+→ Connecting to a DB, reading settings...
+
+⚠️ **Trap:** dependencies injected in the constructor make sense only if they are used throughout the class. A dependency used in a single method indicates a design smell.
 
 ---
 
-# Gestion des dépendances - Techniques FP++
+## Dependency management - Advanced FP
 
-*Dependency rejection* = pattern sandwich
-→ Rejeter dépendances dans couche Application, hors de couche Domaine
-→ Puissant et simple 👍
-→ ... quand c'est adapté ❗
+*Dependency rejection* = sandwich pattern
+→ Reject dependencies in Application layer, out of Domain layer
+→ Powerful and simple 👍
+→ ... when suitable ❗
 
-Monade _Reader_
-→ Pour fans de Haskell, sinon trop disruptif 😱
+*Reader* monad
+→ Only if hidden inside a computation expression
 
-Etc. https://fsharpforfunandprofit.com/posts/dependencies/
+*Free* monad + interpreter patter
+→ Used in the SCM
+
+...
+
+🔗 https://fsharpforfunandprofit.com/posts/dependencies/
 
 ---
 
-# Limites des fonctions d'ordre supérieur
+## Higher-order function limits
 
-Mieux vaut passer un objet plutôt qu'une lambda
-en paramètre d'une fonction d'ordre supérieure quand :
+It's better to pass an object than a lambda
+as a parameter to a higher-order function when:
 
-1. Lambda est une **commande** `'T -> unit`
-   ✅ Préférer déclencher un effet de bord via un objet
-   → `type ICommand = abstract Execute : 'T -> unit`
-2. Arguments de la lambda pas explicites
+1. Lambda arguments not explicit
    ❌ `let test (f: float -> float -> string) =...`
-   ✅ Solution 1 : type wrappant les 2 args `float`
-   → `f: Point -> string` avec `type Point = { X: float; Y: float }`
-   ✅ Solution 2 : interface + méthode pour avoir paramètres nommés
-   → `type IXxx = abstract Execute : x:float -> y:float -> string`
+   ✅ Solution 1: type wrapping the 2 args `float`
+   → `f: Point -> string` with `type Point = { X: float; Y: float }`
+   ✅ Solution 2: interface + method for named parameters
+   → `type IPointFormatter = abstract Execute : x:float -> y:float -> string`
+2. Lambda is a **command** `'T -> unit`
+   ✅ Prefer to trigger an side-effect via an object
+   → `type ICommand = abstract Execute : 'T -> unit`
 
 ---
 
-<!-- _footer: '' -->
+# Higher-order function limits (2)
 
-# Limites des fonctions d'ordre supérieur (2)
-
-3. Lambda "vraiment" générique
+3. Lambda "really" generic
 
 ```fsharp
 let test42 (f: 'T -> 'U) =
     f 42 = f "42"
 // ❌ ^^     ~~~~
-// ^^ Cette construction rend le code moins générique :
-//    paramètre de type 'T contraint de représenter le type `int`
-// ~~ Type `int` attendu != type `string` actuel
+// ^^ Warning FS0064: This construct causes code to be less generic than indicated by the type annotations.
+//                    The type variable 'T has been constrained to be type 'int'.
+// ~~ Error FS0001: This expression was expected to have type 'int' but here has type 'string'
+// 👉 `f: int -> 'U'` expected
 ```
 
-✅ Solution : wrapper la fonction dans un objet
+✅ Solution: wrap the function in an object
 
 ```fsharp
 type Func2<'U> =

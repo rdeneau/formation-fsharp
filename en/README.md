@@ -42,7 +42,7 @@ TBD
 - ≃ ≠ ≡
 - ∀ ∃ ∈ ⊂ ×
 - ∅ ∑ ∞
-- … ┆｜ ─
+- … ┆｜ ─ ▔
 - thin space: ' '
 
 ## Speaker tips
