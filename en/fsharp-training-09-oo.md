@@ -7,11 +7,6 @@ footer: 'F♯ Training • Object-oriented'
 paginate: true
 ---
 
-<!-- Chars: ① ② ③  Ⓐ Ⓑ Ⓒ  → • -->
-<!-- Chars-Math : ≃ ≠ ≡ ∀ ∃ ∈ ∅ ∑ ∞ … ┆｜ -->
-<!-- Emoji : ☝ 👉 👌 👍 👎 💡 ⚠️ 😕 ✅ ❌ ❗ 💥 -->
-<!-- https://emojipedia.org -->
-
 <!-- _class: title invert -->
 
 # F♯ Training

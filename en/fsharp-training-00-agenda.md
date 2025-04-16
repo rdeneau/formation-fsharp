@@ -1,10 +1,4 @@
-# F♯ Training
-
-<!--
-Commandes :
-- HTM: marp masterclass-fsharp-6-module.md --watch --theme themes/d-edge.css
-- PDF: marp masterclass-fsharp-5-types.md --pdf --allow-local-files --theme themes/d-edge.css
--->
+# F♯ Training - Agenda
 
 ## Pitch: Why F♯?
 
