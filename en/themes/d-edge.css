@@ -360,6 +360,7 @@ section.chapter h2 {
   font-size: 1.6em;
   max-width: 65%;
   align-self: left;
+  overflow-wrap: normal;
 }
 
 section.chapter h3 {
