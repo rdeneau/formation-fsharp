@@ -737,18 +737,18 @@ Operations: access, construct, find, select, aggregate...
 2. The last parameter is omitted for brevity
    - It's always the collection.
 
-**Example:** `head` _vs_ `List.head x`
+**Example:** `head` _vs_ `List.head list`
 
 ---
 
 # Access to an element
 
-| ↓ Access \ Returns → | `'T` or 💣    | `'T option`     |
-|----------------------|---------------|-----------------|
-| By index             | `list[index]` |                 |
-| By index             | `item index`  | `tryItem index` |
-| First element        | `head`        | `tryHead`       |
-| Last element         | `last`        | `tryLast`       |
+| ↓ Access \ Returns → | `'T` or 💣   | `'T option`     |
+|----------------------|--------------|-----------------|
+| By index             | `x[index]`   |                 |
+| By index             | `item index` | `tryItem index` |
+| First element        | `head`       | `tryHead`       |
+| Last element         | `last`       | `tryLast`       |
 
 💣 `ArgumentException` or `IndexOutOfRangeException`
 
@@ -849,14 +849,14 @@ Using a predicate `f : 'T -> bool`:
 
 Functions taking as input:
 → A mapping function `f` (a.k.a. _mapper_)
-→ A collection of elements of type `'T`
+→ A collection of type `~~~~ 'T`, `~~~~` meaning `Array`, `List`, or `Seq`
 
 | Function  | Mapping `f`              | Returns     | How many elements?           |
 |-----------|--------------------------|-------------|------------------------------|
-| `map`     | `       'T -> 'U`        | `'U list`   | As many in than out          |
-| `mapi`    | `int -> 'T -> 'U`        | `'U list`   | As many in than out          |
-| `collect` | `       'T -> 'U list`   | `'U list`   | *flatMap*                    |
-| `choose`  | `       'T -> 'U option` | `'U list`   | Less                         |
+| `map`     | `       'T -> 'U`        | `'U ~~~~`   | As many in than out          |
+| `mapi`    | `int -> 'T -> 'U`        | `'U ~~~~`   | As many in than out          |
+| `collect` | `       'T -> 'U ~~~~`   | `'U ~~~~`   | _flatMap_                    |
+| `choose`  | `       'T -> 'U option` | `'U ~~~~`   | Less                         |
 | `pick`    | `       'T -> 'U option` | `'U`        | 1 (the first matching) or 💣 |
 | `tryPick` | `       'T -> 'U option` | `'U option` | 1 (the first matching)       |
 
@@ -864,7 +864,7 @@ Functions taking as input:
 
 ## `map` _vs_ `mapi`
 
-`mapi` ≡ `map` *with index*
+`mapi` ≡ `map` _with index_
 
 The difference is on the `f` mapping parameter:
 
@@ -919,9 +919,9 @@ Example: print the item to the console
 ## `choose`, `pick`, `tryPick`
 
 Signatures:
-• `choose  : mapper: ('a -> 'b option) -> list: 'a list -> 'b list`
-• `pick    : mapper: ('a -> 'b option) -> list: 'a list -> 'b`
-• `tryPick : mapper: ('a -> 'b option) -> list: 'a list -> 'b option`
+• `choose  : mapper: ('T -> 'U option) -> items: 'T ~~~~ -> 'U ~~~~`
+• `pick    : mapper: ('T -> 'U option) -> items: 'T ~~~~ -> 'U`
+• `tryPick : mapper: ('T -> 'U option) -> items: 'T ~~~~ -> 'U option`
 
 The mapping may return `None` for some items not mappable (or just ignored)
 
@@ -963,23 +963,119 @@ let tryParseInt (s: string) =
 
 ---
 
+# Aggregate : specialized functions
+
+Given a projection `f: 'T -> 'U`
+
+| Direct    | Projection    | Mapping | Constraint   |
+|-----------|---------------|---------|--------------|
+| `max`     | `maxBy f`     | ❌ No   | `comparison` |
+| `min`     | `minBy f`     | ❌ No   | `comparison` |
+| `sum`     | `sumBy f`     | ✅ Yes  | Monoid📍     |
+| `average` | `averageBy f` | ✅ Yes  | Monoid📍     |
+
+💣 `ArgumentException` if the collection is empty.
+
+---
+
+# Aggregate : `max(By)` examples
+
+```fsharp
+type N = One | Two | Three | Four | Five
+
+let max = List.max [ One; Two; Three; Four; Five ]
+// val max: N = Five
+
+let maxText = List.maxBy string [ One; Two; Three; Four; Five ]
+// val maxText: N = Two
+```
+
+☝️ **Notes:**
+
+- `comparison` constraint followed by `N`: unions are `IComparable` by default
+- `maxBy` performs no mapping: see the returned value: `Two`, ≠ `"Two"`
+- Same for `min` and `minBy`
+
+---
+
+# Aggregate : `sum(By)` examples
+
+```fsharp
+let sumKO = List.sum [ (1,"a"); (2,"b"); (3,"c") ]
+//                      ~~~~~ 💥 Error FS0001
+// Expecting a type supporting the operator 'get_Zero' but given a tuple type
+
+let sum = List.sumBy fst [ (1,"a"); (2,"b"); (3,"c") ]
+// val sum: int = 6 
+```
+
+☝️ **Notes:**
+
+- The _Monoid_ constraint is revealed with the error `FS0001`
+  - Items type must have: `Zero` static prop, overload of the `+` operator
+- `sumBy` performs a mapping: see the returned type: `int`, ≠ `int * string`
+- Same for `average` and `averageBy`
+
+---
+
+## Monoidal custom type example
+
+```fsharp
+type Point = Point of X:int * Y:int with
+    static member Zero = Point (0, 0)
+    static member (+) (Point (ax, ay), Point (bx, by)) = Point (ax + bx, ay + by)
+
+let addition = (Point (1, 1)) + (Point (2, 2))
+// val addition : Point = Point (3, 3)
+
+let sum = [1..3] |> List.sumBy (fun i -> Point (i, -i))
+// val sum : Point = Point (6, -6)
+```
+
+---
+
+# Aggregate : `countBy`
+
+Uses a projection `f: 'T -> 'U` to compute a "key" for each item
+Returns all the keys with the number of items having this key
+
+```fsharp
+let words = [ "hello"; "world"; "fsharp"; "is"; "awesome" ]
+let wordCountByLength = words |> List.countBy String.length |> List.sortBy fst
+//val wordCountByLength: (int * int) list = [(2, 1); (5, 2); (6, 1); (7, 1)]
+```
+
+💡 Useful to determine duplicates:
+
+```fsharp
+let findDuplicates items =
+    items
+    |> List.countBy id
+    |> List.choose (fun (item, count) -> if count > 1 then Some item else None)
+
+let t = findDuplicates [1; 2; 3; 4; 5; 1; 2; 3]
+// val t: int list = [1; 2; 3]
+```
+
+---
+
 # Aggregate : versatile functions
 
-• `fold       (f: 'U -> 'T -> 'U) (seed: 'U) list`
-• `foldBack   (f: 'T -> 'U -> 'U) list (seed: 'U)`
-• `reduce     (f: 'T -> 'T -> 'T) list`
-• `reduceBack (f: 'T -> 'T -> 'T) list`
+• `fold       (f: 'U -> 'T -> 'U) (seed: 'U) items`
+• `foldBack   (f: 'T -> 'U -> 'U) items (seed: 'U)`
+• `reduce     (f: 'T -> 'T -> 'T) items`
+• `reduceBack (f: 'T -> 'T -> 'T) items`
 
 folder `f` takes 2 parameters: an "accumulator" `acc` and the current element `x`
 
 `xxxBack` _vs_ `xxx`:
 • Iterates from last to first element
-• Parameters `seed` and `list` reversed (for `foldBack`)
+• Parameters `seed` and `items` reversed (for `foldBack`)
 • Folder `f` parameters reversed (`x acc`)
 
 `reduceXxx` _vs_ `foldXxx`:
-• `reduceXxx` uses the first item as the _seed_ and performs no mapping
-• `reduceXxx` fails if the list is empty 💥
+• `reduceXxx` uses the first item as the _seed_ and performs no mapping (`'T -> 'T`)
+• `reduceXxx` fails if the collection is empty 💣
 
 ---
 
@@ -1000,51 +1096,25 @@ Examples:
 
 ---
 
-# Aggregate : specialized functions
+# Aggregate : `fold(Back)` versatility
 
-| Direct    | With mapping |
-|-----------|--------------|
-| `max`     | `maxBy`      |
-| `min`     | `minBy`      |
-| `sum`     | `sumBy`      |
-| `average` | `averageBy`  |
-| `length`  | `countBy`    |
-
-`xxxBy f` ≃ `map f >> xxx`
-
----
-
-# Aggregate : specialized functions (2)
-
-Examples:
+We could write almost all functions with `fold` or `foldBack` _(performance aside)_
 
 ```fsharp
-[1; 2; 3] |> List.max  // 3
+// collect function using fold
+let collect f list = List.fold (fun acc x -> acc @ f x) [] list
 
-[ (1,"a"); (2,"b"); (3,"c") ] |> List.sumBy fst  // 6
+let test1 = [1; 2; 3] |> collect (fun x -> [x; x])  // [1; 1; 2; 2; 3; 3]
 
-["abc";"ab";"c";"a";"bc";"a";"b";"c"] |> List.countBy id
-// [("abc", 1); ("ab", 1); ("c", 2); ("a", 2); ("bc", 1); ("b", 1)]
-```
+// filter function using foldBack
+let filter f list = List.foldBack (fun x acc -> if f x then x :: acc else acc) list []
 
----
+let test2 = [1; 2; 3; 4; 5] |> filter ((=) 2)  // [2]
 
-# `sum`: type constraints
+// map function using foldBack
+let map f list = List.foldBack (fun x acc -> f x :: acc) list []
 
-The `sum` functions only work if the type of elements in the collection includes:
-• a static `Zero` member
-• an overload of the `+` operator
-
-```fsharp
-type Point = Point of X:int * Y:int with
-    static member Zero = Point (0, 0)
-    static member (+) (Point (ax, ay), Point (bx, by)) = Point (ax + bx, ay + by)
-
-let addition = (Point (1, 1)) + (Point (2, 2))
-// val addition : Point = Point (3, 3)
-
-let sum = [1..3] |> List.sumBy (fun i -> Point (i, -i))
-// val sum : Point = Point (6, -6)
+let test3 = [1; 2; 3; 4; 5] |> map (~-)  // [-1; -2; -3; -4; -5]
 ```
 
 ---
@@ -1171,61 +1241,116 @@ _Append_ `[1] @ [2; 3]`
 
 # `Map` module
 
-...
+`Map.add key value`
+→ **Safe add:** replace existing value of existing key
+→ Parameters `key value` curried, not a pair `(key, value)`
 
----
+`Map.remove key`
+→ **Safe remove:** just return the given `Map` if key not found
 
-## `Map` : `change`
+```fsharp
+let input = Map [ (1, "a"); (2, "b") ]
 
-Signature : `Map.change key (f: 'T option -> 'T option) table`
-
-Depending on the `f` function passed as an argument, we can:
-→ Add, modify or delete the element of a given key
-
-| Key       | Input        | `f` returns `None`       | `f` returns `Some newVal`    |
-|-----------|--------------|--------------------------|------------------------------|
-| -         | -            | ≡ `Map.remove key table` | ≡ `Map.add key newVal table` |
-| Found     | `Some value` | Remove the entry         | Change the value to _newVal_ |
-| Not found | `None`       | Ignore this key          | Add the item _(key, newVal)_ |
-
-TODO: ajouter un code exemple
-
----
-
-## `Map` : `containsKey` _vs_ `exists` _vs_ `filter`
-
-```txt
-Function      Signature                        Comment                                                   
-------------+--------------------------------+-----------------------------------------------------------
-containsKey   'K -> Map<'K,'V> -> bool         Indicates whether the key is present                      
-exists         f -> Map<'K,'V> -> bool         Indicates whether a key/value pair satisfies the predicate
-filter         f -> Map<'K,'V> -> Map<'K,'V>   Keeps key/value pairs satisfying the predicate            
-
-With predicate f: 'K -> 'V -> bool
+input
+|> Map.add 3 "c"  // map [(1, "a"); (2, "b"); (3, "c")]
+|> Map.add 1 "@"  // map [(1, "@"); (2, "b"); (3, "c")]
+|> Map.remove 2   // map [(1, "@"); (3, "c")]
 ```
+
+---
+
+## `Map.change`
+
+`Map.change key (f: 'T option -> 'T option)`
+→ All-in-one function to add, modify or remove the element of a given key
+→ Depends on the `f` function passed as an argument
+
+| Key       | Input        | `f` returns `None` | `f` returns `Some newVal`    |
+|-----------|--------------|--------------------|------------------------------|
+| -         | -            | ≡ `Map.remove key` | ≡ `Map.add key newVal`       |
+| Found     | `Some value` | Remove the entry   | Change the value to _newVal_ |
+| Not found | `None`       | Ignore this key    | Add the item _(key, newVal)_ |
+
+---
+
+## `Map.change` example
+
+**Lexicon:** Build a Map to classify words by their first letter capitalized
+
+```fsharp
+let firstLetter (word: string) = System.Char.ToUpperInvariant(word[0])
+
+let classifyWordsByLetter words =
+    (Map.empty, words)
+    ||> Seq.fold (fun map word ->
+        map |> Map.change (word |> firstLetter) (fun wordsWithThisLetter ->
+            wordsWithThisLetter
+            |> Option.defaultValue Set.empty
+            |> Set.add word
+            |> Some)
+        )
+
+let t = classifyWordsByLetter ["apple"; "blueberry"; "banana"; "apricot"; "cherry"; "avocado"]
+// map [ 'A', set ["apple"; "apricot"; "avocado"]
+//       'B', set ["banana"; "blueberry"]
+//       'C', set ["cherry"] ]
+```
+
+---
+
+## `Map.change` example (2)
+
+**Lexicon** → _Better implementation_
+
+```fsharp
+let firstLetter (word: string) = System.Char.ToUpperInvariant(word[0])
+
+let classifyWordsByLetter words =
+    words
+    |> Seq.groupBy firstLetter
+    |> Seq.map (fun (letter, wordsWithThisLetter) -> letter, set wordsWithThisLetter)
+    |> Map.ofSeq
+```
+
+---
+
+## `Map.containsKey` _vs_ `Map.exists`
+
+`Map.containsKey (key: 'K)`
+→ Indicates whether the key is present
+
+`Map.exists (predicate: 'K -> 'V -> bool)`
+→ Indicates whether an entry (as `key value` parameters) satisfies the predicate
+→ Parameters `key value` curried, not a pair `(key, value)`
 
 ```fsharp
 let table = Map [ (2, "A"); (1, "B"); (3, "D") ]
 
-table |> Map.containsKey 0  // false
-table |> Map.containsKey 2  // true
+table |> Map.containsKey 0;;  // false
+table |> Map.containsKey 2;;  // true
 
 let isEven i = i % 2 = 0
-let isFigure (s: string) = "AEIOUY".Contains(s)
+let isVowel (s: string) = "AEIOUY".Contains(s)
 
-table |> Map.exists (fun k v -> (isEven k) && (isFigure v))  // true
-table |> Map.filter (fun k v -> (isEven k) && (isFigure v))  // map [(2, "A")]
+table |> Map.exists (fun k v -> (isEven k) && (isVowel v));;  // true
 ```
 
 ---
 
-# `Seq` module: `cache`
+# `Seq` module
 
-As a sequence is lazy, it's reconstructed each time it's iterated. This reconstruction can be costly. An algorithm that iterates (even partially) an invariant sequence several times can be optimized by caching the sequence using the `Seq.cache` function.
+`Seq.cache (source: 'T seq) -> 'T seq`
 
-Signature : `Seq.cache: source: 'T seq -> 'T seq`
+Sequences are **lazy**: elements (re)evaluated at each time iteration
+→ Can be costly 💸
 
-Caching is optimized by being deferred and performed only on the elements iterated.
+**Invariant sequences iterated multiple times**
+→ Iterations can be optimized by caching the sequence using `Seq.cache`
+→ Caching is optimized by being deferred and performed only on first iteration
+
+⚠️ **Recommendation:** Caching is hidden, not reflected on the type (`'T seq`)
+→ Only apply caching on a sequence used in a very small scope
+→ Prefer another collection type otherwise
 
 ---
 
