@@ -61,12 +61,10 @@ Modules and namespaces allow you to:
 
 ---
 
-# Import a module or a namespace
-
-💡 As in C♯ :
+# Use a module or a namespace
 
 1. Either qualify the elements individually to be imported
-2. Either import everything with `open`
+2. Or import everything with `open`
    - placed anywhere before the usage, at the top recommended
    - `open Name.Space` ≡ C♯ `using Name.Space`
    - `open My.Module` ≡ C♯ `using static My.Module`
@@ -120,7 +118,7 @@ let result = add 1 2 // 💥 Error FS0001: The type 'float' does not match the t
 
 # Namespace: syntax
 
-Syntax: `namespace [rec] [parent.]identifier`
+`namespace [rec] [parent.]identifier`
 → `rec` for recursive → see *slide next*
 → `parent` for grouping namespaces
 
@@ -130,7 +128,7 @@ Syntax: `namespace [rec] [parent.]identifier`
 
 A `namespace` F♯ can only contain local types and modules
 → Cannot contain values or functions ❗
-→ Equivalent to `namespace` C♯ that contains classes / enums only
+→ By comparison, it's the same in C♯ with `namespace` that contains classes / enums only
 
 What about nested namespaces?
 → Only happens declaratively `namespace [parent.]identifier`
@@ -320,7 +318,7 @@ Otherwise *(after a top-level module/namespace)* → local module
 # Recursive module
 
 Same principle as recursive namespace
-→ Convenient for a type and an related module to see each other
+→ Convenient for a type and a related module to see each other
 
 ☝ **Recommendation:** limit the size of recursive zones as much as possible
 
@@ -338,7 +336,7 @@ Import module at same time as the parent namespace/module
 
 ### `[<RequireQualifiedAccess>]`
 
-Prevents unqualified use of module elements
+Prevents the module import hence any unqualified use of its elements
 → 💡 Useful for avoiding *shadowing* for common names: `add`, `parse`...
 
 ---
@@ -572,7 +570,7 @@ let a = 1
 
 ## Q2 - Valid equivalent code
 
-#### Option 1: qualifier top-level module
+#### Option 1: top-level module
 
 ```fsharp
 module A.B

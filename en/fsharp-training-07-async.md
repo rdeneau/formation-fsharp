@@ -23,7 +23,7 @@ paginate: true
 
 ## Table of contents
 
-- Asynchronous Workflow
+- Asynchronous workflow
 - Interop with .NET TPL
 
 ---
@@ -34,7 +34,7 @@ paginate: true
 
 # 1.
 
-## Asynchronous Workflow
+## Asynchronous workflow
 
 ---
 
@@ -402,12 +402,9 @@ let computationForCaller param =
 
 > Allows to consume an asynchronous .NET library directly, using a single `Async.AwaitTask` rather than 1 for each async method called.
 
-💡 Available since F♯ 6 _(before: [Ply](https://github.com/crowded/ply) package nuget)_
+💡 Available since F♯ 6 _(before, we need [Ply](https://github.com/crowded/ply) package nuget)_
 
 ```fsharp
-#r "nuget: Ply"
-open FSharp.Control.Tasks
-
 task {
     use client = new System.Net.Http.HttpClient()
     let! response = client.GetStringAsync("https://www.google.fr/")
