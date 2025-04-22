@@ -119,8 +119,6 @@ In F♯ : we can choose → `this`, `self`, `me`, any valid *identifier*...
 
 # Call a member
 
-💡 Same rules than for C♯
-
 Calling a static member
 → Prefix with the type name: `type-name.static-member-name`
 
@@ -205,8 +203,8 @@ Optional parameter:
    → But the default value does not appear in the signature!
 
 When the method is called, the argument can be specified either:
-• Directly in its type → `M(arg1 = 1)`
-• Wrapped in an `Option` if named with prefix `?` → `M(?arg1 = Some 1)`
+• Directly in its type → `Method(arg1 = 1)`
+• Wrapped in an `Option` if named with prefix `?` → `Method(?arg1 = Some 1)`
 
 ☝ Other syntax for interop .NET: `[<Optional; DefaultParameterValue(...)>] arg`
 
@@ -292,10 +290,10 @@ let peter = friendsLocation.TryGetValue (0,0)
 
 ## Call method *Xxx(tuple)* - Solutions
 
-1. 😕 Double parentheses, but confusing syntax
-   - `friendsLocation.TryGetValue((0,0))`
-2. 😕 *Backward pipe*, but also confusing
+1. 😕 *Backward pipe*, but also confusing
    - `friendsLocation.TryGetValue <| (0,0)`
+2. 👌 Double parentheses, but confusing syntax
+   - `friendsLocation.TryGetValue((0,0))`
 3. ✅ Use a function rather than a method
    - `friendsLocation |> Map.tryFind (0,0)`
 
@@ -698,20 +696,6 @@ Static method:
 • In F♯ < 8.0: Defined in class decorated with `[<Extension>]`
 • Type of 1st argument = extended type *(`IEnumerable<'T>` below)*
 
-```fsharp
-namespace Extensions
-
-open System.Collections.Generic
-open System.Runtime.CompilerServices
-
-[<Extension>] // 💡 Not required anymore since F♯ 8.0
-type EnumerableExtensions =
-    [<Extension>]
-    static member inline Sum(xs: IEnumerable<'T>) = Seq.sum xs
-
-// 💡 `inline` required here because of the generic type parameter constraints from Seq.sum
-```
-
 ---
 
 ## Extension method - Simplified example
@@ -719,7 +703,7 @@ type EnumerableExtensions =
 ```fsharp
 open System.Runtime.CompilerServices
 
-[<Extension>]
+[<Extension>] // 💡 Not required anymore since F♯ 8.0
 type EnumerableExtensions =
     [<Extension>]
     static member inline Sum(xs: seq<_>) = Seq.sum xs
@@ -780,12 +764,12 @@ let b2 = ("a", "b").IsDuplicate()  // false
 
 # Extensions - Comparison
 
-| Feature            | Type extension          | Extension method     |
-|--------------------|-------------------------|----------------------|
+| Feature            | Type extension            | Extension method        |
+|--------------------|---------------------------|-------------------------|
 | Methods            | ✅ instance, ✅ static    | ✅ instance, ❌ static |
-| Properties         | ✅ instance, ✅ static    | ❌ *Not supported*    |
-| Constructors       | ✅ intrinsic, ❌ optional | ❌ *Not supported*    |
-| Extend constraints | ❌ *Not supported*       | ✅ *Support SRTP*     |
+| Properties         | ✅ instance, ✅ static    | ❌ *Not supported*     |
+| Constructors       | ✅ intrinsic, ❌ optional | ❌ *Not supported*     |
+| Extend constraints | ❌ *Not supported*        | ✅ *Support SRTP*      |
 
 ---
 
@@ -803,9 +787,9 @@ Do not support (sub-typing) polymorphism:
 
 | Feature             | Multi-files | Compiled into type | Any type             |
 |---------------------|-------------|--------------------|----------------------|
-| C♯ partial class    | ✅ Yes       | ✅ Yes              | Only `partial class` |
-| Extension intrinsic | ❌ No        | ✅ Yes              | ✅ Yes                |
-| Extension optional  | ✅ Yes       | ❌ No               | ✅ Yes                |
+| C♯ partial class    | ✅ Yes      | ✅ Yes             | Only `partial class` |
+| Extension intrinsic | ❌ No       | ✅ Yes             | ✅ Yes               |
+| Extension optional  | ✅ Yes      | ❌ No              | ✅ Yes               |
 
 ---
 
@@ -815,7 +799,7 @@ Do not support (sub-typing) polymorphism:
 
 # 3.
 
-## Classe & Structure
+## Class & Structure
 
 ---
 
@@ -1063,7 +1047,7 @@ Other use cases → auto-implemented property
 
 # Structures
 
-Alternatives to classes, but more limited inheritance and recursion features
+Alternatives to classes, but more limited / inheritance and recursion
 
 Same syntax as for classes, but with the addition of:
 
@@ -1273,7 +1257,7 @@ let o = makeDelimiter("<", ">", "abc")
 // val o : System.IFormattable
 let s = o.ToString("D", System.Globalization.CultureInfo.CurrentCulture)
 // val s : string = "<abc>"
-let i = (d :?> System.IComparable).CompareTo("cde")  // ❗ Unsafe
+let i = (o :?> System.IComparable).CompareTo("cde")  // ❗ Unsafe
 // val i : int = -1
 ```
 
@@ -1296,13 +1280,11 @@ Inference works better with `function (object)` than `object.member`
 **Simple object hierarchy**
 ❌ Avoid inheritance
 ✅ Prefer type *Union* and exhaustive *pattern matching*
-→ Particularly recursive types such as trees, for their `fold` function
-→ https://fsharpforfunandprofit.com/series/recursive-types-and-folds/
 
 **Structural equality**
 ❌ Avoid class *(equality by default reference)*
 ✅ Prefer a *Record* or a *Union*
-❓ Consider custom / performance structural equality
+❓ Consider custom structural equality for performance purposes
 → https://www.compositional-it.com/news-blog/custom-equality-and-comparison-in-f/
 
 ---
