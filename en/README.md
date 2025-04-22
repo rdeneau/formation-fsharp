@@ -32,7 +32,22 @@ marp fsharp-training-01-bases.md --output ./html/fsharp-training-01-bases.html -
 
 ### Markdown to PDF
 
-TBD
+All files:
+
+```bash
+marp fsharp-training-01-bases.md --output ./pdf/fsharp-training-01-bases.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-02-functions.md --output ./pdf/fsharp-training-02-functions.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-03-types.md --output ./pdf/fsharp-training-03-types.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-04-monad.md --output ./pdf/fsharp-training-04-monad.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-05-pattern-matching.md --output ./pdf/fsharp-training-05-pattern-matching.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-06-collections.md --output ./pdf/fsharp-training-06-collections.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-07-async.md --output ./pdf/fsharp-training-07-async.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-08-module.md --output ./pdf/fsharp-training-08-module.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-09-oo.md --output ./pdf/fsharp-training-09-oo.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-10-types-addendum.md --output ./pdf/fsharp-training-10-types-addendum.pdf --theme themes/d-edge.css --allow-local-files
+```
+
+In case of `Some of the local files are missing and will be ignored. Make sure the file paths are correct.` warning, we can open the HTML in a browser and Print > Save as PDF...
 
 ## Useful Characters
 
