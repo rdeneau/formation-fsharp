@@ -59,6 +59,7 @@ In case of `Some of the local files are missing and will be ignored. Make sure t
 - ∅ ∑ ∞
 - … ┆｜ ─ ▔
 - thin space: ' '
+- quotes: ❝ ❞
 
 ## Speaker tips
 
