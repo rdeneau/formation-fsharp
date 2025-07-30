@@ -1,1 +1,4 @@
 .ionide
+.idea
+bin
+obj
