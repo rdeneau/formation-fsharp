@@ -11,7 +11,7 @@ paginate: true
 
 # F♯ Training
 
-### 2025 April
+### 2025 April and July
 
 ---
 
@@ -24,10 +24,12 @@ paginate: true
 1. Bases [🖇️](fsharp-training-01-bases.html)
 2. Functions [🖇️](fsharp-training-02-functions.html)
 3. Types [🖇️](fsharp-training-03-types.html)
-4. Monadic types [🖇️](fsharp-training-04-monad.html)
+4. Types: `Option` and `Result` [🖇️](fsharp-training-04-option-result.html)
 5. Pattern matching [🖇️](fsharp-training-05-pattern-matching.html)
 6. Collections [🖇️](fsharp-training-06-collections.html)
 7. Asynchronous programming [🖇️](fsharp-training-07-async.html)
 8. Module & Namespace [🖇️](fsharp-training-08-module.html)
 9. Object-oriented [🖇️](fsharp-training-09-oo.html)
 10. Types: addendum [🖇️](fsharp-training-10-types-addendum.html)
+11. Functional patterns [🖇️](fsharp-training-11-functional-patterns.html)
+12. Computation expressions [🖇️](fsharp-training-12-computation-expr.html)
