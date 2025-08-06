@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="04-Monad\LoggerTests.fs" />
-    <Compile Include="04-Monad\SeqTests.fs" />
-    <Compile Include="04-Monad\OptionTests.fs" />
+    <Compile Include="ComputationExpressions\LoggerTests.fs" />
+    <Compile Include="ComputationExpressions\SeqTests.fs" />
+    <Compile Include="ComputationExpressions\OptionTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

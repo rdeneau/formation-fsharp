@@ -11,8 +11,6 @@ let option = OptionBuilder()
 
 let (>>=) x f = x |> Option.bind f
 
-let tmp = Option.map2
-
 [<Theory>]
 [<InlineData(0)>]
 [<InlineData(1)>]
