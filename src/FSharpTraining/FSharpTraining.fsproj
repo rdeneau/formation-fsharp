@@ -8,8 +8,9 @@
 
   <ItemGroup>
     <Compile Include="ComputationExpressions\LoggerTests.fs" />
-    <Compile Include="ComputationExpressions\SeqTests.fs" />
+    <Compile Include="ComputationExpressions\MultiplicationTests.fs" />
     <Compile Include="ComputationExpressions\OptionTests.fs" />
+    <Compile Include="ComputationExpressions\SeqTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
