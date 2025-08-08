@@ -476,7 +476,7 @@ Every monad is also an applicative
 `apply` *vs* `bind` 💡
 
 - Where `apply` unwraps both `f` and `x`, 2 nested `bind`s are required.
-- `bind` extra power comes from its ability to let its 2nd parameter — the function `'a -> M<'b>` — create a whole new computational path.
+- `bind` extra power comes from its ability to let its 1st parameter — the function `'a -> M<'b>` — create a whole new computational path.
 
 ---
 

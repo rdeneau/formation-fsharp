@@ -58,11 +58,14 @@ In case of `Some of the local files are missing and will be ignored. Make sure t
 - ① ② ③
 - Ⓐ Ⓑ Ⓒ
 - → • · À É ♯
-- ≃ ≠ ≡
+- ≃ ≠ (different) ≡ (equivalent to)
 - ∀ ∃ ∈ ⊂ ×
-- ∅ ∑ ∞ ▷
-- … ┆｜ ─ ▔
-- thin space: ' '
+- ∅ ∑ ∞ ▷ (pipe operator in markdown table)
+- ellipsis … ⋯ ︙
+- dash: – (en dash: between hyphen and minus sign) — (em dash ≃ double en dash) ― (horizontal bar) ─ (box drawings light horizontal) \
+  〜 (wave dash) 〰 (wavy dash)
+- bar: ┆｜
+- space: ' ' (thin) ' ' (non breakable)
 - quotes: ❝ ❞
 
 ## Speaker tips
