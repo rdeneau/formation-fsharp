@@ -5,9 +5,9 @@ open Xunit
 
 module Eager =
     type MultiplicationBuilder() =
-        member _.Yield(x) = x
         member _.Zero() = 1
-        member _.Delay(f: unit -> int) = f ()
+        member _.Yield(x) = x
+        member _.Delay(thunk: unit -> int) = thunk () // eager evaluation
         member _.Combine(x, y) = x * y
 
         member m.For(xs, f) =
@@ -75,16 +75,16 @@ module Lazy =
     type MultiplicationBuilder() =
         member _.Zero() = 1
         member _.Yield(x) = x
-        member _.Delay(thunk: unit -> int) = thunk // Lazy evaluation
+        member _.Delay(thunk: unit -> int) = thunk // lazy evaluation
         member _.Run(delayedX: unit -> int) = delayedX()
 
         member _.Combine(x: int, delayedY: unit -> int) : int =
             match x with
-            | 0 -> 0 // Short-circuit for multiplication by zero
+            | 0 -> 0 // short-circuit for multiplication by zero
             | _ -> x * delayedY()
 
         member m.For(xs, f) =
-            (m.Zero(), xs) ||> Seq.fold (fun res x -> m.Combine(res, fun () -> f x))
+            (m.Zero(), xs) ||> Seq.fold (fun res x -> m.Combine(res, m.Delay(fun () -> f x)))
 
     let multiplication = MultiplicationBuilder()
 

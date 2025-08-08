@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ComputationExpressions\ActivityTests.fs" />
+    <Compile Include="ComputationExpressions\EventuallyTests.fs" />
+    <Compile Include="ComputationExpressions\ListTests.fs" />
+    <Compile Include="ComputationExpressions\ListSeqTests.fs" />
     <Compile Include="ComputationExpressions\LoggerTests.fs" />
     <Compile Include="ComputationExpressions\MultiplicationTests.fs" />
     <Compile Include="ComputationExpressions\OptionTests.fs" />
+    <Compile Include="ComputationExpressions\ResultTests.fs" />
     <Compile Include="ComputationExpressions\SeqTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
