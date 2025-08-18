@@ -120,7 +120,7 @@ let loggedCalc =
 ```
 
 **Issues** ⚠️
-① *Verbose*: the `log x` interfere with reading
+① *Verbose*: the `log x` calls interfere with reading
 ② *Error prone*: easy to forget to log a value,
 or to log the wrong variable after a bad copy-paste-update...
 
@@ -152,7 +152,7 @@ let loggedCalc = logger {
 
 # Builder example: `logger {}` (3)
 
-The 3 consecutive `let!` are desugarded into 3 **nested** calls to `Bind` with:
+The 3 consecutive `let!` are desugared into 3 **nested** calls to `Bind` with:
 
 - 1st argument: the right side of the `let!` (e.g. `42` with `let! x = 42`)
 - 2nd argument: a lambda taking the variable defined at the left side of the `let!` (e.g. `x`) and returning the whole expression below the `let!` until the `}`
@@ -174,7 +174,7 @@ logger.Bind(42, (fun x ->
 
 # Builder - Bind *vs* let!
 
-`logger { let! var = expr in cexpr }` is desugarded as: \
+`logger { let! var = expr in cexpr }` is desugared as: \
 `logger.Bind(expr, fun var -> cexpr)`
 
 👉 **Key points:**
@@ -386,20 +386,20 @@ let shouldBe10 =
 
 # CE monoidal example: `multiplication {}` (3)
 
-Desugared `multiplication { for i in 1..5 -> i }`:
+Desugared `multiplication { for i in 2..5 -> i }`:
 
 ```fsharp
 // Original
 let factorialOf5 =
     multiplication.Delay (fun () ->
-        multiplication.For({1..5}, (fun _arg2 ->
+        multiplication.For({2..5}, (fun _arg2 ->
             let i = _arg2 in multiplication.Yield(i))
         )
     )
 
 // Simplified
 let factorialOf5 =
-    multiplication.For({1..5}, (fun i -> multiplication.Yield(i)))
+    multiplication.For({2..5}, (fun i -> multiplication.Yield(i)))
 ```
 
 ---
@@ -581,14 +581,14 @@ Behind the scene, builders of these CE should/can implement these methods:
 👉 ≠ use cases:
 
 - Monoidal: Comprehension syntax
-- Monadic: Series of effectul commands
+- Monadic: Series of effectful commands
 
 ---
 
 # CE monadic and delayed
 
-Like monoidal CE, monadic CE can used a `Delayed<'t>` type. \
-→ Impacts on the methods signature:
+Like monoidal CE, monadic CE can use a `Delayed<'t>` type. \
+→ Impacts on the method signatures:
 
 ```fsharp
  Delay      : thunk: (unit -> M<T>) -> Delayed<T>
@@ -768,7 +768,7 @@ type Customer = { Name: string; Height: int<cm> }
 
 let validateHeight height =
     if height <= 0<cm>
-    then Error "Height must me positive"
+    then Error "Height must be positive"
     else Ok height
 
 let validateName name =
@@ -785,8 +785,8 @@ module Customer =
         }
 
 let c1 = Customer.tryCreate "Bob" 180<cm>  // Ok { Name = "Bob"; Height = 180 }
-let c2 = Customer.tryCreate "Bob" 0<cm> // Error ["Height must me positive"]
-let c3 = Customer.tryCreate "" 0<cm>    // Error ["Name can't be empty"; "Height must me positive"]
+let c2 = Customer.tryCreate "Bob" 0<cm> // Error ["Height must be positive"]
+let c3 = Customer.tryCreate "" 0<cm>    // Error ["Name can't be empty"; "Height must be positive"]
 ```
 
 ---
@@ -990,7 +990,7 @@ activity {
   - Prefer a single behaviour unless it's a generic/multi-purpose CE
 - Create a **builder** class
 - Implement the main **methods** to get the selected behaviour
-- Use/Test your CE to verify it compiles *(see typical compilation errors below),* produces the expected result, performs well.
+- Use/Test your CE to verify it compiles *(see typical compilation errors below),* produces the expected result, and performs well.
 
 ```txt
 1. This control construct may only be used if the computation expression builder defines a 'Delay' method
@@ -1006,11 +1006,11 @@ activity {
 - Overload methods to support more use cases like different input types
   - `Async<Return<_,_>>` + `Async<_>` + `Result<_,_>`
   - `Option<_>` and `Nullable<_>`
-- Get inspired by the existing codebases that provide CEs \
+- Get inspired by existing codebases that provide CEs \
   → e.g. Tips found in [FsToolkit/OptionCE.fs](https://github.com/demystifyfp/FsToolkit.ErrorHandling/blob/master/src/FsToolkit.ErrorHandling/OptionCE.fs):
   - Undocumented `Source` methods
   - Force the method overload order with extension methods \
-    → to get a better code completion assistance.
+    → to get better code completion assistance.
 
 🔗 [Computation Expressions Workshop: 6 - Extensions | GitHub](https://github.com/panesofglass/computation-expressions-workshop/blob/master/exercises/06_Extensions.pdf)
 
@@ -1073,9 +1073,92 @@ Some are based on computation expression(s):
 
 <!-- _class: chapter invert -->
 
-![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
 
 # 7.
+
+## 🍔 Quiz
+
+---
+
+# Quiz: Presentation
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_consoleJeu.png)
+
+🔗 <a href="https://presenter.ahaslides.com/share/my-quiz-1755513721554-elj0xar71r" target="_blank">AhaSlides Quiz</a>
+<!--
+---
+
+# Quiz: Question 1
+
+**What is the primary purpose of computation expressions in F#?**
+
+- A) To replace all functional programming patterns
+- B) To provide imperative-like syntax for sequencing and combining computations
+- C) To eliminate the need for type annotations
+- D) To make F# code compatible with C#
+
+---
+
+# Quiz: Question 2
+
+**Which keywords identify a monadic computation expression?**
+
+- A) `yield` and `yield!`
+- B) `let!` and `return`
+- C) `let!` and `and!`
+- D) `do!` and `while`
+
+---
+
+# Quiz: Question 3
+
+**In a computation expression builder, what does the `Bind` method correspond to?**
+
+- A) The `yield` keyword
+- B) The `return` keyword
+- C) The `let!` keyword
+- D) The `and!` keyword
+
+---
+
+# Quiz: Question 4
+
+**What is the signature of a typical monadic `Bind` method?**
+
+- A) `M<T> -> M<T>`
+- B) `T -> M<T>`
+- C) `M<T> * (T -> M<U>) -> M<U>`
+- D) `M<T> * M<U> -> M<T * U>`
+
+---
+
+# Quiz: Question 5
+
+**Which of the following is a key benefit of using computation expressions?**
+
+- A) They always improve performance
+- B) They eliminate all compile-time errors
+- C) They provide separation of concerns between business logic and computational machinery
+- D) They make F# syntax identical to C#
+
+---
+
+# Quiz: Answers
+
+1. **B** - To provide imperative-like syntax for sequencing and combining computations
+2. **B** - `let!` and `return`
+3. **C** - The `let!` keyword
+4. **C** - `M<T> * (T -> M<U>) -> M<U>`
+5. **C** - They provide separation of concerns between business logic and computational machinery
+-->
+---
+
+<!-- _class: chapter invert -->
+
+![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_diplome.png)
+
+# 8.
 
 ## Wrap up
 
