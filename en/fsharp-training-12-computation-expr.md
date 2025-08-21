@@ -131,12 +131,12 @@ or to log the wrong variable after a bad copy-paste-update...
 💡 V2: make logs implicit in a CE by implementing a custom `let!` / `Bind()` :
 
 ```fsharp
-type LoggingBuilder() =
+type LoggerBuilder() =
     let log value = printfn $"{value}"; value
     member _.Bind(x, f) = x |> log |> f
     member _.Return(x) = x
 
-let logger = LoggingBuilder()
+let logger = LoggerBuilder()
 
 //---
 
@@ -201,12 +201,12 @@ The builder can be constructed with additional parameters. \
 → The CE syntax allows us to pass these arguments when using the CE:
 
 ```fsharp
-type LoggingBuilder(prefix: string) =
+type LoggerBuilder(prefix: string) =
     let log value = printfn $"{prefix}{value}"; value
     member _.Bind(x, f) = x |> log |> f
     member _.Return(x) = x
 
-let logger prefix = LoggingBuilder(prefix)
+let logger prefix = LoggerBuilder(prefix)
 
 //---
 
@@ -225,37 +225,43 @@ let loggedCalc = logger "[Debug] " {
 Need: successively try to find in maps by identifiers \
 → Steps:
 
-1. `roomRateId` in `policyCodesByRoomRate` map → `policyCode`
-2. `policyCode` in `policyTypesByCode` map → `policyType`
-3. `policyCode` and `policyType` → `result`
+1. `roomRateId` in `policyCodesByRoomRate` map → find `policyCode`
+2. `policyCode` in `policyTypesByCode` map → find `policyType`
+3. `policyCode` and `policyType` → build `result`
 
 ```fsharp
-// 1: with match expressions → nesting!
-match policyCodesByRoomRate.TryFind(roomRateId) with
-| None -> None
-| Some policyCode ->
-    match policyTypesByCode.TryFind(policyCode) with
-    | None -> None
-    | Some policyType -> Some(buildResult policyCode policyType)
+         // Implementation #1: with match expressions
+(* 1 *)  match policyCodesByRoomRate.TryFind(roomRateId) with
+(* 2 *)  | None -> None
+(* 3 *)  | Some policyCode ->
+(* 4 *)      match policyTypesByCode.TryFind(policyCode) with  // ⚠️ Nesting
+(* 5 *)      | None -> None                                    // ⚠️ Duplicates line 2
+(* 6 *)      | Some policyType -> Some(buildResult policyCode policyType)
 ```
 
 ---
 
 # Builder example: `option {}` (2)
 
+Implementation #2: with `Option` module helpers
+
 ```fsharp
-// 2: with Option module helpers → terser but harder to read
 policyCodesByRoomRate.TryFind(roomRateId)
-|> Option.bind (fun policyCode -> policyCode, policyTypesByCode.TryFind(policyCode))
-|> Option.map (fun (policyCode, policyType) -> buildResult policyCode policyType)
+|> Option.bind (fun policyCode ->
+    policyTypesByCode.TryFind(policyCode)
+    |> Option.map (fun policyType -> buildResult policyCode policyType)
+)
 ```
+
+⚠️ Nesting too \
+⚠️ Even more difficult to read because of parentheses
 
 ---
 
 # Builder example: `option {}` (3)
 
 ```fsharp
-// 3: with an option CE → both terse and readable 🎉
+// 3: with an option CE
 
 type OptionBuilder() =
     member _.Bind(x, f) = x |> Option.bind f
@@ -272,6 +278,8 @@ option {
 }
 ```
 
+👉 Both terse and readable 🎉
+
 ---
 
 <!-- _class: chapter invert -->
@@ -286,46 +294,56 @@ option {
 
 # CE monoidal
 
-A monoidal CE can be identified by the usage of `yield` and `yield!` keywords. \
-→ The relationship with the monoid is not visible here but in the builder methods:
+A monoidal CE can be identified by the usage of `yield` and `yield!` keywords.
+
+**Relationship with the monoid:** \
+→ Hidden in the builder methods:
 
 - `+` operation → `Combine` method
 - `e` neutral element → `Zero` method
 
 ---
 
-# CE monoidal builder methods
+<!-- _footer: '' -->
+
+# CE monoidal builder method signatures
+
+Like we did for functional patterns, we use the generic type notation: \
+
+- `M<T>`: type returned by the CE
+- `Delayed<T>`: presented later 📍
 
 ```fsharp
 // Method     | Signature                           | CE syntax supported
     Yield     : T -> M<T>                           ; yield x
     YieldFrom : M<T> -> M<T>                        ; yield! xs
     Zero      : unit -> M<T>                        ; if // without `else`  // Monoid neutral element
-    Combine   : M<T> * M<T> -> M<T>                                         // Monoid + operation
+    Combine   : M<T> * Delayed<T> -> M<T>                                   // Monoid + operation
     Delay     : (unit -> M<T>) -> Delayed<T>        ; // always required with Combine
-    For       : seq<T> * (T -> M<U>) -> M<U>        ; for i in seq do yield ... ; for i = 0 to n do yield ...
-                              (* or *)  seq<M<U>>
 
 // Other additional methods
     Run       : Delayed<T> -> M<T>
+    For       : seq<T> * (T -> M<U>) -> M<U>        ; for i in seq do yield ... ; for i = 0 to n do yield ...
+                              (* or *)  seq<M<U>>
     While     : (unit -> bool) * Delayed<T> -> M<T> ; while cond do yield...
     TryWith   : M<T> -> (exn -> M<T>) -> M<T>       ; try/with
     TryFinally: Delayed<T> * (unit -> unit) -> M<T> ; try/finally
 ```
 
-1. We use the generic type notation `M<T>`, like we did for functional patterns.
-2. Same for `Delayed<T>`, presented later 📍
-
 ---
 
 # CE monoidal *vs* comprehension
 
+#### Comprehension
+
+> It is the concise and declarative syntax to build collections with control flow keywords `if`, `for`, `while`... and ranges `start..end`.
+
+#### CE monoidal *vs* comprehension
+
 - Similar syntax from caller perspective
 - Distinct overlapping concepts
 
-**Comprehension** is the concise, declarative syntax to build collections with ranges `start..end` and control flow keywords `if`, `for`, `while`...
-
-Minimal set of methods expected for each:
+#### Minimal set of methods expected for each
 
 - Monoidal CE: `Yield`, `Combine`, `Zero`
 - Comprehension: `For`, `Yield`
@@ -350,9 +368,16 @@ type MultiplicationBuilder() =
 
 let multiplication = MultiplicationBuilder()
 
-let shouldBe10 = multiplication { 5; 2 } // 👈 Implicit `yield`s // = 5 * 2
+let shouldBe10 = multiplication { yield 5; yield 2 }
 let factorialOf5 = multiplication { for i in 2..5 -> i } // 2 * 3 * 4 * 5
 ```
+
+<!-- Presenter notes --
+- Write this snippet in vs code
+- Start with an empty builder and with the usages (shouldBe10 and factorialOf5)
+- Add the methods in the builder as requested by the compiler errors
+- Execute the code in the FSI
+-->
 
 ---
 
@@ -360,7 +385,7 @@ let factorialOf5 = multiplication { for i in 2..5 -> i } // 2 * 3 * 4 * 5
 
 # CE monoidal example: `multiplication {}` (2)
 
-Desugared `multiplication { 5; 2 }`:
+Desugared `multiplication { yield 5; yield 2 }`:
 
 ```fsharp
 // Original
@@ -404,12 +429,12 @@ let factorialOf5 =
 
 ---
 
-# CE monoidal `Delayed<'t>` type (1/3)
+# CE monoidal `Delayed<T>` type (1/3)
 
-`Delayed<'t>` represents a delayed computation and is used in these methods:
+`Delayed<T>` represents a delayed computation and is used in these methods:
 
-- `Delay` defines the CE `Delayed<'t>` as its return type
-- `Combine`, `Run`, `While` and `Tryfinally` used it as input parameter
+- `Delay` returns this type, hence defines it for the CE
+- `Combine`, `Run`, `While` and `TryFinally` used it as input parameter
 
 ```fsharp
  Delay      : thunk: (unit -> M<T>) -> Delayed<T>
@@ -419,9 +444,10 @@ let factorialOf5 =
  TryFinally : Delayed<T> * finalizer: (unit -> unit) -> M<T>
 ```
 
-- `Delay` is called with the current expression (of type `M<T>`) before each method taking a `Delayed<T>` argument
-- `Delayed<T>` is internal to the CE → given `Delayed<T>` ≠ `M<T>`, \
-  `Run` is called at the end of the chain to get back the `M<T>`
+- `Delay` is called each time converting from `M<T>` to `Delayed<T>` is needed
+- `Delayed<T>` is internal to the CE
+  - `Run` is required at the end to get back the `M<T>`...
+  - ... **only** when `Delayed<T>` ≠ `M<T>`, otherwise it can be omitted
 
 ---
 
@@ -436,39 +462,46 @@ type MultiplicationBuilder() =
     member _.Zero() = 1
     member _.Yield(x) = x
     member _.Delay(thunk: unit -> int) = thunk // Lazy evaluation
-    member _.Run(delayedX: unit -> int) = delayedX ()
+    member _.Run(delayedX: unit -> int) = delayedX () // Required to get a final `int`
 
     member _.Combine(x: int, delayedY: unit -> int) : int =
         match x with
-        | 0 -> 0 // Short-circuit for multiplication by zero
+        | 0 -> 0 // 👈 Short-circuit for multiplication by zero
         | _ -> x * delayedY ()
 
     member m.For(xs, f) =
-        (m.Zero(), xs) ||> Seq.fold (fun res x -> m.Combine(res, fun () -> f x))
+        (m.Zero(), xs) ||> Seq.fold (fun res x -> m.Combine(res, m.Delay(fun () -> f x)))
 ```
 
 ---
 
 # CE monoidal `Delayed<'t>` type (3/3)
 
-| Difference              | Eager   | Lazy                          |
-|-------------------------|---------|-------------------------------|
-| `Delay` return type     | `int`   | `unit -> int`                 |
-| `Run`                   | Omitted | Required to get back an `int` |
-| `Combine` 2nd parameter | `int`   | `unit -> int`                 |
-| `For` calling `Delay`   | Omitted | Explicit but not required     |
+| Difference              | Eager   | Lazy                           |
+|-------------------------|---------|--------------------------------|
+| `Delay` return type     | `int`   | `unit -> int`                  |
+| `Run`                   | Omitted | Required to get back an `int`  |
+| `Combine` 2nd parameter | `int`   | `unit -> int`                  |
+| `For` calling `Delay`   | Omitted | Explicit but not required here |
 
 ![](../themes/d-edge/img/diff-ce-multiplication-eager-vs-lazy.png)
 
 ---
 
+# CE monoidal kinds
+
+With `multiplication {}`, we've seen a first kind of monoidal CE: \
+→ To reduce multiple yielded values into 1.
+
+Second kind of monoidal CE: \
+→ To aggregate multiple yielded values into a collection. \
+→ Example: `seq {}` returns a `'t seq`.
+
+---
+
 # CE monoidal to generate a collection (1/4)
 
-`multiplication {}` returns an `int` from possibility multiple yielded ints. \
-≠ `seq {}` returns a `'t seq` from any number of yielded value of type `t` \
-→ It's a more common use case for a monoidal CE.
-
-💡 Let's build a `list {}` monoidal CE!
+Let's build a `list {}` monoidal CE!
 
 ```fsharp
 type ListBuilder() =
@@ -477,10 +510,15 @@ type ListBuilder() =
     member _.YieldFrom(xs) = xs
     member _.Delay(thunk: unit -> 't list) = thunk () // eager evaluation
     member _.Combine(xs, ys) = xs @ ys // List.append
-    member _.For(xs, f) = xs |> Seq.collect f |> Seq.toList
+    member _.For(xs, f: _ seq) = xs |> Seq.collect f |> Seq.toList
 
 let list = ListBuilder()
 ```
+
+💡 **Notes:**
+
+- `M<T>` is `'t list` → type returned by `Yield` and `Zero`
+- `For` uses an intermediary sequence to collect the values returned by `f`.
 
 ---
 
@@ -497,7 +535,7 @@ Let's test the CE to generate the list `[begin; 16; 9; 4; 1; 2; 4; 6; 8; end]` \
 
 # CE monoidal to generate a collection (3/4)
 
-Comparison with the same expression in a regular list:
+Comparison with the same expression in a list comprehension:
 
 ![w:1200](../themes/d-edge/img/list-real-desugared.png)
 
@@ -601,38 +639,26 @@ Like monoidal CE, monadic CE can use a `Delayed<'t>` type. \
 
 ---
 
-<!-- _footer: '' -->
+# CE monadic examples
 
-# CE monadic examples (1/2)
-
-☝️ The initial CE studied—`logger {}` and `option {}`—was monadic.
-
-**Other example:** `result {}` CE handling:
-
-- `if` w/o `else` → `Zero`
-- `do! command` → `Combine`
-- lazy evaluation → `Delay`, `Run`
-
-```fsharp
-type ResultBuilder() =
-    member _.Bind(rx, f) = rx |> Result.bind f
-    member _.Return(x) = Ok x
-
-    member m.Zero() = m.Return(()) // = Ok ()
-    member m.Combine(cmd: Result<unit, _>, delayedRY) = m.Bind(cmd, (fun () -> delayedRY ()))
-    member _.Delay(thunk: unit -> Result<_, _>) = thunk
-    member _.Run(delayedRX: unit -> Result<_, _>) = delayedRX ()
-
-let result = ResultBuilder()
-```
+- The initial CE studied—`logger {}` and `option {}`—was monadic.
+- Let's play with a `result {}` CE!
 
 ---
 
 <!-- _footer: '' -->
 
-# CE monadic examples (2/2)
+# CE monadic example - `result {}` (1/2)
 
 ```fsharp
+type ResultBuilder() =
+    member _.Bind(rx, f) = rx |> Result.bind f
+    member _.Return(x) = Ok x
+    member _.ReturnFrom(rx) = rx
+    member m.Zero() = m.Return(()) // = Ok ()
+
+let result = ResultBuilder()
+
 let rollDice =
     let random = Random(Guid.NewGuid().GetHashCode())
     fun () -> random.Next(1, 7)
@@ -643,17 +669,30 @@ let tryGetDice dice =
             return! Error $"Not the expected dice {dice}."
     }
 
-let atRoll n res =
-    match res with
-    | Ok x -> Ok x
-    | Error msg -> Error $"{msg} at roll #{n}"
-
-let tryGet421 () =
+let tryGetAPairOf6 =
     result {
-        do! (tryGetDice 4 |> atRoll 1)
-        do! (tryGetDice 2 |> atRoll 2)
-        do! (tryGetDice 1 |> atRoll 3)
+        let n = 6
+        do! tryGetDice n
+        do! tryGetDice n
+        return true
     }
+```
+
+---
+
+# CE monadic example - `result {}` (2/2)
+
+Desugaring:
+
+```fsharp
+let tryGetAPairOf6 =
+    result {                ;
+        let n = 6           ;   let n = 6
+        do! tryGetDice n    ;   result.Bind(tryGetDice n, (fun () ->
+        do! tryGetDice n    ;        result.Bind(tryGetDice n, (fun () ->
+        return true         ;            result.Return(true)
+    }                       ;        ))
+                            ;   ))
 ```
 
 ---
@@ -733,36 +772,41 @@ type AsyncOptionBuilder() =
 
 An applicative CE is revealed through the usage of the `and!` keyword *(F♯ 5).*
 
-An applicative CE builder is special compared to monoidal and monadic CE builders:
+An applicative CE builder should define these methods:
 
-- Not following the definition of the applicative: no method matching `apply`
-- Based on `MergeSources: M<'T1> * M<'T2> -> M<'T1 * 'T2>`
-- Fine tuning with `BindNReturn` method matching the `mapN` functions, N >= 2
+```fsharp
+// Method        | Signature                        | Equivalence
+    MergeSources : mx: M<X> * my: M<Y> -> M<X * Y>  ; map2 (fun x y -> x, y) mx my
+    BindReturn   : m: M<T> * f: (T -> U) -> M<U>    ; map f m
+```
 
 ---
 
-# CE Applicative example
+# CE Applicative example - `validation {}` (1/3)
 
-[FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) offers:
+```fsharp
+type Validation<'t, 'e> = Result<'t, 'e list>
 
-- Type `Validation<'Ok, 'Err>` ≡ `Result<'Ok, 'Err list>`
-- CE `validation {}` supporting `let!...and!...` syntax.
+type ValidationBuilder() =
+    member _.BindReturn(x: Validation<'t, 'e>, f: 't -> 'u) =
+        Result.map f x
 
-Allows errors to be accumulated in use cases like:
+    member _.MergeSources(x: Validation<'t, 'e>, y: Validation<'u, 'e>) =
+        match (x, y) with
+        | Ok v1,    Ok v2    -> Ok(v1, v2)     // Merge both values in a pair
+        | Error e1, Error e2 -> Error(e1 @ e2) // Merge errors in a single list
+        | Error e, _ | _, Error e -> Error e   // Short-circuit single error source
 
-- Parsing external inputs
-- *Smart constructor* *(example on the next slide...)*
+let validation = ValidationBuilder()
+```
 
 ---
 
 <!-- _footer: '' -->
 
-# CE Applicative example (2)
+# CE Applicative example - `validation {}` (2/3)
 
 ```fsharp
-#r "nuget: FSToolkit.ErrorHandling"
-open FsToolkit.ErrorHandling
-
 type [<Measure>] cm
 type Customer = { Name: string; Height: int<cm> }
 
@@ -788,6 +832,61 @@ let c1 = Customer.tryCreate "Bob" 180<cm>  // Ok { Name = "Bob"; Height = 180 }
 let c2 = Customer.tryCreate "Bob" 0<cm> // Error ["Height must be positive"]
 let c3 = Customer.tryCreate "" 0<cm>    // Error ["Name can't be empty"; "Height must be positive"]
 ```
+
+---
+
+# CE Applicative example - `validation {}` (3/3)
+
+Desugaring:
+
+```fsharp
+validation {                                ; validation.BindReturn(
+                                            ;     validation.MergeSources(
+    let! name = validateName "Bob"          ;         validateName "Bob",
+    and! height = validateHeight 0<cm>      ;         validateHeight 0<cm>
+                                            ;     ),
+    return { Name = name; Height = height } ;     (fun (name, height) -> { Name = name; Height = height })
+}                                           ; )
+```
+
+---
+
+# CE Applicative trap
+
+⚠️ The compiler accepts that we define `ValidationBuilder` without `BindReturn` but with `Bind` and `Return`. But in this case, we can loose the applicative behavior and it enables monadic CE bodies!
+
+---
+
+# CE Applicative - FsToolkit `validation {}`
+
+[FsToolkit.ErrorHandling](https://github.com/demystifyfp/FsToolkit.ErrorHandling/) offers a similar `validation {}`.
+
+The desugaring reveals the definition of more methods: `Delay`, `Run`, `Source`📍
+
+```fsharp
+validation {                                ;  validation.Run(
+    let! name = validateName "Bob"          ;      validation.Delay(fun () ->
+    and! height = validateHeight 0<cm>      ;          validation.BindReturn(
+    return { Name = name; Height = height } ;              validation.MergeSources(
+}                                           ;                  validation.Source(validateName "Bob"),
+                                            ;                  validation.Source(validateHeight 0<cm>)
+                                            ;              ),
+                                            ;              (fun (name, height) -> { Name = name; Height = height })
+                                            ;          )
+                                            ;      )
+                                            ;  )
+```
+
+---
+
+# `Source` methods
+
+In FsToolkit `validation {}`, there are a couple of `Source` defined:
+
+- The main definition is the `id` function.
+- Another overload is interesting: it converts a `Result<'a, 'e>` into a `Validation<'a, 'e>`. As it's defined as an extension method, it has a lower priority for the compiler, leading to a better type inference. Otherwise, we would need to add type annotations.
+
+☝️ **Note:** `Source` documentation is scarce. The most valuable information comes from a [question on stackoverflow](https://stackoverflow.com/a/35301315/8634147) mentioned in FsToolkit source code!
 
 ---
 
@@ -984,38 +1083,6 @@ activity {
 
 ---
 
-# CE creation guidelines 📃
-
-- Choose the main **behaviour**: monoidal? monadic? applicative?
-  - Prefer a single behaviour unless it's a generic/multi-purpose CE
-- Create a **builder** class
-- Implement the main **methods** to get the selected behaviour
-- Use/Test your CE to verify it compiles *(see typical compilation errors below),* produces the expected result, and performs well.
-
-```txt
-1. This control construct may only be used if the computation expression builder defines a 'Delay' method
-   => Just implement the missing method in the builder.
-2. Type constraint mismatch. The type ''b seq' is not compatible with type ''a list'
-   => Inspect the builder methods and track an inconsistency.
-```
-
----
-
-# CE creation tips 💡
-
-- Overload methods to support more use cases like different input types
-  - `Async<Return<_,_>>` + `Async<_>` + `Result<_,_>`
-  - `Option<_>` and `Nullable<_>`
-- Get inspired by existing codebases that provide CEs \
-  → e.g. Tips found in [FsToolkit/OptionCE.fs](https://github.com/demystifyfp/FsToolkit.ErrorHandling/blob/master/src/FsToolkit.ErrorHandling/OptionCE.fs):
-  - Undocumented `Source` methods
-  - Force the method overload order with extension methods \
-    → to get better code completion assistance.
-
-🔗 [Computation Expressions Workshop: 6 - Extensions | GitHub](https://github.com/panesofglass/computation-expressions-workshop/blob/master/exercises/06_Extensions.pdf)
-
----
-
 # Custom operations 🚀
 
 What: builder methods annotated with `[<CustomOperation("myOperation")>]`
@@ -1035,9 +1102,40 @@ Use cases: add new keywords, build a custom DSL
 
 ---
 
+# CE creation guidelines 📃
+
+- Choose the main **behaviour**: monoidal? monadic? applicative?
+  - Prefer a single behaviour unless it's a generic/multi-purpose CE
+- Create a **builder** class
+- Implement the main **methods** to get the selected behaviour
+- Use/Test your CE to verify it compiles *(see typical compilation errors below),* produces the expected result, and performs well.
+
+```txt
+1. This control construct may only be used if the computation expression builder defines a 'Delay' method
+   => Just implement the missing method in the builder.
+2. Type constraint mismatch. The type ''b seq' is not compatible with type ''a list'
+   => Inspect the builder methods and track an inconsistency.
+```
+
+---
+
+# CE creation tips 💡
+
+- Get inspired by existing codebases that provide CEs - examples:
+  - FSharpPlus → `monad`
+  - FsToolkit.ErrorHandling → `option`, `result`, `validation`
+  - [Expecto](https://github.com/haf/expecto): Testing library (`test "..." {...}`)
+  - [Farmer](https://github.com/compositionalit/farmer): Infra as code for Azure (`storageAccount {...}`)
+  - [Saturn](https://saturnframework.org/): Web framework on top of ASP.NET Core (`application {...}`)
+- Overload methods to support more use cases like different input types
+  - `Async<Result<_,_>>` + `Async<_>` + `Result<_,_>`
+  - `Option<_>` and `Nullable<_>`
+
+---
+
 # CE benefits ✅
 
-- **Increased Readability**: imperative-like code
+- **Increased Readability**: imperative-like code, DSL *(Domain Specific Language)*
 - **Reduced Boilerplate**: hides a "machinery"
 - **Extensibility**: we can write our own "builder" for specific logic
 
@@ -1055,22 +1153,6 @@ Use cases: add new keywords, build a custom DSL
 
 ---
 
-# Other CEs
-
-We've seen 2 libraries that extend F♯ and offer their CEs:
-
-- FSharpPlus → `monad`
-- FsToolkit.ErrorHandling → `option`, `result`, `validation`
-
-Many libraries have their own DSL *(Domain Specific Language)*.
-Some are based on computation expression(s):
-
-- [Expecto](https://github.com/haf/expecto): Testing library (`test "..." {...}`)
-- [Farmer](https://github.com/compositionalit/farmer): Infra as code for Azure (`storageAccount {...}`)
-- [Saturn](https://saturnframework.org/): Web framework on top of ASP.NET Core (`application {...}`)
-
----
-
 <!-- _class: chapter invert -->
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_question.png)
@@ -1085,7 +1167,7 @@ Some are based on computation expression(s):
 
 ![bg-right h:300](../themes/d-edge/pictos/SOAT_pictos_consoleJeu.png)
 
-🔗 <a href="https://presenter.ahaslides.com/share/my-quiz-1755513721554-elj0xar71r" target="_blank">AhaSlides Quiz</a>
+🔗 <a href="https://presenter.ahaslides.com/presentation/7191068" target="_blank">AhaSlides Quiz</a>
 
 ---
 
