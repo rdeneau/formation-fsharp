@@ -38,7 +38,7 @@ paginate: true
 
 ---
 
-# Asynchronous Workflow : Purpose
+# Asynchronous Workflow: Purpose
 
 1. Do not block the current thread while waiting for a long calculation
 2. Allow parallel calculations
@@ -50,7 +50,7 @@ paginate: true
 
 Represents an asynchronous calculation
 
-📆 Similar to the `async/await` pattern way before C♯ and JS
+📆 Similar to the `async/await` pattern, way before C♯ and JS
 
 - 2007: `Async<'T>` F♯
 - 2012: `Task<T>` .NET and pattern `async`/`await`
@@ -72,7 +72,7 @@ FSharp.Control `CommonExtensions` module: extends the `System.IO.Stream` type ([
 
 FSharp.Control `WebExtensions` module: extends type `System.Net.WebClient` ([doc](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-webextensions.html))
 → `AsyncDownloadData(address : Uri) : Async<byte[]>`
-→ `AsyncDownloadString(address : Uri) : Async<string`
+→ `AsyncDownloadString(address : Uri) : Async<string>`
 
 ---
 
@@ -82,15 +82,15 @@ FSharp.Control `WebExtensions` module: extends type `System.Net.WebClient` ([doc
 → Waits for the calculation to end, blocking the calling thread! (≠ `await` C♯) ⚠️
 
 `Async.Start(operation: Async<unit>, ?cancellationToken) : unit`
-→ Perform the operation in background _(without blocking calling thread)_
+→ Performs the operation in background _(without blocking calling thread)_
 ⚠️ If an exception occurs, it is "swallowed"!
 
 `Async.StartImmediate(calc: Async<'T>, ?cancellationToken) : unit`
-→ Perform the calculation in the calling thread!
+→ Performs the calculation in the calling thread!
 💡 Useful in a GUI to update it: progress bar...
 
 `Async.StartWithContinuations(calc, continuations..., ?cancellationToken)`
-→ Ditto `Async.RunSynchronously` ⚠️ ... with 3 _callbacks_ of continuation :
+→ Like `Async.RunSynchronously` ⚠️ ... with 3 continuation _callbacks_:
 → on success ✅, exception 💥 and cancellation 🛑
 
 ---
@@ -105,8 +105,8 @@ Syntax for sequentially writing an asynchronous calculation
 **Key words**
 • `return` → final value of calculation • `unit` if omitted
 • `let!` → access to the result of an async sub-calculation _(≃ `await` in C♯)_
-• `use!` → ditto `use` _(management of an `IDisposable`)_ + `let!`
-• `do!` → ditto `let!` for async calculation without return (`Async<unit>`)
+• `use!` → like `use` _(management of an `IDisposable`)_ + `let!`
+• `do!` → like `let!` for async calculation without return (`Async<unit>`)
 
 ---
 
@@ -271,7 +271,7 @@ Trigger cancellation
 
 Check cancellation
 • Implicit: at each keyword in async block: `let`, `let!`, `for`...
-• Explicit local: `let! ct = Async.CancellationToken` then `ct.IsCancellationRequested`.
+• Explicit local: `let! ct = Async.CancellationToken` then `ct.IsCancellationRequested`
 • Explicit global: `Async.OnCancel(callback)`
 
 ---
@@ -285,7 +285,7 @@ let sleepLoop = async {
     let log message = printfn $"""   [{stopwatch.Elapsed.ToString("s\.fff")}] {message}"""
 
     use! __ = Async.OnCancel (fun () ->
-        log $"  Cancelled ❌")
+        log "  Cancelled ❌")
 
     for i in [ 1..5 ] do
         log $"Step #{i}..."
@@ -367,7 +367,7 @@ Async.Start(sleepLoop, cancellationByTimeoutSource.Token)
 Asynchronous libraries in .NET and the `async`/`await` C♯ pattern:
 → Based on **TPL** and the `Task` type
 
-Gateways with asynchronous worflow F♯ :
+Gateways with asynchronous workflow F♯:
 
 - `Async.AwaitTask` and `Async.StartAsTask` functions
 - `task {}` block
@@ -400,9 +400,9 @@ let computationForCaller param =
 
 # `task {}` block
 
-> Allows to consume an asynchronous .NET library directly, using a single `Async.AwaitTask` rather than 1 for each async method called.
+> Allows consuming an asynchronous .NET library directly, using a single `Async.AwaitTask` rather than one for each async method called.
 
-💡 Available since F♯ 6 _(before, we need [Ply](https://github.com/crowded/ply) package nuget)_
+💡 Available since F♯ 6 _(before, we needed the [Ply](https://github.com/crowded/ply) NuGet package)_
 
 ```fsharp
 task {
@@ -429,13 +429,13 @@ task {
 #### 2. Cancellation support
 
 `Task`: by adding a `CancellationToken` parameter to async methods
-→ Forces manual testing if token is canceled = tedious + _error prone❗_
+→ Forces manual testing if token is canceled = tedious + _error-prone_❗
 
 `Async`: automatic support in calculations - token to be provided at startup 👍
 
 ---
 
-# Recommendation for async function in F♯
+# Recommendation for async functions in F♯
 
 C♯ `async` applied at a method level
 ≠ F♯ `async` defines an async block, not an async function
@@ -558,13 +558,13 @@ F♯ _warning FS0020_ message:
 # Asynchronous programming in F♯
 
 Via `async {}` block in pure F♯
-→ Similar to C♯ `async`/`await` pattern but prior
+→ Similar to C♯ `async`/`await` pattern but predates it
 → Avoids some of the pitfalls of the `async`/`await` pattern
 → Requires manual start of calculation
 → But compilation prevents forgetting it
 
 Via `task {}` block
-→ Facilitates interaction with asynchronous .NET library
+→ Facilitates interaction with asynchronous .NET libraries
 
 ---
 

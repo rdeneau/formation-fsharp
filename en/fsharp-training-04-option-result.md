@@ -43,7 +43,7 @@ paginate: true
 
 A.k.a `Maybe` *(Haskell),* `Optional` *(Java 8)*
 
-Models the absence of value
+Models the absence of a value
 → Defined as a union with 2 *cases*
 
 ```fsharp
@@ -110,7 +110,7 @@ let tryInverse n =
 
 #### Benefits 👍
 
-- Explicit, honest / partial operation
+- Explicit, honest regarding partial operation
   - No special value: `null`, `infinity`
   - No exception
 - Forces calling code to handle all cases:
@@ -247,7 +247,7 @@ Makes business logic more readable
 
 ## `Option` *vs* `List`
 
-Conceptually closed
+Conceptually similar
 → Option ≃ List of 0 or 1 items
 → See `Option.toList` function: `'t option -> 't list` (`None -> []`, `Some x -> [x]`)
 
@@ -266,7 +266,7 @@ Conceptually closed
 - ❗ Does not work for reference types
 - ❗ Lacks monadic behavior i.e. `map` and `bind` functions
 - ❗ Lacks built-in pattern matching `Some x | None`
-- ❗ In F♯, no magic as in C♯ / keyword `null`
+- ❗ In F♯, no magic as in C♯ with the `null` keyword
 
 👉 C♯ uses nullable types whereas F♯ uses only `Option`
 
@@ -283,7 +283,7 @@ let readLine (reader: System.IO.TextReader) =
     reader.ReadLine() // Can return `null`
     |> Option.ofObj   // `null` becomes None
 
-    // Same than:
+    // Same as:
     match reader.ReadLine() with
     | null -> None
     | line -> Some line
@@ -323,7 +323,7 @@ Functional way of dealing with business errors *(expected errors)*
 
 # Module `Result`
 
-Contains less functions than `Option`⁉️
+Contains fewer functions than `Option`⁉️
 
 `map f result` : to map the success
 • `('T -> 'U) -> Result<'T, 'Error> -> Result<'U, 'Error>`
@@ -419,7 +419,7 @@ module Result =
 # `Result` *vs* `Option` (2)
 
 📅 **Dates:**
-• The `Option` type is part of F# from the get go
+• The `Option` type has been part of F# from the beginning
 • The `Result` type is more recent: introduced in F# 4.1 (2016)
   → After numerous articles on *F# for fun and profit*
 
@@ -506,7 +506,7 @@ printAnswerCheck "B";;  // B: ✅ Correct
 🔗 https://kutt.it/mmMXCo *F♯ for fun and profit, Jan 2013*
 
 → *Record* 👍 : `Type X = private { a: 'a... }`
-🔗 https://kutt.it/cYP4gY *Paul Blasucci, Mai 2021*
+🔗 https://kutt.it/cYP4gY *Paul Blasucci, May 2021*
 
 ☝ `private` keyword:
 → Hide object content
@@ -522,7 +522,7 @@ Smart constructor :
 → Returns an `Option`
 
 ```fsharp
-type Latitude = private { Latitude: float } // 👈 A single field, named like the
+type Latitude = private { Latitude: float } // 👈 A single field, named like the type
 
 [<RequireQualifiedAccess>]                  // 👈 Optional
 module Latitude =

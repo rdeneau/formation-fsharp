@@ -396,7 +396,7 @@ let inline toList (x, y) = [x; y]
 - The elements are therefore of the same type
 - There is no constraint on this type → generic `'a`
 
-**Answer :** `x: 'a * y: 'a -> 'a list`
+**Answer :** `'a * 'a -> 'a list`
 
 ---
 
@@ -419,7 +419,7 @@ Alternative to tuples when they are imprecise, for instance `float * float`:
 - Point? Coordinates? Vector?
 - Real and imaginary parts of a complex number?
 
-Eleviate the doubt by naming both the type and its elements:
+Alleviate the doubt by naming both the type and its elements:
 
 ```fsharp
 type Point = { X: float; Y: float }
@@ -565,7 +565,7 @@ type PostalAddress = {
 
 ---
 
-# Record expression for instanciation
+# Record expression for instantiation
 
 - Same syntax as an anonymous C♯ object without the `new` keyword
 - All fields must be populated, but in any order (but can be confusing)
@@ -644,7 +644,7 @@ let departmentKo zip =
 
 # Record: pattern matching
 
-Let's use an example: `inhabitantOf` is a function giving the inhabitants name *(in French)* at a given address *(in France)*
+Let's use an example: `inhabitantOf` is a function giving the inhabitant's name *(in French)* at a given address *(in France)*
 
 ```fsharp
 type Address = { Street: string; City: string; Zip: string }
@@ -849,7 +849,7 @@ type ComplexNumber =
 
 ---
 
-# Unions: instanciation
+# Unions: instantiation
 
 *Case* ≃ **constructor**
 → Function called with any *case* data
@@ -1347,13 +1347,13 @@ serialize { Id = CustomerId 1; Age = 23; Name = "Abc"; Title = Some "Mr" }
 💡 Define an anonymous record to serialize a *customer*
 
 ```fsharp
-let serialisable customer =
+let serializable customer =
     let (CustomerId customerId) = customer.Id
     {| customer with
          Id = customerId
          Title = customer.Title |> Option.toObj |}
 
-serialize (serialisable { Id = CustomerId 1; Age = 23; Name = "Abc"; Title = Some "Mr" })
+serialize (serializable { Id = CustomerId 1; Age = 23; Name = "Abc"; Title = Some "Mr" })
 ```
 
 ```json
@@ -1535,8 +1535,8 @@ Combine 2 unions?
 
 ```fsharp
 // French-suited cards
-type Noir = Pique | Trefle // pikes or spades ♠ | clovers or clubs ♣
-type Rouge = Coeur | Carreau // hearts ♥ | tiles or diamonds ♦
+type Noir = Pique | Trefle // spades ♠ | clubs ♣
+type Rouge = Coeur | Carreau // hearts ♥ | diamonds ♦
 type CouleurKo = Noir | Rouge  // (1) ⚠️ not the expected union of Pique | Trefle | Coeur | Carreau
 type Couleur = Noir of Noir | Rouge of Rouge // (2) ✅
 let c1 = Noir Pique // Couleur

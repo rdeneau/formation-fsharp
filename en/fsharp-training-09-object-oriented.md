@@ -19,9 +19,9 @@ paginate: true
 
 # Introduction
 
-In F♯, object-oriented sometimes \+ practical than functional style.
+In F♯, object-oriented is sometimes more practical than functional style.
 
-Object-oriented bricks in F♯:
+Object-oriented building blocks in F♯:
 
 1. Members
    - Methods, properties, operators
@@ -53,8 +53,8 @@ Object-oriented bricks in F♯:
 
 In fact, there are several polymorphisms. The main ones are:
 
-1. By sub-typing: the one classically evoked with object-orientation
-   → Basic type defining abstract or virtual members
+1. By sub-typing: the one classically associated with object-orientation
+   → Base type defining abstract or virtual members
    → Subtypes inheriting and implementing these members
 2. Ad hoc/overloading → overloading of members with the same name
 3. Parametric → generic in C♯, Java, TypeScript
@@ -98,7 +98,7 @@ Instance member:
 → Override virtual member: `override self-identifier.member-name ...`
 
 ☝ `member-name` in PascalCase *(.NET convention)*
-☝ No `protected` member !
+☝ No `protected` members!
 
 ---
 
@@ -125,7 +125,7 @@ Calling a static member
 Calling an instance member inside the type
 → Prefix with *self-identifier*: `self-identifier.instance-member-name`
 
-Call an instance member from outside the type
+Calling an instance member from outside the type
 → Prefix with instance-name: `instance-name.instance-member-name`
 
 ---
@@ -183,18 +183,18 @@ type SpeedingTicket() =
         if x.SpeedExcess(limit = 55, speed = 70) < 20 then 50.0 else 100.0
 ```
 
-Useful for :
-→ Clarify a usage for the reader or compiler (in case of overloads)
-→ Choose the order of arguments
-→ specify only certain arguments, the others being optional
+Useful for:
+→ Clarifying usage for the reader or compiler (in case of overloads)
+→ Choosing the order of arguments
+→ Specifying only certain arguments, the others being optional
 
-☝ Arguments *after a named argument* are necessarily named too.
+☝ Arguments *after a named argument* must be named too.
 
 ---
 
 # Optional parameters
 
-Allows you to call a tuplified method without specifying all the parameters.
+Allows calling a tuplified method without specifying all the parameters.
 
 Optional parameter:
 • Declared with `?` in front of its name → `?arg1: int`
@@ -227,15 +227,15 @@ let conn2 = Connection(?duplex = Some Half)
 let conn3 = Connection(300, Half, true)
 ```
 
-☝ Notice the *shadowing* of parameters by variables of the same name
-`let parity (* bool *) = defaultArg parity (* bool option *) Full`
+☝ Notice the *shadowing* of parameters by variables of the same name:
+`let parity (* bool *) = defaultArg parity (* bool option *) false`
 
 ---
 
 # Parameter array
 
-Allows you to specify a variable number of parameters of the same type
-→ Via `System.ParamArray` attribute on **last** method argument
+Allows specifying a variable number of parameters of the same type
+→ Via `System.ParamArray` attribute on the **last** method argument
 
 ```fsharp
 open System
@@ -263,7 +263,7 @@ let x = MathHelper.Max(1, 2, 4, 5)  // 5
 
 ```fsharp
   match System.Int32.TryParse text with
-  | true, i  -> printf $"It's the number {value}."
+  | true, i  -> printf $"It's the number {i}."
   | false, _ -> printf $"{text} is not a number."
 ```
 
@@ -282,7 +282,7 @@ let peter = friendsLocation.TryGetValue (0,0)
 // 💥 Error FS0001: expression supposed to have type `int * int`, not `int`.
 ```
 
-💡 **Explanations:** `TryGetValue(0,0)` = method call in tuplified mode
+💡 **Explanation:** `TryGetValue(0,0)` = method call in tuplified mode
 → Specifies 2 parameters, `0` and `0`.
 → `0` is an `int` whereas we expect an `int * int` tuple!
 
@@ -318,7 +318,7 @@ let peter = friendsLocation.TryGetValue (0,0)
 | Feature                   | Function      | Static method   | Instance method   |
 |---------------------------|---------------|-----------------|-------------------|
 | Naming                    | camelCase     | PascalCase      | PascalCase        |
-| Support of `inline`       | ✅ yes         | ✅ yes           | ✅ yes             |
+| Support for `inline`      | ✅ yes         | ✅ yes           | ✅ yes             |
 | Recursive                 | ✅ if `rec`    | ✅ yes           | ✅ yes             |
 | Inference of `x` in       | `f x` → ✅ yes | `K.M x` → ✅ yes | `x.M()` → ❌ no    |
 | Can be passed as argument | ✅ yes : `g f` | ✅ yes : `g T.M` | ❌ no : `g x.M`  ① |
@@ -335,10 +335,10 @@ let peter = friendsLocation.TryGetValue (0,0)
 → Allows the property to be used as if it were a field
 
 2 ways to declare a property:
-• Declaration **explicit**: in relation to a *backing field*.
+• **Explicit** declaration: in relation to a *backing field*.
    → *Getter* : `member this.Property = expression`
    → Others: verbose *([details](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/members/properties))* 👉 Prefer explicit methods
-• Declaration **automatic** : *backing field* implicit
+• **Automatic** declaration : *backing field* implicit
    → *Read-only* : `member val Property = value`
    → *Read/write* : `member val Property = value with get, set`
 
@@ -386,9 +386,9 @@ let salut =
 # Indexed properties
 
 Allows access by index, as if the class were an array: `instance[index]`
-→ Interesting for an ordered collection, to hide the implementation
+→ Useful for an ordered collection, to hide the implementation
 
-Set up by declaring member `Item`
+Set up by declaring the member `Item`
 
 ```fsharp
 member self-identifier.Item
@@ -502,7 +502,7 @@ Members of a type defined outside its main `type` block.
 
 Each of these members is called **augmentation** or **extension**
 
-3 categories of extension :
+3 categories of extensions:
 
 - Intrinsic extension
 - Optional extension
@@ -519,12 +519,12 @@ Each of these members is called **augmentation** or **extension**
 
 *How to implement it following top-down declarations?*
 
-**1. Implement in type**, Redirect module functions to type members
+**1. Implement in type**: Redirect module functions to type members
 → More straightforward
 
 **2. Intrinsic extensions:**
 → Declare type "naked", Implement in module, Augment type after
-→ Favor FP style, Transparent for Interop
+→ Favors FP style, Transparent for Interop
 
 ---
 
@@ -552,9 +552,9 @@ type Variant with
 
 # Optional extension
 
-Extension defined outside the type module/namespace/assembly
+Extension defined outside the type's module/namespace/assembly
 
-**Use cases**
+**Use cases:**
 **1.** Types we can't modify, for instance coming from a library
 **2.** Keep types naked - e.g. Elmish MVU pattern
 
@@ -671,7 +671,7 @@ type System.Int32 with
 
 # Type extension *vs* Generic type constraints
 
-Extension allowed on generic type except when constraints differ:
+Extensions allowed on generic types except when constraints differ:
 
 ```fsharp
 open System.Collections.Generic
@@ -693,7 +693,7 @@ type IEnumerable<'T> with
 
 Static method:
 • Decorated with `[<Extension>]`
-• In F♯ < 8.0: Defined in class decorated with `[<Extension>]`
+• In F♯ < 8.0: Defined in a class decorated with `[<Extension>]`
 • Type of 1st argument = extended type *(`IEnumerable<'T>` below)*
 
 ---
@@ -788,8 +788,8 @@ Do not support (sub-typing) polymorphism:
 | Feature             | Multi-files | Compiled into type | Any type             |
 |---------------------|-------------|--------------------|----------------------|
 | C♯ partial class    | ✅ Yes      | ✅ Yes             | Only `partial class` |
-| Extension intrinsic | ❌ No       | ✅ Yes             | ✅ Yes               |
-| Extension optional  | ✅ Yes      | ❌ No              | ✅ Yes               |
+| Intrinsic extension | ❌ No       | ✅ Yes             | ✅ Yes               |
+| Optional extension  | ✅ Yes      | ❌ No              | ✅ Yes               |
 
 ---
 
@@ -896,11 +896,11 @@ Annotated with `[<AbstractClass>]`
 One of the members is **abstract**:
 
 1. Declared with the `abstract` keyword
-2. No default implementation (with `default` keyword)
-   *(Otherwise member is virtual)*
+2. No default implementation (with the `default` keyword)
+   *(Otherwise the member is virtual)*
 
-Inheritance with `inherit` keyword
-→ Followed by call to base class constructor
+Inheritance with the `inherit` keyword
+→ Followed by a call to the base class constructor
 
 ---
 
@@ -978,7 +978,7 @@ p.Hi()  // Hi, I'm John Doe!
 type K() =
     static let mutable count = 0
 
-    // do executed for each instance at construction
+    // do executed for each instance during construction
     do
         count <- count + 1
 
@@ -1079,17 +1079,17 @@ let x = Point(1.0, 2.0)
 
 # Interface - Syntax
 
-Same as abstract class with:
+Same as an abstract class with:
 • Only abstract members
-• Without `[<AbstractClass>]` attribute
-• With `[<Interface>]` attribute (optional, recommended)
+• Without the `[<AbstractClass>]` attribute
+• With the `[<Interface>]` attribute (optional, recommended)
 
 ```fsharp
 type [accessibility-modifier] interface-name =
     abstract memberN : [ argument-typesN -> ] return-typeN
 ```
 
-- Interface name begins with `I` to follow .NET convention
+- Interface name begins with `I` to follow the .NET convention
 - Arguments can be named *(without parentheses otherwise 💥)*
 
 ---
@@ -1170,7 +1170,7 @@ let s = (o :> IValue<string>).Get() // "hello"
 
 # Inheritance
 
-Defined with `inherit` keyword
+Defined with the `inherit` keyword
 
 ```fsharp
 type A(x: int) =
@@ -1275,14 +1275,14 @@ let i = (o :?> System.IComparable).CompareTo("cde")  // ❗ Unsafe
 
 # No object orientation where F♯ is good
 
-Inference works better with `function (object)` than `object.member`
+Inference works better with `function object` than `object.member`
 
 **Simple object hierarchy**
 ❌ Avoid inheritance
 ✅ Prefer type *Union* and exhaustive *pattern matching*
 
-**Structural equality**
-❌ Avoid class *(equality by default reference)*
+**Structural equality:**
+❌ Avoid class *(reference equality by default)*
 ✅ Prefer a *Record* or a *Union*
 ❓ Consider custom structural equality for performance purposes
 → https://www.compositional-it.com/news-blog/custom-equality-and-comparison-in-f/
@@ -1294,7 +1294,7 @@ Inference works better with `function (object)` than `object.member`
 1. Encapsulate mutable state → in a class
 2. Group features → in an interface
 3. Expressive, user-friendly API → tuplified methods
-4. API F♯ consumed in C♯ → member extensions
+4. F♯ API consumed in C♯ → member extensions
 5. Dependency management → injection into constructor
 6. Tackle higher-order functions limits
 
@@ -1507,14 +1507,14 @@ type MyParametricApi(dep1, dep2, dep3) =
 It's better to pass an object than a lambda
 as a parameter to a higher-order function when:
 
-1. Lambda arguments not explicit
+1. Lambda arguments are not explicit
    ❌ `let test (f: float -> float -> string) =...`
    ✅ Solution 1: type wrapping the 2 args `float`
    → `f: Point -> string` with `type Point = { X: float; Y: float }`
    ✅ Solution 2: interface + method for named parameters
    → `type IPointFormatter = abstract Execute : x:float -> y:float -> string`
 2. Lambda is a **command** `'T -> unit`
-   ✅ Prefer to trigger an side-effect via an object
+   ✅ Prefer to trigger a side-effect via an object
    → `type ICommand = abstract Execute : 'T -> unit`
 
 ---

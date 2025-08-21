@@ -115,9 +115,9 @@ Etymology (Greek): `monos` *(single, unique)* • `eidos` *(form, appearance)*
 `+` is associative \
 → `a + (b + c)` ≡ `(a + b) + c`
 
-### 2. - **Identity Element**
+### 2. **Identity Element**
 
-`e` is combinable with any instance `a` of `T` without effects \
+`e` is combinable with any instance `a` of `T` without effect \
 → `a + e` ≡ `e + a` ≡ `a`
 
 ---
@@ -235,7 +235,7 @@ mapping `f` and then mapping `g` over the result. \
 `bind` is associative.
 
 Given 2 monadic functions `f: 'a -> M<'b>` and `g: 'b -> M<'c>` \
-→ `(m |> bind f) |> bind g` ≡ `m |> bind (fun x -> f x |> bind g)`
+→ `(m |> bind f) |> bind g` ≡ `m |> bind (f >> bind g)`
 
 💡 `bind` allows us to chain monadic functions, like the `|>` for regular functions
 
@@ -318,12 +318,12 @@ Monads purposes:
 - Maintain purity of the surrounding functional code,
 - Provide a controlled environment in which effects can happen.
 
-Dealing with a computation has an effect using monads means:
+Dealing with an effectful computation using monads means:
 
 1. **Wrapping:** we don't get a value directly, we get a monadic value that represents the computation and its associated effect.
 2. **Sequencing:** `bind` (or `let!` in a monadic CE) allows you to chain together effectful computations in a sequential order.
 3. **Returning:** `return` wraps a **pure** value → computation w/o effects. \
-   👉 The same monadic sequence can mix pure and effectful computations.
+   👉 A monadic sequence can mix pure and effectful computations.
 
 ---
 
@@ -415,7 +415,7 @@ Same as the functor identity law applied to applicative:
 
 ### Law 3 - **Interchange**
 
-We can provide first the wrapped function `Ff` or the value `x`, wrapped directly or captured in `(|>) x` *(partial application of the `|>` operator used as function)*
+We can provide the wrapped function `Ff` first or the value `x`, wrapped directly or captured in `(|>) x` *(partial application of the `|>` operator used as function)*
 
 `Ff <*> (pure x)` ≡ `pure ((|>) x) <*> Ff`
 

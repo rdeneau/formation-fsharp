@@ -81,7 +81,7 @@ public class Void
 
 # From `void` keyword to `Void` type (2)
 
-The following *helpers* can be defined to convert to `Void` :
+The following *helpers* can be defined to convert to `Void`:
 
 ```csharp
 public static class VoidExtensions
@@ -94,7 +94,7 @@ public static class VoidExtensions
     }
 
     // Func<Task> -> Func<Task<Void>>
-    public async static Func<Task<Void>> AsAsyncFunc(this Func<Task> asyncAction)
+    public static async Func<Task<Void>> AsAsyncFunc(this Func<Task> asyncAction)
     {
         await asyncAction();
         return Void.Instance;
@@ -125,9 +125,9 @@ interface ITelemetry
 
 ---
 
-# In F♯, `Void` is called `Unit`.
+# In F♯, `Void` is called `Unit`
 
-In F♯, no `void` function but functions with return type `Unit` / `unit`.
+In F♯, there are no `void` functions but functions with return type `Unit` / `unit`.
 
 `unit` has a single instance (hence its name), noted `()`.
 → Used as the last expression of a `void` function:
@@ -155,25 +155,26 @@ let noParam2() = ... // 👈 or without space
 ⚠️ **Warning:** it's easy to forget the `()`!
 
 - Omission in the declaration → simple value rather than function
-- forget in the call → alias the function without executing it
+- Forgetting it in the call → alias the function without executing it
 
 ---
 
 # Function `ignore`
 
-In F♯, everything is expression, but you can insert `unit` expressions, for example a `printf` before returning the value.
+In F♯, everything is an expression, but you can insert `unit` expressions, for instance a `printf` before returning the value.
 
-Problem: calling a `save` function to save in base, but it returns the `true` or `false` value you want to ignore.
+🤔 **Problem:** ignoring the `bool` returned by a `save` (to the database) function.
 
-Solution: use the `ignore` signature function `'a -> unit`.
-→ Whatever the value supplied as a parameter, it ignores it and returns `()`.
+💡 **Solution:** use the `ignore` function. \
+→ Whatever the value supplied as a parameter, it ignores it and returns `()`. \
+→ Signature: `'a -> unit`
 
 ```fsharp
 let save entity = true
 
 let a =
-    save "bonjour" // ⚠️ Warning FS0020: The result of this expression has the type 'bool' and is implicitly ignored.
-    save "bonjour" |> ignore // 👌
+    save "hello" // ⚠️ Warning FS0020: The result of this expression has the type 'bool' and is implicitly ignored.
+    save "hello" |> ignore // 👌
     "ok"
 ```
 
@@ -275,7 +276,7 @@ Style *data-last* favors:
 
 # Order of parameters (2)
 
-⚠️ Friction with BCL .NET as *data-first* is more appropriate
+⚠️ Friction with .NET BCL as *data-first* is more appropriate
 
 ☝ Solution: wrap in a function with params in a nice F♯ order
 
@@ -288,7 +289,7 @@ let startsWith (prefix: string) (s: string) =
 
 # Order of parameters (3)
 
-In the same way, place the most static parameters at the 1st place
+In the same way, place the most static parameters first
 = those likely to be predefined by partial application
 
 Ex: "dependencies" that would be injected into an object in C♯
@@ -343,8 +344,8 @@ Syntax: `fun parameter1 parameter2 etc -> expression`
 
 ☝ **Note:**
 
-- Keyword `fun` mandatory
-- Thin arrow `->` (Java) ≠ Bold arrow `=>` (C♯, Js)
+- Keyword `fun` is mandatory
+- Thin arrow `->` (Java) ≠ Bold arrow `=>` (C♯, JS)
 
 ---
 
@@ -358,7 +359,7 @@ Syntax: `fun parameter1 parameter2 etc -> expression`
 ```fsharp
 [1..10] |> List.map (fun i -> i + 1) // 👈 () around the lambda
 
-// Versus a function named
+// Alternative with a named function
 let add1 i = i + 1
 [1..10] |> List.map add1
 ```
@@ -414,7 +415,7 @@ let ouiNon = function
   | false -> "Non"
 ```
 
-☝ Taste matter
+☝ Matter of taste
 
 ---
 
@@ -441,38 +442,42 @@ let bobAge = age bob // int = 18
 
 # Tuple Parameter
 
-- As in C♯, you may wish to group function parameters together
-  - For the sake of cohesion, when these parameters form a whole
-  - To avoid *code smell* [long parameter list](https://refactoring.guru/smells/long-parameter-list)
-- You can group them in a tuple and even deconstruct it
+🤔 **Problem:** as in C♯, you may wish to group function parameters together \
+→ For the sake of cohesion, when these parameters form a whole \
+→ To avoid the *code smell* named [long parameter list](https://refactoring.guru/smells/long-parameter-list)
 
 ```fsharp
-// V1 : too many parameters
-let f x y z = ...
+let f x y z = ...  // 👈 Too many parameters
+// val f: x: int -> y: int -> z: int -> ...
+```
 
-// V2 : parameters grouped in a tuple
-let f params =
-    let (x, y, z) = params
-    ...
+💡 **Solution:** you can group them in a tuple - 3 styles:
 
-// V3: same with tuple deconstructed on the spot
-let f (x, y, z) = ...
+```fsharp
+let f1 (x, y, z) = ...                                // Style 1: tuple deconstructed on the fly
+// val f1: x: int * y: int * z: int -> ...            // 👈 parameter name 👍
+
+let f2 coordinates = let x, y, z = coordinates in ... // Style 2: tuple deconstructed in the body
+// val f2: int * int * int -> int                     // 👈 parameter name missing ⁉️🤷
+
+let f3 ((x, y, z) as coordinates) = ...               // Style 3: same as choice 1 with an alias to name the tuple
+// val f3: int * int * int -> ...                     // 👈 parameter name missing ⁉️🤷
 ```
 
 ---
 
 # Tuple Parameter (2)
 
-- `f (x, y, z)` looks a lot like a C♯ method!
-- The signature signals the change: `(int * int * int) -> TResult`
-  - The function now has only 1! parameter instead of 3
-  - Possibility of partial application of each tuple element lost
+👍 `f1 (x, y, z)` looks a lot like a C♯ method! \
+→ The signature `f1: x: int * y: int * z: int -> ...` still indicates 3 parameters
 
-☝ **Conclusion** :
+⚠️ But, the **partial application** is now impossible!
+
+👉 **Conclusion:**
 
 - Resist the temptation to always use a tuple *(because familiar - C♯)*
-- Reserve this use when it makes sense to group parameters together
-  - Without declaring a specific type for this group
+- Reserve this use when it makes sense to group parameters together \
+  in a tuple rather than in a dedicated type (e.g. `type Coordinates = ...`)
 
 ---
 
@@ -500,8 +505,8 @@ let rec steps (n: int) : int =
 - Type of recursion where the recursive call is the last instruction
 - Detected by the compiler and optimized as a loop
   - Prevents stack overflow
-- Classic method of making tail recursive:
-  - Add an "accumulator" parameter, such as `fold`/`reduce`.
+- Classic method of making a function tail recursive:
+  - Add an "accumulator" parameter, such as `fold`/`reduce`
 
 ```fsharp
 let steps (number: int) : int =
@@ -538,7 +543,7 @@ and Odd x =             // 👈 Keyword `and`
 # Function overload
 
 - A function cannot be overloaded!
-- Each version should have a dedicated name.
+- Each version should have a dedicated name
 
 Example:
 
@@ -590,21 +595,21 @@ compareCaseSensitive :                     String -> String -> ComparisonResult
 
 ---
 
-# Function Organisation
+# Function organisation
 
 3 ways to organize functions = 3 places to declare them:
 
 - *Module*  📍
 - *Nested* : function declared inside a value / function
   - 💡 Encapsulating helpers used only locally
-  - ☝ Parent function parameters accessible to *nested* function
+  - ☝ Parent function parameters are accessible to the *nested* function
 - *Method* : type member *(next slide)*
 
 ---
 
 # Methods
 
-- Defined with keyword `member` rather than `let`.
+- Defined with keyword `member` rather than `let`
 - Choice of *self-identifier*: `this`, `self`, `me`, `_`...
 - Choice of parameters:
   - Tuplified: OOP style
@@ -649,7 +654,7 @@ type Product =
 
 | Feature                           | Function         | Method                                                |
 | --------------------------------- | ---------------- | ----------------------------------------------------- |
-| Parameter inference (declaration) | ➖ Possible       | ➖ yes for `this`, possible for the other parameters   |
+| Parameter inference (declaration) | ➖ Possible       | ➖ yes for `this`, possible for other parameters       |
 | Argument inference (usage)        | ✅ yes            | ❌ no, object type annotation needed                   |
 | High-order function argument      | ✅ yes            | ➖ yes with shorthand member, no with lambda otherwise |
 | `inline` supported                | ✅ yes            | ✅ yes                                                 |
@@ -659,7 +664,10 @@ type Product =
 
 # Standard functions
 
-Defined in `FSharp.Core` automatically imported
+- Defined in `FSharp.Core`
+- Automatically imported
+
+---
 
 ## Conversion
 
@@ -672,31 +680,31 @@ Defined in `FSharp.Core` automatically imported
 ## Math
 
 - `abs`, `sign`: absolute value, sign (-1 if < 0...)
-- `(a)cos(h)`, `(a)sin`, `(a)tan`: (co)sinus/tangent (inverse/hyperbolic)
-- `ceil`, `floor`, `round`: rounding (inf, sup)
+- `(a)cos(h)`, `(a)sin`, `(a)tan`: (co)sine/tangent (hyperbolic)
+- `ceil`, `floor`, `round`: rounding (up, down)
 - `exp`, `log`, `log10`: exponential, logarithm...
-- `pown x (n: int)` : `x` to the power `n`.
-- `sqrt` : square root
+- `pown x (n: int)`: `x` to the power `n`
+- `sqrt`: square root
 
 ---
 
 ## Misc
 
 - `compare a b : int`: returns -1 if a < b, 0 if =, 1 if >
-- `hash`: calculates hash (code)
+- `hash`: calculates hash code
 - `max`, `min`: maximum and minimum of 2 comparable values
 - `ignore`: to swallow/skip a value, return `()` (`unit`)
-- `id` : next slide 👇
+- `id`: next slide 👇
 
 ---
 
-## `id` : identity
+## `id`: identity
 
-Definition `let id x = x` • Signature : `(x: 'T) -> 'T`
+Definition `let id x = x` • Signature: `(x: 'T) -> 'T`
 → Single input parameter function
 → Only returns this parameter
 
-Why such a function ❓
+Why such a function❓
 → Zero / Neutral element in the composition of functions
 
 | Operation          | Identity | Example                        |
@@ -742,10 +750,10 @@ Is defined as a function
 - Binary operator: `let (symbols) = ...`
 - *Symbols* = combination of `% & * + - . / < = > ? @ ^ | ! $`
 
-2 ways to use operators
+2 ways to use operators:
 
-- As operator → infix `1 + 2` or prefix `-1`.
-- As a function → symbols between `()` : `(+) 1 2` ≡ `1 + 2`
+- As operator → infix `1 + 2` or prefix `-1`
+- As a function → symbols between `()`: `(+) 1 2` ≡ `1 + 2`
 
 ---
 
@@ -765,8 +773,8 @@ Binary operators, placed between a simple value and a function
 
 - Apply value to function = Pass value as argument
 - Avoid parentheses / precedence
-- There are several *pipes*
-  - *Pipe right* `|>` : the "classic" *pipe*.
+- There are several *pipes*:
+  - *Pipe right* `|>`: the "classic" *pipe*
   - *Pipe left* `<|` a.k.a. *inverted* pipe
   - *Pipe right 2* `||>`
   - Etc.
@@ -777,8 +785,8 @@ Binary operators, placed between a simple value and a function
 
 Reverses the order between function and value: `val |> fn` ≡ `fn val`
 
-- Natural "subject-verb" order, as a method call of an object (`obj.M(x)`)
-- *Pipeline*: chain function calls, without intermediate variable
+- Natural "subject-verb" order, like a method call of an object (`obj.M(x)`)
+- *Pipeline*: chain function calls, without intermediate variables
 - Object inference help. Example:
 
 ```fsharp
@@ -824,7 +832,7 @@ Executed from left to right:
 
 ## Operator *Pipe right 2* `||>`
 
-`(x, y) |> fn` ≡ `fn x y`
+`(x, y) ||> fn` ≡ `fn x y`
 
 • To pass 2 arguments at once, as a tuple
 • Used infrequently, for example with `fold` to pass list & seed
@@ -851,16 +859,16 @@ let sumOfEvens'' = items |> List.fold addIfEven 0
 Binary operators placed **between two functions**
 → The result of the 1st function will serve as an argument to the 2nd function
 
-`f >> g` ≡ `fun x -> g (f x)` ≡ `fun x -> x |> f |> g` a `fun x -> x |> f |> g`
+`f >> g` ≡ `fun x -> g (f x)` ≡ `fun x -> x |> f |> g`
 
 ⚠️ Types must match: `f: 'T -> 'U` and `g: 'U -> 'V`
-→ We get a signature function `'T -> 'V`
+→ We get a function with signature `'T -> 'V`
 
 ```fsharp
 let add1 x = x + 1
 let times2 x = x * 2
 
-let add1Times2 x = times2(add1 x) // 😕 Explicit style but + busy
+let add1Times2 x = times2(add1 x) // 😕 Explicit style but more verbose
 let add1Times2' = add1 >> times2 // 👍 Concise style
 ```
 
@@ -902,14 +910,15 @@ A.k.a *Tacit Programming*
 
 Function defined by composition or partial application
 → **Implicit parameter**, hence `point-free` (in space)
+
 ```fsharp
 let add1 x = x + 1                // (x: int) -> int
 let times2 x = x * 2              // (x: int) -> int
-let add1Times2 = add1 >> times2   // int -> int • x implicite • Par composition
+let add1Times2 = add1 >> times2   // int -> int • x implicit • By composition
 
 let isEven x = x % 2 = 0
 let evens list = List.filter isEven list // (list: int list) -> int list
-let evens' = List.filter isEven // int list -> int list • Par application partielle
+let evens' = List.filter isEven // int list -> int list • By partial application
 
 let greet name age = printfn $"My name is {name} and I am %d{age} years old!" // name:string -> age:int -> unit
 let greet' = printfn "My name is %s and I am %d years old!" // (string -> int -> unit)
@@ -949,9 +958,9 @@ let isNotEmpty' list = not (List.isEmpty list)  // 👌 Style explicit
 
 ---
 
-# Fonction `inline` : principle
+# Function `inline`: principle
 
-🔗 https://fr.wikipedia.org/wiki/Extension_inline
+🔗 https://en.wikipedia.org/wiki/Inline_expansion
 
 > **compilation inlining:**
 > → replaces a function call with the code *(the body)* of that function
@@ -959,13 +968,13 @@ let isNotEmpty' list = not (List.isEmpty list)  // 👌 Style explicit
 - Performance gain 👍
 - Longer compilation time ⚠
 
-💡 Same principle as refactoring *Inline Method*, *Inline Variable*.
+💡 Same principle as refactoring *Inline Method*, *Inline Variable*
 
 ---
 
 # `inline` (2)
 
-Keyword `inline` tells the compiler to *"inline "* the function
+Keyword `inline` tells the compiler to *"inline"* the function
 → Typical use: small "syntactic sugar" function/operator
 
 ```fsharp
@@ -982,7 +991,7 @@ let t = true |> ignore
 
 # Custom operators
 
-2 possibilities :
+2 possibilities:
 
 - Operator overload
 - Creation of a new operator
@@ -1038,13 +1047,13 @@ tryMatch 2;; // Some "Even 2"
 
 # Symbols allowed in an operator
 
-**Unary "tilde "** operator
+**Unary "tilde" operator**
 → `~` followed by `+`, `-`, `+.`, `-.`, `%`, `%%`, `&`, `&&`
 
-**Unary operator "snake "**
+**Unary "snake" operator**
 → Several `~`, e.g. `~~~~`
 
-**Unary operator "bang "**
+**Unary "bang" operator**
 → `!` followed by a combination of `!`, `%`, `&`, `*`, `+`, `.`, `/`, `<`, `=`, `>`, `@`, `^`, `|`, `~`, `?`
 → Except `!=` (!=) which is binary
 
@@ -1054,32 +1063,31 @@ tryMatch 2;; // Some "Even 2"
 
 ---
 
-## Usage symbols
+## Symbols usage
 
 All operators are used as is\
-❗ Except the unary operator "tilde": used without the initial `~`.
+❗ Except the unary "tilde" operator: used without the initial `~`
 
 | Operator     | Declaration         | Usage     |
 | ------------ | ------------------- | --------- |
-| Unaire tilde | `let (~&&) x = …`   | `&&x`     |
-| Unaire snake | `let (~~~) x = …`   | `~~~x`    |
-| Unaire bang  | `let (!!!) x = …`   | `!!!x`    |
+| Unary tilde  | `let (~&&) x = …`   | `&&x`     |
+| Unary snake  | `let (~~~) x = …`   | `~~~x`    |
+| Unary bang   | `let (!!!) x = …`   | `!!!x`    |
 | Binary       | `let (<ˆ>) x y = …` | `x <ˆ> y` |
 
 ---
 
 ## Operator or function?
 
-### Infix operator _vs_ function
+### Infix operator *vs* function
 
-👍 **Pros** :
+👍 **Pros**:
 
 - Respects the natural reading order (left → right)
--   avoids parentheses\
-    → `1 + 2 * 3` _vs_ `multiply (add 1 2) 3`
-    → `1 + 2 * 3` _vs_ `multiply (add 1 2) 3`
+- Avoids parentheses\
+    → `1 + 2 * 3` *vs* `multiply (add 1 2) 3`
 
-⚠️ **Cons** :
+⚠️ **Cons**:
 
 - A "folkloric" operator (e.g. `@!`) will be less comprehensible than a function whose name uses the **domain language**
 
@@ -1087,14 +1095,14 @@ All operators are used as is\
 
 ### Using an operator as a function
 
-💡 You can use the partial application of a binary operator :
+💡 You can use the partial application of a binary operator:
 
 Examples:
 
 - Instead of a lambda:\
   → `(+) 1` ≡ `fun x -> x + 1`
-- To define a new function :\
-  → `let isPositive = (<) 0` ≡ `let isPositive x = 0 < x` ≡ `x >= 0` \\
+- To define a new function:\
+  → `let isPositive = (<) 0` ≡ `let isPositive x = 0 < x` ≡ `x >= 0`
 
 ---
 
@@ -1147,10 +1155,10 @@ System.String.Compare tuple     // ❌ (3)
 
 ---
 
-# # `out` Parameter - In C♯
+# `out` Parameter - In C♯
 
-`out` used to have multiple output values from a method\
-→ Ex : `Int32.TryParse`, `Dictionary<,>.TryGetValue` :
+`out` is used to have multiple output values from a method\
+→ Ex: `Int32.TryParse`, `Dictionary<,>.TryGetValue`:
 
 ```csharp
 if (int.TryParse(maybeInt, out var value))
@@ -1166,9 +1174,9 @@ else
 Output can be consumed as a tuple 👍
 
 ```fsharp
-  match System.Int32.TryParse maybeInt with
-  | true, i  -> printf $"It's the number {value}."
-  | false, _ -> printf $"{maybeInt} is not a number."
+match System.Int32.TryParse maybeInt with
+| true, i  -> printf $"It's the number {i}."
+| false, _ -> printf $"{maybeInt} is not a number."
 ```
 
 ---
@@ -1207,7 +1215,7 @@ let fn () =
 # Calling an overloaded method
 
 - Compiler may not understand which overload is being called
-- Tips: call with named argument
+- Tip: call with named argument
 
 ```fsharp
 let createReader fileName =

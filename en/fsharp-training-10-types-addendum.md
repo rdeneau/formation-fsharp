@@ -72,8 +72,8 @@ Function `'T -> unit` does not return a value.
 
 # Type `unit`: ignore a value
 
-F♯ is not a pure functional language, with no side effects.
-But it does encourage the writing of pure functional programs.
+F♯ is not a pure functional language, tracking side effects.
+But it does encourage writing pure functional programs.
 
 👉 **Rule:** Any expression producing a value must be used.
 → `()` is the only value the compiler allows to be ignored.
@@ -81,7 +81,7 @@ But it does encourage the writing of pure functional programs.
 
 ☝ **Warning:** ignoring a value is generally a *code smell* in FP.
 
-👉 An expression with side-effect must signal it with the return type `unit`.
+👉 An expression with side effects must signal it with the return type `unit`.
 
 ---
 
@@ -90,7 +90,7 @@ But it does encourage the writing of pure functional programs.
 > ❓ How can you *(despite everything)* ignore the value produced by an expression?
 
 With the `ignore` function:
-→ Takes an ignored, "swallowed" input parameter.
+→ Takes an input parameter and ignores/swallows it
 → Returns `unit`
 
 ```fsharp
@@ -108,7 +108,7 @@ Usage : `expression |> ignore`
 
 # 2.
 
-## Generics in F#
+## Generics in F♯
 
 ---
 
@@ -145,7 +145,7 @@ module ListHelper =
 → Automatic generalization
 
 - `couple`: its 2 arguments `x` and `y` must be of the same type
-to be in a list → Inference
+  to be in a list → Inference
 
 ---
 
@@ -171,7 +171,7 @@ let print2<'T> (x: 'T) (y: 'T) = printfn "%A, %A" x y
 
 # Explicit genericity - Inline form
 
-💡 **Hint:** the `'x` convention to indicate generic type parameter makes it possible to be more concise: the `<'T>` is no needed.
+💡 **Hint:** the `'x` convention to indicate generic type parameters makes it possible to be more concise: the `<'T>` is not needed.
 
 ```fsharp
 // Before
@@ -244,7 +244,7 @@ F♯ offers two categories of parameter types:
 
 # SRTP - Why
 
-W/o:
+Without:
 
 ```fsharp
 let add x y = x + y
@@ -311,7 +311,7 @@ Same principle as in C♯ with a few differences:
 
 # Type constraints
 
-To force basic type: parent class or interface
+To force a base type: parent class or interface
 
 ```fsharp
 let check<'TError when 'TError :> System.Exception> condition (error: 'TError) =
@@ -479,7 +479,7 @@ Solutions :
 
 # Flexible type - Other uses (1)
 
-Facilitate the use of the function without the need for an *upcast*.
+Facilitates using the function without the need for an *upcast*.
 
 ```fsharp
 let join separator (generate: unit -> seq<_>) =
@@ -512,7 +512,7 @@ let tap f items =
 // val tap : f:('a -> unit) -> items:'b -> 'b when 'b :> seq<'a>
 ```
 
-💡 What about making code easier to read with a flexible type?
+💡 What about making the code easier to read with a flexible type?
 
 ```fsharp
 let tap f (items: #seq<_>) =
@@ -580,7 +580,7 @@ Units are **checked at compile time**
 
 # Units of measure: declaration
 
-Syntaxe based on the `[<Measure>]` attribute
+Syntax based on the `[<Measure>]` attribute
 
 ```fsharp
 // 👉 New units "from scratch"
@@ -614,9 +614,9 @@ Syntaxe based on the `[<Measure>]` attribute
 
 ---
 
-# Units of measure: symbole
+# Units of measure: symbol
 
-💡 **Tip:** use of *double back ticks*
+💡 **Tip:** use of *double backticks*
 
 ```fsharp
 [<Measure>] type ``Ω``
@@ -700,26 +700,26 @@ let waterBoilingAt = Temperature.toFahrenheit 100.0<``°C``>
 
 ---
 
-# Units of measure: add/delete
+# Units of measure: add/remove
 
-Add a unit to a bare number :
+Add a unit to a bare number:
 → ✅ `number * 1.0<target>`
 
-Remove a unit from a `number : float<source>` :
+Remove a unit from a `number : float<source>`:
 → ✅ `number / 1.0<source>`
 → ✅ `float number`
 
-Create a list of numbers with unit :
+Create a list of numbers with units:
 → ✅ `[1<m>; 2<m>; 3<m>]`
 → ❌ `[1<m>..3<m>]` *(a range requires bare numbers)*
 → ✅ `[ for i in [1..3] -> i * 1<m> ]`
 
 ---
 
-# Units of measure: deleted at runtime ❗
+# Units of measure: erased at runtime ❗
 
 Units of measure are specific to the F♯ compiler.
-→ They are not compiled in .NET.
+→ They are not compiled into .NET.
 
 ---
 

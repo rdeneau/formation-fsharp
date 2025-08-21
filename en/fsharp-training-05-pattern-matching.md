@@ -42,10 +42,10 @@ paginate: true
 # Patterns
 
 Used extensively in F♯
-→ *match expression*, *let binding*, parameters deconstruction...
+→ *match expression*, *let binding*, parameter deconstruction...
 → Very practical for manipulating F♯ algebraic types (tuple, record, union)
 → Composable: supports multiple nesting levels
-→ Composed by logical AND/OR
+→ Combined using logical AND/OR
 → Supports literals: `1.0`, `"test"`...
 
 ---
@@ -114,7 +114,7 @@ let isInt (s: string) =
 ```fsharp
 let elementsAreEqualKo tuple =
     match tuple with
-    | x, x -> true  // 💥 Error FS0038: x' is linked twice in this model
+    | x, x -> true  // 💥 Error FS0038: 'x' is bound twice in this pattern
     | _, _ -> false
 ```
 
@@ -268,7 +268,7 @@ Use type construction syntax to deconstruct a type
 • *Head*: 1st element
 • *Tail*: another list with the remaining elements - can be empty
 
-*List Pattern* : `[items]` → decompose a list into 0..N items
+*List Pattern* : `[items]` → decomposes a list into 0..N items
 • `[]` : empty list
 • `[x]` : list with 1 element set in the `x` variable
 • `[x; y]` : list with 2 elements set in variables `x` and `y`
@@ -307,7 +307,7 @@ let length vector =
     | [| x |] -> x
     | [| x; y |] -> sqrt (x*x + y*y)
     | [| x; y; z |] -> sqrt (x*x + y*y + z*z)
-    | _ -> invalidArg (nameof vector) $"Vector with more than 4 dimensions not supported"
+    | _ -> invalidArg (nameof vector) "Vector with more than 3 dimensions not supported"
 ```
 
 ☝ There is no pattern for sequences, as they are *"lazy "*.
@@ -559,7 +559,7 @@ fun value ->
 
 # Match function - Interest
 
-1. In pipeline
+1. In pipelines
 
 ```fsharp
 value
@@ -569,7 +569,7 @@ value
     | false -> "ko"
 ```
 
-2. Terser function
+2. More concise function
 
 ```fsharp
 let is123 = function
@@ -709,11 +709,11 @@ Kelvin 273.15<K>
 
 Limited number of patterns
 
-Impossibility of factoring the action of patterns with their own guard
+Impossibility of factoring the actions of patterns with their own guards
 → `Pattern1 when Guard1 | Pattern2 when Guard2 -> do` 💥
 → `Pattern1 when Guard1 -> do | Pattern2 when Guard2 -> do` 😕
 
-Patterns are not 1st class citizens
+Patterns are not first-class citizens
 *Ex: a function can't return a pattern*
 → Just a kind of syntactic sugar
 
@@ -731,7 +731,7 @@ Integrated into F♯ 2.0 (2010)
 💡 **Ideas**
 
 - Enable *pattern matching* on other data structures
-- Make these new patterns 1st class citizens
+- Make these new patterns first-class citizens
 
 ---
 
@@ -739,8 +739,8 @@ Integrated into F♯ 2.0 (2010)
 
 General syntax : `let (|Cases|) [arguments] valueToMatch = expression`
 
-1. **Function** with a special name defined in a "banana" `(|...|)`
-2. Set of 1..N **cases** in which to store `valueToMatch` parameter
+1. **Function** with a special name defined in "bananas" `(|...|)`
+2. Set of 1..N **cases** in which to store the `valueToMatch` parameter
 
 💡 Kind of *factory* function of an "anonymous" **union** type, defined *inline*
 
@@ -862,7 +862,7 @@ let (|Float|_|) (x: string) = // (x: string) -> float option
 
 let detectNumber = function
     | Integer i -> $"Integer {i}"   // detectNumber "10"
-    | Float f -> $"Float {f}"       // detectNumber "1,1" = "Float 1,1" (en France)
+    | Float f -> $"Float {f}"       // detectNumber "1.1" = "Float 1.1" (US locale)
     | s -> $"NaN {s}"               // detectNumber "abc" = "NaN abc"
 ```
 
@@ -873,7 +873,7 @@ let detectNumber = function
 Syntax: `let (|Case|_|) ...arguments value = Some Case | Some data | None`
 
 **Example 1: leap year**
-→ Year multiple of 4 but not 100 except 400
+→ Year divisible by 4 but not by 100, except if divisible by 400
 
 ```fsharp
 let (|DivisibleBy|_|) factor x =  // (factor: int) -> (x: int) -> unit option
@@ -1148,9 +1148,9 @@ let topAnimes =
 
 ---
 
-# Active pattern: 1st class citizen
+# Active pattern: first-class citizen
 
-An active pattern ≃ function with metadata → 1st class citizen in F#
+An active pattern ≃ function with metadata → first-class citizen in F#
 
 ```fsharp
 // 1. Return an active pattern from a function
@@ -1199,7 +1199,7 @@ let test = [0; 2; 4; 5; 6] |> firstItems (|Even|_|)  // [0; 2; 4]
 
 | Pattern                            | Example                           |
 |------------------------------------|-----------------------------------|
-| Constant • Identifier • Wilcard    | `1`, `Color.Red` • `Some 1` • `_` |
+| Constant • Identifier • Wildcard   | `1`, `Color.Red` • `Some 1` • `_` |
 | *Collection* : Cons • List • Array | `head :: tail` • `[1; 2]`         |
 | *Product type* : Record • Tuple    | `{ A = a }` • `a, b`              |
 | Type Test                          | `:? Subtype`                      |
@@ -1213,9 +1213,9 @@ let test = [0; 2; 4; 5; 6] |> firstItems (|Even|_|)  // [0; 2; 4]
 # Wrap up Active Patterns
 
 - Extending pattern matching
-- Based on function + metadata → 1st-class citizens
+- Based on function + metadata → first-class citizens
 - 4 types: total simple/multiple, partial (simple), parametric
-- At 1st little tricky to understand, but we get used to it quickly
+- At first a little tricky to understand, but we get used to it quickly
 - Use for:
   - Add semantics without relying on union types
   - Simplify / factorize guards

@@ -363,7 +363,7 @@ names[..3]  // [|"0: Alice"; "1: Jim"; "2: Rachel"; "3: Sophia"           |]
 
 💡 Works also with `string`: `"012345"[1..3]` ≡ `"123"`
 
-TODO RDE: note / pas confondre avec range - syntaxe similarire
+💡 **Note:** Do not confuse slicing with range syntax - similar syntax but different purposes
 
 ---
 
@@ -1568,7 +1568,7 @@ type `avg` is not defined.
 | `Where()`, ×                  | `filter`, `choose`    | `filter()`, ×        |
 | `First()`, `FirstOrDefault()` | `find`, `tryFind`     | ×, `find()`          |
 | ×                             | `pick`, `tryPick`     | ×                    |
-| `Aggregate([seed]])`          | `fold`, `reduce`      | `reduce()`           |
+| `Aggregate([seed])`           | `fold`, `reduce`      | `reduce()`           |
 | `Average()`, `Sum()`          | `average`, `sum`      | ×                    |
 | `ToList()`, `AsEnumerable()`  | `List.ofSeq`, `toSeq` | ×                    |
 | `Zip()`                       | `zip`                 | ×                    |

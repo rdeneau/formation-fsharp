@@ -118,7 +118,7 @@ Try F#: https://try.fsharp.org/
 
 ☝️ **Notes:**
 
-- _C♯ interactive_ is more recent (VS 2015 Update 1). The FSI was there from the get go.
+- _C♯ interactive_ is more recent (VS 2015 Update 1). The FSI was there from the get-go.
 - Alternative worth trying, also working for C#: [LINQPad](https://www.linqpad.net/)
 
 👨‍🏫 **Demo**
@@ -164,7 +164,7 @@ Creation in the IDE or using the CLI `dotnet`:
 
 - `dotnet new -l` : list supported project types
 - `dotnet new console --language F# -o MyFSharpApp`
-  - Création of a console project named `MyFSharpApp`
+  - Creation of a console project named `MyFSharpApp`
   - `--language F#` is key to specify the language, by default in C#
 - `dotnet build` : to build the project
 - `dotnet run` : to build the project and run the underlying executable
@@ -358,7 +358,7 @@ int "2";;    // val it : int     = 2
 ```fsharp
 let name = "Bob"                          // val name : string = "Bob"
 
-// String formatting (available from the get go)
+// String formatting (available from the get-go)
 let name2 = sprintf "%s Marley" name      // val name2 : string = "Bob Marley"
 
 // String interpolation (F♯ 5)
@@ -874,7 +874,7 @@ Type inference works by proximity: the closest match will be used.
 👍 Pros:
 → no cyclic dependencies
 → faster and more predictable compilation
-→ code easier de reason about
+→ code easier to reason about
 
 ☝️ Cons:
 → need more coding discipline
@@ -901,7 +901,7 @@ In general, indentation is very important for code readability:
 
 In C♯: indentation is optional; logical blocks defined with `{ }` and `;`
 → It's the indentation that matters for readability, then `{ }` can help
-→ A code not properly indented can be mis-interpreted, that can lead to bugs!
+→ A code not properly indented can be misinterpreted, that can lead to bugs!
 
 In F♯, indentation is required to define code blocks and nesting level.
 → Compiler ensures indentation is correct
@@ -914,7 +914,7 @@ F♯ forces us to do what matters the most for the code readability 👍
 
 ## Vertical line of indentation
 
-Concept related to the way F♯ understands the indentation.
+Concept related to how F♯ understands indentation.
 • In general, a block starts in a new line, at a greater indentation level.
 • But sometimes a block can start in a middle of a line.
   → This position defines the expected vertical indentation line.
@@ -1097,7 +1097,7 @@ The ceremony is correlated to the typing weakness
 | JS   | Low (dynamic)                    | ×         | Low      |
 | C♯   | Medium (static nominal)          | Low       | Strong   |
 | TS   | Strong (static structural + ADT) | Medium    | Medium   |
-| F♯   | Strong (static nominal + ADT)    | Élevée    | Low      |
+| F♯   | Strong (static nominal + ADT)    | High      | Low      |
 
 ADT = *Algebraic Data Types* 📍
 

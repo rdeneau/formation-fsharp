@@ -82,7 +82,7 @@ let result2 = add 5 9
 
 <!-- _footer: '' -->
 
-# Import : *shadowing*
+# Import: *shadowing*
 
 Imports are done without name conflicts but need **disambiguation:**
 • Modules and static classes are merged ✅
@@ -126,7 +126,7 @@ let result = add 1 2 // 💥 Error FS0001: The type 'float' does not match the t
 
 # Namespace: content
 
-A `namespace` F♯ can only contain local types and modules
+An F♯ `namespace` can only contain local types and modules
 → Cannot contain values or functions ❗
 → By comparison, it's the same in C♯ with `namespace` that contains classes / enums only
 
@@ -155,20 +155,20 @@ Namespace nesting is declarative
 # Namespace: recursive
 
 Extends the default unidirectional visibility: from bottom to top
-→ each element can see all the elements in a recursive namespace
+→ Each element can see all the elements in a recursive namespace
 
 ```fsharp
 namespace rec Fruit
 
 type Banana = { Peeled: bool }
     member this.Peel() =
-        BananaHelper.peel  // `peel` not visible here without the `rec`
+        BananaHelper.peel  // `peel` not visible here without `rec`
 
 module BananaHelper =
     let peel banana = { banana with Peeled = true }
 ```
 
-⚠️ **Drawbacks:** slow compilation, risk of circular reference
+⚠️ **Drawbacks:** slow compilation, risk of circular references
 ☝ **Recommendation:** handy but only for very few use cases
 
 ---
@@ -214,7 +214,7 @@ Full name (`[namespace.]module-name`) must be unique
 ## Top-level module
 
 • Only one top-level module per file
-   → Declared on very top of the file
+   → Declared at the very top of the file
 
 • Can (should?) be qualified
    → Attached to a parent namespace *(already declared or not)*
@@ -247,7 +247,7 @@ Syntax similar to `let`
 
 # Module: content
 
-A module, *local as top-level*, can contain:
+A module, *local or top-level*, can contain:
 → local types and sub-modules
 → values, functions
 
@@ -330,14 +330,14 @@ Same principle as recursive namespace
 
 ### `[<AutoOpen>]`
 
-Import module at same time as the parent namespace/module
+Import module at the same time as the parent namespace/module
 → 💡 Handy for "mounting" values/functions at namespace level
 → ⚠️ Pollutes the current *scope*
 
 ### `[<RequireQualifiedAccess>]`
 
 Prevents the module import hence any unqualified use of its elements
-→ 💡 Useful for avoiding *shadowing* for common names: `add`, `parse`...
+→ 💡 Useful for avoiding *shadowing* of common names: `add`, `parse`...
 
 ---
 
@@ -355,7 +355,7 @@ Let's consider a `Cart` type with its `Cart` companion module.
 • `addItemToCart item cart`:
   → function name is *self-explicit*
   → `[<AutoOpen>]` interesting to prevent `Cart.addItemToCart`
-  → Works only if `Cart` parent *(if any)* is not `RequireQualifiedAccess` and opened
+  → Works only if `Cart` parent *(if any)* is not `RequireQualifiedAccess` and is opened
 
 ---
 
@@ -388,7 +388,7 @@ person |> Person.fullName // "John Doe"
 
 ## Multi-type module
 
-Contains several small types + related functions *(eventually)*
+Contains several small types + related functions *(optionally)*
 
 ```fsharp
 module Common.Errors
@@ -461,7 +461,7 @@ open System
 let x = Math.Max(123., 456.)
 ```
 
-☝️ In general, use case only recommended for classes designed for this usage.
+☝️ In general, only recommended for classes designed for this usage.
 
 ---
 
@@ -480,7 +480,7 @@ module Domain.Sales =
 // Other/Module.fs ---
 open type Sales.Balance
 
-let myBalance = Remaining of 500. // myBalance is of type Balance.
+let myBalance = Remaining 500.00 // myBalance is of type Balance.
 ```
 
 ---
@@ -652,14 +652,14 @@ module IntHelper =
 | Property                     | Namespace      | Module                    |
 |------------------------------|----------------|---------------------------|
 | .NET Compilation             | `namespace`    | `static class`            |
-| Type                         | *Top-level*    | Local (ou *top-level*)    |
+| Type                         | *Top-level*    | Local (or *top-level*)    |
 | Contains                     | Modules, Types | Val, Fun, Type, Modules   |
 | `[<RequireQualifiedAccess>]` | ❌ No          | ✅ Yes *(vs shadowing)*   |
 | `[<AutoOpen>]`               | ❌ No          | ✅ Yes but be careful❗  |
 
 ---
 
-# 🔗 Additional ressources
+# 🔗 Additional resources
 
 [docs.microsoft.com/.../fsharp/style-guide/conventions#organizing-code](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions#organizing-code)
 
