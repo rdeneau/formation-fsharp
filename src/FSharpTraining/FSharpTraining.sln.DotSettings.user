@@ -2,13 +2,10 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aprim_002Dtypes_002Efs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frdeneau_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F33d3f163cae539f8c2ac71aa69eca9f86c737caa2c0486e45829e3e671393_003Fprim_002Dtypes_002Efs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationCE_002Efs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frdeneau_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F47e6cca463b9d093e3eb90864fa597e369d5e294b8faec3c7b347baa738e_003FValidationCE_002Efs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationCE_002Efs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frdeneau_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F47e6cca463b9d093e3eb90864fa597e369d5e294b8faec3c7b347baa738e_003FValidationCE_002Efs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ad5ed9c9_002D922c_002D460a_002D84f9_002D7004c10ad267/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TrampolineTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1ff08d95_002De953_002D493a_002Da97f_002Dd97332ceeb36/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Custom" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.TrampolineTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.LoggerTests.3 Binds&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.ListSeqTests.Desugar complex list {} expression&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.ResultTests+DiceTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.ValidationTests+Custom.Desugar let! ... and!&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3182BF3C-F3C6-441C-9225-96D5E4BB373F::net9.0::FSharpTraining.ValidationTests+Custom&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	</wpf:ResourceDictionary>
