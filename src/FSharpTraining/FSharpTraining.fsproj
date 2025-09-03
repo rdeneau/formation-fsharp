@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Compile Include="ComputationExpressions\ActivityTests.fs" />
+    <Compile Include="ComputationExpressions\AsyncTests.fs" />
     <Compile Include="ComputationExpressions\EventuallyTests.fs" />
     <Compile Include="ComputationExpressions\ListTests.fs" />
     <Compile Include="ComputationExpressions\ListSeqTests.fs" />
