@@ -24,6 +24,7 @@ marp fsharp-training-09-oo.md --output ./html/fsharp-training-09-oo.html --theme
 marp fsharp-training-10-types-addendum.md --output ./html/fsharp-training-10-types-addendum.html --theme themes/d-edge.css
 marp fsharp-training-11-functional-patterns.md --output ./html/fsharp-training-11-functional-patterns.html --theme themes/d-edge.css
 marp fsharp-training-12-computation-expr.md --output ./html/fsharp-training-12-computation-expr.html --theme themes/d-edge.css
+marp fsharp-training-13-domain-workflows.md --output ./html/fsharp-training-13-domain-workflows.html --theme themes/d-edge.css
 ```
 
 *watch* mode: add `--watch`
