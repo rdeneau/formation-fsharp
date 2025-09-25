@@ -87,4 +87,7 @@ let ``Should run the 3 tasks in parallel`` () =
             return x + y + z
         }
 
-    tasksInParallel |> should [ Take.MoreThan(TimeSpan.FromMilliseconds 15); Take.LessThan(TimeSpan.FromMilliseconds 40) ]
+    tasksInParallel |> should [ // ↩
+        Take.MoreThan(TimeSpan.FromMilliseconds 15)
+        Take.LessThan(TimeSpan.FromMilliseconds 40)
+    ]
