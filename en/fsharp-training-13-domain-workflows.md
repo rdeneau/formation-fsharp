@@ -1244,22 +1244,129 @@ Rules to ensure proper domain isolation:
 
 ---
 
-# Program interpreter
+# Program interpreters
 
-TODO
+2 parts:
+
+- `Interpreter` class: private, domain agnostic, "plumbery"
+- For each domain, a module defining an `interpretWorkflow` function
 
 ---
 
-Improvements:
+# interpretWorkflow functions (1)
 
-- Split the `Workflow.fs` files to reveal use cases in the file explorer.
-- The split by domain could be continue by grouping related elements from all layers into a dedicated project per domain.
-  - We can leverage the compilation order in F# to ensure that the proper visibility of each layer, to respect the clean architecture: Domain model < Domain workflows (Application layer) < Data (Infrastructure layer) < Api (Presentation layer)
-  - We can ensure with an architecture unit test with [ArchUnitNET](https://github.com/TNG/ArchUnitNET) that
-    - layer visibility: Domain model sees no other layers, Domain workflows sees only the domain model layer, etc.
-    - no domain project reference another domain project
-- `Interpreter` class should take only technical dependencies (LoggerFactory, StatsSender...). To do when splitting by domain.
-- Performance: missing parallel instruction interpretation.
+• `runEffect`: inner function, matching instructions with *Data* async pipelines
+• final `interpret.Workflow runEffect`
+
+```fsharp
+module Dedge.AppStore.Infrastructure.Interpreter
+
+// ...
+
+module Category =
+    open Dedge.AppStore.Domain.Category.Instructions
+
+    let interpretWorkflow (dependencies: Dependencies) =
+        let interpret = Interpreter(dependencies, CategoryDomain) // Interpreter<CategoryDomain>
+
+        let runEffect (categoryEffect: ICategoryEffect<_>) =
+            match categoryEffect.Instruction with
+            | FindChannels query -> interpret.Query(query, Channel.Pipeline.findChannels dependencies.ChannelApi)
+            | ...
+
+        fun runWorkflow args -> interpret.Workflow runEffect (runWorkflow args)
+
+// ...
+```
+
+---
+
+# interpretWorkflow functions (2)
+
+```fsharp
+// ...
+
+module Partner =
+    open Dedge.AppStore.Domain.Partner.Instructions
+
+    let interpretWorkflow (dependencies: Dependencies) =
+        let interpret = Interpreter(dependencies, PartnerDomain) // Interpreter<PartnerDomain>
+
+        let runEffect (partnerEffect: IPartnerEffect<_>) =
+            match partnerEffect.Instruction with
+            | GetTranslations query -> interpret.Query(query, Translations.Pipeline.getTranslations dependencies.TranslationsApi)
+            | SendMail command -> interpret.Command(command, Mail.Pipeline.sendMail dependencies.MailSender)
+
+        fun runWorkflow args -> interpret.Workflow runEffect (runWorkflow args)
+
+// ...
+```
+
+---
+
+# Interpreter class (1)
+
+2 parts:
+
+• `Command` and `QueryXxx` helpers: call `instruction.RunAsync` w/ *Logging, Timing*
+• `Workflow` final method: call `runEffect` recursively, return `Async<Result<'a,Error>`
+
+A lot of code comes directly from V2.
+
+---
+
+# Interpreter class (2)
+
+```fsharp
+[<Sealed>]
+type private Interpreter<'dom when 'dom :> IEffectDomain>(dependencies: Dependencies, domain: 'dom) =
+    let logger = dependencies.LoggerFactory.CreateLogger $"Dedge.AppStore.Domain.%s{domain.Name}.Workflow"
+    let monitoring = Monitoring.StatsdAdapter.Timer(dependencies.EnvironmentName, dependencies.StatsSender)
+
+    member private _.Instruction(instruction: Instruction<_, _, _>, withTiming, pipeline: 'arg -> Async<_>) =  
+        let pipelineWithMonitoring =
+            pipeline
+            |> logifyPlainAsync logger (dependencies.GetContext()) instruction.Name
+            |> withTiming instruction.Name
+
+        instruction.RunAsync(pipelineWithMonitoring)
+
+    member this.Command(command: Command<_, _>, pipeline) =
+        this.Instruction(command, monitoring.timeAsyncResult, pipeline)
+
+    member this.Query(query: Query<_, _, _>, pipeline) =
+        this.Instruction(query, monitoring.timeAsyncOption NoneMeansFailed, pipeline)
+
+    // ...
+```
+
+---
+
+# Interpreter class (3)
+
+```fsharp
+    // ...
+    member _.Workflow<'a, 'effect when 'effect :> IProgramEffect<Program<Result<'a, Error>>>>(runEffect) =  
+        let rec loop program =
+            match program with
+            | Stop res -> async { return res }
+            | Effect eff ->
+                match eff with
+                | :? 'effect as effect ->
+                    async {
+                        let! res = runEffect effect
+                        return! loop res
+                    }
+                | _ -> failwithf $"Unsupported effect: %A{eff}" // ⚠️ only 1 type of effects - runtime check!
+
+        fun (workflow: Workflow<_, 'dom>) ->
+            async {
+                try
+                    return! loop workflow.Program
+                with FirstException exn ->
+                    return bug exn
+            }
+```
 
 ---
 
@@ -1269,13 +1376,35 @@ Improvements:
 
 # 5.
 
-## Wrap up
+## Conclusion
 
 ---
 
-# TODO
+# Program V3 recap
 
-TODO
+With this version, we are able to:
+
+- Split apart each domain
+  - Currently in separated modules
+  - Possibly in separated projects
+- Identify the type of instructions
+  - with the `Command` and `Query` type aliases
+
+The recipe to apply is made of more ingredients that the V2.
+Still, they are simple and well separated, following design principles.
+
+---
+
+# Possible improvements
+
+- Split the `Workflow.fs` files to reveal use cases in the file explorer.
+  - More relevant in the SCM than in the AppStore
+- The split by domain could be continued by grouping related elements from all layers into a **dedicated project per domain**.
+  - Leverage compilation order in F# to ensure that layer dependencies: Domain model < Domain workflows (Application layer) < Data (Infrastructure layer) < Api (Presentation layer)
+  - Ensure domain project separation with [ArchUnitNET](https://github.com/TNG/ArchUnitNET)
+    - no domain project reference another domain project
+- Performance: instructions in parallel (with `let! ... and! ...`)
+  - Difficulty: to handle not only in the CE but also at the interpreter level!
 
 ---
 
