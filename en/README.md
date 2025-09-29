@@ -50,9 +50,13 @@ marp fsharp-training-09-oo.md --output ./pdf/fsharp-training-09-oo.pdf --theme t
 marp fsharp-training-10-types-addendum.md --output ./pdf/fsharp-training-10-types-addendum.pdf --theme themes/d-edge.css --allow-local-files
 marp fsharp-training-11-functional-patterns.md --output ./pdf/fsharp-training-11-functional-patterns.pdf --theme themes/d-edge.css --allow-local-files
 marp fsharp-training-12-computation-expr.md --output ./pdf/fsharp-training-12-computation-expr.pdf --theme themes/d-edge.css --allow-local-files
+marp fsharp-training-13-domain-workflows.md --output ./pdf/fsharp-training-13-domain-workflows.pdf --theme themes/d-edge.css --allow-local-files
 ```
 
-In case of `Some of the local files are missing and will be ignored. Make sure the file paths are correct.` warning, we can open the HTML in a browser and Print > Save as PDF...
+In case of `Some of the local files are missing and will be ignored. Make sure the file paths are correct.` warning, we can:
+
+- open the HTML in a browser and Print > Save as PDF...
+- edit both markdown file and `.\en\themes\d-edge.css`: replace the relative path `../themes` to the absolute path, e.g. `C:/Dev/_github/rdeneau/formation-fsharp/en/themes`.
 
 ## Useful Characters
 
