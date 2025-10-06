@@ -872,10 +872,10 @@ Instruction separation between commands and queries is made manually.
 
 Same goal: separating the "what" from the "how".
 
-Free monad: ad hoc solution, built with dedicated types
+**Free monad:** ad hoc solution, built with dedicated types
 *(see our `Instructions` and `Program` types)*
 
-Alg eff: native, highly optimized language feature; handlers are composable, allowing capabilities difficult to model with Free monads, like non-local control flow, generators, or resumable exceptions.
+**Algebraic effects:** native, highly optimized language feature; handlers are composable, allowing capabilities difficult to model with Free monads, like non-local control flow, generators, or resumable exceptions.
 
 ---
 
@@ -899,8 +899,11 @@ Purpose: use alg eff implementation in F# to improve our `Program` type.
 
 F# algebraic effects librairies:
 
-- *Nick Palladinos'* [Eff](https://github.com/palladin/Eff): hard to use, even harder to understand (not documented)
-- *Brian Berns'* [AlgEff](https://github.com/brianberns/AlgEff): less hard to understand and to use; based on class inheritance⚠️; types defined with `and`, breaking the top-down regular order; overkill for our purpose, but based on the free monad, hence good source of inspiration
+- *Nick Palladinos'* [Eff](https://github.com/palladin/Eff): hard to use, no doc → even harder to understand!
+- *Brian Berns'* [AlgEff](https://github.com/brianberns/AlgEff): less hard to understand and to use
+  - based on class inheritance ⚠️
+  - types defined with `and`, breaking the top-down regular order ⚠️
+  - overkill, but based on the free monad → good source of inspiration
 
 Both used **generics** and **object-oriented** capabilities of F#.
 
@@ -985,7 +988,7 @@ Problem: our programs does not reveal any domain related information.
 
 ---
 
-## Workflow Type Option #1: Generics
+## Workflow Type #1: Generics
 
 Add a generic type parameter to the `Program` type
 
@@ -1005,26 +1008,151 @@ type Program<'ret, 'domain> =
 
 ---
 
-## Workflow Type Option #2: Composition
+## Workflow Type #2: FP
 
-Wrap the program in a `Workflow` type, parameterized by domain:
+3 types of components:
+
+- Domain type: single-case union
+- Workflow type: record
+- Workflows: functions
+
+🔗 MR 1: [!207](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/207)
+
+---
+
+## Workflow Type #2: Domain Type
+
+*Step 1:* Define a type per domain
+• implementing `IEffectDomain` to give access to the domain name
 
 ```fsharp
+// Core/Effects/Program.fs
 [<Interface>]
 type IEffectDomain =
     abstract member Name: string
 
-type Workflow<'ret, 'dom when 'dom :> IEffectDomain> =
-    {
-        Program: Program<Result<'ret, Error>>
-        Domain: 'dom
-    }
+// Feat/Partner/Workflows/Instructions
+type PartnerDomain =
+    | PartnerDomain
+
+    interface IEffectDomain with
+        member _.Name = "Partner"
 ```
 
-`Workflow` contains two fields:
-• `Program`: forces the return type to be a `Result<_, Error>`.
-• `Domain`: gives access to the domain name—used for logging
-—while enforcing the type safety.
+---
+
+## Workflow Type #2: Record
+
+*Step 2:* Define the Workflow type as a **Record**
+• wrapping both Program and Domain
+• built by a dedicated helper in each domain
+
+```fsharp
+// Core/Effects/Program.fs
+type Workflow<'ret, 'dom when 'dom :> IEffectDomain> =
+    { Program: Program<Result<'ret, Error>>
+      Domain: 'dom }
+
+// Feat/Partner/Workflows/Instructions.fs
+let partnerWorkflow program =
+    { Program = program
+      Domain = PartnerDomain }
+```
+
+---
+
+## Workflow Type #2: Workflows
+
+Each workflow needs to be wrapped using the appropriate domain helper:
+
+```fsharp
+// Domain/Partner/Workflows/Workflows.fs
+module Dedge.AppStore.Domain.Partner.Workflows
+
+let saveHotelIdentification (args: {| channelId: int; hotelIdentification: HotelIdentification |}) =
+    program {
+        let! channelId = createOrValidationError ChannelId.Create args.channelId
+        do! Program.saveHotelIdentification (channelId, args.hotelIdentification)
+        return Ok()
+    }
+    |> partnerWorkflow // 👈👈👈
+```
+
+- **Arguments** are grouped in an anonymous record for the API layer.
+- Instructions are available under the **qualifier** `Program` to ease their discoverability and their identification when reading the code.
+
+---
+
+## Workflow Type #2: Limits
+
+- Risk to forget to pipe the program to `partnerWorkflow`.
+- Workflows are mixed in a single file `Workflows.fs`.
+- Workflows are not identifiable in the file structure.
+
+---
+
+## Workflow Type #3: OOP
+
+3 types of components:
+
+- Domain type: single-case union (same )
+- Workflow type: **abstract class**
+- Workflows: **classes**, 1 file per class workflow
+
+🔗 MR 2: [!208](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/208)
+
+---
+
+## Workflow Type #3: Abstract class
+
+*(Same step 1: `IEffectDomain`, `HomeDomain`, `PartnerDomain`)*
+
+*Step 2:* Define the Workflow type as an **abstract class**
+• `Workflow` is also an abstract class, more convenient than an interface
+
+```fsharp
+// Core/Effects/Program.fs
+[<AbstractClass>]
+type Workflow<'dom, 'arg, 'ret when 'dom :> IEffectDomain>() =
+    abstract member Domain: 'dom
+    abstract member Run: 'arg -> Program<Result<'ret, Error>>
+
+// Feat/Partner/Workflows/Instructions.fs
+[<AbstractClass>]
+type PartnerWorkflow<'arg, 'ret>() =
+    inherit Workflow<PartnerDomain, 'arg, 'ret>()
+    override val Domain = PartnerDomain
+```
+
+---
+
+<!-- _footer: '' -->
+
+## Workflow Type #3: File
+
+*Step 3:* Define each workflow `Xxx` in a class in a dedicated file
+• The file contains the eventual `XxxRequest` type for input argument
+  *(replacing the anonymous record of solution #2)*
+
+```fsharp
+// Feat/Partner/Workflows/SaveHotelIdentification.fs
+type SaveHotelIdentificationRequest = { ... }
+
+[<Sealed>]
+type SaveHotelIdentificationWorkflow() =
+    inherit PartnerWorkflow<SaveHotelIdentificationRequest, unit>()
+
+    override _.Run(args: SaveHotelIdentificationRequest) =
+        program {
+            let! channelId = createOrValidationError ChannelId.Create args.channelId
+            let! hotelId = createOrValidationError CrsHotelId.Create args.hotelId
+            let! hotelCode = createOrValidationError DistributorHotelId.Create args.hotelCode
+
+            do! Program.saveHotelIdentification (channelId, hotelId, hotelCode, args.hotelIdentification)    
+
+            return Ok()
+        }
+```
 
 ---
 
@@ -1084,23 +1212,50 @@ type QueryFailable<'arg, 'ret, 'a> = Instruction<'arg, Result<'ret, Error>, 'a>
 
 ---
 
-# Domain project
+# Domain project (MR 1 [!207](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/207))
 
 There is still one Domain project for now, but it's organized by domain:
 
 ```txt
-🗃️ AppStore.Core/
-├──📂 Effects/
-│  ├──📄 Prelude.fs         👈 Effects, Instructions
-│  └──📄 Program.fs         👈 Program type and companion module, program CE
-│
-🗃️ AppStore.Domain/
-├──📂 Mail/                 👈 Mail domain
-│  ├──📄 Instructions.fs
-│  └──📄 Workflows.fs
-└──📂 Partner/              👈 Partner domain
-   ├──📄 Instructions.fs
-   └──📄 Workflows.fs
+📂 Core/
+├──🗃️ dedge.appstore.core/
+│  └──📂 Effects/
+│     ├──📄 Prelude.fs         👈 Effects, Instructions
+│     └──📄 Program.fs         👈 Program type and companion module, program CE
+├──🗃️ dedge.appstore.domain/
+│  ├──📂 Mail/                 👈 Mail domain folder
+│  │  ├──📄 Instructions.fs
+│  │  └──📄 Workflows.fs
+│  └──📂 Partner/              👈 Partner domain folder
+│     └──...
+└──🗃️ dedge.appstore.infrastructure/
+   ├──📄 Interpreter.fs
+   └──📄 Api.fs                👈 MailApi, PartnerApi types, exposing their interpreted workflows
+```
+
+---
+
+# Feat projects (MR 2 [!208](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/208))
+
+New `Feat` solution folder • New projects per domain
+
+```txt
+📂 /
+├──📂 Core/
+│  └──🗃️ dedge.appstore.core/
+│     └──📂 Effects/
+│        ├──📄 Prelude.fs         👈 Effects, Instructions
+│        ├──📄 Program.fs         👈 Program type and companion module, program CE
+│        └──📄 Interpreter.fs     👈 Interpreter type
+└──📂 Feat/
+   ├──🗃️ dedge.appstore.home/     👈 Home domain project
+   │  ├──📂 Workflows/
+   │  │  ├──📄 Instructions.fs
+   │  │  ├──📄 ...                👈 Other workflows
+   │  │  └──📄 Search.fs          👈 Search workflow
+   │  └──📄 Api.fs                👈 Api type, exposing interpreted workflows
+   └──🗃️ dedge.appstore.partner/  👈 Partner domain project
+      └──...
 ```
 
 ---
@@ -1116,7 +1271,7 @@ It's done in 6 steps 😅, with the regular top-down order of declaration: 🎉
 3. Define the effect interface dedicated to this union.
 4. For each instruction, define the corresponding effect class.
 5. In a `Program` module, define the helpers for each effect.
-6. Define the domain workflow type.
+6. Define the domain workflow type. *(already seen)*
 
 ---
 
@@ -1159,12 +1314,12 @@ type IMailEffect<'a> =
 type GetTranslationsEffect<'a>(query: GetTranslationsQuery<'a>) =
     interface IMailEffect<'a> with
         override _.Map(f) = GetTranslationsEffect(query.Map f)
-        override this.Instruction = GetTranslations query
+        override val Instruction = GetTranslations query
 
 type SendMailEffect<'a>(command: SendMailCommand<'a>) =
     interface IMailEffect<'a> with
         override _.Map(f) = SendMailEffect(command.Map f)
-        override this.Instruction = SendMail command
+        override val Instruction = SendMail command
 
 // Step 5: Program instruction helpers
 [<RequireQualifiedAccess>]
@@ -1189,49 +1344,6 @@ module Program =
 
 ---
 
-# Domain type
-
-Last components necessary for a domain, declared in the `Instructions.fs` file:
-→ a dedicated **domain type**
-→ the corresponding **workflow helper**
-
-```fsharp
-module Dedge.AppStore.Domain.Partner.Instructions
-
-// ...
-
-// Step 6: domain type and workflow helper
-type PartnerDomain = PartnerDomain with
-    interface IEffectDomain with
-        member _.Name = "Partner"
-
-let partnerWorkflow program =
-    { Program = program
-      Domain = PartnerDomain }
-```
-
----
-
-# Domain workflow example
-
-```fsharp
-module Dedge.AppStore.Domain.Partner.Workflows
-
-let saveHotelIdentification (args: {| channelId: int; hotelIdentification: HotelIdentification |}) =
-    program {
-        let! channelId = createOrValidationError ChannelId.Create args.channelId
-        do! Program.saveHotelIdentification (channelId, args.hotelIdentification)
-        return Ok()
-    }
-    |> partnerWorkflow
-```
-
-- Arguments are grouped in an anonymous record for the API layer.
-- Instructions are available under the qualifier `Program` to ease their discoverability and their identification when reading the code.
-- The `program` expression is passed to the `partnerWorkflow` helper to mark it as belonging to the *Partner* domain.
-
----
-
 # Domain workflows isolation
 
 Rules to ensure proper domain isolation:
@@ -1241,6 +1353,8 @@ Rules to ensure proper domain isolation:
   - If several domains need to access the same data source, we need to declare a separate instruction for each.
   - Example: `GetTranslations` is used by both *Partner* and *Translations*
   - But it's a contrived example because *Translations* should not be a domain on is own...
+- Solution #3 (domain projects) ensures these rules, \
+  as long as projects don't reference each other
 
 ---
 
@@ -1248,8 +1362,10 @@ Rules to ensure proper domain isolation:
 
 2 parts:
 
-- `Interpreter` class: private, domain agnostic, "plumbery"
-- For each domain, a module defining an `interpretWorkflow` function
+- `Interpreter` class: domain agnostic, "plumbery"
+- For each domain:
+  - MR 1 [!207](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/207): a module defining an `interpretWorkflow` function
+  - MR 2 [!208](https://avp-gitlab.availpro.com/ChannelManager/Experience/AppStore/-/merge_requests/208): the `interpretWorkflow` function is inlined in the `Api` class
 
 ---
 
